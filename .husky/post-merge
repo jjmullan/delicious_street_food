@@ -1,7 +1,18 @@
+#!/usr/bin/env sh
+
+# PATH 설정 (GUI 환경에서도 pnpm과 git을 찾을 수 있도록)
+export PATH="/usr/local/bin:$HOME/.local/share/pnpm:$PATH"
+
 # post-merge: merge 후 의존성이 변경되었는지 확인하고 자동 설치
 # package.json 또는 pnpm-lock.yaml이 변경되었다면 pnpm install 실행
 
-changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
+# pnpm이 설치되어 있는지 확인
+if ! command -v pnpm >/dev/null 2>&1; then
+  echo "⚠️  Warning: pnpm not found. Skipping dependency check."
+  exit 0
+fi
+
+changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD 2>/dev/null || echo "")"
 
 check_run() {
   echo "$changed_files" | grep -q "$1" && eval "$2"
@@ -18,3 +29,5 @@ if echo "$changed_files" | grep -qE "package\.json|pnpm-lock\.yaml"; then
     echo "\n⚠️  의존성 설치 중 문제가 발생했습니다. 수동으로 'pnpm install'을 실행해주세요.\n"
   fi
 fi
+
+exit 0

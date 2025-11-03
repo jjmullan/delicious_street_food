@@ -30,10 +30,10 @@ export default {
 		'subject-case': [0],
 		// subject는 마침표로 끝나지 않음
 		'subject-full-stop': [2, 'never', '.'],
-		// header(전체 제목 줄)는 최대 100자
+		// header(전체 제목 줄)는 최대 50자 (브랜치명 추가 고려)
 		'header-max-length': [2, 'always', 50],
 		// body는 72자마다 줄바꿈 (한글 고려하여 넉넉하게)
-		'body-max-line-length': [1, 'always', 100],
+		'body-max-line-length': [1, 'always', 72],
 		// footer는 최대 100자
 		'footer-max-line-length': [1, 'always', 100],
 	},

@@ -1,7 +1,18 @@
+#!/usr/bin/env sh
+
+# PATH 설정 (GUI 환경에서도 pnpm을 찾을 수 있도록)
+export PATH="/usr/local/bin:$HOME/.local/share/pnpm:$PATH"
+
 # pre-push: push 전에 품질 검사 실행
 # - TypeScript 타입 체크
 # - Biome 린트 검사
 # - 테스트 실행
+
+# pnpm이 설치되어 있는지 확인
+if ! command -v pnpm >/dev/null 2>&1; then
+  echo "⚠️  Warning: pnpm not found. Skipping pre-push checks."
+  exit 0
+fi
 
 echo "\n🔍 Pre-push 검사 시작...\n"
 
