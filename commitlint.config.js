@@ -1,7 +1,12 @@
 export default {
+	// 표준 규칙을 상속
+	// @example <type>: <subject>
 	extends: ['@commitlint/config-conventional'],
+	// 규칙 정의
+	// 0: 무시, 1: 경고, 2: 에러
+	// always: 항상, never: 절대 불가
 	rules: {
-		// type은 영어로만, 다음 타입만 허용
+		// 허용되는 커밋 타입 목록
 		'type-enum': [
 			2,
 			'always',
@@ -20,21 +25,22 @@ export default {
 				'init', // 초기 세팅
 			],
 		],
-		// type은 소문자만 허용
-		'type-case': [2, 'always', 'lower-case'],
-		// type은 필수
+		// type : 필수, 영문 소문자만 허용
 		'type-empty': [2, 'never'],
-		// subject(제목)는 필수
+		'type-case': [2, 'always', 'lower-case'],
+
+		// subject(제목) : 필수, 대소문자 규칙 적용 안함(한글 허용), 마침표로 끝나지 않음
 		'subject-empty': [2, 'never'],
-		// subject는 대소문자 규칙 적용 안 함 (한글 허용)
 		'subject-case': [0],
-		// subject는 마침표로 끝나지 않음
 		'subject-full-stop': [2, 'never', '.'],
-		// header(전체 제목 줄)는 최대 50자 (브랜치명 추가 고려)
+
+		// header(전체 제목 줄) : 최대 50자
 		'header-max-length': [2, 'always', 50],
-		// body는 72자마다 줄바꿈 (한글 고려하여 넉넉하게)
-		'body-max-line-length': [1, 'always', 72],
-		// footer는 최대 100자
+
+		// body : 경고, 80자마다 줄바꿈
+		'body-max-line-length': [1, 'always', 80],
+
+		// footer : 경고, 최대 100자
 		'footer-max-line-length': [1, 'always', 100],
 	},
 };
