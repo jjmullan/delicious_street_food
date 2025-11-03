@@ -55,11 +55,13 @@ else
   # ISSUE #issue-number (있는 경우)
   {
     echo "$PREFIX"
+    echo ""
+    echo "- 내용을 작성해주세요."
     if [ -n "$ISSUE_NUMBER" ]; then
       echo ""
       echo "ISSUE #$ISSUE_NUMBER"
     fi
-    # echo "$COMMIT_MSG"
+    echo "$COMMIT_MSG"
   } > "$COMMIT_MSG_FILE.tmp" 2>/dev/null
   mv "$COMMIT_MSG_FILE.tmp" "$COMMIT_MSG_FILE" 2>/dev/null
 fi
