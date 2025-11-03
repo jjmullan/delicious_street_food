@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # pre-push: push 전에 품질 검사 실행
 # - TypeScript 타입 체크
 # - Biome 린트 검사

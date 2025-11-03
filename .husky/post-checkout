@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # post-checkout: 브랜치 전환 시 의존성 변경 감지
 # package.json 또는 pnpm-lock.yaml이 변경되었다면 pnpm install 실행
 
