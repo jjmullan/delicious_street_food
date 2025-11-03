@@ -45,27 +45,21 @@ if echo "$COMMIT_MSG" | grep -q "^[^#]"; then
   # 이슈 번호가 있고, footer에 아직 없으면 추가
   if [ -n "$ISSUE_NUMBER" ] && ! grep -q "#$ISSUE_NUMBER" "$COMMIT_MSG_FILE"; then
     echo "" >> "$COMMIT_MSG_FILE"
-    echo "#$ISSUE_NUMBER" >> "$COMMIT_MSG_FILE"
+    echo "ISSUE #$ISSUE_NUMBER" >> "$COMMIT_MSG_FILE"
   fi
 else
   # 비어있으면 템플릿 생성 (git commit 에디터 사용 시)
   # 포맷:
   # [branch-name]
   #
-  # (빈 줄 - body)
-  # (빈 줄 - footer)
-  # #issue-number (있는 경우)
+  # ISSUE #issue-number (있는 경우)
   {
     echo "$PREFIX"
-    echo ""
     if [ -n "$ISSUE_NUMBER" ]; then
       echo ""
-      echo ""
-      echo "#$ISSUE_NUMBER"
+      echo "ISSUE #$ISSUE_NUMBER"
     fi
-    echo ""
-    # 기존 주석 라인 유지
-    echo "$COMMIT_MSG"
+    # echo "$COMMIT_MSG"
   } > "$COMMIT_MSG_FILE.tmp" 2>/dev/null
   mv "$COMMIT_MSG_FILE.tmp" "$COMMIT_MSG_FILE" 2>/dev/null
 fi
