@@ -10,6 +10,7 @@
 - **UI 컴포넌트**: Shadcn UI (New York 스타일)
 - **라우팅**: React Router v7
 - **상태 관리**: Zustand (devtools 및 persist 미들웨어 포함)
+- **서버 상태 관리**: Tanstack Query (React Query v5)
 - **HTTP 클라이언트**: ky
 - **백엔드**: Supabase
 - **테스팅**: Vitest + React Testing Library + jsdom
@@ -150,7 +151,44 @@ export const useGlobalStore = create<GlobalState>()(
 
 헬퍼 함수: `get<T>()`, `post<T, D>()`, `put<T, D>()`, `del<T>()`
 
-### 4. Supabase 클라이언트 (src/shared/api/supabase-client.ts)
+### 4. Tanstack Query 설정 (src/app/index.tsx)
+
+서버 상태 관리를 위한 Tanstack Query (React Query) 전역 설정:
+
+```typescript
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0,           // 즉시 stale 상태로 전환
+      gcTime: 1_000 * 60 * 5, // 5분간 캐싱
+    },
+  },
+});
+```
+
+주요 설정:
+- `staleTime: 0`: 데이터를 즉시 stale 상태로 간주하여 리페칭 유도
+- `gcTime: 5분`: 사용하지 않는 캐시 데이터를 5분간 메모리에 보관
+- React Query Devtools 설치됨 (`@tanstack/react-query-devtools`)
+
+사용 예시:
+```typescript
+// useQuery 사용
+const { data, isLoading, error } = useQuery({
+  queryKey: ['todos'],
+  queryFn: fetchTodos,
+});
+
+// useMutation 사용
+const mutation = useMutation({
+  mutationFn: createTodo,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['todos'] });
+  },
+});
+```
+
+### 5. Supabase 클라이언트 (src/shared/api/supabase-client.ts)
 
 필수 환경변수:
 
@@ -159,7 +197,7 @@ export const useGlobalStore = create<GlobalState>()(
 
 Supabase 기능 사용 전에 `.env.example`을 `.env`로 복사하고 값을 채워야 합니다.
 
-### 5. Shadcn 설정 (components.json)
+### 6. Shadcn 설정 (components.json)
 
 FSD에 맞춘 커스텀 alias:
 
@@ -266,6 +304,7 @@ VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 | **revert** | 커밋 되돌리기 | `revert: feat 커밋 되돌림` |
 | **ci** | CI 설정 파일 수정 | `ci: GitHub Actions 워크플로우 추가` |
 | **build** | 빌드 시스템 수정 | `build: Vite 설정 변경` |
+| **init** | 프로젝트 초기 설정 | `init: 프로젝트 초기 설정 완료` |
 
 ### 작성 규칙
 
@@ -289,6 +328,8 @@ git commit -m "feat: 다크모드 토글 기능 추가
 - Zustand 스토어에 theme 상태 추가
 - 로컬스토리지에 자동 저장
 - 시스템 설정 감지 기능 포함"
+
+ISSUE #123
 ```
 
 #### Breaking Change (호환성 깨지는 변경)
@@ -316,9 +357,9 @@ BREAKING CHANGE: 기존 v1 API가 제거되었습니다.
 브랜치명에 이슈 번호가 있으면 자동으로 추출됩니다:
 
 ```bash
-# 브랜치: feature/issue-123-add-auth
+# 브랜치: feature/issue/123/yj
 # 커밋 시 자동으로 변환 →
-#123 [issue-123-add-auth] feat: 인증 로직 추가
+ISSUE #123
 ```
 
 #### 3. 커밋 메시지 검증 (.husky/commit-msg)
