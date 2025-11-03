@@ -19,39 +19,55 @@ if [ -z "$BRANCH_NAME" ] || [ "$BRANCH_NAME" = "main" ] || [ "$BRANCH_NAME" = "m
   exit 0
 fi
 
-# 브랜치명에서 prefix 제거 (feature/, fix/, hotfix/, chore/ 등)
-TICKET=$(echo "$BRANCH_NAME" | sed -E 's/^(feature|fix|hotfix|chore|refactor|docs|test|style|perf|ci|build|revert|init)\///')
+# 브랜치명 파싱: type/branch-name/issue-number/developer
+# 예: feat/Todo/100/yj
+IFS='/' read -r TYPE BRANCH_NAME_PART ISSUE_NUMBER DEVELOPER <<< "$BRANCH_NAME"
 
-# 이슈 번호 추출 (예: issue-123, #123, feat-456 등)
-ISSUE_NUMBER=$(echo "$TICKET" | grep -oE '(issue-|#)?[0-9]+' | head -1 | grep -oE '[0-9]+' || echo "")
+# 최소한 branch-name이 있어야 함
+if [ -z "$BRANCH_NAME_PART" ]; then
+  exit 0
+fi
 
 # 기존 커밋 메시지 읽기
 COMMIT_MSG=$(cat "$COMMIT_MSG_FILE" 2>/dev/null || echo "")
 
-# 이미 작성된 메시지가 있으면 (주석이 아닌 경우) 수정하지 않음
+# 커밋 메시지 prefix 생성: [branch-name]
+PREFIX="[$BRANCH_NAME_PART] "
+
+# 주석이 아닌 내용이 이미 있는지 확인 (git commit -m "message" 사용한 경우)
 if echo "$COMMIT_MSG" | grep -q "^[^#]"; then
-  exit 0
-fi
+  # 이미 작성된 메시지가 있으면 첫 줄에 prefix만 추가
+  {
+    echo "$COMMIT_MSG" | sed "1s/^/$PREFIX/"
+  } > "$COMMIT_MSG_FILE.tmp" 2>/dev/null
+  mv "$COMMIT_MSG_FILE.tmp" "$COMMIT_MSG_FILE" 2>/dev/null
 
-# 새 커밋 메시지 생성
-NEW_MSG=""
-
-# 이슈 번호가 있으면 추가
-if [ -n "$ISSUE_NUMBER" ]; then
-  NEW_MSG="#$ISSUE_NUMBER "
-fi
-
-# 브랜치명 추가 (이슈 번호와 다른 경우)
-if [ -n "$TICKET" ] && [ "$TICKET" != "$ISSUE_NUMBER" ]; then
-  NEW_MSG="${NEW_MSG}[$TICKET] "
-fi
-
-# 새 메시지를 커밋 메시지 파일에 추가 (에러 핸들링 포함)
-if [ -n "$NEW_MSG" ]; then
-  if echo "$NEW_MSG" > "$COMMIT_MSG_FILE.tmp" 2>/dev/null; then
-    cat "$COMMIT_MSG_FILE" >> "$COMMIT_MSG_FILE.tmp" 2>/dev/null
-    mv "$COMMIT_MSG_FILE.tmp" "$COMMIT_MSG_FILE" 2>/dev/null
+  # 이슈 번호가 있고, footer에 아직 없으면 추가
+  if [ -n "$ISSUE_NUMBER" ] && ! grep -q "#$ISSUE_NUMBER" "$COMMIT_MSG_FILE"; then
+    echo "" >> "$COMMIT_MSG_FILE"
+    echo "#$ISSUE_NUMBER" >> "$COMMIT_MSG_FILE"
   fi
+else
+  # 비어있으면 템플릿 생성 (git commit 에디터 사용 시)
+  # 포맷:
+  # [branch-name]
+  #
+  # (빈 줄 - body)
+  # (빈 줄 - footer)
+  # #issue-number (있는 경우)
+  {
+    echo "$PREFIX"
+    echo ""
+    if [ -n "$ISSUE_NUMBER" ]; then
+      echo ""
+      echo ""
+      echo "#$ISSUE_NUMBER"
+    fi
+    echo ""
+    # 기존 주석 라인 유지
+    echo "$COMMIT_MSG"
+  } > "$COMMIT_MSG_FILE.tmp" 2>/dev/null
+  mv "$COMMIT_MSG_FILE.tmp" "$COMMIT_MSG_FILE" 2>/dev/null
 fi
 
 exit 0
