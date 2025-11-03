@@ -23,7 +23,7 @@ prev_ref=$1
 new_ref=$2
 
 # 의존성 파일이 변경되었는지 확인
-changed_files="$(git diff --name-only $prev_ref $new_ref 2>/dev/null || echo "")"
+changed_files="$(git diff --name-only "$prev_ref" "$new_ref" 2>/dev/null || echo "")"
 
 if echo "$changed_files" | grep -qE "package\.json|pnpm-lock\.yaml"; then
   echo "\n📦 브랜치 전환으로 인해 의존성 파일이 변경되었습니다."
