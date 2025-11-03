@@ -1,0 +1,36 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# pre-push: push 전에 품질 검사 실행
+# - TypeScript 타입 체크
+# - Biome 린트 검사
+# - 테스트 실행
+
+echo "\n🔍 Pre-push 검사 시작...\n"
+
+# TypeScript 컴파일 체크
+echo "📘 TypeScript 타입 체크 중..."
+pnpm exec tsc -b --noEmit
+if [ $? -ne 0 ]; then
+  echo "\n❌ TypeScript 타입 에러가 있습니다. 수정 후 다시 push 해주세요."
+  exit 1
+fi
+
+# Biome 린트 체크
+echo "🔧 Biome 린트 검사 중..."
+pnpm run lint
+if [ $? -ne 0 ]; then
+  echo "\n❌ 린트 에러가 있습니다. 'pnpm run check:fix'로 자동 수정 후 다시 push 해주세요."
+  exit 1
+fi
+
+# 테스트 실행
+echo "🧪 테스트 실행 중..."
+pnpm run test --run
+if [ $? -ne 0 ]; then
+  echo "\n❌ 테스트가 실패했습니다. 테스트를 통과시킨 후 다시 push 해주세요."
+  exit 1
+fi
+
+echo "\n✅ 모든 검사를 통과했습니다. Push를 진행합니다.\n"
+exit 0

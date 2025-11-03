@@ -1,0 +1,51 @@
+#!/bin/sh
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+
+# merge, squash, amend 등의 경우 실행하지 않음
+if [ -n "$COMMIT_SOURCE" ]; then
+  exit 0
+fi
+
+# 현재 브랜치명 가져오기
+BRANCH_NAME=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# main, master, develop 브랜치는 제외
+if [ "$BRANCH_NAME" = "main" ] || [ "$BRANCH_NAME" = "master" ] || [ "$BRANCH_NAME" = "develop" ]; then
+  exit 0
+fi
+
+# 브랜치명에서 prefix 제거 (feature/, fix/, hotfix/, chore/ 등)
+TICKET=$(echo "$BRANCH_NAME" | sed -E 's/^(feature|fix|hotfix|chore|refactor|docs|test|style|perf|ci|build|revert)\///')
+
+# 이슈 번호 추출 (예: issue-123, #123, feat-456 등)
+ISSUE_NUMBER=$(echo "$TICKET" | grep -oE '(issue-|#)?[0-9]+' | head -1 | grep -oE '[0-9]+')
+
+# 기존 커밋 메시지 읽기
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# 이미 작성된 메시지가 있으면 (주석이 아닌 경우) 수정하지 않음
+if echo "$COMMIT_MSG" | grep -q "^[^#]"; then
+  exit 0
+fi
+
+# 새 커밋 메시지 생성
+NEW_MSG=""
+
+# 이슈 번호가 있으면 추가
+if [ -n "$ISSUE_NUMBER" ]; then
+  NEW_MSG="#$ISSUE_NUMBER "
+fi
+
+# 브랜치명 추가 (이슈 번호와 다른 경우)
+if [ -n "$TICKET" ] && [ "$TICKET" != "$ISSUE_NUMBER" ]; then
+  NEW_MSG="${NEW_MSG}[$TICKET] "
+fi
+
+# 새 메시지를 커밋 메시지 파일에 추가
+if [ -n "$NEW_MSG" ]; then
+  echo "$NEW_MSG" > "$COMMIT_MSG_FILE.tmp"
+  cat "$COMMIT_MSG_FILE" >> "$COMMIT_MSG_FILE.tmp"
+  mv "$COMMIT_MSG_FILE.tmp" "$COMMIT_MSG_FILE"
+fi

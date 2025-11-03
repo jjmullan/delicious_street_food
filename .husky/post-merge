@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# post-merge: merge 후 의존성이 변경되었는지 확인하고 자동 설치
+# package.json 또는 pnpm-lock.yaml이 변경되었다면 pnpm install 실행
+
+changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
+
+check_run() {
+  echo "$changed_files" | grep -q "$1" && eval "$2"
+}
+
+# package.json 또는 pnpm-lock.yaml이 변경되었는지 확인
+if echo "$changed_files" | grep -qE "package\.json|pnpm-lock\.yaml"; then
+  echo "\n📦 의존성 파일이 변경되었습니다. pnpm install을 실행합니다...\n"
+  pnpm install
+
+  if [ $? -eq 0 ]; then
+    echo "\n✅ 의존성이 성공적으로 업데이트되었습니다.\n"
+  else
+    echo "\n⚠️  의존성 설치 중 문제가 발생했습니다. 수동으로 'pnpm install'을 실행해주세요.\n"
+  fi
+fi
