@@ -17,6 +17,7 @@ export default {
 				'revert', // 커밋 되돌리기
 				'ci', // CI 설정 파일 수정
 				'build', // 빌드 시스템 수정
+				'init', // 초기 세팅
 			],
 		],
 		// type은 소문자만 허용
@@ -30,7 +31,7 @@ export default {
 		// subject는 마침표로 끝나지 않음
 		'subject-full-stop': [2, 'never', '.'],
 		// header(전체 제목 줄)는 최대 100자
-		'header-max-length': [2, 'always', 100],
+		'header-max-length': [2, 'always', 50],
 		// body는 72자마다 줄바꿈 (한글 고려하여 넉넉하게)
 		'body-max-line-length': [1, 'always', 100],
 		// footer는 최대 100자

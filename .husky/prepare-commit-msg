@@ -17,7 +17,7 @@ if [ "$BRANCH_NAME" = "main" ] || [ "$BRANCH_NAME" = "master" ] || [ "$BRANCH_NA
 fi
 
 # 브랜치명에서 prefix 제거 (feature/, fix/, hotfix/, chore/ 등)
-TICKET=$(echo "$BRANCH_NAME" | sed -E 's/^(feature|fix|hotfix|chore|refactor|docs|test|style|perf|ci|build|revert)\///')
+TICKET=$(echo "$BRANCH_NAME" | sed -E 's/^(feature|fix|hotfix|chore|refactor|docs|test|style|perf|ci|build|revert|init)\///')
 
 # 이슈 번호 추출 (예: issue-123, #123, feat-456 등)
 ISSUE_NUMBER=$(echo "$TICKET" | grep -oE '(issue-|#)?[0-9]+' | head -1 | grep -oE '[0-9]+')
