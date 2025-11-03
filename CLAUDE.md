@@ -391,7 +391,7 @@ git commit -m "feat: 로그인 기능 추가"
 | **prepare-commit-msg** | 커밋 메시지 작성 전 | 브랜치명, 이슈 번호 자동 추가 |
 | **commit-msg** | 커밋 메시지 작성 후 | commitlint로 메시지 형식 검증 |
 | **pre-push** | push 전 | TypeScript 타입 체크, Biome 린트, 테스트 실행 (실패 시 push 차단) |
-| **post-merge** | merge 후 | package.json 또는 pnpm-lock.yaml 변경 시 자동으로 pnpm install 실행 |
+| **post-merge** | merge 후 | ① 의존성 자동 설치 ② 소스 코드/설정 파일 변경 시 빌드 캐시 정리 및 자동 빌드 |
 | **post-checkout** | 브랜치 전환 후 | 의존성 파일 변경 감지 시 자동으로 pnpm install 실행 |
 
 #### 상세 설명
@@ -408,10 +408,14 @@ git commit -m "feat: 로그인 기능 추가"
 - `prepare-commit-msg`: 브랜치명과 이슈 번호를 커밋 메시지에 자동 추가
 - `commit-msg`: Conventional Commits 형식 검증
 
-**의존성 관리 Hooks (post-merge, post-checkout)**
-- `post-merge`: merge 후 의존성 파일이 변경되었으면 자동으로 `pnpm install` 실행
-- `post-checkout`: 브랜치 전환 시 의존성 파일 변경을 감지하고 자동으로 `pnpm install` 실행
-- 두 훅 모두 `package.json` 또는 `pnpm-lock.yaml` 변경 시 동작
+**의존성 관리 및 빌드 Hooks (post-merge, post-checkout)**
+- `post-merge`: merge 후 다음 작업을 자동으로 수행
+  - **의존성 자동 설치**: `package.json` 또는 `pnpm-lock.yaml` 변경 시 `pnpm install` 실행
+  - **빌드 캐시 정리 및 자동 빌드**: 소스 코드(`src/`) 또는 설정 파일(`vite.config.*`, `tsconfig*.json`) 변경 시
+    - `dist/`, `.vite/`, `node_modules/.vite/` 캐시 삭제
+    - `pnpm build` 자동 실행
+    - 빌드 실패 시 경고만 표시하고 merge 계속 진행
+- `post-checkout`: 브랜치 전환 시 의존성 파일(`package.json`, `pnpm-lock.yaml`) 변경을 감지하고 자동으로 `pnpm install` 실행
 
 ### Husky 명령어
 
@@ -433,6 +437,6 @@ echo "feat: 테스트 메시지" | pnpm exec commitlint
 - **.husky/prepare-commit-msg**: 브랜치명/이슈 번호 자동 추가
 - **.husky/commit-msg**: 커밋 메시지 형식 검증
 - **.husky/pre-push**: push 전 품질 검사 (타입 체크, 린트, 테스트)
-- **.husky/post-merge**: merge 후 의존성 자동 설치
+- **.husky/post-merge**: merge 후 의존성 자동 설치 + 빌드 캐시 정리 및 자동 빌드
 - **.husky/post-checkout**: 브랜치 전환 후 의존성 자동 설치
 - **package.json > lint-staged**: staged 파일 검사 설정
