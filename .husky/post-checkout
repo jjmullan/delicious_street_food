@@ -1,41 +1,41 @@
-#!/usr/bin/env sh
+# #!/usr/bin/env sh
 
-# PATH 설정 (GUI 환경에서도 pnpm과 git을 찾을 수 있도록)
-export PATH="/usr/local/bin:$HOME/.local/share/pnpm:$PATH"
+# # PATH 설정 (GUI 환경에서도 pnpm과 git을 찾을 수 있도록)
+# export PATH="/usr/local/bin:$HOME/.local/share/pnpm:$PATH"
 
-# post-checkout: 브랜치 전환 시 의존성 변경 감지
-# package.json 또는 pnpm-lock.yaml이 변경되었다면 pnpm install 실행
+# # post-checkout: 브랜치 전환 시 의존성 변경 감지
+# # package.json 또는 pnpm-lock.yaml이 변경되었다면 pnpm install 실행
 
-# $1: 이전 HEAD의 ref
-# $2: 새로운 HEAD의 ref
-# $3: 브랜치 전환 여부 (1=브랜치 전환, 0=파일 체크아웃)
+# # $1: 이전 HEAD의 ref
+# # $2: 새로운 HEAD의 ref
+# # $3: 브랜치 전환 여부 (1=브랜치 전환, 0=파일 체크아웃)
 
-# 브랜치 전환이 아니면 종료
-[ "$3" = "0" ] && exit 0
+# # 브랜치 전환이 아니면 종료
+# [ "$3" = "0" ] && exit 0
 
-# pnpm이 설치되어 있는지 확인
-if ! command -v pnpm >/dev/null 2>&1; then
-  echo "⚠️  Warning: pnpm not found. Skipping dependency check."
-  exit 0
-fi
+# # pnpm이 설치되어 있는지 확인
+# if ! command -v pnpm >/dev/null 2>&1; then
+#   echo "⚠️  Warning: pnpm not found. Skipping dependency check."
+#   exit 0
+# fi
 
-prev_ref=$1
-new_ref=$2
+# prev_ref=$1
+# new_ref=$2
 
-# 의존성 파일이 변경되었는지 확인
-changed_files="$(git diff --name-only "$prev_ref" "$new_ref" 2>/dev/null || echo "")"
+# # 의존성 파일이 변경되었는지 확인
+# changed_files="$(git diff --name-only "$prev_ref" "$new_ref" 2>/dev/null || echo "")"
 
-if echo "$changed_files" | grep -qE "package\.json|pnpm-lock\.yaml"; then
-  echo "\n📦 브랜치 전환으로 인해 의존성 파일이 변경되었습니다."
-  echo "pnpm install을 실행합니다...\n"
+# if echo "$changed_files" | grep -qE "package\.json|pnpm-lock\.yaml"; then
+#   echo "\n📦 브랜치 전환으로 인해 의존성 파일이 변경되었습니다."
+#   echo "pnpm install을 실행합니다...\n"
 
-  pnpm install
+#   pnpm install
 
-  if [ $? -eq 0 ]; then
-    echo "\n✅ 의존성이 성공적으로 업데이트되었습니다.\n"
-  else
-    echo "\n⚠️  의존성 설치 중 문제가 발생했습니다. 수동으로 'pnpm install'을 실행해주세요.\n"
-  fi
-fi
+#   if [ $? -eq 0 ]; then
+#     echo "\n✅ 의존성이 성공적으로 업데이트되었습니다.\n"
+#   else
+#     echo "\n⚠️  의존성 설치 중 문제가 발생했습니다. 수동으로 'pnpm install'을 실행해주세요.\n"
+#   fi
+# fi
 
-exit 0
+# exit 0
