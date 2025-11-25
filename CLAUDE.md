@@ -5,7 +5,7 @@
 ## 기술 스택
 
 - **프레임워크**: Vite + React 19 + TypeScript 5.9
-- **패키지 매니저**: pnpm
+- **패키지 매니저**: npm
 - **스타일링**: TailwindCSS v4 (Vite 플러그인)
 - **UI 컴포넌트**: Shadcn UI (New York 스타일)
 - **라우팅**: React Router v7
@@ -20,31 +20,31 @@
 ### 개발
 
 ```bash
-pnpm dev              # 개발 서버 실행
-pnpm build            # TypeScript 검사 + 프로덕션 빌드
-pnpm preview          # 프로덕션 빌드 미리보기
-pnpm lint             # ESLint 실행
+npm run dev           # 개발 서버 실행
+npm run build         # TypeScript 검사 + 프로덕션 빌드
+npm run preview       # 프로덕션 빌드 미리보기
+npm run lint          # ESLint 실행
 ```
 
 ### 테스트
 
 ```bash
-pnpm test             # watch 모드로 테스트 실행
-pnpm test:ui          # Vitest UI 열기
-pnpm test:coverage    # 커버리지 리포트 생성
+npm run test          # watch 모드로 테스트 실행
+npm run test:ui       # Vitest UI 열기
+npm run test:coverage # 커버리지 리포트 생성
 ```
 
 ### 유틸리티
 
 ```bash
-pnpm clean            # dist 폴더 삭제
-pnpm compile          # clean, build, preview 순차 실행 (npm-run-all 사용)
+npm run clean         # dist 폴더 삭제
+npm run compile       # clean, build, preview 순차 실행 (npm-run-all 사용)
 ```
 
 ### Shadcn 컴포넌트
 
 ```bash
-pnpx shadcn@latest add <component>    # Shadcn 컴포넌트 추가
+npx shadcn@latest add <component>     # Shadcn 컴포넌트 추가
 ```
 
 ## 아키텍처
@@ -392,7 +392,7 @@ git commit -m "feat: 로그인 기능 추가"
 | **commit-msg** | 커밋 메시지 작성 후 | commitlint로 메시지 형식 검증 |
 | **pre-push** | push 전 | TypeScript 타입 체크, Biome 린트, 테스트 실행 (실패 시 push 차단) |
 | **post-merge** | merge 후 | ① 의존성 자동 설치 ② 소스 코드/설정 파일 변경 시 빌드 캐시 정리 및 자동 빌드 |
-| **post-checkout** | 브랜치 전환 후 | 의존성 파일 변경 감지 시 자동으로 pnpm install 실행 |
+| **post-checkout** | 브랜치 전환 후 | 의존성 파일 변경 감지 시 자동으로 npm install 실행 |
 
 #### 상세 설명
 
@@ -400,8 +400,8 @@ git commit -m "feat: 로그인 기능 추가"
 - `pre-commit`: staged 파일에 대해 Biome 검사 및 자동 포맷팅
 - `pre-push`: push 전 전체 코드베이스에 대해 품질 검사
   - TypeScript 컴파일 체크 (`tsc -b --noEmit`)
-  - Biome 린트 검사 (`pnpm run lint`)
-  - 테스트 실행 (`pnpm run test --run`)
+  - Biome 린트 검사 (`npm run lint`)
+  - 테스트 실행 (`npm run test --run`)
   - 모든 검사를 통과해야만 push 가능
 
 **커밋 메시지 Hooks (prepare-commit-msg, commit-msg)**
@@ -410,24 +410,24 @@ git commit -m "feat: 로그인 기능 추가"
 
 **의존성 관리 및 빌드 Hooks (post-merge, post-checkout)**
 - `post-merge`: merge 후 다음 작업을 자동으로 수행
-  - **의존성 자동 설치**: `package.json` 또는 `pnpm-lock.yaml` 변경 시 `pnpm install` 실행
+  - **의존성 자동 설치**: `package.json` 또는 `package-lock.json` 변경 시 `npm install` 실행
   - **빌드 캐시 정리 및 자동 빌드**: 소스 코드(`src/`) 또는 설정 파일(`vite.config.*`, `tsconfig*.json`) 변경 시
     - `dist/`, `.vite/`, `node_modules/.vite/` 캐시 삭제
-    - `pnpm build` 자동 실행
+    - `npm run build` 자동 실행
     - 빌드 실패 시 경고만 표시하고 merge 계속 진행
-- `post-checkout`: 브랜치 전환 시 의존성 파일(`package.json`, `pnpm-lock.yaml`) 변경을 감지하고 자동으로 `pnpm install` 실행
+- `post-checkout`: 브랜치 전환 시 의존성 파일(`package.json`, `package-lock.json`) 변경을 감지하고 자동으로 `npm install` 실행
 
 ### Husky 명령어
 
 ```bash
 # Git hooks 재설치
-pnpm prepare
+npm run prepare
 
 # 특정 hook 비활성화 (임시)
 HUSKY=0 git commit -m "..."
 
 # commitlint 수동 테스트
-echo "feat: 테스트 메시지" | pnpm exec commitlint
+echo "feat: 테스트 메시지" | npm exec commitlint
 ```
 
 ### 설정 파일
