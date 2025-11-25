@@ -1,7 +1,11 @@
 #!/usr/bin/env sh
 
 # PATH 설정 (GUI 환경에서도 git 등 명령어를 찾을 수 있도록)
-export PATH="/usr/local/bin:/usr/bin:/bin:$PATH"
+export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
+
+# nvm 초기화 (nvm 사용 시)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2

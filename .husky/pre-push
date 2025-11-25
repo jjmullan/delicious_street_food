@@ -1,16 +1,20 @@
 #!/usr/bin/env sh
 
-# PATH 설정 (GUI 환경에서도 pnpm을 찾을 수 있도록)
-export PATH="/usr/local/bin:$HOME/.local/share/pnpm:$PATH"
+# PATH 설정 (GUI 환경에서도 npm을 찾을 수 있도록)
+export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
+
+# nvm 초기화 (nvm 사용 시)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # pre-push: push 전에 품질 검사 실행
 # - TypeScript 타입 체크
 # - Biome 린트 검사
 # - 테스트 실행
 
-# pnpm이 설치되어 있는지 확인
-if ! command -v pnpm >/dev/null 2>&1; then
-  echo "⚠️  Warning: pnpm not found. Skipping pre-push checks."
+# npm이 설치되어 있는지 확인
+if ! command -v npm >/dev/null 2>&1; then
+  echo "⚠️  Warning: npm not found. Skipping pre-push checks."
   exit 0
 fi
 
@@ -18,7 +22,7 @@ echo "\n🔍 Pre-push 검사 시작...\n"
 
 # TypeScript 컴파일 체크
 echo "📘 TypeScript 타입 체크 중..."
-pnpm exec tsc -b --noEmit
+npm exec tsc -b --noEmit
 if [ $? -ne 0 ]; then
   echo "\n❌ TypeScript 타입 에러가 있습니다. 수정 후 다시 push 해주세요."
   exit 1
@@ -26,15 +30,15 @@ fi
 
 # Biome 린트 체크
 echo "🔧 Biome 린트 검사 중..."
-pnpm run lint
+npm run lint
 if [ $? -ne 0 ]; then
-  echo "\n❌ 린트 에러가 있습니다. 'pnpm run check:fix'로 자동 수정 후 다시 push 해주세요."
+  echo "\n❌ 린트 에러가 있습니다. 'npm run check:fix'로 자동 수정 후 다시 push 해주세요."
   exit 1
 fi
 
 # 테스트 실행
 echo "🧪 테스트 실행 중..."
-pnpm run test --run
+npm run test --run
 if [ $? -ne 0 ]; then
   echo "\n❌ 테스트가 실패했습니다. 테스트를 통과시킨 후 다시 push 해주세요."
   exit 1

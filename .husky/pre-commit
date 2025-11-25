@@ -1,12 +1,16 @@
 #!/usr/bin/env sh
 
-# PATH 설정 (GUI 환경에서도 pnpm을 찾을 수 있도록)
-export PATH="/usr/local/bin:$HOME/.local/share/pnpm:$PATH"
+# PATH 설정 (GUI 환경에서도 npm을 찾을 수 있도록)
+export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
 
-# pnpm이 설치되어 있는지 확인
-if ! command -v pnpm >/dev/null 2>&1; then
-  echo "Error: pnpm not found. Please install pnpm first."
+# nvm 초기화 (nvm 사용 시)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# npm이 설치되어 있는지 확인
+if ! command -v npm >/dev/null 2>&1; then
+  echo "Error: npm not found. Please install npm first."
   exit 1
 fi
 
-pnpm exec lint-staged
+npm exec lint-staged

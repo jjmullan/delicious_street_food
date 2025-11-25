@@ -1,15 +1,19 @@
 #!/usr/bin/env sh
 
-# PATH 설정 (GUI 환경에서도 pnpm과 git을 찾을 수 있도록)
-export PATH="/usr/local/bin:$HOME/.local/share/pnpm:$PATH"
+# PATH 설정 (GUI 환경에서도 npm과 git을 찾을 수 있도록)
+export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
+
+# nvm 초기화 (nvm 사용 시)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # post-merge: merge 후 자동화 작업 수행
-# 1. 의존성 자동 설치 (package.json, pnpm-lock.yaml 변경 시)
+# 1. 의존성 자동 설치 (package.json, package-lock.json 변경 시)
 # 2. 빌드 캐시 정리 및 자동 빌드 (소스 코드/설정 파일 변경 시)
 
-# pnpm이 설치되어 있는지 확인
-if ! command -v pnpm >/dev/null 2>&1; then
-  echo "⚠️  Warning: pnpm not found. Skipping post-merge tasks."
+# npm이 설치되어 있는지 확인
+if ! command -v npm >/dev/null 2>&1; then
+  echo "⚠️  Warning: npm not found. Skipping post-merge tasks."
   exit 0
 fi
 
@@ -17,14 +21,14 @@ fi
 changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD 2>/dev/null || echo "")"
 
 # 1️⃣ 의존성 자동 설치
-if echo "$changed_files" | grep -qE "package\.json|pnpm-lock\.yaml"; then
-  echo "\n📦 의존성 파일이 변경되었습니다. pnpm install을 실행합니다...\n"
-  pnpm install
+if echo "$changed_files" | grep -qE "package\.json|package-lock\.json"; then
+  echo "\n📦 의존성 파일이 변경되었습니다. npm install을 실행합니다...\n"
+  npm install
 
   if [ $? -eq 0 ]; then
     echo "✅ 의존성이 성공적으로 업데이트되었습니다.\n"
   else
-    echo "⚠️  의존성 설치 중 문제가 발생했습니다. 수동으로 'pnpm install'을 실행해주세요.\n"
+    echo "⚠️  의존성 설치 중 문제가 발생했습니다. 수동으로 'npm install'을 실행해주세요.\n"
   fi
 fi
 
@@ -41,13 +45,13 @@ if echo "$changed_files" | grep -qE "^src/|vite\.config\.|tsconfig.*\.json|packa
 
   # 빌드 실행
   echo "🔧 프로젝트를 빌드합니다..."
-  pnpm build
+  npm run build
 
   if [ $? -eq 0 ]; then
     echo "\n✅ 빌드가 성공적으로 완료되었습니다.\n"
   else
     echo "\n⚠️  빌드 중 문제가 발생했습니다."
-    echo "💡 'pnpm build'를 수동으로 실행하여 문제를 확인해주세요.\n"
+    echo "💡 'npm run build'를 수동으로 실행하여 문제를 확인해주세요.\n"
   fi
 fi
 
