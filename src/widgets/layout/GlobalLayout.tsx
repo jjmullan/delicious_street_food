@@ -2,23 +2,22 @@
 // 모든 페이지에서 공통으로 사용되는 레이아웃 구조를 정의합니다.
 
 import { Outlet } from 'react-router-dom';
-import './Layout.css';
 
 /**
  * Layout 컴포넌트
  * - Outlet: React Router의 자식 라우트를 렌더링하는 위치
  * - 헤더, 네비게이션, 푸터 등 공통 UI 요소를 여기에 추가할 수 있습니다.
  */
-function Layout() {
+function GlobalLayout() {
 	return (
-		<div>
+		<div className="flex min-h-screen flex-col">
 			{/* 헤더 영역 - 필요시 widgets/header 컴포넌트를 import하여 사용 */}
 			<header>
 				<nav>{/* 네비게이션 메뉴는 widgets/navigation 컴포넌트로 분리 가능 */}</nav>
 			</header>
 
 			{/* 메인 콘텐츠 영역 - 자식 라우트가 렌더링되는 위치 */}
-			<main>
+			<main className="mx-auto w-[1200px]">
 				<Outlet />
 			</main>
 
@@ -28,4 +27,4 @@ function Layout() {
 	);
 }
 
-export default Layout;
+export default GlobalLayout;
