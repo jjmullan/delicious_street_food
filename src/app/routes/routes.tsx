@@ -4,7 +4,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import ErrorPage from '@/pages/error/ErrorPage';
 import HomePage from '@/pages/home/HomePage';
-import LoginPage from '@/pages/login/LoginPage';
+import SignUpPage from '@/pages/signUp/SignUpPage';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
 
 /**
@@ -28,8 +28,8 @@ export const router = createBrowserRouter([
 			},
 			// 추가 라우트는 여기에 정의합니다.
 			{
-				path: 'login',
-				element: <LoginPage />,
+				path: 'signup',
+				element: <SignUpPage />,
 			},
 			// {
 			//   path: 'products/:id',
