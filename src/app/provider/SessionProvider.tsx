@@ -1,42 +1,36 @@
 import { type ReactNode, useEffect } from 'react';
-import { useIsSessionLoaded, useSession, useSetSession } from '@/app/store/session';
-import useUserData from '@/features/auth/signIn/hooks/query/useUserData';
+import { useIsSessionLoaded, useSetSession } from '@/app/store/session';
 import supabase from '@/shared/api/supabase/supabase';
 
 function SessionProvider({ children }: { children: ReactNode }) {
-	const session = useSession();
 	const isSessionLoaded = useIsSessionLoaded();
 	const setSession = useSetSession();
-	const { isLoading } = useUserData(session!.user.id);
 
 	useEffect(() => {
-		// 초기 세션 가져오기
+		// 1. 초기 세션 가져오기
 		supabase.auth
 			.getSession()
-			.then(({ data: { session }, error }) => {
-				if (error) {
-					console.error('세션 로딩 오류:', error);
-					return;
-				}
-
+			.then(({ data: { session } }) => {
 				setSession(session);
 			})
 			.catch((error) => {
-				console.error('세션 초기화 오류:', error);
+				console.error('세션 데이터 로딩 오류: ', error);
+				throw error;
 			});
 
-		// 실시간 감시 설정
+		// 2. 세션 변경 감지
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((_, session) => {
 			setSession(session);
 		});
 
+		// 3. cleanup
 		return () => subscription.unsubscribe();
 	}, [setSession]);
 
 	if (!isSessionLoaded) return <div>로딩 중...</div>;
-	if (isLoading) return <div>로딩 중...</div>;
+
 	return children;
 }
 

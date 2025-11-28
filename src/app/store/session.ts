@@ -25,12 +25,12 @@ export const useSessionStore = create(
 			combine(initialState as State, (set) => ({
 				actions: {
 					setSession: (session: Session | null) => {
-						set({ session: session ?? null, isLoaded: true });
+						set({ session: session, isLoaded: true });
 					},
 				} as Action,
 			})),
 			{
-				name: 'SessionStorage',
+				name: 'SessionStore',
 				partialize: (state) => ({
 					user: state.session?.user,
 				}),
