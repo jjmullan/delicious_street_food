@@ -1,13 +1,28 @@
-import { Link } from 'react-router';
+import { Activity } from 'react';
+import { Link, useNavigate } from 'react-router';
 
 function Header() {
+	const navigate = useNavigate();
+
 	return (
-		<header className="flex justify-center items-center px-4 h-15 text-lg">
-			<h1 className="text-center">
+		<header className="flex justify-between items-center px-4 h-15 text-lg relative">
+			<div className="w-[100px]">
+				<Activity mode={window.location.href.split('/').pop() === '' ? 'hidden' : 'visible'}>
+					<button type="button" onClick={() => navigate(-1)}>
+						뒤로 가기
+					</button>
+				</Activity>
+			</div>
+			<h1 className="text-center absolute top-4 left-1/2 translate-[-1/2]">
 				<Link to={'/'}>로고</Link>
 			</h1>
+			<div className="w-[100px] flex justify-end">
+				<Link to={'/mypage'} className="">
+					프로필
+				</Link>
+			</div>
 		</header>
 	);
 }
-
+4;
 export default Header;
