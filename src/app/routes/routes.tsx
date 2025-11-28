@@ -4,7 +4,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import ErrorPage from '@/pages/error/ErrorPage';
 import HomePage from '@/pages/home/HomePage';
-import Layout from '@/widgets/layout/Layout';
+import SignUpPage from '@/pages/signUp/SignUpPage';
+import GlobalLayout from '@/widgets/layout/GlobalLayout';
 
 /**
  * 애플리케이션의 라우트 설정
@@ -18,7 +19,7 @@ import Layout from '@/widgets/layout/Layout';
 export const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <Layout />,
+		element: <GlobalLayout />,
 		errorElement: <ErrorPage />,
 		children: [
 			{
@@ -26,10 +27,10 @@ export const router = createBrowserRouter([
 				element: <HomePage />,
 			},
 			// 추가 라우트는 여기에 정의합니다.
-			// {
-			//   path: 'about',
-			//   element: <AboutPage />,
-			// },
+			{
+				path: 'signup',
+				element: <SignUpPage />,
+			},
 			// {
 			//   path: 'products/:id',
 			//   element: <ProductDetailPage />,
