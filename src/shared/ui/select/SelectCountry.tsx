@@ -1,4 +1,4 @@
-import { DOMESTIC, OVERSEAS } from '@/shared/lib/country';
+import { DOMESTIC } from '@/shared/lib/country';
 import type { SelectCountryProps } from '@/shared/types/types';
 import {
 	Select,
@@ -18,7 +18,7 @@ function SelectCountry({ location, value, onValueChange }: SelectCountryProps) {
 			</SelectTrigger>
 			<SelectContent>
 				<SelectGroup>
-					<SelectLabel>{location}</SelectLabel>
+					<SelectLabel>{location.location_name}</SelectLabel>
 					{DOMESTIC.map((country) => (
 						<SelectItem key={country.shortenName} value={country.shortenName}>
 							{country.name}
