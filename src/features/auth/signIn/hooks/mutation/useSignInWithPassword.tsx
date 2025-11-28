@@ -7,7 +7,7 @@ import type { MutationCallback } from '@/shared/types/types';
  * @param callbacks Mutation 데이터 전송 흐름에 맞는 상태 처리
  * @returns
  */
-function useSingInWithPassword(callbacks: MutationCallback) {
+function useSignInWithPassword(callbacks: MutationCallback) {
 	return useMutation({
 		mutationFn: SignInWithPassword,
 		onMutate: () => {
@@ -22,4 +22,4 @@ function useSingInWithPassword(callbacks: MutationCallback) {
 	});
 }
 
-export default useSingInWithPassword;
+export default useSignInWithPassword;
