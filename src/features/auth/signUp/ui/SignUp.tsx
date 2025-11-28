@@ -1,5 +1,5 @@
 import { Activity, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import useSignUpWithEmail from '@/features/auth/signUp/hooks/useSignUpWithEmail';
 import validateEmail from '@/features/auth/signUp/util/validateEmail';
@@ -98,6 +98,12 @@ function SignUp() {
 			<Button className="w-full py-5 cursor-pointer" disabled={isPending} onClick={handleClickSubmit}>
 				{isPending ? '회원가입 진행 중' : '회원가입'}
 			</Button>
+			<div className="flex gap-x-2">
+				<div>이미 계정이 있으시다면?</div>
+				<Link to="/login" className="hover:underline">
+					로그인
+				</Link>
+			</div>
 		</div>
 	);
 }
