@@ -31,6 +31,7 @@ export default {
 				'ci', // CI 설정 파일 수정
 				'build', // 빌드 시스템 수정
 				'init', // 초기 세팅
+				'hotfix', // 긴급한 수정 (main 브랜치에서 분기)
 			],
 		],
 		// type : 필수, 영문 소문자만 허용
