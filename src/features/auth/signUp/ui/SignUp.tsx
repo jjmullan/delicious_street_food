@@ -1,5 +1,5 @@
 import { Activity, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import useSignUpWithEmail from '@/features/auth/signUp/hooks/useSignUpWithEmail';
 import validateEmail from '@/features/auth/signUp/util/validateEmail';
@@ -26,7 +26,7 @@ function SignUp() {
 	// 회원가입 API 전송
 	const { mutate: signUp, isPending } = useSignUpWithEmail({
 		onSuccess: () => {
-			navigate('/', { replace: true });
+			navigate('/login', { replace: true });
 			toast.success('회원가입이 완료되었습니다🎉', {
 				position: 'top-center',
 			});
@@ -98,6 +98,12 @@ function SignUp() {
 			<Button className="w-full py-5 cursor-pointer" disabled={isPending} onClick={handleClickSubmit}>
 				{isPending ? '회원가입 진행 중' : '회원가입'}
 			</Button>
+			<div className="flex gap-x-2 text-muted-foreground">
+				<div>이미 계정이 있으시다면?</div>
+				<Link to="/login" className="hover:underline text-black">
+					로그인
+				</Link>
+			</div>
 		</div>
 	);
 }

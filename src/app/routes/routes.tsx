@@ -1,9 +1,8 @@
-// React Router 라우팅 설정 파일
-// 애플리케이션의 모든 라우트 경로를 정의하고 관리합니다.
-
 import { createBrowserRouter } from 'react-router-dom';
 import ErrorPage from '@/pages/error/ErrorPage';
 import HomePage from '@/pages/home/HomePage';
+import SignIpPage from '@/pages/login/SignInPage';
+import MyPage from '@/pages/mypage/MyPage';
 import SignUpPage from '@/pages/signUp/SignUpPage';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
 
@@ -19,22 +18,25 @@ import GlobalLayout from '@/widgets/layout/GlobalLayout';
 export const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <GlobalLayout />,
+		Component: GlobalLayout,
 		errorElement: <ErrorPage />,
 		children: [
 			{
 				index: true,
-				element: <HomePage />,
+				Component: HomePage,
 			},
-			// 추가 라우트는 여기에 정의합니다.
+			{
+				path: 'mypage',
+				Component: MyPage,
+			},
 			{
 				path: 'signup',
-				element: <SignUpPage />,
+				Component: SignUpPage,
 			},
-			// {
-			//   path: 'products/:id',
-			//   element: <ProductDetailPage />,
-			// },
+			{
+				path: 'login',
+				Component: SignIpPage,
+			},
 		],
 	},
 ]);
