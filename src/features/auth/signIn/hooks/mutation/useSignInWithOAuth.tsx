@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { SignInWithPassword } from '@/features/auth/signIn/api/auth';
+import { SignInWithOAuth } from '@/features/auth/signIn/api/auth';
 import type { MutationCallback } from '@/shared/types/types';
 
 /**
@@ -7,9 +7,9 @@ import type { MutationCallback } from '@/shared/types/types';
  * @param callbacks Mutation 데이터 전송 흐름에 맞는 상태 처리
  * @returns
  */
-function useSingInWithPassword(callbacks: MutationCallback) {
+function useSingInWithOAuth(callbacks: MutationCallback) {
 	return useMutation({
-		mutationFn: SignInWithPassword,
+		mutationFn: SignInWithOAuth,
 		onMutate: () => {
 			if (callbacks?.onMutate) callbacks.onMutate();
 		},
@@ -22,4 +22,4 @@ function useSingInWithPassword(callbacks: MutationCallback) {
 	});
 }
 
-export default useSingInWithPassword;
+export default useSingInWithOAuth;

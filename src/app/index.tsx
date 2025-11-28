@@ -1,11 +1,12 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { RouterProvider } from 'react-router-dom';
-import { router } from './routes/routes';
-import '@/app/styles/main.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { Toaster } from 'sonner';
+import '@/app/styles/main.css';
+import { RouterProvider } from 'react-router-dom';
+import SessionProvider from '@/app/provider/SessionProvider';
+import { router } from '@/app/routes/routes';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -22,7 +23,9 @@ createRoot(document.getElementById('root')!).render(
 		<QueryClientProvider client={queryClient}>
 			<ReactQueryDevtools />
 			<Toaster />
-			<RouterProvider router={router} />
+			<SessionProvider>
+				<RouterProvider router={router} />
+			</SessionProvider>
 		</QueryClientProvider>
 	</StrictMode>
 );
