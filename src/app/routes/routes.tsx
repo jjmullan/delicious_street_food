@@ -4,6 +4,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import ErrorPage from '@/pages/error/ErrorPage';
 import HomePage from '@/pages/home/HomePage';
+import SignIpPage from '@/pages/login/SignInPage';
 import SignUpPage from '@/pages/signUp/SignUpPage';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
 
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
 			{
 				path: 'signup',
 				element: <SignUpPage />,
+			},
+			{
+				path: 'login',
+				element: <SignIpPage />,
 			},
 			// {
 			//   path: 'products/:id',
