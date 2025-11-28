@@ -98,9 +98,9 @@ function SignUp() {
 			<Button className="w-full py-5 cursor-pointer" disabled={isPending} onClick={handleClickSubmit}>
 				{isPending ? '회원가입 진행 중' : '회원가입'}
 			</Button>
-			<div className="flex gap-x-2">
+			<div className="flex gap-x-2 text-muted-foreground">
 				<div>이미 계정이 있으시다면?</div>
-				<Link to="/login" className="hover:underline">
+				<Link to="/login" className="hover:underline text-black">
 					로그인
 				</Link>
 			</div>
