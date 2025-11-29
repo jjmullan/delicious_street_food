@@ -84,7 +84,8 @@
       "suspicious": {
         "recommended": true,
         "noExplicitAny": "warn",
-        "noArrayIndexKey": "warn"
+        "noArrayIndexKey": "warn",
+        "noShadowRestrictedNames": "warn"
       }
     }
   },
