@@ -120,18 +120,4 @@
 	body {
 		@apply bg-background text-foreground;
 	}
-
-	#global_layout {
-		@apply flex min-h-screen flex-col mx-auto max-w-[1200px] w-full;
-	}
-	main {
-		@apply mx-auto max-w-[1200px] w-full flex-1 p-4;
-	}
-
-	h1 {
-		@apply text-lg;
-	}
-	h2 {
-		@apply text-xl font-bold;
-	}
 }
