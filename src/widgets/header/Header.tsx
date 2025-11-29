@@ -7,7 +7,7 @@ function Header() {
 	const navigate = useNavigate();
 
 	return (
-		<header className="flex justify-between items-center px-4 h-15 text-lg relative">
+		<header className="flex justify-between items-center px-4 h-15 text-lg absolute top-0 w-full z-1 bg-white/80">
 			<div className="w-[100px]">
 				<Activity mode={window.location.href.split('/').pop() === '' ? 'hidden' : 'visible'}>
 					<button type="button" onClick={() => navigate(-1)}>
@@ -15,7 +15,7 @@ function Header() {
 					</button>
 				</Activity>
 			</div>
-			<h1 className="text-center absolute top-4 left-1/2 translate-[-1/2]">
+			<h1 className="text-center">
 				<Link to={'/'}>로고</Link>
 			</h1>
 			<div className="w-[100px] flex justify-end">
@@ -26,9 +26,6 @@ function Header() {
 						로그인
 					</button>
 				)}
-				{/* <Link to={'/mypage'} className="">
-					프로필
-				</Link> */}
 			</div>
 		</header>
 	);
