@@ -2,7 +2,7 @@ import { Activity } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
 
-function PublicHeader() {
+function UnloggedInHeader() {
 	const session = useSession();
 	const navigate = useNavigate();
 
@@ -31,4 +31,4 @@ function PublicHeader() {
 	);
 }
 4;
-export default PublicHeader;
+export default UnloggedInHeader;

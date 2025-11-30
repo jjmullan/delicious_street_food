@@ -1,4 +1,4 @@
-import Header from '@/widgets/header/PublicHeader';
+import Header from '@/widgets/header/UnloggedInHeader';
 import Main from '@/widgets/main/Main';
 
 /**
