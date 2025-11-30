@@ -3,8 +3,8 @@ import { privateRoutes } from '@/app/routes/private.route';
 import { publicRoutes } from '@/app/routes/public.route';
 import ErrorPage from '@/pages/error/ErrorPage';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
-import PrivateLayout from '@/widgets/layout/PrivateLayout';
-import PublicLayout from '@/widgets/layout/PublicLayout';
+import LoggedInUserOnlyLayout from '@/widgets/layout/LoggedInUserOnlyLayout';
+import UnloggedInLayout from '@/widgets/layout/UnloggedInLayout';
 
 /**
  * 애플리케이션의 라우트 설정
@@ -22,12 +22,12 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				// 세션 데이터가 없다면, 로그인 페이지로 라우팅
-				Component: PublicLayout,
+				Component: LoggedInUserOnlyLayout,
 				children: privateRoutes,
 			},
 			{
 				// 세션 데이터가 있다면, 인덱스 페이지로 라우팅
-				Component: PrivateLayout,
+				Component: UnloggedInLayout,
 				children: publicRoutes,
 			},
 		],
