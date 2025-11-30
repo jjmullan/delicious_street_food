@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { privateRoutes } from '@/app/routes/private.route';
-import { publicRoutes } from '@/app/routes/public.route';
+import { loggedInUserOnlyRoutes } from '@/app/routes/loggedInUserOnly.route';
+import { unloggedInRoute } from '@/app/routes/unloggedIn.route';
 import ErrorPage from '@/pages/error/ErrorPage';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
 import LoggedInUserOnlyLayout from '@/widgets/layout/LoggedInUserOnlyLayout';
@@ -23,12 +23,12 @@ export const router = createBrowserRouter([
 			{
 				// 세션 데이터가 없다면, 로그인 페이지로 라우팅
 				Component: LoggedInUserOnlyLayout,
-				children: privateRoutes,
+				children: loggedInUserOnlyRoutes,
 			},
 			{
 				// 세션 데이터가 있다면, 인덱스 페이지로 라우팅
 				Component: UnloggedInLayout,
-				children: publicRoutes,
+				children: unloggedInRoute,
 			},
 		],
 	},
