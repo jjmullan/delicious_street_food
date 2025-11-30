@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { combine, devtools, persist } from 'zustand/middleware';
-import type { Location } from '@/entities/location/types/location.type';
+import { initialLocation } from '@/shared/lib/location';
+import type { Location } from '@/shared/types/location.type';
 
 type State = {
 	location: Location | null;
@@ -8,11 +9,11 @@ type State = {
 };
 
 type Action = {
-	setLocation(location: Location | null): void;
+	setLocation(location: Location): void;
 };
 
 const initialState = {
-	location: null,
+	location: initialLocation,
 	isUpdated: false,
 };
 
