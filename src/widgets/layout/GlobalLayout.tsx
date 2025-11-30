@@ -1,4 +1,3 @@
-import Header from '@/widgets/header/Header';
 import Main from '@/widgets/main/Main';
 
 /**
@@ -9,8 +8,6 @@ import Main from '@/widgets/main/Main';
 function GlobalLayout() {
 	return (
 		<div className="flex min-h-screen flex-col min-w-screen w-full relative">
-			{/* 헤더 영역 */}
-			<Header />
 			{/* 메인 콘텐츠 영역 */}
 			<Main />
 		</div>

@@ -1,10 +1,12 @@
+import { LoaderCircleIcon } from 'lucide-react';
 import { Activity, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import useSignUpWithEmail from '@/features/auth/signUp/hooks/useSignUpWithEmail';
 import validateEmail from '@/features/auth/signUp/util/validateEmail';
 import validatePassword from '@/features/auth/signUp/util/validatePassword';
 import { generateErrorMessage } from '@/shared/lib/error';
+import AdditionalNoticeAtEdge from '@/shared/ui/additional/AdditionalNoticeAtEdge';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 
@@ -95,15 +97,17 @@ function SignUp() {
 					</Activity>
 				</div>
 			</div>
-			<Button className="w-full py-5 cursor-pointer" disabled={isPending} onClick={handleClickSubmit}>
-				{isPending ? '회원가입 진행 중' : '회원가입'}
+			<Button className="w-full h-10 cursor-pointer" disabled={isPending} onClick={handleClickSubmit}>
+				{isPending ? (
+					<>
+						<LoaderCircleIcon className="animate-spin" />
+						'회원가입 진행 중'
+					</>
+				) : (
+					'회원가입'
+				)}
 			</Button>
-			<div className="flex gap-x-2 text-muted-foreground">
-				<div>이미 계정이 있으시다면?</div>
-				<Link to="/login" className="hover:underline text-black">
-					로그인
-				</Link>
-			</div>
+			<AdditionalNoticeAtEdge text={'이미 계정이 있으시다면?'} link={'login'} linkText={'로그인'} />
 		</div>
 	);
 }

@@ -2,9 +2,9 @@ import { Outlet } from 'react-router';
 
 function Main() {
 	return (
-		<main>
+		<div>
 			<Outlet />
-		</main>
+		</div>
 	);
 }
 

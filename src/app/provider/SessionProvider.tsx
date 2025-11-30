@@ -29,7 +29,7 @@ function SessionProvider({ children }: { children: ReactNode }) {
 		return () => subscription.unsubscribe();
 	}, [setSession]);
 
-	if (!isSessionLoaded) return <div>로딩 중...</div>;
+	if (!isSessionLoaded) return;
 
 	return children;
 }
