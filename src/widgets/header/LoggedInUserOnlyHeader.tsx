@@ -1,23 +1,15 @@
-import { Activity } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { LogOutIcon } from 'lucide-react';
+import { Link } from 'react-router';
 
 function LoggedInUserOnlyHeader() {
-	const navigate = useNavigate();
-
 	return (
-		<header className="flex justify-between items-center px-4 h-12 absolute top-0 text-lg w-full">
-			<div className="w-[100px]">
-				<Activity mode={window.location.href.split('/').pop() === '' ? 'hidden' : 'visible'}>
-					<button type="button" onClick={() => navigate(-1)}>
-						뒤로 가기
-					</button>
-				</Activity>
-			</div>
+		<header className="flex justify-between items-center h-12 absolute top-2 text-lg left-2 w-[calc(100%-16px)] z-1 bg-white/80 px-4 rounded-full">
+			<div className="w-20 flex justify-start"></div>
 			<h1 className="text-center">
-				<Link to={'/'}>로고</Link>
+				<Link to={'/'}>포장맛차</Link>
 			</h1>
-			<div className="w-[100px] flex justify-end">
-				<button type="button">로그아웃</button>
+			<div className="w-20 flex justify-end">
+				<LogOutIcon width={16} />
 			</div>
 		</header>
 	);
