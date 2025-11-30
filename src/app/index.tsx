@@ -6,6 +6,7 @@ import { Toaster } from 'sonner';
 import '@/app/styles/main.css';
 import { RouterProvider } from 'react-router-dom';
 import LocationProvider from '@/app/provider/LocationProvider';
+import ModalProvider from '@/app/provider/ModalProvider';
 import SessionProvider from '@/app/provider/SessionProvider';
 import { router } from '@/app/routes/routes';
 
@@ -26,7 +27,9 @@ createRoot(document.getElementById('root')!).render(
 			<Toaster />
 			<SessionProvider>
 				<LocationProvider>
-					<RouterProvider router={router} />
+					<ModalProvider>
+						<RouterProvider router={router} />
+					</ModalProvider>
 				</LocationProvider>
 			</SessionProvider>
 		</QueryClientProvider>

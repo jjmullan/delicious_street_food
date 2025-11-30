@@ -1,5 +1,5 @@
-import { LogOutIcon } from 'lucide-react';
 import { Link } from 'react-router';
+import SignOutButton from '@/features/auth/signOut/ui/signOutButton';
 
 function LoggedInUserOnlyHeader() {
 	return (
@@ -8,9 +8,7 @@ function LoggedInUserOnlyHeader() {
 			<h1 className="text-center">
 				<Link to={'/'}>포장맛차</Link>
 			</h1>
-			<div className="w-20 flex justify-end">
-				<LogOutIcon width={16} />
-			</div>
+			<SignOutButton />
 		</header>
 	);
 }
