@@ -2,12 +2,12 @@ import { Activity } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
 
-function Header() {
+function PublicHeader() {
 	const session = useSession();
 	const navigate = useNavigate();
 
 	return (
-		<header className="flex justify-between items-center px-4 h-15 text-lg absolute top-0 w-full z-1 bg-white/80">
+		<header className="flex justify-between items-center px-4 h-12 text-lg w-full">
 			<div className="w-[100px]">
 				<Activity mode={window.location.href.split('/').pop() === '' ? 'hidden' : 'visible'}>
 					<button type="button" onClick={() => navigate(-1)}>
@@ -31,4 +31,4 @@ function Header() {
 	);
 }
 4;
-export default Header;
+export default PublicHeader;
