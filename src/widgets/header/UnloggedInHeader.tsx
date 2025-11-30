@@ -8,7 +8,7 @@ function UnloggedInHeader() {
 	return (
 		<header className="flex justify-start items-center px-4 h-12 text-lg w-full max-w-[768px] md:border-x mx-auto">
 			<Activity mode={window.location.href.split('/login').pop() === '' ? 'hidden' : 'visible'}>
-				<button type="button" onClick={() => navigate(-1)}>
+				<button type="button" onClick={() => navigate(-1)} className="cursor-pointer">
 					<ArrowLeft />
 				</button>
 			</Activity>
