@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect } from 'react';
 import { toast } from 'sonner';
-import { useSetLocation } from '@/app/store/location';
+import { useSetLocation } from '@/app/store/locationStore';
 
 function LocationProvider({ children }: { children: ReactNode }) {
 	const setLocation = useSetLocation();
@@ -13,7 +13,7 @@ function LocationProvider({ children }: { children: ReactNode }) {
 		}
 
 		// 현재 위치 정보 가져오기
-		navigator.geolocation.getCurrentPosition(
+		const watchId = navigator.geolocation.watchPosition(
 			(position) => {
 				console.log('현재 위치 정보:', position);
 
@@ -37,9 +37,15 @@ function LocationProvider({ children }: { children: ReactNode }) {
 			},
 			{
 				maximumAge: 0, // 캐시에 저장한 위치정보를 대신 반환할 수 있는 최대 시간
-				enableHighAccuracy: false, // 위치정보를 가장 높은 정확도로 수신하고 싶은지 여부, T -> 매우 정확(응답속도 감소, 전력 사용량 증가)
+				enableHighAccuracy: true, // 위치정보를 가장 높은 정확도로 수신하고 싶은지 여부, T -> 매우 정확(응답속도 감소, 전력 사용량 증가)
+				timeout: 10_000, // 10초 안에 위치 정보를 가져오기 (무한 대기 상태 방지 목적)
 			}
 		);
+
+		// 백그라운드에서 GPS 를 계속 사용하여 배터리 소모 및 메모리 누수를 발생시키는 것을 방지
+		return () => {
+			navigator.geolocation.clearWatch(watchId);
+		};
 	}, [setLocation]);
 
 	return children;
