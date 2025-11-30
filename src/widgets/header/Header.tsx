@@ -1,6 +1,6 @@
 import { Activity } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { useSession } from '@/app/store/session';
+import { useSession } from '@/app/store/sessionStore';
 
 function Header() {
 	const session = useSession();

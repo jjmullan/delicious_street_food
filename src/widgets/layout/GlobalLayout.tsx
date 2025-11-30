@@ -1,9 +1,7 @@
-// 애플리케이션 전역 레이아웃 컴포넌트
-// 모든 페이지에서 공통으로 사용되는 레이아웃 구조를 정의합니다.
-import KakaoMapLocation from '@/entities/location/KakaoMapLocation';
 import Footer from '@/widgets/footer/Footer';
 import Header from '@/widgets/header/Header';
 import Main from '@/widgets/main/Main';
+import KakaoMapLocation from '@/widgets/map/KakaoMapLocation';
 
 /**
  * GlobalLayout 컴포넌트
