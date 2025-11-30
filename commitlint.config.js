@@ -35,6 +35,7 @@ export default {
 				'src', // 정적 파일 추가
 				'rename', // 파일명 수정
 				'remove', // 파일 삭제
+				'a11y', // 접근성
 			],
 		],
 		// type : 필수, 영문 소문자만 허용

@@ -3,10 +3,10 @@ import Title from '@/shared/ui/title/Title';
 
 function SignInWithPasswordPage() {
 	return (
-		<div className="mobile">
+		<main className="mobile">
 			<Title />
 			<SignInWithPassword />
-		</div>
+		</main>
 	);
 }
 

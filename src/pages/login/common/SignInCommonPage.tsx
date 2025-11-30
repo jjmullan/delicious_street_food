@@ -3,10 +3,10 @@ import Title from '@/shared/ui/title/Title';
 
 function SignInCommonPage() {
 	return (
-		<div className="mobile">
+		<main className="mobile">
 			<Title />
 			<SignInCommon />
-		</div>
+		</main>
 	);
 }
 

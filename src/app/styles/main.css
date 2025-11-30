@@ -140,7 +140,7 @@
 		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 	}
 	.mobile {
-		@apply grid grid-rows-2 min-w-[360px] px-4 max-w-[768px] mx-auto min-h-screen border-x;
+		@apply grid grid-rows-2 min-w-[360px] px-4 max-w-[768px] mx-auto min-h-screen md:border-x;
 	}
 	.title {
 		@apply text-2xl text-center;

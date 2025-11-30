@@ -2,9 +2,9 @@ import SignUp from '@/features/auth/signUp/ui/SignUp';
 
 function SignUpPage() {
 	return (
-		<div className="mobile">
+		<main className="mobile">
 			<SignUp />
-		</div>
+		</main>
 	);
 }
 
