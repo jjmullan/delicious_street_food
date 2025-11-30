@@ -1,6 +1,6 @@
 import type { RouteObject } from 'react-router';
+import SignInPage from '@/pages/login/common/SignInCommonPage';
 import SignInWithPasswordPage from '@/pages/login/email/SignInWithPasswordPage';
-import SignInPage from '@/pages/login/oauth/SignInWithOAuthPage';
 import SignUpPage from '@/pages/signUp/SignUpPage';
 
 export const publicRoutes: RouteObject[] = [

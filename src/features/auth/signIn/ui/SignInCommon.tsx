@@ -4,7 +4,7 @@ import emailSvg from '/logo-email.svg';
 import google from '/logo-google.svg';
 import kakao from '/logo-kakao.svg';
 
-function SignInWithOAuth() {
+function SignInCommon() {
 	const navigate = useNavigate();
 
 	const { mutate: signInWithOAuth, isPending } = useSingInWithOAuth({});
@@ -55,4 +55,4 @@ function SignInWithOAuth() {
 	);
 }
 
-export default SignInWithOAuth;
+export default SignInCommon;
