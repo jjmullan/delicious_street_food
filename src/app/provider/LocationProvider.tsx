@@ -1,0 +1,60 @@
+import { type ReactNode, useEffect } from 'react';
+import { toast } from 'sonner';
+import { useSetLocation } from '@/app/store/locationStore';
+import { useSession } from '@/app/store/sessionStore';
+
+function LocationProvider({ children }: { children: ReactNode }) {
+	const setLocation = useSetLocation();
+	const session = useSession();
+
+	useEffect(() => {
+		if (!session) {
+			return;
+		}
+
+		// 예외 처리
+		if (!navigator.geolocation) {
+			toast.error('해당 지역은 위치 서비스를 지원하지 않습니다.');
+			return;
+		}
+
+		// 현재 위치 정보 가져오기
+		const watchId = navigator.geolocation.watchPosition(
+			(position) => {
+				console.log('현재 위치 정보:', position);
+
+				setLocation({
+					lat: position.coords.latitude,
+					lng: position.coords.longitude,
+				});
+			},
+			(error) => {
+				switch (error.code) {
+					case error.PERMISSION_DENIED:
+						toast.error('위치 정보 제공이 거부되었습니다.', { position: 'top-center' });
+						break;
+					case error.POSITION_UNAVAILABLE:
+						toast.error('위치 정보를 사용할 수 없습니다.', { position: 'top-center' });
+						break;
+					case error.TIMEOUT:
+						toast.error('요청 시간이 초과되었습니다.', { position: 'top-center' });
+						break;
+				}
+			},
+			{
+				maximumAge: 0, // 캐시에 저장한 위치정보를 대신 반환할 수 있는 최대 시간
+				enableHighAccuracy: true, // 위치정보를 가장 높은 정확도로 수신하고 싶은지 여부, T -> 매우 정확(응답속도 감소, 전력 사용량 증가)
+				timeout: 10_000, // 10초 안에 위치 정보를 가져오기 (무한 대기 상태 방지 목적)
+			}
+		);
+
+		// 백그라운드에서 GPS 를 계속 사용하여 배터리 소모 및 메모리 누수를 발생시키는 것을 방지
+		return () => {
+			navigator.geolocation.clearWatch(watchId);
+		};
+	}, [setLocation, session]);
+
+	return children;
+}
+
+export default LocationProvider;

@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { Toaster } from 'sonner';
 import '@/app/styles/main.css';
 import { RouterProvider } from 'react-router-dom';
+import LocationProvider from '@/app/provider/LocationProvider';
 import SessionProvider from '@/app/provider/SessionProvider';
 import { router } from '@/app/routes/routes';
 
@@ -24,7 +25,9 @@ createRoot(document.getElementById('root')!).render(
 			<ReactQueryDevtools />
 			<Toaster />
 			<SessionProvider>
-				<RouterProvider router={router} />
+				<LocationProvider>
+					<RouterProvider router={router} />
+				</LocationProvider>
 			</SessionProvider>
 		</QueryClientProvider>
 	</StrictMode>

@@ -34,6 +34,7 @@ export default {
 				'hotfix', // 긴급한 수정 (main 브랜치에서 분기)
 				'src', // 정적 파일 추가
 				'rename', // 파일명 수정
+				'remove', // 파일 삭제
 			],
 		],
 		// type : 필수, 영문 소문자만 허용

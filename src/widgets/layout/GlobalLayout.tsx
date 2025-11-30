@@ -1,6 +1,3 @@
-// 애플리케이션 전역 레이아웃 컴포넌트
-// 모든 페이지에서 공통으로 사용되는 레이아웃 구조를 정의합니다.
-import Footer from '@/widgets/footer/Footer';
 import Header from '@/widgets/header/Header';
 import Main from '@/widgets/main/Main';
 
@@ -11,13 +8,11 @@ import Main from '@/widgets/main/Main';
  */
 function GlobalLayout() {
 	return (
-		<div id="global_layout">
-			{/* 헤더 영역 - 필요시 widgets/header 컴포넌트를 import하여 사용 */}
+		<div className="flex min-h-screen flex-col min-w-screen w-full relative">
+			{/* 헤더 영역 */}
 			<Header />
-			{/* 메인 콘텐츠 영역 - 자식 라우트가 렌더링되는 위치 */}
+			{/* 메인 콘텐츠 영역 */}
 			<Main />
-			{/* 푸터 영역 - 필요시 widgets/footer 컴포넌트를 import하여 사용 */}
-			<Footer />
 		</div>
 	);
 }

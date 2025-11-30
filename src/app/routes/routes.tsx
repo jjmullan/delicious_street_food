@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { privateRoutes } from '@/app/routes/private.route';
+import { publicRoutes } from '@/app/routes/public.route';
 import ErrorPage from '@/pages/error/ErrorPage';
-import HomePage from '@/pages/home/HomePage';
-import SignIpPage from '@/pages/login/SignInPage';
-import MyPage from '@/pages/mypage/MyPage';
-import SignUpPage from '@/pages/signUp/SignUpPage';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
+import PrivateLayout from '@/widgets/layout/PrivateLayout';
+import PublicLayout from '@/widgets/layout/PublicLayout';
 
 /**
  * 애플리케이션의 라우트 설정
@@ -17,25 +17,18 @@ import GlobalLayout from '@/widgets/layout/GlobalLayout';
  */
 export const router = createBrowserRouter([
 	{
-		path: '/',
 		Component: GlobalLayout,
 		errorElement: <ErrorPage />,
 		children: [
 			{
-				index: true,
-				Component: HomePage,
+				// 세션 데이터가 없다면, 로그인 페이지로 라우팅
+				Component: PublicLayout,
+				children: privateRoutes,
 			},
 			{
-				path: 'mypage',
-				Component: MyPage,
-			},
-			{
-				path: 'signup',
-				Component: SignUpPage,
-			},
-			{
-				path: 'login',
-				Component: SignIpPage,
+				// 세션 데이터가 있다면, 인덱스 페이지로 라우팅
+				Component: PrivateLayout,
+				children: publicRoutes,
 			},
 		],
 	},

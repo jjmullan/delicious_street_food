@@ -1,15 +1,11 @@
-import { useState } from 'react';
-import './HomePage.css';
+import KakaoMapLocation from '@/widgets/map/KakaoMapLocation';
 
 function HomePage() {
-	const [count, setCount] = useState(0);
-
 	return (
-		<div>
-			<button type="button" onClick={() => setCount((count) => count + 1)}>
-				count is {count}
-			</button>
-		</div>
+		<>
+			{/* 카카오 맵 영역 */}
+			<KakaoMapLocation />
+		</>
 	);
 }
 
