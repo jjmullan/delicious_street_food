@@ -65,7 +65,11 @@ function SignInWithPassword() {
 					</button>
 				</div>
 			</div>
-			<Button className="w-full h-10 cursor-pointer relative" onClick={handleClickSignInWithPassword}>
+			<Button
+				className="w-full h-10 cursor-pointer relative"
+				onClick={handleClickSignInWithPassword}
+				disabled={isPending || email.trim() === '' || password.trim() === ''}
+			>
 				{isPending ? (
 					<>
 						<LoaderCircleIcon className="animate-spin" />
