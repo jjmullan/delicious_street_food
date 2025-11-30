@@ -1,8 +1,25 @@
+import { Activity } from 'react';
+import { Link, useNavigate } from 'react-router';
+
 function LoggedInUserOnlyHeader() {
+	const navigate = useNavigate();
+
 	return (
-		<>
-			<h1>LoggedInUserOnlyHeader Component</h1>
-		</>
+		<header className="flex justify-between items-center px-4 h-12 absolute top-0 text-lg w-full">
+			<div className="w-[100px]">
+				<Activity mode={window.location.href.split('/').pop() === '' ? 'hidden' : 'visible'}>
+					<button type="button" onClick={() => navigate(-1)}>
+						뒤로 가기
+					</button>
+				</Activity>
+			</div>
+			<h1 className="text-center">
+				<Link to={'/'}>로고</Link>
+			</h1>
+			<div className="w-[100px] flex justify-end">
+				<button type="button">로그아웃</button>
+			</div>
+		</header>
 	);
 }
 
