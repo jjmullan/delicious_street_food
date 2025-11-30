@@ -21,12 +21,14 @@ export const router = createBrowserRouter([
 		errorElement: <ErrorPage />,
 		children: [
 			{
+				// 세션 데이터가 없다면, 로그인 페이지로 라우팅
 				Component: PublicLayout,
-				children: publicRoutes,
+				children: privateRoutes,
 			},
 			{
+				// 세션 데이터가 있다면, 인덱스 페이지로 라우팅
 				Component: PrivateLayout,
-				children: privateRoutes,
+				children: publicRoutes,
 			},
 		],
 	},

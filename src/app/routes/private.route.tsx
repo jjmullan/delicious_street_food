@@ -3,6 +3,6 @@ import HomePage from '@/pages/home/HomePage';
 import MyPage from '@/pages/mypage/MyPage';
 
 export const privateRoutes: RouteObject[] = [
-	{ path: '/', Component: HomePage },
+	{ index: true, path: '/', Component: HomePage },
 	{ path: '/mypage', Component: MyPage },
 ];
