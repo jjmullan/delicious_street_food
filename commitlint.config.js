@@ -36,6 +36,7 @@ export default {
 				'rename', // 파일명 수정
 				'remove', // 파일 삭제
 				'a11y', // 접근성
+				'comment', // 주석
 			],
 		],
 		// type : 필수, 영문 소문자만 허용
