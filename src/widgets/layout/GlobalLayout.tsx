@@ -9,12 +9,10 @@ import Main from '@/widgets/main/Main';
 function GlobalLayout() {
 	return (
 		<div className="flex min-h-screen flex-col min-w-screen w-full relative">
-			{/* 헤더 영역 - 필요시 widgets/header 컴포넌트를 import하여 사용 */}
-			{/* <Header /> */}
-			{/* 메인 콘텐츠 영역 - 자식 라우트가 렌더링되는 위치 */}
+			{/* 헤더 영역 */}
+			<Header />
+			{/* 메인 콘텐츠 영역 */}
 			<Main />
-			{/* 푸터 영역 - 필요시 widgets/footer 컴포넌트를 import하여 사용 */}
-			{/* <Footer /> */}
 		</div>
 	);
 }
