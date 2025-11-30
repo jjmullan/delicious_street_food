@@ -16,6 +16,11 @@ export async function SignInWithPassword({ email, password }: { email: string; p
 	return data;
 }
 
+/**
+ * 소셜 로그인 회원가입 전용 데이터 전송
+ * @param provider: 소셜 로그인 주체 (@example 'google', 'kakao', ...)
+ * @returns
+ */
 export async function SignInWithOAuth(provider: Provider) {
 	const { data, error } = await supabase.auth.signInWithOAuth({
 		provider,
