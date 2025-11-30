@@ -28,7 +28,7 @@ function SignUp() {
 	// 회원가입 API 전송
 	const { mutate: signUp, isPending } = useSignUpWithEmail({
 		onSuccess: () => {
-			navigate('/login', { replace: true });
+			navigate('/login/email', { replace: true });
 			toast.success('회원가입이 완료되었습니다🎉', {
 				position: 'top-center',
 			});
@@ -60,7 +60,7 @@ function SignUp() {
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 					/>
-					<Button type="button" className="py-5 cursor-pointer" disabled={isPending}>
+					<Button type="button" className="py-5 cursor-pointer" disabled={isPending || email.trim() === ''}>
 						중복 확인
 					</Button>
 				</div>
@@ -72,7 +72,7 @@ function SignUp() {
 				<div className="flex flex-col gap-y-2">
 					<Input
 						type="password"
-						placeholder="비밀번호"
+						placeholder="비밀번호 입력 *특수문자, 대문자, 숫자 최소 한 개 이상 포함"
 						name="password"
 						className="py-5"
 						disabled={isPending}
@@ -97,7 +97,11 @@ function SignUp() {
 					</Activity>
 				</div>
 			</div>
-			<Button className="w-full h-10 cursor-pointer" disabled={isPending} onClick={handleClickSubmit}>
+			<Button
+				className="w-full h-10 cursor-pointer"
+				disabled={isPending || email.trim() === '' || password.trim() === '' || passwordConfirm.trim() === ''}
+				onClick={handleClickSubmit}
+			>
 				{isPending ? (
 					<>
 						<LoaderCircleIcon className="animate-spin" />
