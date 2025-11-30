@@ -21,15 +21,16 @@ function KakaoMapLocation() {
 					</div>
 				</CustomOverlayMap>
 			</Map>
-			<div className="absolute left-1/2 bottom-6 z-1 flex gap-x-4">
+			{/* <div className="absolute left-1/2 translate-x-[-50%] bottom-6 z-1 flex gap-x-4">
 				<button
 					type="button"
+					id="glass"
 					className="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center"
 					onClick={() => {}}
 				>
 					<LocateFixedIcon className="w-8 h-8" />
 				</button>
-			</div>
+			</div> */}
 		</div>
 	);
 }
