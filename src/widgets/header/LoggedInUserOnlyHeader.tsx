@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import SignOutButton from '@/features/auth/signOut/ui/signOutButton';
+import SignOutButton from '@/features/auth/signOut/ui/SignOutButton';
 
 function LoggedInUserOnlyHeader() {
 	return (
