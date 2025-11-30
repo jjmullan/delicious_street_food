@@ -1,11 +1,17 @@
 import { type ReactNode, useEffect } from 'react';
 import { toast } from 'sonner';
 import { useSetLocation } from '@/app/store/locationStore';
+import { useSession } from '@/app/store/sessionStore';
 
 function LocationProvider({ children }: { children: ReactNode }) {
 	const setLocation = useSetLocation();
+	const session = useSession();
 
 	useEffect(() => {
+		if (!session) {
+			return;
+		}
+
 		// 예외 처리
 		if (!navigator.geolocation) {
 			toast.error('해당 지역은 위치 서비스를 지원하지 않습니다.');
@@ -46,7 +52,7 @@ function LocationProvider({ children }: { children: ReactNode }) {
 		return () => {
 			navigator.geolocation.clearWatch(watchId);
 		};
-	}, [setLocation]);
+	}, [setLocation, session]);
 
 	return children;
 }
