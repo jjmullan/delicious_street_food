@@ -2,7 +2,7 @@ import SignInWithPassword from '@/features/auth/signIn/ui/SignInWithPassword';
 
 function SignInWithPasswordPage() {
 	return (
-		<div id="mobile">
+		<div className="mobile">
 			<SignInWithPassword />
 		</div>
 	);
