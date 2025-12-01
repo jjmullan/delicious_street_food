@@ -130,6 +130,14 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+	html,
+	body,
+	main {
+		@apply h-full;
+	}
+	main {
+		@apply overflow-hidden h-[calc(100vh-48px)];
+	}
 	/* Glassmorphism 기본 스타일 - distortion 효과 포함 */
 	.glass {
 		background: rgba(255, 255, 255, 0.1);
@@ -140,7 +148,7 @@
 		box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 	}
 	.mobile {
-		@apply grid grid-rows-1 min-w-[360px] px-4 max-w-[768px] mx-auto h-[calc(100vh-48px)] md:border-x;
+		@apply grid grid-rows-1 min-w-[360px] px-4 max-w-[768px] mx-auto md:border-x;
 	}
 	.with-title {
 		@apply grid-rows-2;

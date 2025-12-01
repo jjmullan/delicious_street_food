@@ -7,7 +7,7 @@ import Main from '@/widgets/main/Main';
  */
 function GlobalLayout() {
 	return (
-		<div className="flex min-h-screen flex-col min-w-screen w-full relative">
+		<div className="flex min-h-screen flex-col min-w-[320px] w-full relative">
 			{/* 메인 콘텐츠 영역 */}
 			<Main />
 		</div>
