@@ -3,7 +3,7 @@ import Title from '@/shared/ui/title/Title';
 
 function SignInCommonPage() {
 	return (
-		<main className="mobile">
+		<main className="mobile with-title">
 			<Title />
 			<SignInCommon />
 		</main>

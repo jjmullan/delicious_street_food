@@ -39,7 +39,7 @@ function SignInWithPassword() {
 		setPasswordOpen((state) => !state);
 	};
 	return (
-		<div className="flex flex-col gap-y-4">
+		<div className="flex flex-col justify-center gap-y-4">
 			<div className="flex flex-col gap-y-2">
 				{/* 이메일 */}
 				<Input
@@ -65,7 +65,11 @@ function SignInWithPassword() {
 					</button>
 				</div>
 			</div>
-			<Button className="w-full h-10 cursor-pointer relative" onClick={handleClickSignInWithPassword}>
+			<Button
+				className="w-full h-10 cursor-pointer relative"
+				onClick={handleClickSignInWithPassword}
+				disabled={isPending || email.trim() === '' || password.trim() === ''}
+			>
 				{isPending ? (
 					<>
 						<LoaderCircleIcon className="animate-spin" />

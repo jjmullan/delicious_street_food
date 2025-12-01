@@ -1,14 +1,16 @@
 import { type ReactNode, useEffect } from 'react';
 import { toast } from 'sonner';
 import { useSetLocation } from '@/app/store/locationStore';
-import { useSession } from '@/app/store/sessionStore';
+import { useIsSessionLoaded, useSession } from '@/app/store/sessionStore';
 
 function LocationProvider({ children }: { children: ReactNode }) {
 	const setLocation = useSetLocation();
 	const session = useSession();
+	const userId = session?.user.id;
+	const isSessionLoaded = useIsSessionLoaded();
 
 	useEffect(() => {
-		if (!session) {
+		if (!isSessionLoaded || !userId) {
 			return;
 		}
 
@@ -18,8 +20,8 @@ function LocationProvider({ children }: { children: ReactNode }) {
 			return;
 		}
 
-		// 현재 위치 정보 가져오기
-		const watchId = navigator.geolocation.watchPosition(
+		// 현재 위치를 계속해서 추적
+		navigator.geolocation.getCurrentPosition(
 			(position) => {
 				console.log('현재 위치 정보:', position);
 
@@ -47,12 +49,7 @@ function LocationProvider({ children }: { children: ReactNode }) {
 				timeout: 10_000, // 10초 안에 위치 정보를 가져오기 (무한 대기 상태 방지 목적)
 			}
 		);
-
-		// 백그라운드에서 GPS 를 계속 사용하여 배터리 소모 및 메모리 누수를 발생시키는 것을 방지
-		return () => {
-			navigator.geolocation.clearWatch(watchId);
-		};
-	}, [setLocation, session]);
+	}, [setLocation, userId, isSessionLoaded]);
 
 	return children;
 }

@@ -6,7 +6,7 @@ import supabase from '@/shared/api/supabase/supabase';
  * @returns
  */
 export async function fetchUser(userId: string) {
-	const { data, error } = await supabase.from('member').select('*').eq('member_id', userId).single();
+	const { data, error } = await supabase.from('user').select('*').eq('user_id', userId).single();
 
 	if (error) throw error;
 	return data;

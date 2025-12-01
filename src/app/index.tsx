@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Toaster } from 'sonner';
 import '@/app/styles/main.css';
@@ -21,17 +20,15 @@ const queryClient = new QueryClient({
 });
 
 createRoot(document.getElementById('root')!).render(
-	<StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<ReactQueryDevtools />
-			<Toaster />
-			<SessionProvider>
-				<LocationProvider>
-					<ModalProvider>
-						<RouterProvider router={router} />
-					</ModalProvider>
-				</LocationProvider>
-			</SessionProvider>
-		</QueryClientProvider>
-	</StrictMode>
+	<QueryClientProvider client={queryClient}>
+		<ReactQueryDevtools />
+		<Toaster />
+		<SessionProvider>
+			<LocationProvider>
+				<ModalProvider>
+					<RouterProvider router={router} />
+				</ModalProvider>
+			</LocationProvider>
+		</SessionProvider>
+	</QueryClientProvider>
 );
