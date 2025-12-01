@@ -123,7 +123,7 @@ function SignUp() {
 			</div>
 			{/* 회원가입 */}
 			<Button
-				className="w-full h-10 cursor-pointer"
+				className="w-full h-12 text-base cursor-pointer"
 				disabled={isPending || email.trim() === '' || password.trim() === '' || passwordConfirm.trim() === ''}
 				onClick={handleClickSubmit}
 			>
