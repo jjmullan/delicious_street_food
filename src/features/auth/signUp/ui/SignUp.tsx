@@ -1,5 +1,5 @@
 import { LoaderCircleIcon } from 'lucide-react';
-import { Activity, useState } from 'react';
+import { Activity, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import useSignUpWithEmail from '@/features/auth/signUp/hooks/useSignUpWithEmail';
@@ -39,6 +39,7 @@ function SignUp() {
 		},
 	});
 
+	// 회원가입 버튼 클릭 이벤트
 	const handleClickSubmit = () => {
 		setIsSubmitted(true);
 
@@ -47,6 +48,20 @@ function SignUp() {
 		}
 
 		signUp({ email, password });
+	};
+
+	// 비밀번호가 onBlur 되었을 때 시점 이후 에러메시지 호출
+	const passwordRef = useRef(null);
+	const [passwordFocused, setPasswordFocused] = useState(false);
+	const handleBlurPassword = () => {
+		setPasswordFocused(true);
+	};
+
+	// 비밀번호 확인이 onBlur 되었을 때 시점 이후 에러메시지 호출
+	const passwordConfirmRef = useRef(null);
+	const [passwordConfirmFocused, setPasswordConfirmFocused] = useState(false);
+	const handleBlurPasswordConfirm = () => {
+		setPasswordConfirmFocused(true);
 	};
 
 	return (
@@ -76,15 +91,17 @@ function SignUp() {
 					<div className="flex flex-col gap-y-2">
 						<Input
 							type="password"
-							placeholder="비밀번호 입력 *특수문자, 대문자, 숫자 최소 한 개 이상 포함"
+							placeholder="비밀번호"
 							name="password"
 							className="h-12"
 							disabled={isPending}
 							value={password}
+							ref={passwordRef}
+							onBlur={() => handleBlurPassword()}
 							onChange={(e) => setPassword(e.target.value)}
 						/>
-						<Activity mode={isSubmitted && isPasswordValid.errors.password ? 'visible' : 'hidden'}>
-							<p className="text-sm text-muted-foreground px-2">{isPasswordValid.errors.password}</p>
+						<Activity mode={passwordFocused && isPasswordValid.errors.password ? 'visible' : 'hidden'}>
+							<p className="text-sm text-red-600 px-2">{isPasswordValid.errors.password}</p>
 						</Activity>
 					</div>
 					<div className="flex flex-col gap-y-2">
@@ -94,10 +111,12 @@ function SignUp() {
 							className="h-12"
 							disabled={isPending}
 							value={passwordConfirm}
+							ref={passwordConfirmRef}
+							onBlur={handleBlurPasswordConfirm}
 							onChange={(e) => setPasswordConfirm(e.target.value)}
 						/>
-						<Activity mode={isSubmitted && isPasswordValid.errors.passwordConfirm ? 'visible' : 'hidden'}>
-							<p className="text-sm text-muted-foreground px-2">{isPasswordValid.errors.passwordConfirm}</p>
+						<Activity mode={passwordConfirmFocused && isPasswordValid.errors.passwordConfirm ? 'visible' : 'hidden'}>
+							<p className="text-sm text-red-600 px-2">{isPasswordValid.errors.passwordConfirm}</p>
 						</Activity>
 					</div>
 				</div>
