@@ -1,6 +1,7 @@
 import { LocateFixedIcon, TriangleIcon } from 'lucide-react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { useLocation } from '@/app/store/locationStore';
+import ProductList from '@/features/product/item/ui/ProductList';
 import { initialLocation } from '@/shared/lib/location';
 
 function KakaoMapLocation() {
@@ -31,6 +32,7 @@ function KakaoMapLocation() {
 					<LocateFixedIcon className="w-8 h-8" />
 				</button>
 			</div> */}
+			<ProductList />
 		</div>
 	);
 }
