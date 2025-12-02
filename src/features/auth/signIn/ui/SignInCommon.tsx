@@ -28,31 +28,31 @@ function SignInCommon() {
 					{/* 소셜 로그인 */}
 					<button
 						type="button"
-						className="bg-[#FEE500] text-[#000000] inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-12 px-4 w-full cursor-pointer relative"
+						className="button bg-[#FEE500] text-[#000000]"
 						onClick={handleClickSignInWithKakao}
 						disabled={isPending}
 					>
 						<img src={kakao} alt="kakao login" width={'20'} className="absolute left-4 aspect-square" />
-						<p className="text-base">카카오 로그인</p>
+						<p>카카오 로그인</p>
 					</button>
 					<button
 						type="button"
-						className="bg-white text-black inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-12 px-4 w-full cursor-pointer border relative"
+						className="button bg-white text-black border"
 						onClick={handleClickSignInWithGoogle}
 						disabled={isPending}
 					>
 						<img src={google} alt="google login" width={'20'} className="absolute left-4 aspect-square" />
-						<p className="text-base">구글 로그인</p>
+						<p>구글 로그인</p>
 					</button>
 					{/* 이메일 로그인 */}
 					<button
 						type="button"
-						className="bg-black text-white inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-12 px-4 w-full cursor-pointer relative"
+						className="button bg-black text-white"
 						onClick={handleClickSignInWithPassword}
 						disabled={isPending}
 					>
 						<img src={emailSvg} alt="email login" width={'20'} className="absolute left-4" />
-						<p className="text-base">이메일 로그인</p>
+						<p>이메일 로그인</p>
 					</button>
 				</div>
 			</div>

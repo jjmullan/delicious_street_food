@@ -8,22 +8,43 @@ export type Database = {
 	};
 	public: {
 		Tables: {
+			item: {
+				Row: {
+					created_at: string;
+					item_id: string;
+					item_name: string;
+					updated_at: string;
+				};
+				Insert: {
+					created_at?: string;
+					item_id?: string;
+					item_name: string;
+					updated_at?: string;
+				};
+				Update: {
+					created_at?: string;
+					item_id?: string;
+					item_name?: string;
+					updated_at?: string;
+				};
+				Relationships: [];
+			};
 			keyword: {
 				Row: {
 					created_at: string;
-					keyword_id: number;
+					keyword_id: string;
 					keyword_name: string;
 					updated_at: string;
 				};
 				Insert: {
 					created_at?: string;
-					keyword_id?: number;
+					keyword_id?: string;
 					keyword_name: string;
 					updated_at?: string;
 				};
 				Update: {
 					created_at?: string;
-					keyword_id?: number;
+					keyword_id?: string;
 					keyword_name?: string;
 					updated_at?: string;
 				};
@@ -32,227 +53,51 @@ export type Database = {
 			location: {
 				Row: {
 					created_at: string;
-					location_address: string;
-					location_id: number;
-					location_name: string | null;
-					location_url: string;
-					total_count: number;
+					latitude: string;
+					location_id: string;
+					longitude: string;
 					updated_at: string;
 				};
 				Insert: {
 					created_at?: string;
-					location_address: string;
-					location_id?: number;
-					location_name?: string | null;
-					location_url: string;
-					total_count?: number;
+					latitude: string;
+					location_id?: string;
+					longitude: string;
 					updated_at?: string;
 				};
 				Update: {
 					created_at?: string;
-					location_address?: string;
-					location_id?: number;
-					location_name?: string | null;
-					location_url?: string;
-					total_count?: number;
+					latitude?: string;
+					location_id?: string;
+					longitude?: string;
 					updated_at?: string;
 				};
 				Relationships: [];
 			};
-			member: {
+			user: {
 				Row: {
-					bio: string | null;
-					country: string;
 					created_at: string;
-					member_id: string;
-					member_image_url: string | null;
-					nickname: string;
 					updated_at: string;
-				};
-				Insert: {
-					bio?: string | null;
-					country?: string;
-					created_at?: string;
-					member_id?: string;
-					member_image_url?: string | null;
-					nickname: string;
-					updated_at?: string;
-				};
-				Update: {
-					bio?: string | null;
-					country?: string;
-					created_at?: string;
-					member_id?: string;
-					member_image_url?: string | null;
-					nickname?: string;
-					updated_at?: string;
-				};
-				Relationships: [];
-			};
-			member_reward: {
-				Row: {
-					created_at: string;
-					member_id: string;
-					member_reward_id: number;
-					reward_id: number;
+					user_bio: string | null;
+					user_id: string;
+					user_image_url: string | null;
+					user_nickname: string;
 				};
 				Insert: {
 					created_at?: string;
-					member_id?: string;
-					member_reward_id?: number;
-					reward_id: number;
-				};
-				Update: {
-					created_at?: string;
-					member_id?: string;
-					member_reward_id?: number;
-					reward_id?: number;
-				};
-				Relationships: [
-					{
-						foreignKeyName: 'member_reward_member_id_fkey';
-						columns: ['member_id'];
-						isOneToOne: false;
-						referencedRelation: 'member';
-						referencedColumns: ['member_id'];
-					},
-					{
-						foreignKeyName: 'member_reward_reward_id_fkey';
-						columns: ['reward_id'];
-						isOneToOne: false;
-						referencedRelation: 'reward';
-						referencedColumns: ['reward_id'];
-					},
-				];
-			};
-			product: {
-				Row: {
-					created_at: string;
-					location_id: number;
-					member_id: string;
-					product_id: number;
-					review_text: string | null;
-					star_rating: number;
-					updated_at: string;
-				};
-				Insert: {
-					created_at?: string;
-					location_id: number;
-					member_id?: string;
-					product_id?: number;
-					review_text?: string | null;
-					star_rating?: number;
 					updated_at?: string;
+					user_bio?: string | null;
+					user_id?: string;
+					user_image_url?: string | null;
+					user_nickname: string;
 				};
 				Update: {
 					created_at?: string;
-					location_id?: number;
-					member_id?: string;
-					product_id?: number;
-					review_text?: string | null;
-					star_rating?: number;
 					updated_at?: string;
-				};
-				Relationships: [
-					{
-						foreignKeyName: 'product_location_id_fkey';
-						columns: ['location_id'];
-						isOneToOne: false;
-						referencedRelation: 'location';
-						referencedColumns: ['location_id'];
-					},
-					{
-						foreignKeyName: 'product_member_id_fkey';
-						columns: ['member_id'];
-						isOneToOne: false;
-						referencedRelation: 'member';
-						referencedColumns: ['member_id'];
-					},
-				];
-			};
-			product_image: {
-				Row: {
-					created_at: string;
-					product_id: number;
-					product_image_id: number;
-					product_image_url: string;
-				};
-				Insert: {
-					created_at?: string;
-					product_id: number;
-					product_image_id?: number;
-					product_image_url: string;
-				};
-				Update: {
-					created_at?: string;
-					product_id?: number;
-					product_image_id?: number;
-					product_image_url?: string;
-				};
-				Relationships: [
-					{
-						foreignKeyName: 'product_image_product_id_fkey';
-						columns: ['product_id'];
-						isOneToOne: false;
-						referencedRelation: 'product';
-						referencedColumns: ['product_id'];
-					},
-				];
-			};
-			product_keyword: {
-				Row: {
-					created_at: string;
-					keyword_id: number;
-					product_id: number;
-					product_keyword_id: number;
-				};
-				Insert: {
-					created_at?: string;
-					keyword_id: number;
-					product_id: number;
-					product_keyword_id?: number;
-				};
-				Update: {
-					created_at?: string;
-					keyword_id?: number;
-					product_id?: number;
-					product_keyword_id?: number;
-				};
-				Relationships: [
-					{
-						foreignKeyName: 'product_keyword_keyword_id_fkey';
-						columns: ['keyword_id'];
-						isOneToOne: false;
-						referencedRelation: 'keyword';
-						referencedColumns: ['keyword_id'];
-					},
-					{
-						foreignKeyName: 'product_keyword_product_id_fkey';
-						columns: ['product_id'];
-						isOneToOne: false;
-						referencedRelation: 'product';
-						referencedColumns: ['product_id'];
-					},
-				];
-			};
-			reward: {
-				Row: {
-					created_at: string;
-					reward_id: number;
-					reward_name: string;
-					updated_at: string;
-				};
-				Insert: {
-					created_at?: string;
-					reward_id?: number;
-					reward_name: string;
-					updated_at?: string;
-				};
-				Update: {
-					created_at?: string;
-					reward_id?: number;
-					reward_name?: string;
-					updated_at?: string;
+					user_bio?: string | null;
+					user_id?: string;
+					user_image_url?: string | null;
+					user_nickname?: string;
 				};
 				Relationships: [];
 			};

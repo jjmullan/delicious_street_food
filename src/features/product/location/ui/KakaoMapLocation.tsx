@@ -1,6 +1,7 @@
 import { LocateFixedIcon, TriangleIcon } from 'lucide-react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { useLocation } from '@/app/store/locationStore';
+import ProductList from '@/features/product/item/ui/ProductList';
 import { initialLocation } from '@/shared/lib/location';
 
 function KakaoMapLocation() {
@@ -9,7 +10,7 @@ function KakaoMapLocation() {
 
 	return (
 		<div className="relative">
-			<Map center={location ?? initialLocation} level={3} className="min-w-screen min-h-screen">
+			<Map center={location ?? initialLocation} level={3} className="min-h-screen">
 				{/* <MapMarker position={{ lat: location!.lat, lng: location!.lng }}>
 					<div style={{ color: '#000' }}>현재 위치</div>
 				</MapMarker> */}
@@ -31,6 +32,7 @@ function KakaoMapLocation() {
 					<LocateFixedIcon className="w-8 h-8" />
 				</button>
 			</div> */}
+			<ProductList />
 		</div>
 	);
 }

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import useSignInWithPassword from '@/features/auth/signIn/hooks/mutation/useSignInWithPassword';
 import { generateErrorMessage } from '@/shared/lib/error';
-import AdditionalNoticeAtEdge from '@/shared/ui/additional/AdditionalNoticeAtEdge';
+import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import Title from '@/shared/ui/title/Title';
@@ -68,20 +68,21 @@ function SignInWithPassword() {
 						</button>
 					</div>
 				</div>
-				<Button
-					className="w-full h-12 cursor-pointer relative text-base"
+				<button
+					type="button"
+					className="button bg-black text-white"
 					onClick={handleClickSignInWithPassword}
 					disabled={isPending || email.trim() === '' || password.trim() === ''}
 				>
 					{isPending ? (
 						<>
 							<LoaderCircleIcon className="animate-spin" />
-							'로그인 중'
+							<p>로그인 중</p>
 						</>
 					) : (
-						'로그인'
+						<p>로그인</p>
 					)}
-				</Button>
+				</button>
 				<AdditionalNoticeAtEdge text={'아직 계정이 없으시다면?'} link={'signup'} linkText={'이메일 회원가입'} />
 			</div>
 		</div>
