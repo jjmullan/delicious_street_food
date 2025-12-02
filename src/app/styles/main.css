@@ -9,6 +9,13 @@
 	font-display: swap;
 }
 
+@font-face {
+	font-family: "EbsHunminjeongeum";
+	src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSHunminjeongeum.woff") format("woff");
+	font-weight: normal;
+	font-display: swap;
+}
+
 /* Shadcn UI 다크모드 지원 */
 @custom-variant dark (&:is(.dark *));
 
@@ -86,7 +93,8 @@
 	--color-sidebar-ring: var(--sidebar-ring);
 
 	/* 폰트 */
-	--font-title: "YeongjuPunggiGinseng", sans-serif;
+	--font-YeongjuPunggiGinseng: "YeongjuPunggiGinseng", sans-serif;
+	--font-EbsHunminjeongeum: "EbsHunminjeongeum", sans-serif;
 }
 
 .dark {
@@ -126,5 +134,9 @@
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
+	}
+
+	.title {
+		@apply font-EbsHunminjeongeum;
 	}
 }
