@@ -9,7 +9,7 @@ function KakaoMapLocation() {
 
 	return (
 		<div className="relative">
-			<Map center={location ?? initialLocation} level={3} className="min-w-screen min-h-screen">
+			<Map center={location ?? initialLocation} level={3} className="min-h-screen">
 				{/* <MapMarker position={{ lat: location!.lat, lng: location!.lng }}>
 					<div style={{ color: '#000' }}>현재 위치</div>
 				</MapMarker> */}
