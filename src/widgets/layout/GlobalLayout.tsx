@@ -6,13 +6,9 @@ import { Outlet } from 'react-router';
  */
 function GlobalLayout() {
 	return (
-		<div className="min-w-[320px] w-full max-w-[768px] min-h-screen relative md:border-x mx-auto">
+		<div className="min-w-[320px] w-full max-w-[768px] min-h-screen relative md:border-x mx-auto flex flex-col justify-center">
 			{/* 메인 콘텐츠 영역 */}
-			<main className="min-h-screen flex flex-col justify-center">
-				<Outlet />
-			</main>
-			{/* 헤더 */}
-			{/* <UnloggedInHeader /> */}
+			<Outlet />
 		</div>
 	);
 }
