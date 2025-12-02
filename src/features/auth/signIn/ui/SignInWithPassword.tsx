@@ -68,20 +68,21 @@ function SignInWithPassword() {
 						</button>
 					</div>
 				</div>
-				<Button
-					className="w-full h-12 cursor-pointer relative text-base"
+				<button
+					type="button"
+					className="button bg-black text-white"
 					onClick={handleClickSignInWithPassword}
 					disabled={isPending || email.trim() === '' || password.trim() === ''}
 				>
 					{isPending ? (
 						<>
 							<LoaderCircleIcon className="animate-spin" />
-							'로그인 중'
+							<p>로그인 중</p>
 						</>
 					) : (
-						'로그인'
+						<p>로그인</p>
 					)}
-				</Button>
+				</button>
 				<AdditionalNoticeAtEdge text={'아직 계정이 없으시다면?'} link={'signup'} linkText={'이메일 회원가입'} />
 			</div>
 		</div>

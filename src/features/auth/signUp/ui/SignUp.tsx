@@ -122,20 +122,21 @@ function SignUp() {
 				</div>
 			</div>
 			{/* 회원가입 */}
-			<Button
-				className="w-full h-12 text-base cursor-pointer"
+			<button
+				type="button"
+				className="button bg-black text-white"
 				disabled={isPending || email.trim() === '' || password.trim() === '' || passwordConfirm.trim() === ''}
 				onClick={handleClickSubmit}
 			>
 				{isPending ? (
 					<>
 						<LoaderCircleIcon className="animate-spin" />
-						'회원가입 진행 중'
+						<p>회원가입 진행 중</p>
 					</>
 				) : (
-					'회원가입'
+					<p>회원가입</p>
 				)}
-			</Button>
+			</button>
 			<AdditionalNoticeAtEdge text={'이미 계정이 있으시다면?'} link={'login'} linkText={'로그인'} />
 		</div>
 	);
