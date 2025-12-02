@@ -1,5 +1,3 @@
-import { DOMESTIC } from '@/shared/lib/country';
-import type { SelectCountryProps } from '@/shared/types/types';
 import {
 	Select,
 	SelectContent,
@@ -10,20 +8,16 @@ import {
 	SelectValue,
 } from '@/shared/ui/shadcn/select';
 
-function SelectCountry({ location, value, onValueChange }: SelectCountryProps) {
+function SelectCountry() {
 	return (
-		<Select value={value} onValueChange={onValueChange}>
+		<Select value={''} onValueChange={() => {}}>
 			<SelectTrigger>
 				<SelectValue placeholder="지역" />
 			</SelectTrigger>
 			<SelectContent>
 				<SelectGroup>
-					<SelectLabel>{location.location_name}</SelectLabel>
-					{DOMESTIC.map((country) => (
-						<SelectItem key={country.shortenName} value={country.shortenName}>
-							{country.name}
-						</SelectItem>
-					))}
+					<SelectLabel>라벨</SelectLabel>
+					<SelectItem value="">아이템</SelectItem>
 				</SelectGroup>
 			</SelectContent>
 		</Select>
