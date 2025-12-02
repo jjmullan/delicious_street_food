@@ -8,96 +8,263 @@ export type Database = {
 	};
 	public: {
 		Tables: {
-			item: {
-				Row: {
-					created_at: string;
-					item_id: string;
-					item_name: string;
-					updated_at: string;
-				};
-				Insert: {
-					created_at?: string;
-					item_id?: string;
-					item_name: string;
-					updated_at?: string;
-				};
-				Update: {
-					created_at?: string;
-					item_id?: string;
-					item_name?: string;
-					updated_at?: string;
-				};
-				Relationships: [];
-			};
-			keyword: {
-				Row: {
-					created_at: string;
-					keyword_id: string;
-					keyword_name: string;
-					updated_at: string;
-				};
-				Insert: {
-					created_at?: string;
-					keyword_id?: string;
-					keyword_name: string;
-					updated_at?: string;
-				};
-				Update: {
-					created_at?: string;
-					keyword_id?: string;
-					keyword_name?: string;
-					updated_at?: string;
-				};
-				Relationships: [];
-			};
 			location: {
 				Row: {
 					created_at: string;
 					latitude: string;
+					location_address: string | null;
 					location_id: string;
+					location_name: string | null;
 					longitude: string;
 					updated_at: string;
 				};
 				Insert: {
 					created_at?: string;
 					latitude: string;
+					location_address?: string | null;
 					location_id?: string;
+					location_name?: string | null;
 					longitude: string;
 					updated_at?: string;
 				};
 				Update: {
 					created_at?: string;
 					latitude?: string;
+					location_address?: string | null;
 					location_id?: string;
+					location_name?: string | null;
 					longitude?: string;
+					updated_at?: string;
+				};
+				Relationships: [];
+			};
+			product: {
+				Row: {
+					created_at: string;
+					product_id: string;
+					product_name: string;
+					updated_at: string;
+				};
+				Insert: {
+					created_at?: string;
+					product_id?: string;
+					product_name: string;
+					updated_at?: string;
+				};
+				Update: {
+					created_at?: string;
+					product_id?: string;
+					product_name?: string;
+					updated_at?: string;
+				};
+				Relationships: [];
+			};
+			product_list: {
+				Row: {
+					created_at: string;
+					location_id: string | null;
+					product_id: string | null;
+					product_list_id: string;
+					total_recommend_count: number;
+					total_review_count: number;
+					total_unrecommend_count: number;
+					updated_at: string;
+				};
+				Insert: {
+					created_at?: string;
+					location_id?: string | null;
+					product_id?: string | null;
+					product_list_id?: string;
+					total_recommend_count?: number;
+					total_review_count?: number;
+					total_unrecommend_count?: number;
+					updated_at?: string;
+				};
+				Update: {
+					created_at?: string;
+					location_id?: string | null;
+					product_id?: string | null;
+					product_list_id?: string;
+					total_recommend_count?: number;
+					total_review_count?: number;
+					total_unrecommend_count?: number;
+					updated_at?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'product_list_location_id_fkey';
+						columns: ['location_id'];
+						isOneToOne: false;
+						referencedRelation: 'location';
+						referencedColumns: ['location_id'];
+					},
+					{
+						foreignKeyName: 'product_list_product_id_fkey';
+						columns: ['product_id'];
+						isOneToOne: false;
+						referencedRelation: 'product';
+						referencedColumns: ['product_id'];
+					},
+				];
+			};
+			review: {
+				Row: {
+					created_at: string;
+					location_id: string;
+					review_id: string;
+					review_text: string;
+					review_title: string;
+					updated_at: string;
+					user_id: string;
+					visit_date: string;
+				};
+				Insert: {
+					created_at?: string;
+					location_id?: string;
+					review_id?: string;
+					review_text: string;
+					review_title: string;
+					updated_at?: string;
+					user_id?: string;
+					visit_date: string;
+				};
+				Update: {
+					created_at?: string;
+					location_id?: string;
+					review_id?: string;
+					review_text?: string;
+					review_title?: string;
+					updated_at?: string;
+					user_id?: string;
+					visit_date?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'review_location_id_fkey';
+						columns: ['location_id'];
+						isOneToOne: false;
+						referencedRelation: 'location';
+						referencedColumns: ['location_id'];
+					},
+					{
+						foreignKeyName: 'review_user_id_fkey';
+						columns: ['user_id'];
+						isOneToOne: false;
+						referencedRelation: 'user';
+						referencedColumns: ['user_id'];
+					},
+				];
+			};
+			review_image: {
+				Row: {
+					created_at: string;
+					review_id: string;
+					review_image_id: string;
+				};
+				Insert: {
+					created_at?: string;
+					review_id?: string;
+					review_image_id?: string;
+				};
+				Update: {
+					created_at?: string;
+					review_id?: string;
+					review_image_id?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'review_image_review_id_fkey';
+						columns: ['review_id'];
+						isOneToOne: false;
+						referencedRelation: 'review';
+						referencedColumns: ['review_id'];
+					},
+				];
+			};
+			review_product: {
+				Row: {
+					created_at: string;
+					is_recommended: boolean | null;
+					product_id: string;
+					review_id: string;
+					review_product_id: string;
+				};
+				Insert: {
+					created_at?: string;
+					is_recommended?: boolean | null;
+					product_id?: string;
+					review_id?: string;
+					review_product_id?: string;
+				};
+				Update: {
+					created_at?: string;
+					is_recommended?: boolean | null;
+					product_id?: string;
+					review_id?: string;
+					review_product_id?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'review_product_product_id_fkey';
+						columns: ['product_id'];
+						isOneToOne: false;
+						referencedRelation: 'product';
+						referencedColumns: ['product_id'];
+					},
+					{
+						foreignKeyName: 'review_product_review_id_fkey';
+						columns: ['review_id'];
+						isOneToOne: false;
+						referencedRelation: 'review';
+						referencedColumns: ['review_id'];
+					},
+				];
+			};
+			reward: {
+				Row: {
+					created_at: string;
+					reward_id: string;
+					reward_name: string;
+					updated_at: string;
+				};
+				Insert: {
+					created_at?: string;
+					reward_id?: string;
+					reward_name: string;
+					updated_at?: string;
+				};
+				Update: {
+					created_at?: string;
+					reward_id?: string;
+					reward_name?: string;
 					updated_at?: string;
 				};
 				Relationships: [];
 			};
 			user: {
 				Row: {
+					bio: string | null;
 					created_at: string;
+					nickname: string;
+					profile_image_url: string | null;
 					updated_at: string;
-					user_bio: string | null;
 					user_id: string;
-					user_image_url: string | null;
-					user_nickname: string;
 				};
 				Insert: {
+					bio?: string | null;
 					created_at?: string;
+					nickname: string;
+					profile_image_url?: string | null;
 					updated_at?: string;
-					user_bio?: string | null;
 					user_id?: string;
-					user_image_url?: string | null;
-					user_nickname: string;
 				};
 				Update: {
+					bio?: string | null;
 					created_at?: string;
+					nickname?: string;
+					profile_image_url?: string | null;
 					updated_at?: string;
-					user_bio?: string | null;
 					user_id?: string;
-					user_image_url?: string | null;
-					user_nickname?: string;
 				};
 				Relationships: [];
 			};
