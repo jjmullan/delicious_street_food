@@ -1,10 +1,9 @@
-import logo from '/logo.svg';
-
 function Title() {
 	return (
-		<div className="flex flex-col justify-end items-center gap-y-3 mb-10">
-			<img src={logo} alt="logo" className="w-[120px]" />
-			<h2 className="title">포장맛차</h2>
+		<div className="flex flex-col justify-center items-center gap-y-1 text-justify">
+			{/* <img src={logo} alt="logo" className="w-[120px]" /> */}
+			<p className="text-lg">길거리 음식이 그리울 땐</p>
+			<h2 className="title text-5xl">포장맛차</h2>
 		</div>
 	);
 }
