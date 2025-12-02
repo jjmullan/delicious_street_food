@@ -11,9 +11,10 @@ function UnloggedInLayout() {
 	if (session) return <Navigate to={'/'} replace={true} />;
 	return (
 		<>
-			{/* 헤더 영역 */}
+			<main className="px-4">
+				<Outlet />
+			</main>
 			<UnloggedInHeader />
-			<Outlet />
 		</>
 	);
 }

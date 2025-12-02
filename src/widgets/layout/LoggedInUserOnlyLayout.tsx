@@ -11,7 +11,9 @@ function LoggedInUserOnlyLayout() {
 	if (!session) return <Navigate to={'/login'} replace={true} />;
 	return (
 		<>
-			<Outlet />
+			<main>
+				<Outlet />
+			</main>
 			<LoggedInUserOnlyHeader />
 		</>
 	);

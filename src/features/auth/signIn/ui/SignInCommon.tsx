@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router';
 import useSingInWithOAuth from '@/features/auth/signIn/hooks/mutation/useSignInWithOAuth';
+import Title from '@/shared/ui/title/Title';
 import emailSvg from '/logo-email.svg';
 import google from '/logo-google.svg';
 import kakao from '/logo-kakao.svg';
@@ -20,6 +21,7 @@ function SignInCommon() {
 
 	return (
 		<div className="flex flex-col justify-center gap-y-8">
+			<Title />
 			<div className="flex flex-col gap-y-12">
 				{/* 로그인 버튼 */}
 				<div className="flex flex-col gap-y-2">
