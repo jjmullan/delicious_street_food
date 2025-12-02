@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import useSignInWithPassword from '@/features/auth/signIn/hooks/mutation/useSignInWithPassword';
 import { generateErrorMessage } from '@/shared/lib/error';
-import AdditionalNoticeAtEdge from '@/shared/ui/additional/AdditionalNoticeAtEdge';
+import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import Title from '@/shared/ui/title/Title';

@@ -6,7 +6,7 @@ import useSignUpWithEmail from '@/features/auth/signUp/hooks/useSignUpWithEmail'
 import validateEmail from '@/features/auth/signUp/util/validateEmail';
 import validatePassword from '@/features/auth/signUp/util/validatePassword';
 import { generateErrorMessage } from '@/shared/lib/error';
-import AdditionalNoticeAtEdge from '@/shared/ui/additional/AdditionalNoticeAtEdge';
+import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 
