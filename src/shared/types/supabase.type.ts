@@ -8,6 +8,27 @@ export type Database = {
 	};
 	public: {
 		Tables: {
+			item: {
+				Row: {
+					created_at: string;
+					item_id: string;
+					item_name: string;
+					updated_at: string;
+				};
+				Insert: {
+					created_at?: string;
+					item_id?: string;
+					item_name: string;
+					updated_at?: string;
+				};
+				Update: {
+					created_at?: string;
+					item_id?: string;
+					item_name?: string;
+					updated_at?: string;
+				};
+				Relationships: [];
+			};
 			keyword: {
 				Row: {
 					created_at: string;
@@ -49,27 +70,6 @@ export type Database = {
 					latitude?: string;
 					location_id?: string;
 					longitude?: string;
-					updated_at?: string;
-				};
-				Relationships: [];
-			};
-			product: {
-				Row: {
-					created_at: string;
-					product_id: string;
-					product_name: string;
-					updated_at: string;
-				};
-				Insert: {
-					created_at?: string;
-					product_id?: string;
-					product_name: string;
-					updated_at?: string;
-				};
-				Update: {
-					created_at?: string;
-					product_id?: string;
-					product_name?: string;
 					updated_at?: string;
 				};
 				Relationships: [];
