@@ -8,32 +8,77 @@ export type Database = {
 	};
 	public: {
 		Tables: {
+			favorite: {
+				Row: {
+					created_at: string;
+					favorite_id: string;
+					location_id: string;
+					user_id: string;
+				};
+				Insert: {
+					created_at?: string;
+					favorite_id?: string;
+					location_id: string;
+					user_id: string;
+				};
+				Update: {
+					created_at?: string;
+					favorite_id?: string;
+					location_id?: string;
+					user_id?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'favorite_location_id_fkey';
+						columns: ['location_id'];
+						isOneToOne: false;
+						referencedRelation: 'location';
+						referencedColumns: ['location_id'];
+					},
+					{
+						foreignKeyName: 'favorite_user_id_fkey';
+						columns: ['user_id'];
+						isOneToOne: false;
+						referencedRelation: 'user';
+						referencedColumns: ['user_id'];
+					},
+				];
+			};
 			location: {
 				Row: {
 					created_at: string;
 					latitude: string;
-					location_address: string | null;
+					location_address: string;
 					location_id: string;
 					location_name: string | null;
 					longitude: string;
+					total_recommend_count: number;
+					total_review_count: number;
+					total_visit_count: number;
 					updated_at: string;
 				};
 				Insert: {
 					created_at?: string;
 					latitude: string;
-					location_address?: string | null;
+					location_address: string;
 					location_id?: string;
 					location_name?: string | null;
 					longitude: string;
+					total_recommend_count?: number;
+					total_review_count?: number;
+					total_visit_count?: number;
 					updated_at?: string;
 				};
 				Update: {
 					created_at?: string;
 					latitude?: string;
-					location_address?: string | null;
+					location_address?: string;
 					location_id?: string;
 					location_name?: string | null;
 					longitude?: string;
+					total_recommend_count?: number;
+					total_review_count?: number;
+					total_visit_count?: number;
 					updated_at?: string;
 				};
 				Relationships: [];
@@ -62,32 +107,26 @@ export type Database = {
 			product_list: {
 				Row: {
 					created_at: string;
+					is_selling: boolean;
 					location_id: string;
 					product_id: string;
 					product_list_id: string;
-					total_recommend_count: number;
-					total_review_count: number;
-					total_unrecommend_count: number;
 					updated_at: string;
 				};
 				Insert: {
 					created_at?: string;
+					is_selling?: boolean;
 					location_id: string;
 					product_id: string;
 					product_list_id?: string;
-					total_recommend_count?: number;
-					total_review_count?: number;
-					total_unrecommend_count?: number;
 					updated_at?: string;
 				};
 				Update: {
 					created_at?: string;
+					is_selling?: boolean;
 					location_id?: string;
 					product_id?: string;
 					product_list_id?: string;
-					total_recommend_count?: number;
-					total_review_count?: number;
-					total_unrecommend_count?: number;
 					updated_at?: string;
 				};
 				Relationships: [
@@ -110,33 +149,39 @@ export type Database = {
 			review: {
 				Row: {
 					created_at: string;
+					is_recommended: boolean | null;
 					location_id: string;
 					review_id: string;
 					review_text: string;
-					review_title: string;
+					review_title: string | null;
 					updated_at: string;
 					user_id: string;
 					visit_date: string;
+					visit_time: string;
 				};
 				Insert: {
 					created_at?: string;
+					is_recommended?: boolean | null;
 					location_id?: string;
 					review_id?: string;
 					review_text: string;
-					review_title: string;
+					review_title?: string | null;
 					updated_at?: string;
 					user_id?: string;
 					visit_date: string;
+					visit_time: string;
 				};
 				Update: {
 					created_at?: string;
+					is_recommended?: boolean | null;
 					location_id?: string;
 					review_id?: string;
 					review_text?: string;
-					review_title?: string;
+					review_title?: string | null;
 					updated_at?: string;
 					user_id?: string;
 					visit_date?: string;
+					visit_time?: string;
 				};
 				Relationships: [
 					{
@@ -160,16 +205,19 @@ export type Database = {
 					created_at: string;
 					review_id: string;
 					review_image_id: string;
+					review_image_url: string;
 				};
 				Insert: {
 					created_at?: string;
 					review_id?: string;
 					review_image_id?: string;
+					review_image_url: string;
 				};
 				Update: {
 					created_at?: string;
 					review_id?: string;
 					review_image_id?: string;
+					review_image_url?: string;
 				};
 				Relationships: [
 					{
@@ -184,21 +232,24 @@ export type Database = {
 			review_product: {
 				Row: {
 					created_at: string;
-					is_recommended: boolean | null;
+					ordered_price: number;
+					ordered_quantity: number;
 					product_id: string;
 					review_id: string;
 					review_product_id: string;
 				};
 				Insert: {
 					created_at?: string;
-					is_recommended?: boolean | null;
+					ordered_price: number;
+					ordered_quantity: number;
 					product_id?: string;
 					review_id?: string;
 					review_product_id?: string;
 				};
 				Update: {
 					created_at?: string;
-					is_recommended?: boolean | null;
+					ordered_price?: number;
+					ordered_quantity?: number;
 					product_id?: string;
 					review_id?: string;
 					review_product_id?: string;
@@ -240,6 +291,42 @@ export type Database = {
 					updated_at?: string;
 				};
 				Relationships: [];
+			};
+			reward_list: {
+				Row: {
+					created_at: string;
+					reward_id: string | null;
+					reward_list_id: string;
+					user_id: string | null;
+				};
+				Insert: {
+					created_at?: string;
+					reward_id?: string | null;
+					reward_list_id?: string;
+					user_id?: string | null;
+				};
+				Update: {
+					created_at?: string;
+					reward_id?: string | null;
+					reward_list_id?: string;
+					user_id?: string | null;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'reward_list_reward_id_fkey';
+						columns: ['reward_id'];
+						isOneToOne: false;
+						referencedRelation: 'reward';
+						referencedColumns: ['reward_id'];
+					},
+					{
+						foreignKeyName: 'reward_list_user_id_fkey';
+						columns: ['user_id'];
+						isOneToOne: false;
+						referencedRelation: 'user';
+						referencedColumns: ['user_id'];
+					},
+				];
 			};
 			user: {
 				Row: {
