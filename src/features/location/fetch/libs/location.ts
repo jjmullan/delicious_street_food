@@ -1,4 +1,4 @@
-import type { Location } from '@/shared/types/location.type';
+import type { Location } from '@/features/location/fetch/types/types';
 
 // 초기 위치 : 서울시청
 export const initialLocation: Location = {

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { combine, devtools, persist } from 'zustand/middleware';
-import { initialLocation } from '@/shared/lib/location';
-import type { Location } from '@/shared/types/location.type';
+import { initialLocation } from '@/features/location/fetch/libs/location';
+import type { Location } from '@/features/location/fetch/types/types';
 
 type State = {
 	location: Location | null;
