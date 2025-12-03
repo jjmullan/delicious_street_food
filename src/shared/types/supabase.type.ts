@@ -62,8 +62,8 @@ export type Database = {
 			product_list: {
 				Row: {
 					created_at: string;
-					location_id: string | null;
-					product_id: string | null;
+					location_id: string;
+					product_id: string;
 					product_list_id: string;
 					total_recommend_count: number;
 					total_review_count: number;
@@ -72,8 +72,8 @@ export type Database = {
 				};
 				Insert: {
 					created_at?: string;
-					location_id?: string | null;
-					product_id?: string | null;
+					location_id: string;
+					product_id: string;
 					product_list_id?: string;
 					total_recommend_count?: number;
 					total_review_count?: number;
@@ -82,8 +82,8 @@ export type Database = {
 				};
 				Update: {
 					created_at?: string;
-					location_id?: string | null;
-					product_id?: string | null;
+					location_id?: string;
+					product_id?: string;
 					product_list_id?: string;
 					total_recommend_count?: number;
 					total_review_count?: number;
