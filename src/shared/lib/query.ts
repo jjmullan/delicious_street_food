@@ -9,4 +9,9 @@ export const QUERY_KEYS = {
 		list: ['item', 'list'],
 		byId: (itemId: string) => ['item', 'byId', itemId],
 	},
+	location: {
+		all: ['location'],
+		list: ['location', 'list'],
+		byId: (locationId: string) => ['location', 'byId', locationId],
+	},
 };
