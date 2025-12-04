@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Activity, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { useLocation } from '@/app/store/locationStore';
 import CreateLocation from '@/features/location/create/ui/CreateLocation';
@@ -13,8 +13,8 @@ function KakaoMapLocation() {
 
 	// 클릭한 경도, 위도 위치 상태
 	const [clickedLocation, setClickedLocation] = useState<Location>({
-		lat: 0,
-		lng: 0,
+		lat: location?.lat ?? initialLocation.lat,
+		lng: location?.lng ?? initialLocation.lng,
 	});
 
 	return (
@@ -49,7 +49,9 @@ function KakaoMapLocation() {
 					<CurrentLocation />
 				</CustomOverlayMap>
 				<CustomOverlayMap position={{ lat: clickedLocation.lat, lng: clickedLocation.lng }}>
-					<CreateLocation />
+					<Activity mode={clickedLocation === initialLocation ? 'hidden' : 'visible'}>
+						<CreateLocation />
+					</Activity>
 				</CustomOverlayMap>
 			</Map>
 			{/* <div className="absolute left-1/2 translate-x-[-50%] bottom-6 z-1 flex gap-x-4">
