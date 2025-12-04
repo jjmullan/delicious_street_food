@@ -5,7 +5,6 @@ import { toast } from 'sonner';
 import useSignInWithPassword from '@/features/auth/signIn/hooks/mutation/useSignInWithPassword';
 import { generateErrorMessage } from '@/shared/lib/error';
 import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
-import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import Title from '@/shared/ui/title/Title';
 
@@ -77,10 +76,10 @@ function SignInWithPassword() {
 					{isPending ? (
 						<>
 							<LoaderCircleIcon className="animate-spin" />
-							<p>로그인 중</p>
+							<p className="text-white">로그인 중</p>
 						</>
 					) : (
-						<p>로그인</p>
+						<p className="text-white">로그인</p>
 					)}
 				</button>
 				<AdditionalNoticeAtEdge text={'아직 계정이 없으시다면?'} link={'signup'} linkText={'이메일 회원가입'} />

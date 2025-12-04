@@ -37,7 +37,7 @@ function SignInCommon() {
 					</button>
 					<button
 						type="button"
-						className="button bg-white text-black border"
+						className="button bg-[#ffffff] text-black border"
 						onClick={handleClickSignInWithGoogle}
 						disabled={isPending}
 					>
@@ -47,12 +47,12 @@ function SignInCommon() {
 					{/* 이메일 로그인 */}
 					<button
 						type="button"
-						className="button bg-black text-white"
+						className="button bg-black"
 						onClick={handleClickSignInWithPassword}
 						disabled={isPending}
 					>
 						<img src={emailSvg} alt="email login" width={'20'} className="absolute left-4" />
-						<p>이메일 로그인</p>
+						<p className="text-white">이메일 로그인</p>
 					</button>
 				</div>
 			</div>
