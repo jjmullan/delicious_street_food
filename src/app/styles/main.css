@@ -95,6 +95,13 @@
 	/* 폰트 */
 	--font-YeongjuPunggiGinseng: "YeongjuPunggiGinseng", sans-serif;
 	--font-EbsHunminjeongeum: "EbsHunminjeongeum", sans-serif;
+
+	/* 색상 */
+	--color-black: #212121;
+	--color-white: #fafaf8;
+	--color-brown-main: #d4944a;
+	--color-brown-sub: #e8b577;
+	--color-red: #e35c18;
 }
 
 .dark {
@@ -133,7 +140,7 @@
 
 @layer base {
 	* {
-		@apply border-border outline-ring/50;
+		@apply border-border outline-ring/50 text-black;
 	}
 
 	.title {
