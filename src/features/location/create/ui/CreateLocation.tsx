@@ -1,9 +1,10 @@
-import { MapPlusIcon } from 'lucide-react';
+import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 
 function CreateLocation() {
 	return (
-		<div className="relative w-full z-1 p-2">
-			<MapPlusIcon />
+		<div className="relative flex flex-col items-center gap-y-1">
+			<LocationFinder bgColorCode="1" />
+
 			{/* <img src={} alt="eggbun" className="h-5 w-auto object-contain aspect-square" /> */}
 			{/* <div className="flex flex-col gap-y-1 glass rounded-full w-full z-2">
 				{items.map((item) => (
