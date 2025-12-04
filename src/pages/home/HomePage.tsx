@@ -1,4 +1,4 @@
-import KakaoMapLocation from '@/features/product/location/ui/KakaoMapLocation';
+import KakaoMapLocation from '@/features/location/fetch/ui/KakaoMapLocation';
 
 function HomePage() {
 	return (

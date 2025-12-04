@@ -7,7 +7,6 @@ import validateEmail from '@/features/auth/signUp/util/validateEmail';
 import validatePassword from '@/features/auth/signUp/util/validatePassword';
 import { generateErrorMessage } from '@/shared/lib/error';
 import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
-import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 
 function SignUp() {
@@ -131,10 +130,10 @@ function SignUp() {
 				{isPending ? (
 					<>
 						<LoaderCircleIcon className="animate-spin" />
-						<p>회원가입 진행 중</p>
+						<p className="text-white">회원가입 진행 중</p>
 					</>
 				) : (
-					<p>회원가입</p>
+					<p className="text-white">회원가입</p>
 				)}
 			</button>
 			<AdditionalNoticeAtEdge text={'이미 계정이 있으시다면?'} link={'login'} linkText={'로그인'} />
