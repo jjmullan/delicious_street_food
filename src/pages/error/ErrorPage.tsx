@@ -1,7 +1,6 @@
 // 라우팅 에러 처리 페이지 컴포넌트
 // React Router의 errorElement로 사용되어 라우팅 중 발생하는 에러를 처리합니다.
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom';
-import './ErrorPage.css';
 
 /**
  * ErrorPage 컴포넌트
