@@ -1,4 +1,4 @@
-import type { Location } from '@/shared/types/location.type';
+import type { Location } from '@/features/location/fetch/types/types';
 
 export function getLocationData(): Promise<Location> {
 	return new Promise((resolve) => {
