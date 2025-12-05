@@ -5,10 +5,10 @@ import { useSetLocation } from '@/app/store/locationStore';
 import { getLocationData } from '@/features/location/fetch/utils/getLocationData';
 
 function HomeButton() {
+	// 쿼리스트링 데이터가 없을 때, 현재 위치로 이동하도록 동작
 	const param = useParams();
 	const isHome = Object.keys(param).length === 0;
 	const setLocation = useSetLocation();
-
 	const handleGoBackToCurrentLocation = async () => {
 		try {
 			const location = await getLocationData();
@@ -38,14 +38,14 @@ function HomeButton() {
 			{isHome ? (
 				<button
 					type="button"
-					className="relative w-12 flex justify-center items-center text-center text-2xl font-EbsHunminjeongeum"
+					className="w-12 h-15 flex justify-center items-center text-center text-2xl"
 					aria-label="현재 위치로 이동"
 					onClick={handleGoBackToCurrentLocation}
 				>
 					<LocateFixedIcon />
 				</button>
 			) : (
-				<Link to={'/'} className="w-12 flex justify-center items-center text-center text-2xl font-EbsHunminjeongeum">
+				<Link to={'/'} className="w-12 flex justify-center items-center text-center text-2xl">
 					<HomeIcon />
 				</Link>
 			)}

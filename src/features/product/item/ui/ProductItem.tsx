@@ -11,7 +11,7 @@ function ProductItem({ name, image_url }: Item) {
 		>
 			<button type="button" className="flex items-center justify-center gap-x-2">
 				<img src={image_url} alt="eggbun" className="h-4 w-auto object-contain aspect-square" />
-				<p className="text-[12px] align-text-bottom font-EbsHunminjeongeum">{name}</p>
+				<p className="text-[12px] align-text-bottom">{name}</p>
 			</button>
 		</li>
 	);

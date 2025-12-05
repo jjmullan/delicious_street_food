@@ -14,7 +14,9 @@ function UserProfileButton() {
 	return (
 		<Popover>
 			<PopoverTrigger>
-				<img src={userImage} className="h-6 w-6 cursor-pointer rounded-full object-cover" alt="user profile" />
+				<div className="w-12 h-15 flex justify-center items-center">
+					<img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" />
+				</div>
 			</PopoverTrigger>
 			<PopoverContent className="flex w-20 flex-col items-center p-0 mr-2 text-sm">
 				<PopoverClose asChild>
