@@ -21,14 +21,18 @@ function UserProfileButton() {
 					<img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" />
 				</div>
 			</PopoverTrigger>
-			<PopoverContent className="flex w-24 flex-col items-center p-0 text-sm">
+			<PopoverContent className="flex w-24 flex-col justify-center items-center p-0 text-sm">
 				<PopoverClose asChild>
-					<Link to={`/mypage/${session!.user.id}`}>
-						<div className="hover:bg-muted cursor-pointer px-4 py-3">프로필</div>
+					<Link
+						to={`/mypage/${session!.user.id}`}
+						className="flex flex-col justify-center gap-y-2 items-center px-4 py-3"
+					>
+						<img src={userImage} className="h-12 w-12 cursor-pointer rounded-full object-cover" alt="user profile" />
+						<div className="hover:bg-muted cursor-pointer">마이페이지</div>
 					</Link>
 				</PopoverClose>
 				<PopoverClose asChild>
-					<button type="button" className="hover:bg-muted cursor-pointer px-4 py-3" onClick={signOut}>
+					<button type="button" className="hover:bg-muted cursor-pointer px-4 py-3 border-t" onClick={signOut}>
 						로그아웃
 					</button>
 				</PopoverClose>
