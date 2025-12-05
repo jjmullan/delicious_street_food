@@ -3,16 +3,16 @@
 @import "tw-animate-css";
 
 @font-face {
-	font-family: "YeongjuPunggiGinseng";
-	src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/YEONGJUPunggiGinsengTTF.woff2") format("woff2");
+	font-family: "EbsHunminjeongeum";
+	src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSHunminjeongeum.woff") format("woff");
 	font-weight: normal;
 	font-display: swap;
 }
 
 @font-face {
-	font-family: "EbsHunminjeongeum";
-	src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSHunminjeongeum.woff") format("woff");
-	font-weight: normal;
+	font-family: "Pretendard";
+	src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2") format("woff2");
+	font-weight: 100;
 	font-display: swap;
 }
 
@@ -93,8 +93,8 @@
 	--color-sidebar-ring: var(--sidebar-ring);
 
 	/* 폰트 */
-	--font-YeongjuPunggiGinseng: "YeongjuPunggiGinseng", sans-serif;
 	--font-EbsHunminjeongeum: "EbsHunminjeongeum", sans-serif;
+	--font-Pretendard: "Pretendard", sans-serif;
 
 	/* 색상 */
 	--color-black: #212121;
