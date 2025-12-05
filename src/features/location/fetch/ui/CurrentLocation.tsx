@@ -1,6 +1,10 @@
 import { TriangleIcon } from 'lucide-react';
 import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 
+/**
+ * 클릭한 위치를 표시해주는 원형 컴포넌트
+ * 현재 미사용 (251205)
+ */
 function CurrentLocation() {
 	return (
 		<div className="relative flex flex-col items-center gap-y-1">

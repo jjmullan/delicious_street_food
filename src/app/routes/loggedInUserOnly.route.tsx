@@ -4,5 +4,5 @@ import MyPage from '@/pages/mypage/MyPage';
 
 export const loggedInUserOnlyRoutes: RouteObject[] = [
 	{ index: true, path: '/', Component: HomePage },
-	{ path: '/mypage', Component: MyPage },
+	{ path: '/mypage/:userId', Component: MyPage },
 ];
