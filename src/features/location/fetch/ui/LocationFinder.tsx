@@ -1,5 +1,6 @@
-import { PlusIcon } from 'lucide-react';
-
+/**
+ * 현재 위치를 표시해주는 원형 컴포넌트
+ */
 function LocationFinder({ bgColorCode = '0' }: { bgColorCode: string }) {
 	let colorCode: string;
 	switch (bgColorCode) {
