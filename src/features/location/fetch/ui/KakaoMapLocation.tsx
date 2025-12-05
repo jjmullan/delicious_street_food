@@ -28,6 +28,7 @@ function KakaoMapLocation() {
 		},
 		onError: (error) => {
 			toast.error('위치 등록이 실패했습니다.', { position: 'top-center' });
+			throw error;
 		},
 	});
 
