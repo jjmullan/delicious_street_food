@@ -1,4 +1,5 @@
 import { PopoverClose } from '@radix-ui/react-popover';
+import { HeartIcon, MessageCircleMoreIcon } from 'lucide-react';
 import { Link } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
 import { signOut } from '@/features/auth/signOut/api/auth';
@@ -11,7 +12,12 @@ import defaultavatar from '/character/defaultavatar.svg';
  */
 function UserProfileButton() {
 	const session = useSession();
+
 	const { data } = useFecthUserData(session?.user.id);
+	const userNickname = data?.nickname;
+	const totalReviewCount = data?.total_review_count;
+	const totalFavoriteCount = data?.total_favorite_count;
+	const totalRewardCount = data?.total_reward_count;
 	const userImage = data?.profile_image_url || defaultavatar;
 
 	return (
@@ -21,18 +27,38 @@ function UserProfileButton() {
 					<img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" />
 				</div>
 			</PopoverTrigger>
-			<PopoverContent className="flex w-24 flex-col justify-center items-center p-0 text-sm">
+			<PopoverContent className="flex w-32 flex-col justify-center items-center p-0 text-sm">
 				<PopoverClose asChild>
-					<Link
-						to={`/mypage/${session!.user.id}`}
-						className="flex flex-col justify-center gap-y-2 items-center px-4 py-3"
-					>
-						<img src={userImage} className="h-12 w-12 cursor-pointer rounded-full object-cover" alt="user profile" />
-						<div className="hover:bg-muted cursor-pointer">마이페이지</div>
+					<Link to={`/mypage/${session!.user.id}`}>
+						<div className="flex flex-col justify-center gap-y-1 rounded-md shadow-md pt-4 pb-3 w-32">
+							<div className="flex flex-col justify-center gap-y-2 items-center">
+								<div className="relative h-16 w-16">
+									{/* 리워드 이미지 추가 */}
+									<div className="absolute inset-0 border-2 border-brown-sub rounded-full">
+										{/* <img src="" alt="reward" className="absolute inset-0" /> */}
+									</div>
+									{/* 프로필 이미지 */}
+									<img src={userImage} className="cursor-pointer rounded-full object-cover" alt="user profile" />
+								</div>
+								<p className="w-24 text-center truncate">{userNickname}</p>
+							</div>
+							<div className="px-4 flex gap-x-3 justify-center">
+								{/* 리뷰 */}
+								<div className="flex gap-x-1 items-center">
+									<MessageCircleMoreIcon width={12} className="" />
+									<p className="text-xs">{totalReviewCount}</p>
+								</div>
+								{/* 즐겨찾기 */}
+								<div className="flex gap-x-1 items-center">
+									<HeartIcon width={13} className="" />
+									<p className="text-xs">{totalFavoriteCount}</p>
+								</div>
+							</div>
+						</div>
 					</Link>
 				</PopoverClose>
 				<PopoverClose asChild>
-					<button type="button" className="hover:bg-muted cursor-pointer px-4 py-3 border-t" onClick={signOut}>
+					<button type="button" className="hover:bg-muted cursor-pointer w-full py-2" onClick={signOut}>
 						로그아웃
 					</button>
 				</PopoverClose>
