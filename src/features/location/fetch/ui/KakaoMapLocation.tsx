@@ -1,7 +1,6 @@
-import { Activity, useState } from 'react';
+import { useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { useLocation } from '@/app/store/locationStore';
-import CreateLocation from '@/features/location/create/ui/CreateLocation';
 import { initialLocation } from '@/features/location/fetch/libs/location';
 import type { Location } from '@/features/location/fetch/types/types';
 import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
@@ -24,7 +23,7 @@ function KakaoMapLocation() {
 				center={location ?? initialLocation}
 				level={3}
 				className="min-h-screen"
-				onClick={(_, mouseEvent) => {
+				/* onClick={(_, mouseEvent) => {
 					const latLng = mouseEvent.latLng;
 					const lat = latLng.getLat();
 					const lng = latLng.getLng();
@@ -40,7 +39,7 @@ function KakaoMapLocation() {
 					} else {
 						return;
 					}
-				}}
+				}} */
 			>
 				{/* <MapMarker position={{ lat: location!.lat, lng: location!.lng }}>
 					<div style={{ color: '#000' }}>현재 위치</div>
@@ -49,11 +48,11 @@ function KakaoMapLocation() {
 				<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }}>
 					<CurrentLocation />
 				</CustomOverlayMap>
-				<CustomOverlayMap position={{ lat: clickedLocation.lat, lng: clickedLocation.lng }}>
+				{/* <CustomOverlayMap position={{ lat: clickedLocation.lat, lng: clickedLocation.lng }}>
 					<Activity mode={clickedLocation === initialLocation ? 'hidden' : 'visible'}>
 						<CreateLocation />
 					</Activity>
-				</CustomOverlayMap>
+				</CustomOverlayMap> */}
 			</Map>
 			{/* <div className="absolute left-1/2 translate-x-[-50%] bottom-6 z-1 flex gap-x-4">
 				<button
