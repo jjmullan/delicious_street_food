@@ -48,7 +48,7 @@ export type Database = {
 				Row: {
 					created_at: string;
 					latitude: string;
-					location_address: string;
+					location_address: string | null;
 					location_id: string;
 					location_name: string | null;
 					longitude: string;
@@ -56,11 +56,12 @@ export type Database = {
 					total_review_count: number;
 					total_visit_count: number;
 					updated_at: string;
+					user_id: string | null;
 				};
 				Insert: {
 					created_at?: string;
 					latitude: string;
-					location_address: string;
+					location_address?: string | null;
 					location_id?: string;
 					location_name?: string | null;
 					longitude: string;
@@ -68,11 +69,12 @@ export type Database = {
 					total_review_count?: number;
 					total_visit_count?: number;
 					updated_at?: string;
+					user_id?: string | null;
 				};
 				Update: {
 					created_at?: string;
 					latitude?: string;
-					location_address?: string;
+					location_address?: string | null;
 					location_id?: string;
 					location_name?: string | null;
 					longitude?: string;
@@ -80,8 +82,17 @@ export type Database = {
 					total_review_count?: number;
 					total_visit_count?: number;
 					updated_at?: string;
+					user_id?: string | null;
 				};
-				Relationships: [];
+				Relationships: [
+					{
+						foreignKeyName: 'location_user_id_fkey';
+						columns: ['user_id'];
+						isOneToOne: false;
+						referencedRelation: 'user';
+						referencedColumns: ['user_id'];
+					},
+				];
 			};
 			product: {
 				Row: {
