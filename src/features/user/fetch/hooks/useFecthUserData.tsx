@@ -4,12 +4,13 @@ import { useSession } from '@/app/store/sessionStore';
 import { createUser } from '@/features/user/create/api/user';
 import { fetchProfile } from '@/features/user/fetch/api/user';
 import { QUERY_KEYS } from '@/shared/lib/query';
+import type { User } from '@/shared/types/types';
 
 function useFecthUserData(userId?: string) {
 	const session = useSession();
 	const isMine = userId === session?.user.id;
 
-	return useQuery({
+	return useQuery<User>({
 		queryKey: QUERY_KEYS.user.byId(userId!),
 		queryFn: async () => {
 			try {
