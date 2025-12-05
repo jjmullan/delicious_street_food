@@ -6,6 +6,9 @@ import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
 import defaultavatar from '/character/defaultavatar.svg';
 
+/**
+ * 프로필 이미지를 클릭했을 때 제공하는 Popover 컴포넌트
+ */
 function UserProfileButton() {
 	const session = useSession();
 	const { data } = useFecthUserData(session?.user.id);
@@ -18,14 +21,14 @@ function UserProfileButton() {
 					<img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" />
 				</div>
 			</PopoverTrigger>
-			<PopoverContent className="flex w-20 flex-col items-center p-0 mr-2 text-sm">
+			<PopoverContent className="flex w-24 flex-col items-center p-0 text-sm">
 				<PopoverClose asChild>
 					<Link to={`/mypage/${session!.user.id}`}>
-						<div className="hover:bg-muted cursor-pointer px-3 py-2">프로필</div>
+						<div className="hover:bg-muted cursor-pointer px-4 py-3">프로필</div>
 					</Link>
 				</PopoverClose>
 				<PopoverClose asChild>
-					<button type="button" className="hover:bg-muted cursor-pointer px-3 py-2" onClick={signOut}>
+					<button type="button" className="hover:bg-muted cursor-pointer px-4 py-3" onClick={signOut}>
 						로그아웃
 					</button>
 				</PopoverClose>
