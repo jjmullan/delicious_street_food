@@ -6,7 +6,7 @@ import ProductItem from '@/features/product/item/ui/ProductItem';
  */
 function ProductList() {
 	return (
-		<ul className="absolute top-16 z-1 px-2 overflow-x-auto flex gap-x-2 snap-mandatory w-screen h-10 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+		<ul className="absolute top-18 z-1 px-4 overflow-x-auto flex gap-x-2 snap-mandatory w-screen h-10 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 			{items.map((item) => (
 				<ProductItem key={item.image_url} {...item} />
 			))}

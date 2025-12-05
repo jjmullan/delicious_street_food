@@ -12,9 +12,9 @@ function SearchLocationBar() {
 				value={searchText}
 				onChange={(e) => setSeartText(e.target.value)}
 				placeholder="검색어를 입력하세요"
-				className="flex justify-between items-center h-12 rounded-full absolute top-2 text-md w-[calc(100vw-16px)] max-w-[calc(768px-16px)] min-w-[calc(320px-16px)] left-2 z-1 pl-4 pr-10 glass border-white/50 shadow-sm"
+				className="flex justify-between items-center h-12 rounded-full absolute top-4 text-md w-[calc(100vw-32px)] max-w-[calc(768px-32px)] min-w-[calc(320px-32px)] left-4 z-1 pl-4 pr-10 glass border-white/50 shadow-sm"
 			/>
-			<button type="button" className="absolute z-1 top-6 right-6" onClick={() => setSeartText('')}>
+			<button type="button" className="absolute z-1 top-8 right-8" onClick={() => setSeartText('')}>
 				<XCircleIcon className="w-4 h-4" />
 			</button>
 		</>
