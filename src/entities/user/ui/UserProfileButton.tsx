@@ -1,0 +1,35 @@
+import { PopoverClose } from '@radix-ui/react-popover';
+import { Link } from 'react-router';
+import { useSession } from '@/app/store/sessionStore';
+import { signOut } from '@/features/auth/signOut/api/auth';
+import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
+import defaultavatar from '/character/defaultavatar.svg';
+
+function UserProfileButton() {
+	const session = useSession();
+	const { data } = useFecthUserData(session?.user.id);
+	const userImage = data?.profile_image_url || defaultavatar;
+
+	return (
+		<Popover>
+			<PopoverTrigger>
+				<img src={userImage} className="h-6 w-6 cursor-pointer rounded-full object-cover" alt="user profile" />
+			</PopoverTrigger>
+			<PopoverContent className="flex w-20 flex-col items-center p-0 mr-2 text-sm">
+				<PopoverClose asChild>
+					<Link to={`/mypage/${session!.user.id}`}>
+						<div className="hover:bg-muted cursor-pointer px-3 py-2">프로필</div>
+					</Link>
+				</PopoverClose>
+				<PopoverClose asChild>
+					<button type="button" className="hover:bg-muted cursor-pointer px-3 py-2" onClick={signOut}>
+						로그아웃
+					</button>
+				</PopoverClose>
+			</PopoverContent>
+		</Popover>
+	);
+}
+
+export default UserProfileButton;
