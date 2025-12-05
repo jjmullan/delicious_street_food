@@ -173,12 +173,12 @@ export type Database = {
 				Insert: {
 					created_at?: string;
 					is_recommended?: boolean | null;
-					location_id?: string;
+					location_id: string;
 					review_id?: string;
 					review_text: string;
 					review_title?: string | null;
 					updated_at?: string;
-					user_id?: string;
+					user_id: string;
 					visit_date: string;
 					visit_time: string;
 				};
@@ -220,7 +220,7 @@ export type Database = {
 				};
 				Insert: {
 					created_at?: string;
-					review_id?: string;
+					review_id: string;
 					review_image_id?: string;
 					review_image_url: string;
 				};
@@ -253,8 +253,8 @@ export type Database = {
 					created_at?: string;
 					ordered_price: number;
 					ordered_quantity: number;
-					product_id?: string;
-					review_id?: string;
+					product_id: string;
+					review_id: string;
 					review_product_id?: string;
 				};
 				Update: {
@@ -306,21 +306,21 @@ export type Database = {
 			reward_list: {
 				Row: {
 					created_at: string;
-					reward_id: string | null;
+					reward_id: string;
 					reward_list_id: string;
-					user_id: string | null;
+					user_id: string;
 				};
 				Insert: {
 					created_at?: string;
-					reward_id?: string | null;
+					reward_id: string;
 					reward_list_id?: string;
-					user_id?: string | null;
+					user_id: string;
 				};
 				Update: {
 					created_at?: string;
-					reward_id?: string | null;
+					reward_id?: string;
 					reward_list_id?: string;
-					user_id?: string | null;
+					user_id?: string;
 				};
 				Relationships: [
 					{
