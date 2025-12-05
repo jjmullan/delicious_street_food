@@ -1,7 +1,7 @@
 import type { Location } from '@/features/location/fetch/types/types';
 
 export function getLocationData(): Promise<Location> {
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
 				resolve({
@@ -11,17 +11,7 @@ export function getLocationData(): Promise<Location> {
 				console.log('현재 위치 정보:', position);
 			},
 			(error) => {
-				switch (error.code) {
-					case error.PERMISSION_DENIED:
-						console.error('위치 정보 제공이 거부되었습니다.');
-						break;
-					case error.POSITION_UNAVAILABLE:
-						console.error('위치 정보를 사용할 수 없습니다.');
-						break;
-					case error.TIMEOUT:
-						console.error('요청 시간이 초과되었습니다.');
-						break;
-				}
+				reject(error);
 			},
 			{
 				maximumAge: 0, // 캐시에 저장한 위치정보를 대신 반환할 수 있는 최대 시간
