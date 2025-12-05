@@ -17,7 +17,6 @@ function UserProfileButton() {
 	const userNickname = data?.nickname;
 	const totalReviewCount = data?.total_review_count;
 	const totalFavoriteCount = data?.total_favorite_count;
-	const totalRewardCount = data?.total_reward_count;
 	const userImage = data?.profile_image_url || defaultavatar;
 
 	return (
