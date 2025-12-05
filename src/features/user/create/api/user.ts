@@ -4,7 +4,7 @@ import { getRandomUserNickname } from '@/shared/lib/utils';
 export async function createUser(userId: string) {
 	const { data, error } = await supabase
 		.from('user')
-		.insert({ user_id: userId, user_nickname: getRandomUserNickname() })
+		.insert({ user_id: userId, nickname: getRandomUserNickname() })
 		.select()
 		.single();
 
