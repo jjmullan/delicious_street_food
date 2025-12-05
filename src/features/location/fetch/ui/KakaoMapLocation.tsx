@@ -5,6 +5,7 @@ import CreateLocation from '@/features/location/create/ui/CreateLocation';
 import { initialLocation } from '@/features/location/fetch/libs/location';
 import type { Location } from '@/features/location/fetch/types/types';
 import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
+import SearchLocationBar from '@/features/location/fetch/ui/SearchLocationBar';
 import ProductList from '@/features/product/item/ui/ProductList';
 
 function KakaoMapLocation() {
@@ -64,6 +65,7 @@ function KakaoMapLocation() {
 					<LocateFixedIcon className="w-8 h-8" />
 				</button>
 			</div> */}
+			<SearchLocationBar />
 			<ProductList />
 		</div>
 	);
