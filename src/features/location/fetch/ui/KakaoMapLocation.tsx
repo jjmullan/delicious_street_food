@@ -93,12 +93,6 @@ function KakaoMapLocation() {
 				disableDoubleClickZoom={isPending}
 			>
 				<MarkerClusterer averageCenter={true} minLevel={10}></MarkerClusterer>
-				{/* 현재 위치 마커 */}
-				<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
-					<button type="button" onClick={handleClickMyLocation}>
-						<CurrentLocation />
-					</button>
-				</CustomOverlayMap>
 				{/* 저장된 지도 위치 마커 */}
 				{isFetchLocationPending ? (
 					<LocationFinderSkeleton />
@@ -113,6 +107,12 @@ function KakaoMapLocation() {
 						</CustomOverlayMap>
 					))
 				)}
+				{/* 현재 위치 마커 */}
+				<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
+					<button type="button" onClick={handleClickMyLocation}>
+						<CurrentLocation />
+					</button>
+				</CustomOverlayMap>
 				{/* <CustomOverlayMap position={{ lat: clickedLocation.lat, lng: clickedLocation.lng }}>
 					<Activity mode={clickedLocation === initialLocation ? 'hidden' : 'visible'}>
 						<CreateLocation />
