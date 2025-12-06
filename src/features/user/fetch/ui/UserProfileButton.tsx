@@ -1,11 +1,11 @@
 import { PopoverClose } from '@radix-ui/react-popover';
-import { HeartIcon, MessageCircleMoreIcon } from 'lucide-react';
+import defaultavatar from '@shared/assets/character/defaultavatar.svg';
+import { BookmarkIcon, MessageCircleMoreIcon } from 'lucide-react';
 import { Link } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
 import { signOut } from '@/features/auth/signOut/api/auth';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
-import defaultavatar from '/character/defaultavatar.svg';
 
 /**
  * 프로필 이미지를 클릭했을 때 제공하는 Popover 컴포넌트
@@ -26,10 +26,10 @@ function UserProfileButton() {
 					<img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" />
 				</div>
 			</PopoverTrigger>
-			<PopoverContent className="flex w-32 flex-col justify-center items-center p-0 text-sm">
+			<PopoverContent className="flex w-fit flex-col justify-center items-center p-0 text-sm">
 				<PopoverClose asChild>
 					<Link to={`/mypage/${session!.user.id}`}>
-						<div className="flex flex-col justify-center gap-y-1 rounded-md shadow-md pt-4 pb-3 w-32">
+						<div className="flex flex-col justify-center gap-y-1 rounded-md shadow-md pt-4 pb-3 px-3">
 							<div className="flex flex-col justify-center gap-y-2 items-center">
 								<div className="relative h-16 w-16">
 									{/* 리워드 이미지 추가 */}
@@ -39,7 +39,9 @@ function UserProfileButton() {
 									{/* 프로필 이미지 */}
 									<img src={userImage} className="cursor-pointer rounded-full object-cover" alt="user profile" />
 								</div>
-								<p className="w-24 text-center truncate">{userNickname}</p>
+								<div className="flex flex-col text-center">
+									<p>{userNickname}</p>
+								</div>
 							</div>
 							<div className="px-4 flex gap-x-3 justify-center">
 								{/* 리뷰 */}
@@ -49,7 +51,7 @@ function UserProfileButton() {
 								</div>
 								{/* 즐겨찾기 */}
 								<div className="flex gap-x-1 items-center">
-									<HeartIcon width={13} className="" />
+									<BookmarkIcon width={14} className="" />
 									<p className="text-xs">{totalFavoriteCount}</p>
 								</div>
 							</div>

@@ -98,19 +98,22 @@ export type Database = {
 				Row: {
 					created_at: string;
 					product_id: string;
-					product_name: string;
+					product_name_en: string;
+					product_name_ko: string;
 					updated_at: string;
 				};
 				Insert: {
 					created_at?: string;
 					product_id?: string;
-					product_name: string;
+					product_name_en: string;
+					product_name_ko: string;
 					updated_at?: string;
 				};
 				Update: {
 					created_at?: string;
 					product_id?: string;
-					product_name?: string;
+					product_name_en?: string;
+					product_name_ko?: string;
 					updated_at?: string;
 				};
 				Relationships: [];
@@ -343,6 +346,7 @@ export type Database = {
 				Row: {
 					bio: string | null;
 					created_at: string;
+					is_admin: boolean;
 					nickname: string;
 					profile_image_url: string | null;
 					total_favorite_count: number;
@@ -354,6 +358,7 @@ export type Database = {
 				Insert: {
 					bio?: string | null;
 					created_at?: string;
+					is_admin?: boolean;
 					nickname: string;
 					profile_image_url?: string | null;
 					total_favorite_count?: number;
@@ -365,6 +370,7 @@ export type Database = {
 				Update: {
 					bio?: string | null;
 					created_at?: string;
+					is_admin?: boolean;
 					nickname?: string;
 					profile_image_url?: string | null;
 					total_favorite_count?: number;

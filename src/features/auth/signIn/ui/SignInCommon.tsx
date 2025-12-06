@@ -1,9 +1,9 @@
+import emailSvg from '@shared/assets/logo-email.svg';
+import google from '@shared/assets/logo-google.svg';
+import kakao from '@shared/assets/logo-kakao.svg';
 import { useNavigate } from 'react-router';
 import useSingInWithOAuth from '@/features/auth/signIn/hooks/mutation/useSignInWithOAuth';
 import Title from '@/shared/ui/title/Title';
-import emailSvg from '/logo-email.svg';
-import google from '/logo-google.svg';
-import kakao from '/logo-kakao.svg';
 
 function SignInCommon() {
 	const navigate = useNavigate();

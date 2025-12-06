@@ -99,6 +99,7 @@
 	/* 색상 */
 	--color-black: #212121;
 	--color-white: #fafaf8;
+	--color-pantone-2026-cloud-dancer: #f0efeb;
 	--color-brown-main: #d4944a;
 	--color-brown-sub: #e8b577;
 	--color-red: #e35c18;
@@ -188,11 +189,28 @@
 		animation: show-border-after-pulse 6s;
 	}
 
-	.bg-gradient {
-		background: radial-gradient(circle, #e35c18 0%, transparent 40%, rgba(227, 92, 24, 0.3) 80%);
+	.bg-gradient-me {
+		background: radial-gradient(
+			circle,
+			var(--color-pantone-2026-cloud-dancer) 0%,
+			transparent 40%,
+			rgba(240, 239, 235, 0.6) 80%
+		);
 	}
 
-	.bg-gradient-marker {
-		background: radial-gradient(circle, #e35c18 0%, #ffffff 50%, #e35c18 100%);
+	.bg-gradient-location {
+		background: radial-gradient(circle, var(--color-brown-main) 0%, transparent 40%, rgba(212, 148, 74, 0.3) 80%);
+	}
+
+	.bg-gradient-marker-me {
+		background: radial-gradient(
+			circle,
+			var(--color-pantone-2026-cloud-dancer) 0%,
+			#ffffff 50%,
+			var(--color-pantone-2026-cloud-dancer) 100%
+		);
+	}
+	.bg-gradient-marker-location {
+		background: radial-gradient(circle, var(--color-brown-main) 0%, #ffffff 50%, var(--color-brown-main) 100%);
 	}
 }
