@@ -1,5 +1,7 @@
 import { CircleXIcon } from 'lucide-react';
 import { items } from '@/features/product/item/libs/item';
+import type { Item } from '@/features/product/item/types/item.type';
+import ProductItemForCreate from '@/features/product/item/ui/ProductItemForCreate';
 
 function CreateLocation() {
 	return (
@@ -11,10 +13,8 @@ function CreateLocation() {
 						<CircleXIcon className="w-4 h-4" />
 					</button>
 					<div className="flex flex-col items-center gap-y-1">
-						{items.map((item) => (
-							<button key={item.image_url} type="button" className="flex items-center justify-center gap-x-2 w-6 h-6">
-								<img src={item.image_url} alt="eggbun" className="h-5 w-auto object-contain aspect-square" />
-							</button>
+						{items.map((item: Item) => (
+							<ProductItemForCreate key={item.name_en} {...item} />
 						))}
 					</div>
 				</div>

@@ -8,7 +8,7 @@ function ProductList() {
 	return (
 		<ul className="overflow-x-auto flex gap-x-2 snap-mandatory h-10 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 			{items.map((item) => (
-				<ProductItem key={item.image_url} {...item} />
+				<ProductItem key={item.name_ko} {...item} />
 			))}
 		</ul>
 	);
