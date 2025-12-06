@@ -9,7 +9,7 @@ import {
 } from '@/features/location/create/utils/validateLocationDistance';
 import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
 import { initialLocation } from '@/features/location/fetch/libs/location';
-import type { Location } from '@/features/location/fetch/types/types';
+import type { Location as AbbrLocation } from '@/features/location/fetch/types/types';
 import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
 import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 import LocationFinderSkeleton from '@/features/location/fetch/ui/LocationFinderSkeleton';
@@ -41,10 +41,14 @@ function KakaoMapLocation() {
 	const session = useSession();
 	const user_id = session!.user.id;
 	const { error } = useFecthUserData(session?.user.id);
-
 	if (error) {
 		toast.error('현재 사용자 정보를 가져올 수 없습니다.', { position: 'top-center' });
 	}
+
+	// 내 프로필 아이콘 클릭 이벤트
+	const handleClickMyLocation = () => {
+		console.log('프로필 클릭');
+	};
 
 	const isPending = isFetchLocationPending || isCreateLocationPending;
 
@@ -54,11 +58,14 @@ function KakaoMapLocation() {
 				center={location ?? initialLocation}
 				level={3}
 				className="min-h-screen"
+				onDoubleClick={() => {
+					return;
+				}}
 				onClick={(_, mouseEvent) => {
 					const latLng = mouseEvent.latLng;
 					const lat = latLng.getLat();
 					const lng = latLng.getLng();
-					const newLocation: Location = { lat, lng };
+					const newLocation: AbbrLocation = { lat, lng };
 
 					// 현재 위치로부터 최대 거리 검증 (1km 이내)
 					const isWithinMaxDistance = validateMaxDistanceFromCurrentLocation(newLocation, location!);
@@ -88,7 +95,7 @@ function KakaoMapLocation() {
 				<MarkerClusterer averageCenter={true} minLevel={10}></MarkerClusterer>
 				{/* 현재 위치 마커 */}
 				<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
-					<button type="button" onClick={() => console.log('프로필 클릭')}>
+					<button type="button" onClick={handleClickMyLocation}>
 						<CurrentLocation />
 					</button>
 				</CustomOverlayMap>
@@ -102,10 +109,7 @@ function KakaoMapLocation() {
 							position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
 							clickable={true}
 						>
-							{/* 포장마차 이미지 */}
-							<button type="button" onClick={() => console.log(location.location_id, ' 클릭')}>
-								<LocationFinder is_my_location={false} user_Id={user_id} />
-							</button>
+							<LocationFinder is_my_location={false} user_Id={user_id} {...location} />
 						</CustomOverlayMap>
 					))
 				)}
