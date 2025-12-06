@@ -7,9 +7,8 @@ import useCreateLocation from '@/features/location/create/hooks/useCreateLocatio
 import { initialLocation } from '@/features/location/fetch/libs/location';
 import type { Location } from '@/features/location/fetch/types/types';
 import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
-import SearchLocationBar from '@/features/location/fetch/ui/SearchLocationBar';
-import ProductList from '@/features/product/item/ui/ProductList';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
+import LoggedInUserOnlyAsideBar from '@/widgets/aside/LoggedInUserOnlyAsideBar';
 
 function KakaoMapLocation() {
 	// LocalStorage 에서 현재 Location 데이터를 가져오기
@@ -101,8 +100,7 @@ function KakaoMapLocation() {
 					<LocateFixedIcon className="w-8 h-8" />
 				</button>
 			</div> */}
-			<SearchLocationBar />
-			<ProductList />
+			<LoggedInUserOnlyAsideBar />
 		</div>
 	);
 }
