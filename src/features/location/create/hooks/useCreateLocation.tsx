@@ -11,8 +11,8 @@ function useCreateLocation(callbacks: MutationCallback) {
 		onSuccess: () => {
 			if (callbacks.onSuccess) callbacks.onSuccess();
 
-			queryClient.resetQueries({
-				queryKey: QUERY_KEYS.location.list,
+			queryClient.invalidateQueries({
+				queryKey: QUERY_KEYS.location.all,
 			});
 		},
 		onError: (error) => {
