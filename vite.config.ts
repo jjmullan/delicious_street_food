@@ -9,6 +9,30 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	// TailwindCSS 플러그인을 React 플러그인과 함께 사용
 	plugins: [react(), tailwindcss()],
+	build: {
+		chunkSizeWarningLimit: 3_000, // KB
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					'character-assets': [
+						'./src/shared/assets/character/defaultavatar.svg',
+						'./src/shared/assets/character/eggbun.svg',
+						'./src/shared/assets/character/fishshapedbun.svg',
+						'./src/shared/assets/character/foodstall.svg',
+						'./src/shared/assets/character/hoppang.svg',
+						'./src/shared/assets/character/hotteok.svg',
+						'./src/shared/assets/character/roastedchestnuts.svg',
+						'./src/shared/assets/character/roastedsweetpotato.svg',
+						'./src/shared/assets/character/walnutcake.svg',
+						'./src/shared/assets/logo-email.svg',
+						'./src/shared/assets/logo-google.svg',
+						'./src/shared/assets/logo-kakao.svg',
+						'./src/shared/assets/logo.svg',
+					],
+				},
+			},
+		},
+	},
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
