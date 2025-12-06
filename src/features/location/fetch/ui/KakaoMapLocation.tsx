@@ -87,8 +87,10 @@ function KakaoMapLocation() {
 			>
 				<MarkerClusterer averageCenter={true} minLevel={10}></MarkerClusterer>
 				{/* 현재 위치 마커 */}
-				<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }}>
-					<CurrentLocation />
+				<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
+					<button type="button" onClick={() => console.log('프로필 클릭')}>
+						<CurrentLocation />
+					</button>
 				</CustomOverlayMap>
 				{/* 저장된 지도 위치 마커 */}
 				{isFetchLocationPending ? (
@@ -98,9 +100,12 @@ function KakaoMapLocation() {
 						<CustomOverlayMap
 							key={location.location_id}
 							position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
+							clickable={true}
 						>
 							{/* 포장마차 이미지 */}
-							<LocationFinder is_my_location={false} user_Id={user_id} />
+							<button type="button" onClick={() => console.log(location.location_id, ' 클릭')}>
+								<LocationFinder is_my_location={false} user_Id={user_id} />
+							</button>
 						</CustomOverlayMap>
 					))
 				)}
