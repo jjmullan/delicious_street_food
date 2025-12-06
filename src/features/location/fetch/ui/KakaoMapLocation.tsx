@@ -9,7 +9,7 @@ import {
 } from '@/features/location/create/utils/validateLocationDistance';
 import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
 import { initialLocation } from '@/features/location/fetch/libs/location';
-import type { Location as AbbrLocation } from '@/features/location/fetch/types/types';
+import type { AbbrLocation } from '@/features/location/fetch/types/location';
 import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
 import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 import LocationFinderSkeleton from '@/features/location/fetch/ui/LocationFinderSkeleton';

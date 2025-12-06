@@ -1,4 +1,4 @@
-export type Location = {
+export type AbbrLocation = {
 	lat: number;
 	lng: number;
 };

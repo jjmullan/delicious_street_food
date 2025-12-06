@@ -4,7 +4,7 @@ import {
 	MAXIMUM_DISTANCE_FROM_CURRENT_LOCATION_METERS,
 	MINIMUM_LOCATION_DISTANCE_METERS,
 } from '@/features/location/create/libs/distance';
-import type { Location } from '@/features/location/fetch/types/types';
+import type { AbbrLocation } from '@/features/location/fetch/types/location';
 import type { Location as SupabaseLocation } from '@/shared/types/types';
 
 /**
@@ -45,7 +45,7 @@ function calculateHaversineDistance(lat1: number, lng1: number, lat2: number, ln
  * @returns 모든 기존 위치로부터 최소 거리 이상 떨어져있으면 true, 아니면 false
  */
 export function validateLocationDistance(
-	clickedLocation: Location,
+	clickedLocation: AbbrLocation,
 	existingLocations: SupabaseLocation[] | null | undefined,
 	minimumDistance: number = MINIMUM_LOCATION_DISTANCE_METERS
 ): boolean {
@@ -86,8 +86,8 @@ export function validateLocationDistance(
  * @returns 현재 위치로부터 최대 거리 이내면 true, 아니면 false
  */
 export function validateMaxDistanceFromCurrentLocation(
-	clickedLocation: Location,
-	currentLocation: Location,
+	clickedLocation: AbbrLocation,
+	currentLocation: AbbrLocation,
 	maximumDistance: number = MAXIMUM_DISTANCE_FROM_CURRENT_LOCATION_METERS
 ): boolean {
 	// 현재 위치가 없는 경우 검증 실패
