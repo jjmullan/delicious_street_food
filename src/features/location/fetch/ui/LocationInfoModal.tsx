@@ -6,7 +6,7 @@ import type { Location, User } from '@/shared/types/types';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
 
 function LocationInfoModal({
-	userData,
+	// userData,
 	location_id,
 	total_recommend_count,
 	total_visit_count,

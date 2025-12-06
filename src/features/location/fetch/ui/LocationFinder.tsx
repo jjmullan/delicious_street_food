@@ -1,4 +1,5 @@
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
+import { useMap } from 'react-kakao-maps-sdk';
 import LocationInfoModal from '@/features/location/fetch/ui/LocationInfoModal';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import type { Location } from '@/shared/types/types';
@@ -15,6 +16,8 @@ function LocationFinder({
 	total_review_count,
 	total_visit_count,
 }: { is_my_location: boolean; user_Id?: string } & Partial<Location>) {
+	const map = useMap();
+
 	// 프로필 이미지 추출
 	const { data } = useFecthUserData(user_Id);
 	const userImage = data?.profile_image_url || defaultavatar;
@@ -36,6 +39,7 @@ function LocationFinder({
 				</div>
 			) : (
 				<LocationInfoModal
+					// onClick={(marker) => map.panTo(marker.getPosition())}
 					userData={data!}
 					location_id={location_id}
 					created_at={created_at}
