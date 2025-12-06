@@ -20,7 +20,7 @@ function LocationFinder({ is_my_location, user_Id }: { is_my_location: boolean; 
 					{/* 펄스 애니메이션 링 (중간) */}
 					<div className="absolute inset-0 rounded-full animate-pulse-ring bg-gradient-marker-me p-1" />
 
-					{/* 중앙 검은색 원 (가장 앞) */}
+					{/* 중앙 (가장 앞) */}
 					<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center`}>
 						<img src={userImage} alt="포장마차" className="w-8 h-8 object-contain" />
 					</div>
@@ -33,7 +33,7 @@ function LocationFinder({ is_my_location, user_Id }: { is_my_location: boolean; 
 					{/* 펄스 애니메이션 링 (중간) */}
 					<div className="absolute inset-0 rounded-full animate-pulse-ring bg-gradient-marker-location p-1" />
 
-					{/* 중앙 검은색 원 (가장 앞) */}
+					{/* 중앙 (가장 앞) */}
 					<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center`}>
 						<img src={foodstall} alt="포장마차" className="w-7 h-7 object-contain" />
 					</div>
