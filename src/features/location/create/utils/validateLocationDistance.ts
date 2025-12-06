@@ -1,6 +1,7 @@
 import {
 	DEGREES_TO_RADIANS,
 	EARTH_RADIUS_METERS,
+	MAXIMUM_DISTANCE_FROM_CURRENT_LOCATION_METERS,
 	MINIMUM_LOCATION_DISTANCE_METERS,
 } from '@/features/location/create/libs/distance';
 import type { Location } from '@/features/location/fetch/types/types';
@@ -75,4 +76,33 @@ export function validateLocationDistance(
 
 	// 모든 기존 위치가 최소 거리 이상 떨어져 있으면 생성 가능
 	return true;
+}
+
+/**
+ * 클릭한 위치가 현재 위치로부터 최대 거리 이내에 있는지 검증합니다.
+ * @param clickedLocation 클릭한 위치
+ * @param currentLocation 현재 위치
+ * @param maximumDistance 최대 거리 (기본값: 1000미터 = 1km)
+ * @returns 현재 위치로부터 최대 거리 이내면 true, 아니면 false
+ */
+export function validateMaxDistanceFromCurrentLocation(
+	clickedLocation: Location,
+	currentLocation: Location,
+	maximumDistance: number = MAXIMUM_DISTANCE_FROM_CURRENT_LOCATION_METERS
+): boolean {
+	// 현재 위치가 없는 경우 검증 실패
+	if (!currentLocation) {
+		return false;
+	}
+
+	// 두 지점 간의 거리 계산
+	const distance = calculateHaversineDistance(
+		clickedLocation.lat,
+		clickedLocation.lng,
+		currentLocation.lat,
+		currentLocation.lng
+	);
+
+	// 최대 거리 이내면 생성 가능
+	return distance <= maximumDistance;
 }
