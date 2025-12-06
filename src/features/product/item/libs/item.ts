@@ -1,35 +1,51 @@
 import type { Item } from '@/features/product/item/types/item.type';
 
-const ITEM_PUBLIC_LINK = '/character/';
-const EXTENSION = '.svg';
-
 export const items: Item[] = [
 	{
-		name: '붕어빵',
-		image_url: `/src/shared/assets/${ITEM_PUBLIC_LINK}fishshapedbun${EXTENSION}`,
+		name_ko: '붕어빵',
+		name_en: 'fishshapedbun',
 	},
 	{
-		name: '호떡',
-		image_url: `/src/shared/assets/${ITEM_PUBLIC_LINK}hotteok${EXTENSION}`,
+		name_ko: '호떡',
+		name_en: 'hotteok',
 	},
 	{
-		name: '호빵',
-		image_url: `/src/shared/assets/${ITEM_PUBLIC_LINK}hoppang${EXTENSION}`,
+		name_ko: '호빵',
+		name_en: 'hoppang',
 	},
 	{
-		name: '계란빵',
-		image_url: `/src/shared/assets/${ITEM_PUBLIC_LINK}eggbun${EXTENSION}`,
+		name_ko: '계란빵',
+		name_en: 'eggbun',
 	},
 	{
-		name: '군고구마',
-		image_url: `/src/shared/assets/${ITEM_PUBLIC_LINK}roastedsweetpotato${EXTENSION}`,
+		name_ko: '군고구마',
+		name_en: 'roastedsweetpotato',
 	},
 	{
-		name: '군밤',
-		image_url: `/src/shared/assets/${ITEM_PUBLIC_LINK}roastedchestnuts${EXTENSION}`,
+		name_ko: '군밤',
+		name_en: 'roastedchestnuts',
 	},
 	{
-		name: '호두과자',
-		image_url: `/src/shared/assets/${ITEM_PUBLIC_LINK}walnutcake${EXTENSION}`,
+		name_ko: '호두과자',
+		name_en: 'walnutcake',
 	},
 ];
+
+import eggbun from '@shared/assets/character/eggbun.svg';
+import fishshapedbun from '@shared/assets/character/fishshapedbun.svg';
+import hoppang from '@shared/assets/character/hoppang.svg';
+import hotteok from '@shared/assets/character/hotteok.svg';
+import roastedchestnuts from '@shared/assets/character/roastedchestnuts.svg';
+import roastedsweetpotato from '@shared/assets/character/roastedsweetpotato.svg';
+import walnutcake from '@shared/assets/character/walnutcake.svg';
+
+// 캐릭터 이미지 매핑 객체
+export const characterImages: Record<string, string> = {
+	eggbun,
+	fishshapedbun,
+	hoppang,
+	hotteok,
+	roastedchestnuts,
+	roastedsweetpotato,
+	walnutcake,
+};

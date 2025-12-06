@@ -1,4 +1,4 @@
 export interface Item {
-	name: string;
-	image_url: string;
+	name_ko: string;
+	name_en: string;
 }
