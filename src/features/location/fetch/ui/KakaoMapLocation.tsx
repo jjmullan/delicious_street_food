@@ -1,18 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { toast } from 'sonner';
 import { useLocation } from '@/app/store/locationStore';
 import { useSession } from '@/app/store/sessionStore';
 import useCreateLocation from '@/features/location/create/hooks/useCreateLocation';
+import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
 import { initialLocation } from '@/features/location/fetch/libs/location';
 import type { Location } from '@/features/location/fetch/types/types';
 import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
+import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
+import LocationFinderSkeleton from '@/features/location/fetch/ui/LocationFinderSkeleton';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import LoggedInUserOnlyAsideBar from '@/widgets/aside/LoggedInUserOnlyAsideBar';
 
 function KakaoMapLocation() {
-	// LocalStorage 에서 현재 Location 데이터를 가져오기
+	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
 	const location = useLocation();
+
+	// 위치 패칭 API 호출
+	const { data: fetchLocation, error: isFetchLocationError, isPending: isFetchLocationPending } = useFetchLocation();
+	if (isFetchLocationError) {
+		toast.error('포장마차 위치를 가져올 수 없습니다. 개발자에게 문의해주세요!', { position: 'top-center' });
+	}
 
 	// 클릭한 경도, 위도 위치 상태
 	const [clickedLocation, setClickedLocation] = useState<Location>({
@@ -77,29 +86,31 @@ function KakaoMapLocation() {
 				disableDoubleClick={isCreateLocationPending}
 				disableDoubleClickZoom={isCreateLocationPending}
 			>
-				{/* <MapMarker position={{ lat: location!.lat, lng: location!.lng }}>
-					<div style={{ color: '#000' }}>현재 위치</div>
-				</MapMarker> */}
 				<MarkerClusterer averageCenter={true} minLevel={10}></MarkerClusterer>
+				{/* 현재 위치 마커 */}
 				<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }}>
 					<CurrentLocation />
 				</CustomOverlayMap>
+				{/* 저장된 지도 위치 마커 */}
+				{isFetchLocationPending ? (
+					<LocationFinderSkeleton />
+				) : (
+					fetchLocation?.map((location) => (
+						<CustomOverlayMap
+							key={location.location_id}
+							position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
+						>
+							{/* 포장마차 이미지 */}
+							<LocationFinder is_my_location={false} user_Id={user_id} />
+						</CustomOverlayMap>
+					))
+				)}
 				{/* <CustomOverlayMap position={{ lat: clickedLocation.lat, lng: clickedLocation.lng }}>
 					<Activity mode={clickedLocation === initialLocation ? 'hidden' : 'visible'}>
 						<CreateLocation />
 					</Activity>
 				</CustomOverlayMap> */}
 			</Map>
-			{/* <div className="absolute left-1/2 translate-x-[-50%] bottom-6 z-1 flex gap-x-4">
-				<button
-					type="button"
-					id="glass"
-					className="w-16 h-16 rounded-full bg-white/80 flex items-center justify-center"
-					onClick={() => {}}
-				>
-					<LocateFixedIcon className="w-8 h-8" />
-				</button>
-			</div> */}
 			<LoggedInUserOnlyAsideBar />
 		</div>
 	);
