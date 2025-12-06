@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { toast } from 'sonner';
 import { useLocation } from '@/app/store/locationStore';
 import { useSession } from '@/app/store/sessionStore';
 import useCreateLocation from '@/features/location/create/hooks/useCreateLocation';
+import {
+	validateLocationDistance,
+	validateMaxDistanceFromCurrentLocation,
+} from '@/features/location/create/utils/validateLocationDistance';
 import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
 import { initialLocation } from '@/features/location/fetch/libs/location';
 import type { Location } from '@/features/location/fetch/types/types';
@@ -20,14 +23,8 @@ function KakaoMapLocation() {
 	// 위치 패칭 API 호출
 	const { data: fetchLocation, error: isFetchLocationError, isPending: isFetchLocationPending } = useFetchLocation();
 	if (isFetchLocationError) {
-		toast.error('포장마차 위치를 가져올 수 없습니다. 개발자에게 문의해주세요!', { position: 'top-center' });
+		toast.error('위치 정보를 가져올 수 없습니다.', { position: 'top-center' });
 	}
-
-	// 클릭한 경도, 위도 위치 상태
-	const [clickedLocation, setClickedLocation] = useState<Location>({
-		lat: location?.lat ?? initialLocation.lat,
-		lng: location?.lng ?? initialLocation.lng,
-	});
 
 	// 위치 생성 API 호출
 	const { mutate: createLocation, isPending: isCreateLocationPending } = useCreateLocation({
@@ -46,8 +43,10 @@ function KakaoMapLocation() {
 	const { error } = useFecthUserData(session?.user.id);
 
 	if (error) {
-		toast.error('유저 데이터 패칭에 실패했습니다.', { position: 'top-center' });
+		toast.error('현재 사용자 정보를 가져올 수 없습니다.', { position: 'top-center' });
 	}
+
+	const isPending = isFetchLocationPending || isCreateLocationPending;
 
 	return (
 		<div className="relative">
@@ -59,32 +58,32 @@ function KakaoMapLocation() {
 					const latLng = mouseEvent.latLng;
 					const lat = latLng.getLat();
 					const lng = latLng.getLng();
-					console.log('위도:', lat);
-					console.log('경도:', lng);
+					const newLocation: Location = { lat, lng };
 
-					// 이전에 클릭한 위치와 현재 클릭한 위치의 값을 절대값으로 치환
-					const latDistance = Math.abs(clickedLocation.lat - lat) * 10_000;
-					const lngDistance = Math.abs(clickedLocation.lng - lng) * 10_000;
-
-					setClickedLocation({
-						lat,
-						lng,
-					});
-
-					// 인접한 위치에 있는 경우, 등록을 취소
-					if (latDistance > 1 || lngDistance > 1) {
-						createLocation({
-							user_id,
-							latitude: String(lat),
-							longitude: String(lng),
-						});
-					} else {
+					// 현재 위치로부터 최대 거리 검증 (1km 이내)
+					const isWithinMaxDistance = validateMaxDistanceFromCurrentLocation(newLocation, location!);
+					if (!isWithinMaxDistance) {
+						toast.warning('현재 위치로부터 3km 이내인 경우 등록할 수 있습니다.', { position: 'top-center' });
 						return;
 					}
+
+					// 기존 위치들과의 거리 검증 (최소 10미터 이상)
+					const isValidDistance = validateLocationDistance(newLocation, fetchLocation);
+					if (!isValidDistance) {
+						toast.warning('등록된 매장의 위치로부터 10미터 이내이면 등록이 불가합니다.', { position: 'top-center' });
+						return;
+					}
+
+					// 모든 검증 통과 시 위치 생성
+					createLocation({
+						user_id,
+						latitude: String(lat),
+						longitude: String(lng),
+					});
 				}}
 				isPanto={true}
-				disableDoubleClick={isCreateLocationPending}
-				disableDoubleClickZoom={isCreateLocationPending}
+				disableDoubleClick={isPending}
+				disableDoubleClickZoom={isPending}
 			>
 				<MarkerClusterer averageCenter={true} minLevel={10}></MarkerClusterer>
 				{/* 현재 위치 마커 */}
