@@ -1,11 +1,11 @@
 import { PopoverClose } from '@radix-ui/react-popover';
+import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import { BookmarkIcon, MessageCircleMoreIcon } from 'lucide-react';
 import { Link } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
 import { signOut } from '@/features/auth/signOut/api/auth';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
-import defaultavatar from '/character/defaultavatar.svg';
 
 /**
  * 프로필 이미지를 클릭했을 때 제공하는 Popover 컴포넌트

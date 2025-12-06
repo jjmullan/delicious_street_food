@@ -1,6 +1,6 @@
+import defaultavatar from '@shared/assets/character/defaultavatar.svg';
+import foodstall from '@shared/assets/character/foodstall.svg';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
-import defaultavatar from '/character/defaultavatar.svg';
-import foodstall from '/character/foodstall.svg';
 
 /**
  * 현재 위치를 표시해주는 원형 컴포넌트
