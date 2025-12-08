@@ -1,7 +1,6 @@
 import { Activity, useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { toast } from 'sonner';
-import { useSetCreateLocation } from '@/app/store/createLocationStore';
 import { useLocation } from '@/app/store/locationStore';
 import { useSession } from '@/app/store/sessionStore';
 import CreateLocation from '@/features/location/create/ui/CreateLocation';
@@ -9,7 +8,7 @@ import {
 	validateLocationDistance,
 	validateMaxDistanceFromCurrentLocation,
 } from '@/features/location/create/utils/validateLocationDistance';
-import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
+import useFetchLocations from '@/features/location/fetch/hooks/useFetchLocations';
 import { initialLocation } from '@/features/location/fetch/libs/location';
 import type { AbbrLocation } from '@/features/location/fetch/types/location';
 import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
@@ -22,7 +21,7 @@ function KakaoMapLocation() {
 	const location = useLocation();
 
 	// 위치 패칭 API 호출
-	const { data: fetchLocation, error: isFetchLocationError, isPending: isFetchLocationPending } = useFetchLocation();
+	const { data: fetchLocation, error: isFetchLocationError, isPending: isFetchLocationPending } = useFetchLocations();
 	if (isFetchLocationError) {
 		toast.error('위치 정보를 가져올 수 없습니다.', { position: 'top-center' });
 	}
