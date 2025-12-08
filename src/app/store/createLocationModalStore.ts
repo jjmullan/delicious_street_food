@@ -15,13 +15,14 @@ type State = CloseState | OpenState;
 
 const initialState = {
 	isOpen: false,
+	clicked_location: { lat: 0, lng: 0 },
 } as State;
 
 export const useCreateLocationModalStore = create(
 	devtools(
 		combine(initialState, (set) => ({
 			actions: {
-				open: (params: Omit<OpenState, 'isOpen'>) => {
+				open: (params: State) => {
 					set({ ...params, isOpen: true });
 				},
 				close: () => {

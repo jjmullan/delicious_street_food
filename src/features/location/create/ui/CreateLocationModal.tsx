@@ -23,7 +23,7 @@ import { Input } from '@/shared/ui/shadcn/input';
 function CreateLocationModal() {
 	// 선택된 위치 전역 상태 가져오기
 
-	// 선택된 상품 목록 관리
+	// 선택된 상품 카테고리 목록 관리
 	const [products, setProducts] = useState<Item['name_en'][]>([]);
 	const toggleChangeProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const productEnName = e.target.id as Item['name_en'];
@@ -54,8 +54,8 @@ function CreateLocationModal() {
 	const handleActionClick = () => {
 		// createLocation({
 		// 	user_id: userId!,
-		//   latitude:,
-		//   longitude
+		// 	latitude: clickedLocation?.lat,
+		// 	longitude clickedLocation?.lng,
 		// });
 
 		if (store.onPositive) store.onPositive();

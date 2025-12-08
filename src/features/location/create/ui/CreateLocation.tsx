@@ -15,6 +15,7 @@ function CreateLocation({
 	const openCreateLocationModal = useOpenCreateLocationModal();
 	const handleOpenModal = () => {
 		openCreateLocationModal({
+			location: createLocation,
 			onPositive: () => {
 				handleCloseModal();
 			},
