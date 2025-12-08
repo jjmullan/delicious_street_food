@@ -1,4 +1,4 @@
-import KakaoMapLocation from '@/widgets/map/KakaoMapLocation';
+import KakaoMapLocation from '@/entities/location/KakaoMapLocation';
 
 function HomePage() {
 	return (
