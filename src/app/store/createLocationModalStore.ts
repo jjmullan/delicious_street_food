@@ -3,9 +3,6 @@ import { combine, devtools } from 'zustand/middleware';
 
 type OpenState = {
 	isOpen: true;
-	user_id: string;
-	latitude: string;
-	longitude: string;
 	onPositive?(): void;
 	onNegative?(): void;
 };
