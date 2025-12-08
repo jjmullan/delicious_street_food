@@ -2,6 +2,7 @@ import author from '@shared/assets/extra/author.svg';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useCreateLocationModal } from '@/app/store/createLocationModalStore';
+import { useLocationForCreate } from '@/app/store/createLocationStore';
 import { useSession } from '@/app/store/sessionStore';
 import useCreateLocation from '@/features/location/create/hooks/useCreateLocation';
 import { characterImages, items } from '@/features/product/item/libs/item';
@@ -22,6 +23,8 @@ import { Input } from '@/shared/ui/shadcn/input';
 
 function CreateLocationModal() {
 	// 선택된 위치 전역 상태 가져오기
+	const clickedlocation = useLocationForCreate();
+	console.log('생성 위치 위도/경도 :', clickedlocation);
 
 	// 선택된 상품 카테고리 목록 관리
 	const [products, setProducts] = useState<Item['name_en'][]>([]);
@@ -52,11 +55,11 @@ function CreateLocationModal() {
 	if (!store.isOpen) return null;
 
 	const handleActionClick = () => {
-		// createLocation({
-		// 	user_id: userId!,
-		// 	latitude: clickedLocation?.lat,
-		// 	longitude clickedLocation?.lng,
-		// });
+		createLocation({
+			user_id: userId!,
+			latitude: String(clickedlocation.lat),
+			longitude: String(clickedlocation.lng),
+		});
 
 		if (store.onPositive) store.onPositive();
 		store.actions.close();

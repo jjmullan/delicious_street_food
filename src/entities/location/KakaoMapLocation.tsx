@@ -1,6 +1,7 @@
 import { Activity, useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { toast } from 'sonner';
+import { useLocationForCreate, useSetCreateLocation } from '@/app/store/createLocationStore';
 import { useLocation } from '@/app/store/locationStore';
 import { useSession } from '@/app/store/sessionStore';
 import CreateLocation from '@/features/location/create/ui/CreateLocation';
@@ -36,10 +37,11 @@ function KakaoMapLocation() {
 
 	// 클릭한 위치 및 기타 정보를 전역 상태로 관리
 	const [isCreateLocationUIOpen, setIsCreateLocationUIOpen] = useState(false);
-	const [createLocation, setCreateLocation] = useState<AbbrLocation>();
-	const [clickedTime, setClickedTime] = useState<number>(0);
+	const createLocation = useLocationForCreate() ?? location;
+	const setCreateLocation = useSetCreateLocation();
 
 	// 5초 후 클릭 상태 전환
+	const [clickedTime, setClickedTime] = useState<number>(0);
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			const currentTime = new Date().getTime();
@@ -122,7 +124,7 @@ function KakaoMapLocation() {
 						</CustomOverlayMap>
 						{/* 신규 위치 마커 */}
 						<Activity mode={isCreateLocationUIOpen ? 'visible' : 'hidden'}>
-							<CreateLocation createLocation={createLocation!} handleCloseModal={handleCloseModal} />
+							<CreateLocation createLocation={createLocation} handleCloseModal={handleCloseModal} />
 						</Activity>
 					</MarkerClusterer>
 				</Map>
