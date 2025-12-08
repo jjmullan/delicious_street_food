@@ -1,15 +1,15 @@
 import { create } from 'zustand';
 import { combine, devtools, persist } from 'zustand/middleware';
 import { initialLocation } from '@/features/location/fetch/libs/location';
-import type { Location } from '@/features/location/fetch/types/types';
+import type { AbbrLocation } from '@/features/location/fetch/types/location';
 
 type State = {
-	location: Location | null;
+	location: AbbrLocation | null;
 	isUpdated: boolean;
 };
 
 type Action = {
-	setLocation(location: Location): void;
+	setLocation(location: AbbrLocation): void;
 };
 
 const initialState = {

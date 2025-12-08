@@ -1,0 +1,86 @@
+name: Claude Automated Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  # FSD 아키텍처 검증
+  fsd-validation:
+    name: FSD Architecture Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate FSD Architecture
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: "/check-fsd"
+          claude_args: "--max-turns 3"
+
+  # 코드 품질 리뷰
+  code-review:
+    name: Code Quality Review
+    runs-on: ubuntu-latest
+    needs: fsd-validation
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Comprehensive Code Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            이 PR의 변경사항을 검토하고 다음 체크리스트를 기반으로 리뷰해주세요:
+
+            1. 코드 품질 (DRY 원칙, 단일 책임 원칙, 명확한 네이밍)
+            2. TypeScript 타입 안전성 (any 사용 최소화, 타입 명시)
+            3. React 모범 사례 (리렌더링 최적화, Hook 사용)
+            4. 성능 최적화
+            5. 접근성 (시맨틱 HTML, ARIA 속성)
+            6. 보안 (XSS 방지, 민감정보 하드코딩 금지)
+            7. 에러 핸들링
+
+            각 항목별로 문제점과 개선사항을 구체적으로 제시해주세요.
+          claude_args: "--max-turns 5"
+
+  # 온디맨드 리뷰 (PR 댓글에서 @claude 멘션 시)
+  on-demand-review:
+    name: On-Demand Review
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'issue_comment' &&
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '@claude')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Claude On-Demand Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            사용자가 다음과 같이 요청했습니다:
+            "${{ github.event.comment.body }}"
+
+            요청사항에 맞게 코드를 분석하고 답변해주세요.
+          claude_args: "--max-turns 5"

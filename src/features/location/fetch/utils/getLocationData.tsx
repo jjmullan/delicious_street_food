@@ -1,6 +1,6 @@
-import type { Location } from '@/features/location/fetch/types/types';
+import type { AbbrLocation } from '@/features/location/fetch/types/location';
 
-export function getLocationData(): Promise<Location> {
+export function getLocationData(): Promise<AbbrLocation> {
 	return new Promise((resolve, reject) => {
 		navigator.geolocation.getCurrentPosition(
 			(position) => {

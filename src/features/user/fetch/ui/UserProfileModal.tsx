@@ -10,7 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popo
 /**
  * 프로필 이미지를 클릭했을 때 제공하는 Popover 컴포넌트
  */
-function UserProfileButton() {
+function UserProfileModal() {
 	const session = useSession();
 
 	const { data } = useFecthUserData(session?.user.id);
@@ -68,4 +68,4 @@ function UserProfileButton() {
 	);
 }
 
-export default UserProfileButton;
+export default UserProfileModal;
