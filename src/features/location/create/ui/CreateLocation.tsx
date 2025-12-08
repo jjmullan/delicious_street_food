@@ -11,7 +11,7 @@ function CreateLocation({
 	createLocation: AbbrLocation;
 	handleCloseModal(): void;
 }) {
-	// 생성 모달 UI 상태
+	// 생성을 위한 상세 모달 UI 열기/닫기
 	const openCreateLocationModal = useOpenCreateLocationModal();
 	const handleOpenModal = () => {
 		openCreateLocationModal({
