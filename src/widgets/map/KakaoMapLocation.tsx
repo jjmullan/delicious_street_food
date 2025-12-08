@@ -34,18 +34,22 @@ function KakaoMapLocation() {
 		toast.error('현재 사용자 정보를 가져올 수 없습니다.', { position: 'top-center' });
 	}
 
-	// 클릭한 위치를 전역 상태로 관리
+	// 클릭한 위치 및 기타 정보를 전역 상태로 관리
 	const [isCreateLocationOpen, setIsCreateLocationOpen] = useState(false);
 	const [createLocation, setCreateLocation] = useState<AbbrLocation>();
+	const [clickedTime, setClickedTime] = useState<number>(0);
 
-	// 3초 후 클릭 상태 전환
+	// 5초 후 클릭 상태 전환
 	useEffect(() => {
 		const timer = setTimeout(() => {
+			const currentTime = new Date().getTime();
+			if (currentTime - clickedTime < 5000) return;
+
 			setIsCreateLocationOpen(false);
-		}, 3_000);
+		}, 5_000);
 
 		return () => clearTimeout(timer);
-	}, [isCreateLocationOpen]);
+	}, [isCreateLocationOpen, clickedTime]);
 
 	// 모달 닫기
 	const handleCloseModal = () => {
@@ -88,6 +92,10 @@ function KakaoMapLocation() {
 						// 지도 위치 클릭 시, 생성 UI 강제 팝업 및 클릭 위치 저장
 						setIsCreateLocationOpen(true);
 						setCreateLocation(newLocation);
+
+						const time = new Date().getTime();
+						setClickedTime(time);
+
 						console.log('생성 위치 위도/경도 :', newLocation);
 					}}
 					isPanto={true}
