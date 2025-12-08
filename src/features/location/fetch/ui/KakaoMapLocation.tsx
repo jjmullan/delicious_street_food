@@ -1,3 +1,4 @@
+import { Activity } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { toast } from 'sonner';
 import { useLocation } from '@/app/store/locationStore';
@@ -50,6 +51,7 @@ function KakaoMapLocation() {
 		console.log('프로필 클릭');
 	};
 
+	// isPending 상태 통합 관리
 	const isPending = isFetchLocationPending || isCreateLocationPending;
 
 	return (
@@ -92,32 +94,30 @@ function KakaoMapLocation() {
 				disableDoubleClick={isPending}
 				disableDoubleClickZoom={isPending}
 			>
-				<MarkerClusterer averageCenter={true} minLevel={10}></MarkerClusterer>
-				{/* 저장된 지도 위치 마커 */}
-				{isFetchLocationPending ? (
-					<LocationFinderSkeleton />
-				) : (
-					fetchLocation?.map((location) => (
-						<CustomOverlayMap
-							key={location.location_id}
-							position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
-							clickable={true}
-						>
-							<LocationFinder is_my_location={false} user_Id={user_id} {...location} />
-						</CustomOverlayMap>
-					))
-				)}
-				{/* 현재 위치 마커 */}
-				<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
-					<button type="button" onClick={handleClickMyLocation}>
-						<CurrentLocation />
-					</button>
-				</CustomOverlayMap>
-				{/* <CustomOverlayMap position={{ lat: clickedLocation.lat, lng: clickedLocation.lng }}>
-					<Activity mode={clickedLocation === initialLocation ? 'hidden' : 'visible'}>
-						<CreateLocation />
+				<MarkerClusterer averageCenter={true} minLevel={6}>
+					{/* Fallback UI */}
+					<Activity mode={isFetchLocationPending ? 'visible' : 'hidden'}>
+						<LocationFinderSkeleton />
 					</Activity>
-				</CustomOverlayMap> */}
+					{/* 전체 위치 마커 */}
+					<Activity mode={isFetchLocationPending ? 'hidden' : 'visible'}>
+						{fetchLocation?.map((location) => (
+							<CustomOverlayMap
+								key={location.location_id}
+								position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
+								clickable={true}
+							>
+								<LocationFinder is_my_location={false} user_Id={user_id} {...location} />
+							</CustomOverlayMap>
+						))}
+					</Activity>
+					{/* 현재 위치 마커 */}
+					<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
+						<button type="button" onClick={handleClickMyLocation}>
+							<CurrentLocation />
+						</button>
+					</CustomOverlayMap>
+				</MarkerClusterer>
 			</Map>
 			<LoggedInUserOnlyAsideBar />
 		</div>
