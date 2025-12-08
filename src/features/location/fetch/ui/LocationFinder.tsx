@@ -15,9 +15,8 @@ function LocationFinder({
 	total_recommend_count,
 	total_review_count,
 	total_visit_count,
-}: { is_my_location: boolean; user_Id?: string } & Partial<Location>) {
-	const map = useMap();
-
+	is_create_location,
+}: { is_my_location: boolean; user_Id?: string } & Partial<Location> & { is_create_location?: boolean }) {
 	// 프로필 이미지 추출
 	const { data } = useFecthUserData(user_Id);
 	const userImage = data?.profile_image_url || defaultavatar;
@@ -36,6 +35,17 @@ function LocationFinder({
 					<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center`}>
 						<img src={userImage} alt="포장마차" className="w-8 h-8 object-contain" />
 					</div>
+				</div>
+			) : is_create_location ? (
+				<div className="relative w-6 h-6">
+					{/* 항상 보이는 gradient border (가장 뒤) - 크기 증가 */}
+					<div className="absolute inset-[-2px] rounded-full animate-show-border bg-gradient-location p-1" />
+
+					{/* 펄스 애니메이션 링 (중간) */}
+					<div className="absolute inset-0 rounded-full animate-pulse-ring bg-gradient-marker-location p-1" />
+
+					{/* 중앙 (가장 앞) */}
+					<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center bg-brown-main`}></div>
 				</div>
 			) : (
 				<LocationInfoModal
