@@ -1,5 +1,4 @@
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
-import { useMap } from 'react-kakao-maps-sdk';
 import LocationInfoModal from '@/features/location/fetch/ui/LocationInfoModal';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import type { Location } from '@/shared/types/types';
