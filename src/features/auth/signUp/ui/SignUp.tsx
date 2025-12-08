@@ -1,4 +1,3 @@
-import { LoaderCircleIcon } from 'lucide-react';
 import { Activity, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
@@ -7,6 +6,7 @@ import validateEmail from '@/features/auth/signUp/util/validateEmail';
 import validatePassword from '@/features/auth/signUp/util/validatePassword';
 import { generateErrorMessage } from '@/shared/lib/error';
 import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
+import Fallback from '@/shared/ui/fallback/Fallback';
 import { Input } from '@/shared/ui/shadcn/input';
 
 function SignUp() {
@@ -127,14 +127,7 @@ function SignUp() {
 				disabled={isPending || email.trim() === '' || password.trim() === '' || passwordConfirm.trim() === ''}
 				onClick={handleClickSubmit}
 			>
-				{isPending ? (
-					<>
-						<LoaderCircleIcon className="animate-spin" />
-						<p className="text-white">회원가입 진행 중</p>
-					</>
-				) : (
-					<p className="text-white">회원가입</p>
-				)}
+				{isPending ? <Fallback title={'회원가입 중'} /> : <p className="text-white">회원가입</p>}
 			</button>
 			<AdditionalNoticeAtEdge text={'이미 계정이 있으시다면?'} link={'login'} linkText={'로그인'} />
 		</div>

@@ -1,10 +1,11 @@
-import { EyeClosedIcon, EyeIcon, LoaderCircleIcon } from 'lucide-react';
+import { EyeClosedIcon, EyeIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import useSignInWithPassword from '@/features/auth/signIn/hooks/mutation/useSignInWithPassword';
 import { generateErrorMessage } from '@/shared/lib/error';
 import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
+import Fallback from '@/shared/ui/fallback/Fallback';
 import { Input } from '@/shared/ui/shadcn/input';
 import Title from '@/shared/ui/title/Title';
 
@@ -73,14 +74,7 @@ function SignInWithPassword() {
 					onClick={handleClickSignInWithPassword}
 					disabled={isPending || email.trim() === '' || password.trim() === ''}
 				>
-					{isPending ? (
-						<>
-							<LoaderCircleIcon className="animate-spin" />
-							<p className="text-white">로그인 중</p>
-						</>
-					) : (
-						<p className="text-white">로그인</p>
-					)}
+					{isPending ? <Fallback title={'로그인 중'} /> : <p className="text-white">로그인</p>}
 				</button>
 				<AdditionalNoticeAtEdge text={'아직 계정이 없으시다면?'} link={'signup'} linkText={'이메일 회원가입'} />
 			</div>

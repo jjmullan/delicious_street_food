@@ -4,7 +4,7 @@ import { initialLocation } from '@/features/location/fetch/libs/location';
 import type { AbbrLocation } from '@/features/location/fetch/types/location';
 
 type State = {
-	location: AbbrLocation | null;
+	location: AbbrLocation;
 	isUpdated: boolean;
 };
 

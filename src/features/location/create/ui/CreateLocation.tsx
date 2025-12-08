@@ -1,33 +1,55 @@
-import { CircleXIcon } from 'lucide-react';
-import { items } from '@/features/product/item/libs/item';
-import type { Item } from '@/features/product/item/types/item.type';
-import ProductItemForCreate from '@/features/product/item/ui/ProductItemForCreate';
+import { PlusIcon, XIcon } from 'lucide-react';
+import { CustomOverlayMap } from 'react-kakao-maps-sdk';
+import { useOpenCreateLocationModal } from '@/app/store/createLocationModalStore';
+import type { AbbrLocation } from '@/features/location/fetch/types/location';
+import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 
-function CreateLocation() {
+function CreateLocation({
+	createLocation,
+	handleCloseModal,
+}: {
+	createLocation: AbbrLocation;
+	handleCloseModal(): void;
+}) {
+	// 생성을 위한 상세 모달 UI 열기/닫기
+	const openCreateLocationModal = useOpenCreateLocationModal();
+	const handleOpenModal = () => {
+		openCreateLocationModal({
+			onPositive: () => {
+				handleCloseModal();
+			},
+			onNegative: () => {
+				handleCloseModal();
+			},
+		});
+	};
+
 	return (
-		<div className="relative">
-			{/* <LocationFinder bgColorCode="1" /> */}
-			<div className="absolute translate-[-16px] glass rounded-full w-fit z-2 p-0.5">
-				<div className="flex flex-col items-center gap-y-0.5">
-					<button type="button" className="w-6 h-6 flex items-center justify-center border-b">
-						<CircleXIcon className="w-4 h-4" />
-					</button>
-					<div className="flex flex-col items-center gap-y-1">
-						{items.map((item: Item) => (
-							<ProductItemForCreate key={item.name_en} {...item} />
-						))}
+		<CustomOverlayMap position={createLocation ?? location} clickable={true}>
+			<div className="absolute translate-x-[-31px] translate-y-[-12px]">
+				<div className="flex flex-col items-center gap-y-1">
+					<LocationFinder is_my_location={false} is_create_location={true} />
+					<div className="flex flex-col glass rounded-md z-3 text-sm">
+						<button
+							type="button"
+							className="px-2 py-1.5 flex items-center gap-x-1.5 border-b"
+							onClick={handleOpenModal}
+						>
+							<PlusIcon width={16} height={16} />
+							추가
+						</button>
+						<button
+							type="button"
+							className="px-2 py-1.5 flex items-center gap-x-1.5 text-red"
+							onClick={handleCloseModal}
+						>
+							<XIcon width={16} height={16} color="#e35c18" />
+							취소
+						</button>
 					</div>
 				</div>
 			</div>
-
-			{/* <div className="absolute top-8">
-				<Activity mode={isModalOpen ? 'visible' : 'hidden'}>
-					<div className="glass w-40">
-						<p>위치 추가하기</p>
-					</div>
-				</Activity>
-			</div> */}
-		</div>
+		</CustomOverlayMap>
 	);
 }
 
