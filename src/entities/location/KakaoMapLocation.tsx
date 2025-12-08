@@ -35,7 +35,7 @@ function KakaoMapLocation() {
 	}
 
 	// 클릭한 위치 및 기타 정보를 전역 상태로 관리
-	const [isCreateLocationOpen, setIsCreateLocationOpen] = useState(false);
+	const [isCreateLocationUIOpen, setIsCreateLocationUIOpen] = useState(false);
 	const [createLocation, setCreateLocation] = useState<AbbrLocation>();
 	const [clickedTime, setClickedTime] = useState<number>(0);
 
@@ -45,15 +45,15 @@ function KakaoMapLocation() {
 			const currentTime = new Date().getTime();
 			if (currentTime - clickedTime < 5000) return;
 
-			setIsCreateLocationOpen(false);
+			setIsCreateLocationUIOpen(false);
 		}, 5_000);
 
 		return () => clearTimeout(timer);
-	}, [isCreateLocationOpen, clickedTime]);
+	}, [isCreateLocationUIOpen, clickedTime]);
 
 	// 모달 닫기
 	const handleCloseModal = () => {
-		setIsCreateLocationOpen(false);
+		setIsCreateLocationUIOpen(false);
 	};
 
 	// isPending 상태 통합 관리
@@ -90,7 +90,7 @@ function KakaoMapLocation() {
 						}
 
 						// 지도 위치 클릭 시, 생성 UI 강제 팝업 및 클릭 위치 저장
-						setIsCreateLocationOpen(true);
+						setIsCreateLocationUIOpen(true);
 						setCreateLocation(newLocation);
 
 						const time = new Date().getTime();
@@ -121,7 +121,7 @@ function KakaoMapLocation() {
 							</button>
 						</CustomOverlayMap>
 						{/* 신규 위치 마커 */}
-						<Activity mode={isCreateLocationOpen ? 'visible' : 'hidden'}>
+						<Activity mode={isCreateLocationUIOpen ? 'visible' : 'hidden'}>
 							<CreateLocation createLocation={createLocation!} handleCloseModal={handleCloseModal} />
 						</Activity>
 					</MarkerClusterer>
