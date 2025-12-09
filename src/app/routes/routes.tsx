@@ -3,7 +3,7 @@ import { loggedInUserOnlyRoutes } from '@/app/routes/loggedInUserOnly.route';
 import { unloggedInRoute } from '@/app/routes/unloggedIn.route';
 import ErrorPage from '@/pages/error/ErrorPage';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
-import LoggedInUserOnlyLayout from '@/widgets/layout/LoggedInUserOnlyLayout';
+import LoggedInMapLayout from '@/widgets/layout/LoggedInMapLayout';
 import UnloggedInLayout from '@/widgets/layout/UnloggedInLayout';
 
 /**
@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				// 세션 데이터가 없다면, 로그인 페이지로 라우팅
-				Component: LoggedInUserOnlyLayout,
+				Component: LoggedInMapLayout,
 				children: loggedInUserOnlyRoutes,
 			},
 			{
