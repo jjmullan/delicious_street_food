@@ -5,11 +5,13 @@ import type { AbbrLocation } from '@/features/location/fetch/types/location';
 
 type State = {
 	location: AbbrLocation;
+	isCreateMode: boolean;
 	isUpdated: boolean;
 };
 
 const initialState = {
 	location: initialLocation,
+	isCreateMode: false,
 	isUpdated: false,
 };
 
@@ -20,6 +22,9 @@ export const useCreateLocationStore = create(
 	devtools(
 		combine(initialState as State, (set) => ({
 			actions: {
+				setCreateMode: (isUpdateMode: boolean) => {
+					set({ isCreateMode: !isUpdateMode });
+				},
 				setCreateLocation: (location: AbbrLocation) => {
 					set({ location: location, isUpdated: true });
 				},
@@ -39,6 +44,16 @@ export const useLocationForCreate = () => {
 export const useIsCreateLocationUpdated = () => {
 	const isLocationUpdated = useCreateLocationStore((state) => state.isUpdated);
 	return isLocationUpdated;
+};
+
+export const useIsCreateMode = () => {
+	const isCreateMode = useCreateLocationStore((state) => state.isCreateMode);
+	return isCreateMode;
+};
+
+export const useSetIsCreateMode = () => {
+	const setIsCreateMode = useCreateLocationStore((state) => state.actions.setCreateMode);
+	return setIsCreateMode;
 };
 
 export const useSetCreateLocation = () => {
