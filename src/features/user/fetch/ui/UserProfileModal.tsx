@@ -29,7 +29,7 @@ function UserProfileModal() {
 			<PopoverContent className="flex w-fit flex-col justify-center items-center p-0 text-sm">
 				<PopoverClose asChild>
 					<Link to={`/mypage/${session!.user.id}`}>
-						<div className="flex flex-col justify-center gap-y-1 rounded-md shadow-md pt-4 pb-3 px-3">
+						<div className="flex flex-col justify-center gap-y-1 rounded-md shadow-md p-3 pt-4">
 							<div className="flex flex-col justify-center gap-y-2 items-center">
 								<div className="relative h-16 w-16">
 									{/* 리워드 이미지 추가 */}
@@ -59,7 +59,7 @@ function UserProfileModal() {
 					</Link>
 				</PopoverClose>
 				<PopoverClose asChild>
-					<button type="button" className="hover:bg-muted cursor-pointer w-full py-2" onClick={signOut}>
+					<button type="button" className="hover:bg-muted cursor-pointer w-full py-2 text-xs" onClick={signOut}>
 						로그아웃
 					</button>
 				</PopoverClose>

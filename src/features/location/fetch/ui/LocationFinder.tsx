@@ -14,6 +14,7 @@ function LocationFinder({
 	total_recommend_count,
 	total_review_count,
 	total_visit_count,
+	total_favorite_count,
 	is_create_location,
 }: { is_my_location: boolean; user_Id?: string } & Partial<Location> & { is_create_location?: boolean }) {
 	// 프로필 이미지 추출
@@ -55,6 +56,7 @@ function LocationFinder({
 					total_recommend_count={total_recommend_count}
 					total_review_count={total_review_count}
 					total_visit_count={total_visit_count}
+					total_favorite_count={total_favorite_count}
 				/>
 			)}
 		</>
