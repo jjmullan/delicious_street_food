@@ -4,12 +4,14 @@ import HomeButton from '@/shared/ui/button/HomeButton';
 
 function MapHeader() {
 	return (
-		<header className="flex justify-around items-center h-15 fixed bottom-0 text-lg w-full z-99 px-4 glass max-w-[768px]">
-			{/* <ItemListButton /> */}
-			<ToggleSwitchLocationModeButton />
-			<HomeButton />
-			<UserProfileModal />
-		</header>
+		<div className="absolute top-3 left-3 z-1 flex flex-col gap-y-2">
+			<header className="flex justify-around items-center fixed text-lg z-99 glass rounded-md bottom-3 w-[calc(100vw-24px)] max-w-[calc(768px-24px)] min-w-[calc(320px-24px)] h-fit">
+				{/* <ItemListButton /> */}
+				<ToggleSwitchLocationModeButton />
+				<HomeButton />
+				<UserProfileModal />
+			</header>
+		</div>
 	);
 }
 
