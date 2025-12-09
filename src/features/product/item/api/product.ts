@@ -5,7 +5,7 @@ import type { Product } from '@/shared/types/types';
  * 전체 상품 카테고리 목록 패칭을 요청하는 API
  */
 export async function fetchProducts() {
-	const request = supabase.from('products').select('*');
+	const request = supabase.from('product').select('*');
 	const { data, error } = await request;
 
 	if (error) throw error;
