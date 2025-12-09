@@ -2,7 +2,7 @@ import ToggleSwitchLocationModeButton from '@/features/location/create/ui/Toggle
 import UserProfileModal from '@/features/user/fetch/ui/UserProfileModal';
 import HomeButton from '@/shared/ui/button/HomeButton';
 
-function LoggedInUserOnlyHeader() {
+function MapHeader() {
 	return (
 		<header className="flex justify-around items-center h-15 fixed bottom-0 text-lg w-full z-99 px-4 glass max-w-[768px]">
 			{/* <ItemListButton /> */}
@@ -13,4 +13,4 @@ function LoggedInUserOnlyHeader() {
 	);
 }
 
-export default LoggedInUserOnlyHeader;
+export default MapHeader;
