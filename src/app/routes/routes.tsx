@@ -1,8 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { loggedInUserOnlyRoutes } from '@/app/routes/loggedInUserOnly.route';
+import { loggedInDetailRoutes } from '@/app/routes/loggedInDetail.route';
+import { loggedInMapRoutes } from '@/app/routes/loggedInMap.route';
 import { unloggedInRoute } from '@/app/routes/unloggedIn.route';
 import ErrorPage from '@/pages/error/ErrorPage';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
+import LoggedInDetailLayout from '@/widgets/layout/LoggedInDetailLayout';
 import LoggedInMapLayout from '@/widgets/layout/LoggedInMapLayout';
 import UnloggedInLayout from '@/widgets/layout/UnloggedInLayout';
 
@@ -21,9 +23,14 @@ export const router = createBrowserRouter([
 		errorElement: <ErrorPage />,
 		children: [
 			{
-				// 세션 데이터가 없다면, 로그인 페이지로 라우팅
+				// 로그인 된 유저는 카카오 맵 지도 접근 가능
 				Component: LoggedInMapLayout,
-				children: loggedInUserOnlyRoutes,
+				children: loggedInMapRoutes,
+			},
+			{
+				// 로그인 된 유저는 상세 페이지 접근 가능
+				Component: LoggedInDetailLayout,
+				children: loggedInDetailRoutes,
 			},
 			{
 				// 세션 데이터가 있다면, 인덱스 페이지로 라우팅

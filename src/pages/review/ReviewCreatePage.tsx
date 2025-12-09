@@ -1,5 +1,4 @@
 import { useParams } from 'react-router';
-import NonMapHeader from '@/widgets/header/NonMapHeader';
 
 function ReviewCreatePage() {
 	const param = useParams();
@@ -8,7 +7,6 @@ function ReviewCreatePage() {
 
 	return (
 		<>
-			<NonMapHeader mode={'extra'} />
 			<p>{location_id}</p>
 			<p>{user_id}</p>
 		</>

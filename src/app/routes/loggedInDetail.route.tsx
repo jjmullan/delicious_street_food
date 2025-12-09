@@ -1,13 +1,11 @@
 import type { RouteObject } from 'react-router';
-import HomePage from '@/pages/home/HomePage';
 import LocationPage from '@/pages/location/LocationPage';
-import MypagePage from '@/pages/mypage/MypagePage';
+import MyPagePage from '@/pages/mypage/MypagePage';
 import ReviewCreatePage from '@/pages/review/ReviewCreatePage';
 import ReviewListPage from '@/pages/review/ReviewListPage';
 
-export const loggedInUserOnlyRoutes: RouteObject[] = [
-	{ index: true, path: '/', Component: HomePage },
-	{ path: '/mypage/:userId', Component: MypagePage },
+export const loggedInDetailRoutes: RouteObject[] = [
+	{ path: '/mypage/:userId', Component: MyPagePage },
 	{ path: '/location/:locationId', Component: LocationPage },
 	{ path: '/location/:locationId/review/all', Component: ReviewListPage },
 	{ path: '/location/:locationId/review/new/:userId', Component: ReviewCreatePage },
