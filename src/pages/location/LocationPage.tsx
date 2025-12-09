@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 
 function LocationPage() {
 	const param = useParams();
@@ -7,6 +7,7 @@ function LocationPage() {
 	return (
 		<>
 			<h1>{locationId}의 장소 상세페이지</h1>
+			<Link to={`/location/${locationId}/review/all`}>리뷰</Link>
 		</>
 	);
 }
