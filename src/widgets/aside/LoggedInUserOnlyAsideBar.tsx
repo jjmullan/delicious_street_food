@@ -1,5 +1,5 @@
 import { Activity, useState } from 'react';
-import SearchLocationBar from '@/features/location/fetch/ui/SearchLocationBar';
+import SearchLocationBar from '@/features/location/update/ui/SearchLocationBar';
 import ProductList from '@/features/product/item/ui/ProductList';
 
 function LoggedInUserOnlyAsideBar() {
