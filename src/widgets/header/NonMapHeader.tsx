@@ -31,7 +31,7 @@ function NonMapHeader({ mode }: { mode: 'default' | 'extra' }) {
 					<button
 						type="button"
 						onClick={() => navigate(-1)}
-						className="cursor-pointer px-4 h-12 flex justify-center items-center"
+						className="cursor-pointer px-3 h-12 flex justify-center items-center"
 					>
 						<Activity mode={window.location.href.split('/login').pop() === '' ? 'hidden' : 'visible'}>
 							<ArrowLeft />
@@ -43,7 +43,7 @@ function NonMapHeader({ mode }: { mode: 'default' | 'extra' }) {
 					<button
 						type="button"
 						onClick={() => {}}
-						className="cursor-pointer flex justify-center items-center px-4 h-12"
+						className="cursor-pointer flex justify-center items-center px-3 h-12"
 					>
 						<div className="w-6 h-6"></div>
 					</button>
@@ -53,14 +53,14 @@ function NonMapHeader({ mode }: { mode: 'default' | 'extra' }) {
 					<button
 						type="button"
 						onClick={() => navigate(-1)}
-						className="cursor-pointer px-4 h-12 flex justify-center items-center"
+						className="cursor-pointer px-3 h-12 flex justify-center items-center"
 					>
 						{/* <Activity mode={level > 2 ? 'visible' : 'hidden'}> */}
 						<ArrowLeft />
 						{/* </Activity> */}
 					</button>
 					<h2 className="align-baseline flex-1 h-12 flex justify-center items-center text-base">{title}</h2>
-					<Link to={'/'} className="cursor-pointer flex justify-center items-center px-4 h-12">
+					<Link to={'/'} className="cursor-pointer flex justify-center items-center px-3 h-12">
 						<HomeIcon />
 					</Link>
 				</header>

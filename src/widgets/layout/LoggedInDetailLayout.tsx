@@ -12,7 +12,7 @@ function LoggedInDetailLayout() {
 	return (
 		<div className="min-h-svh">
 			<NonMapHeader mode={'extra'} />
-			<main>
+			<main className="p-3">
 				<Outlet />
 			</main>
 		</div>
