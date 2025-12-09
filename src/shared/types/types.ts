@@ -23,6 +23,7 @@ export type API_Review = Pick<
 	| 'visit_date'
 	| 'visit_time'
 >;
+export type API_ReviewImage = Pick<ReviewImage, 'review_id' | 'review_image_url'>;
 
 /**
  * useMutation 에서 사용하는 상황별 로직
