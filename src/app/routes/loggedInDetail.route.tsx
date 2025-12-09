@@ -8,5 +8,5 @@ export const loggedInDetailRoutes: RouteObject[] = [
 	{ path: '/mypage/:userId', Component: MyPagePage },
 	{ path: '/location/:locationId', Component: LocationPage },
 	{ path: '/location/:locationId/review/all', Component: ReviewListPage },
-	{ path: '/location/:locationId/review/new/:userId', Component: ReviewCreatePage },
+	{ path: '/location/:locationId/review/new', Component: ReviewCreatePage },
 ];
