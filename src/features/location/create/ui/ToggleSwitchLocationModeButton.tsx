@@ -1,5 +1,5 @@
 import { Map, MapPlusIcon } from 'lucide-react';
-import { Activity } from 'react';
+import { Activity, useEffect, useRef, useState } from 'react';
 import { useIsCreateMode, useSetIsCreateMode } from '@/app/store/createLocationStore';
 
 function ToggleSwitchLocationModeButton() {
@@ -8,6 +8,16 @@ function ToggleSwitchLocationModeButton() {
 	const toggleIsUpdateMode = () => {
 		setIsUpdateMode(isUpdateMode);
 	};
+
+	// 5초 후에 안내 텍스트 안보이게 하기
+	const [isShowInfoText, setIsShowInfoText] = useState(true);
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setIsShowInfoText(false);
+		}, 5_000);
+
+		return () => clearTimeout(timer);
+	}, []);
 
 	return (
 		<div className="relative">
@@ -21,9 +31,11 @@ function ToggleSwitchLocationModeButton() {
 				</Activity>
 			</button>
 			<Activity mode={isUpdateMode ? 'hidden' : 'visible'}>
-				<div className="absolute font-semibold top-[-10px] left-[-36px] bg-brown-sub text-white rounded-full px-2 py-1 w-32 text-[10px] animate-bounce flex items-center justify-center">
-					지도에 포장마차가 없다면?
-				</div>
+				<Activity mode={isShowInfoText ? 'visible' : 'hidden'}>
+					<div className="absolute font-semibold top-[-10px] left-[-36px] bg-brown-sub text-white rounded-full px-2 py-1 w-32 text-[10px] animate-bounce flex items-center justify-center">
+						포장마차가 지도에 없다면?
+					</div>
+				</Activity>
 			</Activity>
 		</div>
 	);
