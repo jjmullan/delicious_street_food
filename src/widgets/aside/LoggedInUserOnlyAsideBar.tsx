@@ -13,11 +13,12 @@ function LoggedInUserOnlyAsideBar() {
 			<Activity mode={isSearchBarOpen ? 'visible' : 'hidden'}>
 				<SearchLocationBar />
 			</Activity>
-			<ul className="overflow-x-auto flex gap-x-2 snap-mandatory snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pr-3 h-9 items-center justify-start">
+			<ul className="overflow-x-auto flex gap-x-1.5 snap-mandatory snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pr-3 h-9 items-center justify-start">
+				{/* AI 검색 버튼 */}
 				<button
 					type="button"
 					onClick={toggleSearchBar}
-					className="glass w-fit rounded-full flex items-center justify-center px-2 py-1 h-7 shrink-0 gap-x-1.5"
+					className={`glass w-fit rounded-full flex items-center justify-center px-2 py-1 h-7 shrink-0 gap-x-1.5 ${isSearchBarOpen && 'border-2 border-brown-sub'}`}
 				>
 					<svg
 						width="120"
