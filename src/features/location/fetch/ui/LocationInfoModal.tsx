@@ -12,7 +12,7 @@ function LocationInfoModal({
 	total_review_count,
 	total_favorite_count,
 }: Partial<Location> & { userData: Partial<User> }) {
-	const user_id = userData.user_id;
+	const user_id = userData?.user_id;
 
 	return (
 		<Popover>
