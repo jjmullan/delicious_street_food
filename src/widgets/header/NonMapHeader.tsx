@@ -37,7 +37,7 @@ function NonMapHeader({ mode }: { mode: 'default' | 'extra' }) {
 							<ArrowLeft />
 						</Activity>
 					</button>
-					<h2 className="align-baseline flex-1 h-12 flex justify-center items-center">
+					<h2 className="align-baseline flex-1 h-12 flex justify-center items-center text-base">
 						{currentHref === 'login' ? '' : currentHref === 'email' ? ' 이메일 로그인' : '이메일 회원가입'}
 					</h2>
 					<button
@@ -59,7 +59,7 @@ function NonMapHeader({ mode }: { mode: 'default' | 'extra' }) {
 						<ArrowLeft />
 						{/* </Activity> */}
 					</button>
-					<h2 className="align-baseline flex-1 h-12 flex justify-center items-center">{title}</h2>
+					<h2 className="align-baseline flex-1 h-12 flex justify-center items-center text-base">{title}</h2>
 					<Link to={'/'} className="cursor-pointer flex justify-center items-center px-4 h-12">
 						<HomeIcon />
 					</Link>
