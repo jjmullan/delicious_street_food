@@ -118,53 +118,14 @@ export type Database = {
 				};
 				Relationships: [];
 			};
-			product_list: {
-				Row: {
-					created_at: string;
-					is_selling: boolean;
-					location_id: string;
-					product_id: string;
-					product_list_id: string;
-					updated_at: string;
-				};
-				Insert: {
-					created_at?: string;
-					is_selling?: boolean;
-					location_id: string;
-					product_id: string;
-					product_list_id?: string;
-					updated_at?: string;
-				};
-				Update: {
-					created_at?: string;
-					is_selling?: boolean;
-					location_id?: string;
-					product_id?: string;
-					product_list_id?: string;
-					updated_at?: string;
-				};
-				Relationships: [
-					{
-						foreignKeyName: 'product_list_location_id_fkey';
-						columns: ['location_id'];
-						isOneToOne: false;
-						referencedRelation: 'location';
-						referencedColumns: ['location_id'];
-					},
-					{
-						foreignKeyName: 'product_list_product_id_fkey';
-						columns: ['product_id'];
-						isOneToOne: false;
-						referencedRelation: 'product';
-						referencedColumns: ['product_id'];
-					},
-				];
-			};
 			review: {
 				Row: {
 					created_at: string;
 					is_recommended: boolean | null;
 					location_id: string;
+					order_price: number;
+					order_quantity: number;
+					product_id: string;
 					review_id: string;
 					review_text: string;
 					review_title: string | null;
@@ -177,6 +138,9 @@ export type Database = {
 					created_at?: string;
 					is_recommended?: boolean | null;
 					location_id: string;
+					order_price: number;
+					order_quantity: number;
+					product_id: string;
 					review_id?: string;
 					review_text: string;
 					review_title?: string | null;
@@ -189,6 +153,9 @@ export type Database = {
 					created_at?: string;
 					is_recommended?: boolean | null;
 					location_id?: string;
+					order_price?: number;
+					order_quantity?: number;
+					product_id?: string;
 					review_id?: string;
 					review_text?: string;
 					review_title?: string | null;
@@ -204,6 +171,13 @@ export type Database = {
 						isOneToOne: false;
 						referencedRelation: 'location';
 						referencedColumns: ['location_id'];
+					},
+					{
+						foreignKeyName: 'review_product_id_fkey';
+						columns: ['product_id'];
+						isOneToOne: false;
+						referencedRelation: 'product';
+						referencedColumns: ['product_id'];
 					},
 					{
 						foreignKeyName: 'review_user_id_fkey';
@@ -236,48 +210,6 @@ export type Database = {
 				Relationships: [
 					{
 						foreignKeyName: 'review_image_review_id_fkey';
-						columns: ['review_id'];
-						isOneToOne: false;
-						referencedRelation: 'review';
-						referencedColumns: ['review_id'];
-					},
-				];
-			};
-			review_product: {
-				Row: {
-					created_at: string;
-					ordered_price: number;
-					ordered_quantity: number;
-					product_id: string;
-					review_id: string;
-					review_product_id: string;
-				};
-				Insert: {
-					created_at?: string;
-					ordered_price: number;
-					ordered_quantity: number;
-					product_id: string;
-					review_id: string;
-					review_product_id?: string;
-				};
-				Update: {
-					created_at?: string;
-					ordered_price?: number;
-					ordered_quantity?: number;
-					product_id?: string;
-					review_id?: string;
-					review_product_id?: string;
-				};
-				Relationships: [
-					{
-						foreignKeyName: 'review_product_product_id_fkey';
-						columns: ['product_id'];
-						isOneToOne: false;
-						referencedRelation: 'product';
-						referencedColumns: ['product_id'];
-					},
-					{
-						foreignKeyName: 'review_product_review_id_fkey';
 						columns: ['review_id'];
 						isOneToOne: false;
 						referencedRelation: 'review';
