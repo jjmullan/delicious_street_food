@@ -6,7 +6,7 @@ function SearchLocationBar() {
 	const [searchText, setSeartText] = useState('');
 
 	return (
-		<div className="relative w-[calc(100vw-32px)] max-w-[calc(768px-32px)] min-w-[calc(320px-32px)] top-0 h-fit">
+		<div className="relative w-[calc(100vw-24px)] max-w-[calc(768px-24px)] min-w-[calc(320px-24px)] top-0 h-fit">
 			<label htmlFor="searchText" className="sr-only">
 				Search
 			</label>
@@ -15,7 +15,7 @@ function SearchLocationBar() {
 				type="text"
 				value={searchText}
 				onChange={(e) => setSeartText(e.target.value)}
-				placeholder="검색어를 입력하세요"
+				placeholder="예시: 서울시청 주변 붕어빵 맛집"
 				className="flex justify-between items-center h-10 rounded-full text-md glass border-white/50 shadow-sm pl-4 pr-10"
 			/>
 			<button

@@ -9,11 +9,11 @@ function LoggedInUserOnlyAsideBar() {
 	};
 
 	return (
-		<div className="absolute top-4 left-4 z-1 flex flex-col gap-y-2">
+		<div className="absolute top-3 left-3 z-1 flex flex-col gap-y-2">
 			<Activity mode={isSearchBarOpen ? 'visible' : 'hidden'}>
 				<SearchLocationBar />
 			</Activity>
-			<ul className="overflow-x-auto flex gap-x-2 snap-mandatory snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pr-4 h-9 items-center justify-start">
+			<ul className="overflow-x-auto flex gap-x-2 snap-mandatory snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pr-3 h-9 items-center justify-start">
 				<button
 					type="button"
 					onClick={toggleSearchBar}
