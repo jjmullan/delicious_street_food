@@ -24,7 +24,6 @@ import { Input } from '@/shared/ui/shadcn/input';
 function CreateLocationModal() {
 	// 선택된 위치 전역 상태 가져오기
 	const clickedlocation = useLocationForCreate();
-	console.log('생성 위치 위도/경도 :', clickedlocation);
 
 	// 선택된 상품 카테고리 목록 관리
 	const [products, setProducts] = useState<Item['name_en'][]>([]);
