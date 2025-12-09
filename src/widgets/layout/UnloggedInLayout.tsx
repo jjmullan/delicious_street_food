@@ -14,7 +14,7 @@ function UnloggedInLayout() {
 			<main className="px-4">
 				<Outlet />
 			</main>
-			<NonMapHeader />
+			<NonMapHeader mode={'default'} />
 		</>
 	);
 }
