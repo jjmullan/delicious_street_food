@@ -6,12 +6,14 @@ import type { Location, User } from '@/shared/types/types';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
 
 function LocationInfoModal({
-	// userData,
+	userData,
 	location_id,
 	total_recommend_count,
 	total_review_count,
 	total_favorite_count,
 }: Partial<Location> & { userData: Partial<User> }) {
+	const user_id = userData.user_id;
+
 	return (
 		<Popover>
 			<PopoverTrigger>
@@ -62,7 +64,7 @@ function LocationInfoModal({
 							</div>
 						</Link>
 						<Link
-							to={`/location/${location_id}/review/new`}
+							to={`/location/${location_id}/review/new/${user_id}`}
 							className="flex gap-x-1.5 justify-center items-center text-xs p-3 border-t"
 						>
 							<PenBoxIcon width={12} height={12} />

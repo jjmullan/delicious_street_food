@@ -10,5 +10,5 @@ export const loggedInUserOnlyRoutes: RouteObject[] = [
 	{ path: '/mypage/:userId', Component: MypagePage },
 	{ path: '/location/:locationId', Component: LocationPage },
 	{ path: '/location/:locationId/review/all', Component: ReviewListPage },
-	{ path: '/location/:locationId/review/new', Component: ReviewCreatePage },
+	{ path: '/location/:locationId/review/new/:userId', Component: ReviewCreatePage },
 ];
