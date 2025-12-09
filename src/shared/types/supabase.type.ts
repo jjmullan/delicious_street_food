@@ -52,6 +52,7 @@ export type Database = {
 					location_id: string;
 					location_name: string | null;
 					longitude: string;
+					total_favorite_count: number;
 					total_recommend_count: number;
 					total_review_count: number;
 					total_visit_count: number;
@@ -65,6 +66,7 @@ export type Database = {
 					location_id?: string;
 					location_name?: string | null;
 					longitude: string;
+					total_favorite_count?: number;
 					total_recommend_count?: number;
 					total_review_count?: number;
 					total_visit_count?: number;
@@ -78,6 +80,7 @@ export type Database = {
 					location_id?: string;
 					location_name?: string | null;
 					longitude?: string;
+					total_favorite_count?: number;
 					total_recommend_count?: number;
 					total_review_count?: number;
 					total_visit_count?: number;
