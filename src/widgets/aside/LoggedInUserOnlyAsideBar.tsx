@@ -1,6 +1,6 @@
 import { Activity, useState } from 'react';
 import SearchLocationBar from '@/features/location/update/ui/SearchLocationBar';
-import ProductList from '@/features/product/item/ui/ProductList';
+import SelectProductItem from '@/features/location/update/ui/SelectProductItem';
 
 function LoggedInUserOnlyAsideBar() {
 	const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
@@ -18,7 +18,7 @@ function LoggedInUserOnlyAsideBar() {
 				<button
 					type="button"
 					onClick={toggleSearchBar}
-					className={`glass w-fit rounded-full flex items-center justify-center px-2 py-1 h-7 shrink-0 gap-x-1.5 ${isSearchBarOpen && 'border-2 border-brown-sub'}`}
+					className={`glass w-fit rounded-full flex items-center justify-center px-2 py-1 h-7 shrink-0 gap-x-1.5 ${isSearchBarOpen && 'border border-brown-sub'}`}
 				>
 					<svg
 						width="120"
@@ -49,7 +49,7 @@ function LoggedInUserOnlyAsideBar() {
 					</svg>
 					<p className="text-[12px] align-text-bottom">AI 검색</p>
 				</button>
-				<ProductList />
+				<SelectProductItem />
 			</ul>
 		</div>
 	);
