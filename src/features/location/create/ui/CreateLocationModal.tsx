@@ -76,7 +76,7 @@ function CreateLocationModal() {
 		<AlertDialog open={store.isOpen}>
 			<AlertDialogContent>
 				<AlertDialogHeader>
-					<AlertDialogTitle>새로운 포장마차를 발견했어요!</AlertDialogTitle>
+					<AlertDialogTitle className="text-center">새로운 포장마차를 발견했어요!</AlertDialogTitle>
 					<AlertDialogDescription className="sr-only">지도에 신규 포장마차를 등록해주세요</AlertDialogDescription>
 					<div className="flex flex-col gap-y-5 mt-3">
 						{/* 발견한 사람 */}
@@ -93,7 +93,7 @@ function CreateLocationModal() {
 									<div className="border-b"></div>
 									<div></div>
 								</div>
-								<h3 className="text-xs flex-1 text-muted-foreground font-medium">판매 중인 상품</h3>
+								<h3 className="text-xs flex-1 text-muted-foreground font-medium text-center">판매 중인 상품</h3>
 								<div className="grid grid-rows-2 flex-1">
 									<div className="border-b"></div>
 									<div></div>
@@ -126,13 +126,13 @@ function CreateLocationModal() {
 						</div>
 					</div>
 				</AlertDialogHeader>
-				<AlertDialogFooter>
-					<AlertDialogCancel onClick={handleCancelClick} disabled={isPending}>
-						취소
-					</AlertDialogCancel>
-					<AlertDialogAction onClick={handleActionClick} disabled={isPending}>
+				<AlertDialogFooter className="flex flex-col">
+					<AlertDialogAction onClick={handleActionClick} disabled={isPending} className="flex-1">
 						{isPending ? <Fallback title={'지도에 추가 중'} /> : '지도에 신규 포장마차 추가하기'}
 					</AlertDialogAction>
+					<AlertDialogCancel onClick={handleCancelClick} disabled={isPending} className="flex-1">
+						취소
+					</AlertDialogCancel>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

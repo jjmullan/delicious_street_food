@@ -1,7 +1,7 @@
 import { Activity, useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { toast } from 'sonner';
-import { useLocationForCreate, useSetCreateLocation } from '@/app/store/createLocationStore';
+import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@/app/store/createLocationStore';
 import { useLocation } from '@/app/store/locationStore';
 import { useSession } from '@/app/store/sessionStore';
 import CreateLocation from '@/features/location/create/ui/CreateLocation';
@@ -36,6 +36,7 @@ function KakaoMapLocation() {
 	}
 
 	// 클릭한 위치 및 기타 정보를 전역 상태로 관리
+	const isCreateMode = useIsCreateMode();
 	const [isCreateLocationUIOpen, setIsCreateLocationUIOpen] = useState(false);
 	const createLocation = useLocationForCreate() ?? location;
 	const setCreateLocation = useSetCreateLocation();
@@ -72,6 +73,8 @@ function KakaoMapLocation() {
 						return;
 					}}
 					onClick={(_, mouseEvent) => {
+						if (!isCreateMode) return;
+
 						const latLng = mouseEvent.latLng;
 						const lat = latLng.getLat();
 						const lng = latLng.getLng();

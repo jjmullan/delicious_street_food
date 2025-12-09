@@ -15,4 +15,9 @@ export const QUERY_KEYS = {
 		byId: (locationId: string) => ['location', 'byId', locationId],
 		byLatLng: (lat: string, lng: string) => ['location', 'byLatLng', lat, lng],
 	},
+	review: {
+		all: ['review'],
+		list: ['review', 'list'],
+		byId: (reviewId: string) => ['review', 'byId', reviewId],
+	},
 };

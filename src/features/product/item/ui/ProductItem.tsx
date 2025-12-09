@@ -11,7 +11,7 @@ function ProductItem({ name_ko, name_en }: Item) {
 	return (
 		<li
 			// className="h-fit shrink-0 bg-white/80 rounded-full flex items-center justify-center gap-x-2 px-3 py-2 border-2"
-			className={`h-fit shrink-0 rounded-full px-2 py-1 flex items-center justify-center glass`}
+			className={`h-7 shrink-0 rounded-full px-2 py-1 flex items-center justify-center glass`}
 		>
 			<button
 				type="button"
