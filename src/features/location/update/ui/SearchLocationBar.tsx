@@ -6,7 +6,7 @@ function SearchLocationBar() {
 	const [searchText, setSeartText] = useState('');
 
 	return (
-		<div className="relative w-[calc(100vw-24px)] max-w-[calc(768px-24px)] min-w-[calc(320px-24px)] top-0 h-fit">
+		<div className="relative auto-width top-0 h-fit">
 			<label htmlFor="searchText" className="sr-only">
 				Search
 			</label>
