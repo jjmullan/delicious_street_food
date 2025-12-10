@@ -1,25 +1,15 @@
 import { Link, useParams } from 'react-router';
-import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchReviewsByLocation';
 
 function LocationPage() {
+	// 포장마차 위치 정보 가져오기
 	const param = useParams();
-	const locationId = param.locationId;
-	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(locationId!);
-
-	// Pending 통합 상태 관리
-	const isPending = isFetchReviewsPending;
+	const location_id = param.locationId;
 
 	return (
 		<>
-			<div>
-				{fetchReviews?.map((review) => (
-					<div key={review.review_id}>
-						<div>{review.review_title}</div>
-						<div>{review.review_text}</div>
-					</div>
-				))}
-			</div>
-			<Link to={`/location/${locationId}/review/all`}>리뷰</Link>
+			<h1>LocationPage Component</h1>
+			<Link to={`/location/${location_id}/review/all`}>리뷰 목록</Link>
+			<Link to={`/location/${location_id}/review/new`}>리뷰 작성</Link>
 		</>
 	);
 }

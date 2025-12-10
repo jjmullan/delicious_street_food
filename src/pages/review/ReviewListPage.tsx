@@ -1,15 +1,45 @@
-import { Link, useParams } from 'react-router';
+import { PenIcon } from 'lucide-react';
+import { Activity } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
+import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchReviewsByLocation';
+import ReviewItem from '@/features/review/fetch/ui/ReviewItem';
+import { Button } from '@/shared/ui/shadcn/button';
 
 function ReviewListPage() {
-	// 포장마차 위치 정보 가져오기
+	const navigate = useNavigate();
+	const openConfirmModal = useOpenConfirmModal();
+	const handleClickCreateReviewPage = () => {
+		openConfirmModal({
+			title: '리뷰 작성 페이지로 이동하시겠습니까?',
+			description: '',
+			onPositive: () => {
+				navigate(`/location/${locationId}/review/new`);
+			},
+		});
+	};
+
 	const param = useParams();
-	const location_id = param.locationId;
+	const locationId = param.locationId;
+	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(locationId!);
+
+	// Pending 통합 상태 관리
+	const isPending = isFetchReviewsPending;
 
 	return (
-		<>
-			<h1>ReviewListPage Component</h1>
-			<Link to={`/location/${location_id}/review/new`}>리뷰 작성</Link>
-		</>
+		<div className="flex flex-col gap-y-1">
+			<Button type="button" variant={'outline'} onClick={handleClickCreateReviewPage} className="">
+				<PenIcon />
+				<p>리뷰 작성하러 가기</p>
+			</Button>
+			<Activity mode={isPending ? 'hidden' : 'visible'}>
+				<div className="flex flex-col">
+					{fetchReviews?.map((review) => (
+						<ReviewItem key={review.review_id} {...review} />
+					))}
+				</div>
+			</Activity>
+		</div>
 	);
 }
 
