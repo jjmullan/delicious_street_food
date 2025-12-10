@@ -126,46 +126,34 @@ export type Database = {
 					created_at: string;
 					is_recommended: boolean | null;
 					location_id: string;
-					order_price: number;
-					order_quantity: number;
-					product_id: string;
 					review_id: string;
 					review_text: string;
 					review_title: string | null;
 					updated_at: string;
 					user_id: string;
-					visit_date: string;
-					visit_time: string;
+					visit_datetime: string;
 				};
 				Insert: {
 					created_at?: string;
 					is_recommended?: boolean | null;
 					location_id: string;
-					order_price: number;
-					order_quantity: number;
-					product_id: string;
 					review_id?: string;
 					review_text: string;
 					review_title?: string | null;
 					updated_at?: string;
 					user_id: string;
-					visit_date: string;
-					visit_time: string;
+					visit_datetime: string;
 				};
 				Update: {
 					created_at?: string;
 					is_recommended?: boolean | null;
 					location_id?: string;
-					order_price?: number;
-					order_quantity?: number;
-					product_id?: string;
 					review_id?: string;
 					review_text?: string;
 					review_title?: string | null;
 					updated_at?: string;
 					user_id?: string;
-					visit_date?: string;
-					visit_time?: string;
+					visit_datetime?: string;
 				};
 				Relationships: [
 					{
@@ -174,13 +162,6 @@ export type Database = {
 						isOneToOne: false;
 						referencedRelation: 'location';
 						referencedColumns: ['location_id'];
-					},
-					{
-						foreignKeyName: 'review_product_id_fkey';
-						columns: ['product_id'];
-						isOneToOne: false;
-						referencedRelation: 'product';
-						referencedColumns: ['product_id'];
 					},
 					{
 						foreignKeyName: 'review_user_id_fkey';
@@ -213,6 +194,54 @@ export type Database = {
 				Relationships: [
 					{
 						foreignKeyName: 'review_image_review_id_fkey';
+						columns: ['review_id'];
+						isOneToOne: false;
+						referencedRelation: 'review';
+						referencedColumns: ['review_id'];
+					},
+				];
+			};
+			review_product: {
+				Row: {
+					created_at: string;
+					is_recommend: boolean | null;
+					order_price: number;
+					order_quantity: number;
+					product_id: string;
+					review_id: string;
+					review_product_id: string;
+					updated_at: string;
+				};
+				Insert: {
+					created_at?: string;
+					is_recommend?: boolean | null;
+					order_price: number;
+					order_quantity: number;
+					product_id: string;
+					review_id: string;
+					review_product_id?: string;
+					updated_at?: string;
+				};
+				Update: {
+					created_at?: string;
+					is_recommend?: boolean | null;
+					order_price?: number;
+					order_quantity?: number;
+					product_id?: string;
+					review_id?: string;
+					review_product_id?: string;
+					updated_at?: string;
+				};
+				Relationships: [
+					{
+						foreignKeyName: 'review_product_product_id_fkey';
+						columns: ['product_id'];
+						isOneToOne: false;
+						referencedRelation: 'product';
+						referencedColumns: ['product_id'];
+					},
+					{
+						foreignKeyName: 'review_product_review_id_fkey';
 						columns: ['review_id'];
 						isOneToOne: false;
 						referencedRelation: 'review';

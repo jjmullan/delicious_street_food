@@ -77,7 +77,7 @@ function CreateLocationModal() {
 				<AlertDialogHeader>
 					<AlertDialogTitle className="text-center">새로운 포장마차를 발견했어요!</AlertDialogTitle>
 					<AlertDialogDescription className="sr-only">지도에 신규 포장마차를 등록해주세요</AlertDialogDescription>
-					<div className="flex flex-col gap-y-5 mt-3">
+					<div className="flex flex-col gap-y-5 my-3">
 						{/* 발견한 사람 */}
 						<div className="text-sm flex flex-col gap-y-2 items-center">
 							<img src={author} alt="author" width={64} />
@@ -86,7 +86,7 @@ function CreateLocationModal() {
 							</p>
 						</div>
 						{/* 판매 중인 상품 */}
-						<div className="flex flex-col gap-y-3 mb-2">
+						{/* <div className="flex flex-col gap-y-3 mb-2">
 							<div className="flex gap-x-1">
 								<div className="grid grid-rows-2 flex-1">
 									<div className="border-b"></div>
@@ -122,12 +122,12 @@ function CreateLocationModal() {
 									</div>
 								))}
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</AlertDialogHeader>
 				<AlertDialogFooter className="flex flex-col">
 					<AlertDialogAction onClick={handleActionClick} disabled={isPending} className="flex-1">
-						{isPending ? <Fallback title={'지도에 추가 중'} /> : '지도에 신규 포장마차 추가하기'}
+						{isPending ? <Fallback title={'지도에 추가 중'} /> : '신규 포장마차 추가하기'}
 					</AlertDialogAction>
 					<AlertDialogCancel onClick={handleCancelClick} disabled={isPending} className="flex-1">
 						취소

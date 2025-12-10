@@ -64,7 +64,7 @@ function LocationInfoModal({
 							</div>
 						</Link>
 						<Link
-							to={`/location/${location_id}/review/new/${user_id}`}
+							to={`/location/${location_id}/review/new`}
 							className="flex gap-x-1.5 justify-center items-center text-xs p-3 border-t"
 						>
 							<PenBoxIcon width={12} height={12} />

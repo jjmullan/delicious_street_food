@@ -155,6 +155,10 @@
 	.glass {
 		@apply backdrop-blur-md bg-white/30 border border-white/50 shadow-sm;
 	}
+
+	.auto-width {
+		@apply w-[calc(100vw-24px)] max-w-[calc(768px-24px)] min-w-[calc(320px-24px)];
+	}
 }
 
 /* 커스텀 유틸리티 - 위치 마커용 펄스 애니메이션 */
