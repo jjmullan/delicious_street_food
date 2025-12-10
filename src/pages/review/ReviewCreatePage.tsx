@@ -114,6 +114,7 @@ function ReviewCreatePage() {
 			toast.info('리뷰가 등록되었습니다!', { position: 'top-center' });
 		},
 		onError: (error) => {
+			console.error('리뷰 등록 실패 :', error);
 			toast.error('리뷰 등록이 실패했습니다. 다시 시도해주세요.', { position: 'top-center' });
 		},
 	});

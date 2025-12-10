@@ -1,9 +1,9 @@
-import { Button } from '@/shared/ui/shadcn/button';
-
 function PrevNextButton({ page }: { page: number }) {
+	console.log(page);
+
 	return (
 		<>
-			{page === 1 ? (
+			{/* {page === 1 ? (
 				<Button
 					type="button"
 					className="fixed bottom-3 auto-width"
@@ -30,7 +30,7 @@ function PrevNextButton({ page }: { page: number }) {
 						작성 완료
 					</Button>
 				</div>
-			)}
+			)} */}
 		</>
 	);
 }
