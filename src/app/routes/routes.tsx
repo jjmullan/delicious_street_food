@@ -1,9 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { loggedInCreateRoutes } from '@/app/routes/loggedInCreate.route';
 import { loggedInDetailRoutes } from '@/app/routes/loggedInDetail.route';
 import { loggedInMapRoutes } from '@/app/routes/loggedInMap.route';
 import { unloggedInRoute } from '@/app/routes/unloggedIn.route';
 import ErrorPage from '@/pages/error/ErrorPage';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
+import LoggedInCreateLayout from '@/widgets/layout/LoggedInCreateLayout';
 import LoggedInDetailLayout from '@/widgets/layout/LoggedInDetailLayout';
 import LoggedInMapLayout from '@/widgets/layout/LoggedInMapLayout';
 import UnloggedInLayout from '@/widgets/layout/UnloggedInLayout';
@@ -31,6 +33,11 @@ export const router = createBrowserRouter([
 				// 로그인 된 유저는 상세 페이지 접근 가능
 				Component: LoggedInDetailLayout,
 				children: loggedInDetailRoutes,
+			},
+			{
+				// 로그인 된 유저는 생성 페이지 접근 가능
+				Component: LoggedInCreateLayout,
+				children: loggedInCreateRoutes,
 			},
 			{
 				// 세션 데이터가 있다면, 인덱스 페이지로 라우팅

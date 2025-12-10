@@ -1,17 +1,17 @@
 import { Navigate, Outlet } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
-import LoggedInDetailHeader from '@/widgets/header/LoggedInDetailHeader';
+import LoggedInCreateHeader from '@/widgets/header/LoggedInCreateHeader';
 
 /**
  * 최초 서비스 접근 시, 로그인 페이지로 라우팅
  */
-function LoggedInDetailLayout() {
+function LoggedInCreateLayout() {
 	const session = useSession();
 	if (!session) return <Navigate to={'/login'} replace={true} />;
 
 	return (
 		<div className="min-h-svh">
-			<LoggedInDetailHeader />
+			<LoggedInCreateHeader />
 			<main className="p-3 mt-12 mb-16">
 				<Outlet />
 			</main>
@@ -19,4 +19,4 @@ function LoggedInDetailLayout() {
 	);
 }
 
-export default LoggedInDetailLayout;
+export default LoggedInCreateLayout;
