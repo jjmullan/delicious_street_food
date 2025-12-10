@@ -1,8 +1,11 @@
 import { Activity, useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { toast } from 'sonner';
+import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import { characterImages } from '@/features/product/item/libs/item';
+import useCreateReview from '@/features/review/create/hook/useCreateReview';
 import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
 import { getNowDateTimeKo } from '@/shared/lib/day';
 import type { API_ReviewProduct, Product } from '@/shared/types/types';
@@ -11,6 +14,8 @@ import { Input } from '@/shared/ui/shadcn/input';
 import { Textarea } from '@/shared/ui/shadcn/textarea';
 
 function ReviewCreatePage() {
+	const navigate = useNavigate();
+
 	// 리뷰 페이지 상태 관리
 	const [page, setPage] = useState(1);
 	const handleClickNextPage = () => {
@@ -33,7 +38,7 @@ function ReviewCreatePage() {
 
 	// 등록할 상세 후기 내용
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
-	const [reviewContent, setReviewContent] = useState('');
+	const [reviewText, setReviewText] = useState('');
 
 	// Textarea 의 내용에 따라 동적으로 크기를 늘려주기
 	useEffect(() => {
@@ -41,7 +46,7 @@ function ReviewCreatePage() {
 			textareaRef.current.style.height = 'auto';
 			textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
 		}
-	}, [reviewContent]);
+	}, [reviewText]);
 
 	// 방문 날짜 상태 및 요일 데이터 관리
 	const now = getNowDateTimeKo();
@@ -98,13 +103,42 @@ function ReviewCreatePage() {
 	// 이미지 목록
 	const [images, setImages] = useState([]);
 
+	// API 요청
+	const { mutate: createReview, isPending: isCreateReviewPending } = useCreateReview({
+		onSuccess: () => {
+			toast.info('리뷰가 등록되었습니다!', { position: 'top-center' });
+		},
+		onError: (error) => {
+			toast.error('리뷰 등록이 실패했습니다. 다시 시도해주세요.', { position: 'top-center' });
+		},
+	});
+	const openConfirmModal = useOpenConfirmModal();
+	const handleRequestCreateReview = () => {
+		openConfirmModal({
+			title: '리뷰 작성을 완료하시겠습니까?',
+			description:
+				'타인에게 불편함을 줄 수 있는 표현, 광고를 목적으로 작성되는 댓글은 사전 고지없이 삭제될 수 있습니다.',
+			onPositive: () => {
+				createReview({
+					user_id: user_id!,
+					location_id: location_id!,
+					review_title: reviewTitle,
+					review_text: reviewText,
+					is_recommended: false,
+					visit_datetime: visit_datetime,
+				});
+				navigate(`/location/${location_id}/review/all`);
+			},
+		});
+	};
+
 	// 버튼 disabled 상태 통합 관리
-	const pageOneDisabled = reviewContent === '' || visitDateTime === '';
+	const pageOneDisabled = reviewText === '' || visitDateTime === '';
 	const pageTwoDisabled = selectProducts.length === 0;
 	const pageThreeDisabled = images.length === 0;
 
 	// Pending 통합 상태 통합 관리
-	const isPending = isFetchProductsPending;
+	const isPending = isFetchProductsPending || isCreateReviewPending;
 
 	return (
 		<div className="flex flex-col">
@@ -148,8 +182,8 @@ function ReviewCreatePage() {
 							id="review_text"
 							className="text-sm min-h-30"
 							ref={textareaRef}
-							value={reviewContent}
-							onChange={(e) => setReviewContent(e.target.value)}
+							value={reviewText}
+							onChange={(e) => setReviewText(e.target.value)}
 						/>
 					</section>
 					{/* 3. 방문 날짜 */}
@@ -265,15 +299,7 @@ function ReviewCreatePage() {
 						<label htmlFor="review_title" className="sr-only">
 							후기 이미지
 						</label>
-						<Input
-							type="file"
-							id="review_title"
-							className="text-sm"
-							maxLength={30}
-							placeholder="30자 이내"
-							value={reviewTitle}
-							onChange={(e) => setReviewTitle(e.target.value)}
-						/>
+						<Input type="file" id="review_title" className="text-sm" maxLength={30} placeholder="30자 이내" />
 					</section>
 				</Activity>
 			</div>
@@ -302,7 +328,7 @@ function ReviewCreatePage() {
 					<Button type="button" className="bg-muted text-balck" onClick={handleClickPrevPage}>
 						{`이전 페이지 (${page - 1}/3)`}
 					</Button>
-					<Button type="button" className="flex-1" disabled={pageThreeDisabled}>
+					<Button type="button" className="flex-1" disabled={false} onClick={handleRequestCreateReview}>
 						작성 완료
 					</Button>
 				</div>
