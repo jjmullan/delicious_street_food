@@ -12,7 +12,7 @@ function LoggedInDetailLayout() {
 	return (
 		<div className="min-h-svh">
 			<LoggedInDetailHeader />
-			<main className="p-3 mt-12 mb-16">
+			<main className="p-3 mt-12">
 				<Outlet />
 			</main>
 		</div>
