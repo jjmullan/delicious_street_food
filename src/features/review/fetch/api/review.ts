@@ -28,3 +28,18 @@ export async function fetchReviewsByUser(user_id: string) {
 	if (error) throw error;
 	return data;
 }
+
+/**
+ * 특정 리뷰에 해당하는 모든 상품 목록을 패칭하는 API
+ * @param review_id
+ */
+export async function fetchReviewProducts(review_id: string) {
+	const { data, error } = await supabase
+		.from('review_product')
+		.select('*')
+		.eq('review_id', review_id)
+		.order('product_id', { ascending: false });
+
+	if (error) throw error;
+	return data;
+}

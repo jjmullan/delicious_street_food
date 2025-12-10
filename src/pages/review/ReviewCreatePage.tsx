@@ -6,9 +6,10 @@ import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import { characterImages } from '@/features/product/item/libs/item';
 import useCreateReview from '@/features/review/create/hook/useCreateReview';
+import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
 import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
 import { getNowDateTimeKo } from '@/shared/lib/day';
-import type { API_ReviewProduct, Product } from '@/shared/types/types';
+import type { API_ReviewImage, API_ReviewProduct, Product, Review } from '@/shared/types/types';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import { Textarea } from '@/shared/ui/shadcn/textarea';
@@ -101,10 +102,14 @@ function ReviewCreatePage() {
 	};
 
 	// 이미지 목록
-	const [images, setImages] = useState([]);
+	const [images, setImages] = useState<API_ReviewImage[]>([]);
 
 	// API 요청
-	const { mutate: createReview, isPending: isCreateReviewPending } = useCreateReview({
+	const {
+		mutateAsync: createReview,
+		error: createReviewError,
+		isPending: isCreateReviewPending,
+	} = useCreateReview({
 		onSuccess: () => {
 			toast.info('리뷰가 등록되었습니다!', { position: 'top-center' });
 		},
@@ -112,14 +117,20 @@ function ReviewCreatePage() {
 			toast.error('리뷰 등록이 실패했습니다. 다시 시도해주세요.', { position: 'top-center' });
 		},
 	});
+	const {
+		mutateAsync: createReviewProduct,
+		error: createReviewProductError,
+		isPending: isCreateReviewProductPending,
+	} = useCreateReviewProducts({});
+
 	const openConfirmModal = useOpenConfirmModal();
 	const handleRequestCreateReview = () => {
 		openConfirmModal({
 			title: '리뷰 작성을 완료하시겠습니까?',
 			description:
 				'타인에게 불편함을 줄 수 있는 표현, 광고를 목적으로 작성되는 댓글은 사전 고지없이 삭제될 수 있습니다.',
-			onPositive: () => {
-				createReview({
+			onPositive: async () => {
+				const review: Review = await createReview({
 					user_id: user_id!,
 					location_id: location_id!,
 					review_title: reviewTitle,
@@ -127,7 +138,20 @@ function ReviewCreatePage() {
 					is_recommended: false,
 					visit_datetime: visit_datetime,
 				});
-				navigate(`/location/${location_id}/review/all`);
+
+				const review_id = review.review_id;
+				await selectedProductsDetail.map(
+					async (product) =>
+						await createReviewProduct({
+							review_id,
+							product_id: product.product_id!,
+							order_quantity: product.order_quantity!,
+							order_price: product.order_price!,
+							is_recommend: product.is_recommend!,
+						})
+				);
+
+				await navigate(`/location/${location_id}/review/all`);
 			},
 		});
 	};
@@ -137,8 +161,11 @@ function ReviewCreatePage() {
 	const pageTwoDisabled = selectProducts.length === 0;
 	const pageThreeDisabled = images.length === 0;
 
+	// 에러 통합 관리
+	if (createReviewError || createReviewProductError) return;
+
 	// Pending 통합 상태 통합 관리
-	const isPending = isFetchProductsPending || isCreateReviewPending;
+	const isPending = isFetchProductsPending || isCreateReviewPending || isCreateReviewProductPending;
 
 	return (
 		<div className="flex flex-col">
@@ -325,10 +352,10 @@ function ReviewCreatePage() {
 				</div>
 			) : (
 				<div className="fixed bottom-3 auto-width flex flex-col gap-y-2">
-					<Button type="button" className="bg-muted text-balck" onClick={handleClickPrevPage}>
+					<Button type="button" className="bg-muted text-balck" disabled={isPending} onClick={handleClickPrevPage}>
 						{`이전 페이지 (${page - 1}/3)`}
 					</Button>
-					<Button type="button" className="flex-1" disabled={false} onClick={handleRequestCreateReview}>
+					<Button type="button" className="flex-1" disabled={isPending} onClick={handleRequestCreateReview}>
 						작성 완료
 					</Button>
 				</div>
