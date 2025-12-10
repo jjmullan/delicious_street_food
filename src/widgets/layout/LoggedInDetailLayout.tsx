@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
-import NonMapHeader from '@/widgets/header/NonMapHeader';
+import LoggedInDetailHeader from '@/widgets/header/LoggedInDetailHeader';
 
 /**
  * 최초 서비스 접근 시, 로그인 페이지로 라우팅
@@ -11,7 +11,7 @@ function LoggedInDetailLayout() {
 	if (!session) return <Navigate to={'/login'} replace={true} />;
 	return (
 		<div className="min-h-svh">
-			<NonMapHeader mode={'extra'} />
+			<LoggedInDetailHeader />
 			<main className="p-3">
 				<Outlet />
 			</main>
