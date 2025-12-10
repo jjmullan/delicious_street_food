@@ -95,9 +95,13 @@ function ReviewCreatePage() {
 		);
 	};
 
+	// 이미지 목록
+	const [images, setImages] = useState([]);
+
 	// 버튼 disabled 상태 통합 관리
-	const nextButtonDisabled = reviewContent === '' || visitDateTime === '';
-	const submitButtonDisabled = selectProducts.length === 0;
+	const pageOneDisabled = reviewContent === '' || visitDateTime === '';
+	const pageTwoDisabled = selectProducts.length === 0;
+	const pageThreeDisabled = images.length === 0;
 
 	// Pending 통합 상태 통합 관리
 	const isPending = isFetchProductsPending;
@@ -105,9 +109,12 @@ function ReviewCreatePage() {
 	return (
 		<div className="flex flex-col">
 			{/* 진행 바 */}
-			<div className="fixed grid grid-cols-2 h-2 rounded-full bg-muted auto-width">
+			<div className="fixed grid grid-cols-3 h-2 rounded-full bg-muted auto-width">
 				<div className={`rounded-full bg-brown-main ${page >= 2 && 'rounded-r-none'}`}></div>
-				<div className={`rounded-full ${page >= 2 && 'bg-brown-main rounded-l-none'}`}></div>
+				<div
+					className={`rounded-full ${page >= 2 && 'bg-brown-main rounded-l-none'} ${page >= 3 && 'rounded-r-none'}`}
+				></div>
+				<div className={`rounded-full ${page >= 3 && 'bg-brown-main rounded-l-none'}`}></div>
 			</div>
 
 			{/* 작성 내용 */}
@@ -133,12 +140,12 @@ function ReviewCreatePage() {
 					{/* 2. 상세 후기 */}
 					<section className="flex flex-col gap-y-2">
 						<ReviewTitle title="상세 후기" subtitle="를 작성해주세요" isNecessary={true} />
-						<label htmlFor="review_title" className="sr-only">
+						<label htmlFor="review_text" className="sr-only">
 							상세 후기
 						</label>
 						<Textarea
 							placeholder="300자 이내"
-							id="review_title"
+							id="review_text"
 							className="text-sm min-h-30"
 							ref={textareaRef}
 							value={reviewContent}
@@ -148,7 +155,7 @@ function ReviewCreatePage() {
 					{/* 3. 방문 날짜 */}
 					<section className="flex flex-col gap-y-2">
 						<ReviewTitle title="방문 당시 날짜" subtitle="를 선택해주세요" isNecessary={true} />
-						<label htmlFor="" className="sr-only">
+						<label htmlFor="visit_date" className="sr-only">
 							방문 날짜
 						</label>
 						<Input
@@ -156,6 +163,7 @@ function ReviewCreatePage() {
 							className="text-sm"
 							defaultValue={visitDateTime}
 							onChange={handleChangeVisitDateTime}
+							id="visit_date"
 						/>
 					</section>
 				</Activity>
@@ -249,6 +257,25 @@ function ReviewCreatePage() {
 						))}
 					</div>
 				</Activity>
+
+				{/* Part 3. 이미지 첨부 */}
+				<Activity mode={page === 3 ? 'visible' : 'hidden'}>
+					<section className="flex flex-col gap-y-2">
+						<ReviewTitle title="후기 이미지" subtitle="를 업로드해주세요" isNecessary={true} />
+						<label htmlFor="review_title" className="sr-only">
+							후기 이미지
+						</label>
+						<Input
+							type="file"
+							id="review_title"
+							className="text-sm"
+							maxLength={30}
+							placeholder="30자 이내"
+							value={reviewTitle}
+							onChange={(e) => setReviewTitle(e.target.value)}
+						/>
+					</section>
+				</Activity>
 			</div>
 
 			{/* 버튼 */}
@@ -256,17 +283,26 @@ function ReviewCreatePage() {
 				<Button
 					type="button"
 					className="fixed bottom-3 auto-width"
-					disabled={nextButtonDisabled}
+					disabled={pageOneDisabled}
 					onClick={handleClickNextPage}
 				>
-					{`다음 페이지`}
+					{`다음 페이지 (${page + 1}/3)`}
 				</Button>
+			) : page === 2 ? (
+				<div className="fixed bottom-3 auto-width flex flex-col gap-y-2">
+					<Button type="button" className="bg-muted text-balck" onClick={handleClickPrevPage}>
+						{`이전 페이지 (${page - 1}/3)`}
+					</Button>
+					<Button type="button" className="flex-1" disabled={pageTwoDisabled} onClick={handleClickNextPage}>
+						{`다음 페이지 (${page + 1}/3)`}
+					</Button>
+				</div>
 			) : (
 				<div className="fixed bottom-3 auto-width flex flex-col gap-y-2">
 					<Button type="button" className="bg-muted text-balck" onClick={handleClickPrevPage}>
-						이전 페이지
+						{`이전 페이지 (${page - 1}/3)`}
 					</Button>
-					<Button type="button" className="flex-1" disabled={submitButtonDisabled}>
+					<Button type="button" className="flex-1" disabled={pageThreeDisabled}>
 						작성 완료
 					</Button>
 				</div>
