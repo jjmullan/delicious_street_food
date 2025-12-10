@@ -38,7 +38,7 @@ function HomeButton() {
 			{isHome ? (
 				<button
 					type="button"
-					className="w-12 h-15 flex justify-center items-center text-center text-2xl"
+					className="w-12 h-12 flex justify-center items-center text-center text-2xl"
 					aria-label="현재 위치로 이동"
 					onClick={handleGoBackToCurrentLocation}
 				>

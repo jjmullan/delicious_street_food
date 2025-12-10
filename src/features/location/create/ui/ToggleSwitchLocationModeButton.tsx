@@ -21,7 +21,7 @@ function ToggleSwitchLocationModeButton() {
 
 	return (
 		<div className="relative">
-			<button type="button" className={`w-12 h-15 flex justify-center items-center`} onClick={toggleIsUpdateMode}>
+			<button type="button" className={`w-12 h-12 flex justify-center items-center`} onClick={toggleIsUpdateMode}>
 				{/* 위치 생성 모드 상태에 따라 아이콘 변경 */}
 				<Activity mode={isUpdateMode ? 'visible' : 'hidden'}>
 					<Map width={24} color={'#212121'} />

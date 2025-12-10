@@ -22,7 +22,7 @@ function UserProfileModal() {
 	return (
 		<Popover>
 			<PopoverTrigger>
-				<div className="w-12 h-15 flex justify-center items-center">
+				<div className="w-12 h-12 flex justify-center items-center">
 					<img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" />
 				</div>
 			</PopoverTrigger>
