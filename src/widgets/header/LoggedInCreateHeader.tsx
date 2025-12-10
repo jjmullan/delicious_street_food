@@ -1,6 +1,5 @@
 import { RefreshCcwIcon, XCircleIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { toast } from 'sonner';
 import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 
 function LoggedInCreateHeader() {
@@ -11,8 +10,7 @@ function LoggedInCreateHeader() {
 			title: '리뷰 작성을 취소하시겠습니까?',
 			description: '작성된 모든 정보가 삭제됩니다.',
 			onPositive: () => {
-				toast.info('리뷰 작성이 취소되었습니다.', { position: 'top-center' });
-				navigate('/', { replace: true });
+				navigate(-1);
 			},
 		});
 		return;
@@ -22,7 +20,6 @@ function LoggedInCreateHeader() {
 			title: '작성한 내용을 초기화하시겠습니까?',
 			description: '작성된 모든 정보가 삭제됩니다.',
 			onPositive: () => {
-				toast.info('작성한 내용이 초기화되었습니다.', { position: 'top-center' });
 				window.location.reload();
 			},
 		});
