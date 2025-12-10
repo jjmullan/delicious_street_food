@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeftCircle } from 'lucide-react';
 import { Activity } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -15,7 +15,7 @@ function NonMapHeader() {
 				className="cursor-pointer px-3 h-12 flex justify-center items-center"
 			>
 				<Activity mode={window.location.href.split('/login').pop() === '' ? 'hidden' : 'visible'}>
-					<ArrowLeft />
+					<ArrowLeftCircle width={16} />
 				</Activity>
 			</button>
 			<h2 className="align-baseline flex-1 h-12 flex justify-center items-center text-base">

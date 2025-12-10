@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 
-function LoggedInCreateReviewHeader() {
+function LoggedInCreateHeader() {
 	const navigate = useNavigate();
 	const openConfirmModal = useOpenConfirmModal();
 	const handleClickCancelButton = () => {
@@ -50,4 +50,4 @@ function LoggedInCreateReviewHeader() {
 	);
 }
 
-export default LoggedInCreateReviewHeader;
+export default LoggedInCreateHeader;
