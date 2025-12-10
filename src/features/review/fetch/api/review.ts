@@ -1,10 +1,11 @@
 import supabase from '@/shared/api/supabase/supabase';
+import type { Review } from '@/shared/types/types';
 
 /**
  * 특정 위치에 작성된 모든 리뷰 정보를 패칭하는 API
  */
-export async function fetchReviewsByLocation(location_id: string) {
-	const { data, error } = await supabase.from('location').select('*').eq('location_id', location_id);
+export async function fetchReviewsByLocation(location_id: string): Promise<Review[]> {
+	const { data, error } = await supabase.from('review').select('*').eq('location_id', location_id);
 
 	if (error) throw error;
 	return data;
