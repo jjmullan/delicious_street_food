@@ -131,8 +131,7 @@ export type Database = {
 					review_title: string | null;
 					updated_at: string;
 					user_id: string;
-					visit_date: string;
-					visit_time: string;
+					visit_datetime: string;
 				};
 				Insert: {
 					created_at?: string;
@@ -143,8 +142,7 @@ export type Database = {
 					review_title?: string | null;
 					updated_at?: string;
 					user_id: string;
-					visit_date: string;
-					visit_time: string;
+					visit_datetime: string;
 				};
 				Update: {
 					created_at?: string;
@@ -155,8 +153,7 @@ export type Database = {
 					review_title?: string | null;
 					updated_at?: string;
 					user_id?: string;
-					visit_date?: string;
-					visit_time?: string;
+					visit_datetime?: string;
 				};
 				Relationships: [
 					{

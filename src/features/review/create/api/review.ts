@@ -7,28 +7,20 @@ import type { API_Review } from '@/shared/types/types';
 export async function createReview({
 	user_id,
 	location_id,
-	product_id,
 	review_title,
 	review_text,
 	is_recommended,
-	order_quantity,
-	order_price,
-	visit_date,
-	visit_time,
+	visit_datetime,
 }: API_Review) {
 	const { data, error } = await supabase
 		.from('review')
 		.insert({
 			user_id,
 			location_id,
-			product_id,
 			review_title,
 			review_text,
 			is_recommended,
-			order_quantity,
-			order_price,
-			visit_date,
-			visit_time,
+			visit_datetime,
 		})
 		.select()
 		.single();

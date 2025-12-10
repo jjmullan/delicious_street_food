@@ -13,7 +13,7 @@ export type User = Database['public']['Tables']['user']['Row'];
 export type API_Location = Pick<Location, 'user_id' | 'latitude' | 'longitude'>;
 export type API_Review = Pick<
 	Review,
-	'user_id' | 'location_id' | 'review_title' | 'review_text' | 'is_recommended' | 'visit_date' | 'visit_time'
+	'user_id' | 'location_id' | 'review_title' | 'review_text' | 'is_recommended' | 'visit_datetime'
 >;
 export type API_ReviewImage = Pick<ReviewImage, 'review_id' | 'review_image_url'>;
 export type API_ReviewProduct = Pick<
