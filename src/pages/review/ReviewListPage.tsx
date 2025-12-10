@@ -1,4 +1,4 @@
-import { PenIcon } from 'lucide-react';
+import { InfoIcon, PenIcon } from 'lucide-react';
 import { Activity } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
@@ -37,6 +37,12 @@ function ReviewListPage() {
 					{fetchReviews?.map((review) => (
 						<ReviewItem key={review.review_id} {...review} />
 					))}
+					<Activity mode={fetchReviews?.length === 0 ? 'visible' : 'hidden'}>
+						<div className="flex flex-col justify-center items-center gap-y-2 min-h-[calc(100svh-112px)]">
+							<InfoIcon width={48} height={48} className="stroke-[1.5]" />
+							<p className="font-medium">작성된 리뷰가 없습니다.</p>
+						</div>
+					</Activity>
 				</div>
 			</Activity>
 		</div>
