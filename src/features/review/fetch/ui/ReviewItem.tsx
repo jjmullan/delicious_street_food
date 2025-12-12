@@ -1,6 +1,7 @@
 import { CalendarDaysIcon, PackageOpenIcon } from 'lucide-react';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import { characterImages } from '@/features/product/item/libs/item';
+import useFetchReviewImages from '@/features/review/fetch/hook/useFetchReviewImages';
 import useFetchReviewProducts from '@/features/review/fetch/hook/useFetchReviewProducts';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { formatTimeAgo, getDateTimeKo } from '@/shared/lib/day';
@@ -18,8 +19,13 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 	// 전체 상품 목록 패칭 (상품id 와 비교해서 이름 데이터 추출 예정)
 	const { data: fetchProduct, isPending: isFetchProductPending } = useFetchProducts();
 
+	// 리뷰에 해당하는 업로드 이미지 패칭
+	const { data: fetchReviewImage, isPending: isFetchReviewImagePending } = useFetchReviewImages(review_id);
+	console.log(fetchReviewImage);
+
 	// Pending 상태 통합 관리
-	const isPending = isFetchUserPending || isFetchReviewProductPending || isFetchProductPending;
+	const isPending =
+		isFetchUserPending || isFetchReviewProductPending || isFetchProductPending || isFetchReviewImagePending;
 
 	return (
 		<div className="px-3 py-4 border-b flex flex-col gap-y-3">
@@ -30,7 +36,11 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 			</div>
 			{/* 후기 이미지 */}
 			<div className="">
-				<div className="w-18 h-18 border"></div>
+				{fetchReviewImage?.map((image, index) => (
+					<div key={image.review_id} className="w-18 h-18 border">
+						<img src={image.review_image_url} alt={`${index}번 후기 이미지`} />
+					</div>
+				))}
 			</div>
 			{/* 후기 제목, 내용 */}
 			<div className="flex flex-col">
