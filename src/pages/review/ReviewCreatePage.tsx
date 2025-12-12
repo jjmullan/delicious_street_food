@@ -10,6 +10,7 @@ import useCreateReview from '@/features/review/create/hook/useCreateReview';
 import useCreateReviewImages from '@/features/review/create/hook/useCreateReviewImages';
 import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
 import type { ImageURL } from '@/features/review/create/types/image';
+import ProgressBar from '@/features/review/create/ui/ProgressBar';
 import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
 import { MAX_IMAGE_SLOT } from '@/shared/lib/constants';
 import { getNowDateTimeKo } from '@/shared/lib/day';
@@ -234,16 +235,10 @@ function ReviewCreatePage() {
 	return (
 		<div className="flex flex-col">
 			{/* 진행 바 */}
-			<div className="fixed grid grid-cols-3 h-2 rounded-full bg-muted auto-width z-99">
-				<div className={`rounded-full bg-brown-main ${page >= 2 && 'rounded-r-none'}`}></div>
-				<div
-					className={`rounded-full ${page >= 2 && 'bg-brown-main rounded-l-none'} ${page >= 3 && 'rounded-r-none'}`}
-				></div>
-				<div className={`rounded-full ${page >= 3 && 'bg-brown-main rounded-l-none'}`}></div>
-			</div>
+			<ProgressBar page={page} />
 
 			{/* 작성 내용 */}
-			<div className="mt-8 mb-8 flex flex-col gap-y-6">
+			<div className="mt-8 mb-8 p-3 flex flex-col gap-y-6">
 				{/* Part 1. */}
 				<Activity mode={page === 1 ? 'visible' : 'hidden'}>
 					{/* 1. 후기 제목 */}
@@ -413,10 +408,10 @@ function ReviewCreatePage() {
 						</Button>
 					</section>
 					<Activity mode={images.length > 0 ? 'visible' : 'hidden'}>
-						<section className="grid grid-cols-3 grid-rows-3 gap-2">
+						<section className="grid grid-cols-3 gap-2">
 							{images.map((image, index) => (
 								<div key={image.previewUrl} className="relative border rounded-md overflow-hidden aspect-square">
-									<img src={image.previewUrl} alt={`미리보기 ${index}번`} className="w-full h-full object-cover" />
+									<img src={image.previewUrl} alt={`미리보기 ${index}번`} className="w-full h-full object-contain" />
 									<button
 										type="button"
 										className="absolute top-2 right-2 p-0.5 bg-black/30 rounded-md"
@@ -433,17 +428,14 @@ function ReviewCreatePage() {
 
 			{/* 버튼 */}
 			{page === 1 ? (
-				<Button
-					type="button"
-					className="fixed bottom-3 auto-width"
-					disabled={pageOneDisabled}
-					onClick={handleClickNextPage}
-				>
-					{`다음 페이지 (${page + 1}/3)`}
-				</Button>
+				<div className="fixed bottom-0 full-width p-3 bg-[#fff]">
+					<Button type="button" className="w-full" disabled={pageOneDisabled} onClick={handleClickNextPage}>
+						{`다음 페이지 (${page + 1}/3)`}
+					</Button>
+				</div>
 			) : page === 2 ? (
-				<div className="fixed bottom-3 auto-width flex flex-col gap-y-2">
-					<Button type="button" className="bg-muted text-balck" onClick={handleClickPrevPage}>
+				<div className="fixed bottom-0 full-width p-3 flex flex-col gap-y-2 bg-[#fff]">
+					<Button type="button" className="bg-muted text-black" onClick={handleClickPrevPage}>
 						{`이전 페이지 (${page - 1}/3)`}
 					</Button>
 					<Button type="button" className="flex-1" disabled={pageTwoDisabled} onClick={handleClickNextPage}>
@@ -451,7 +443,7 @@ function ReviewCreatePage() {
 					</Button>
 				</div>
 			) : (
-				<div className="fixed bottom-3 auto-width flex flex-col gap-y-2">
+				<div className="fixed bottom-0 full-width p-3 flex flex-col gap-y-2 bg-[#fff]">
 					<Button type="button" className="bg-muted text-balck" disabled={isPending} onClick={handleClickPrevPage}>
 						{`이전 페이지 (${page - 1}/3)`}
 					</Button>
