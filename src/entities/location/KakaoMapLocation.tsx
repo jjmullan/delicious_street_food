@@ -15,6 +15,7 @@ import type { AbbrLocation } from '@/features/location/fetch/types/location';
 import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
 import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
+import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
 import LoggedInUserOnlyAsideBar from '@/widgets/aside/LoggedInUserOnlyAsideBar';
 
 function KakaoMapLocation() {
@@ -132,6 +133,9 @@ function KakaoMapLocation() {
 					</MarkerClusterer>
 				</Map>
 				<LoggedInUserOnlyAsideBar />
+			</Activity>
+			<Activity mode={isPending ? 'visible' : 'hidden'}>
+				<FallbackRequestAPI title="지도를 불러오는 중" bgColor="bg-[#fff]" />
 			</Activity>
 		</div>
 	);
