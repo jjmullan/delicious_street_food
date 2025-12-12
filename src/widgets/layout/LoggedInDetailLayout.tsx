@@ -10,7 +10,7 @@ function LoggedInDetailLayout() {
 	if (!session) return <Navigate to={'/login'} replace={true} />;
 
 	return (
-		<div className="min-h-svh">
+		<div className="min-h-svh full-width">
 			<LoggedInDetailHeader />
 			<main className="p-3 mt-12">
 				<Outlet />
