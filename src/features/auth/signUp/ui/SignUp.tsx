@@ -6,7 +6,7 @@ import validateEmail from '@/features/auth/signUp/util/validateEmail';
 import validatePassword from '@/features/auth/signUp/util/validatePassword';
 import { generateErrorMessage } from '@/shared/lib/error';
 import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
-import Fallback from '@/shared/ui/fallback/Fallback';
+import FallbackText from '@/shared/ui/fallback/FallbackText';
 import { Input } from '@/shared/ui/shadcn/input';
 
 function SignUp() {
@@ -127,7 +127,7 @@ function SignUp() {
 				disabled={isPending || email.trim() === '' || password.trim() === '' || passwordConfirm.trim() === ''}
 				onClick={handleClickSubmit}
 			>
-				{isPending ? <Fallback title={'회원가입 중'} /> : <p className="text-white">회원가입</p>}
+				{isPending ? <FallbackText title={'회원가입 중'} /> : <p className="text-white">회원가입</p>}
 			</button>
 			<AdditionalNoticeAtEdge text={'이미 계정이 있으시다면?'} link={'login'} linkText={'로그인'} />
 		</div>

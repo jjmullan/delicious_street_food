@@ -1,6 +1,6 @@
 import { LoaderCircleIcon } from 'lucide-react';
 
-function Fallback({ title }: { title: string }) {
+function FallbackText({ title }: { title: string }) {
 	return (
 		<>
 			<LoaderCircleIcon className="animate-spin" />
@@ -9,4 +9,4 @@ function Fallback({ title }: { title: string }) {
 	);
 }
 
-export default Fallback;
+export default FallbackText;
