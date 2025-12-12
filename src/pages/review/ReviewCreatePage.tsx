@@ -12,6 +12,7 @@ import type { ImageURL } from '@/features/review/create/types/image';
 import PreviewImage from '@/features/review/create/ui/PreviewImage';
 import ProgressBar from '@/features/review/create/ui/ProgressBar';
 import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
+import SelectProductItemDetailForCreateReview from '@/features/review/create/ui/SelectProductItemDetailForCreateReview';
 import SelectProductItemForCreateReview from '@/features/review/create/ui/SelectProductItemForCreateReview';
 import { MAX_IMAGE_SLOT } from '@/shared/lib/constants';
 import { getNowDateTimeKo } from '@/shared/lib/day';
@@ -302,11 +303,10 @@ function ReviewCreatePage() {
 
 				{/* Part 2. 구매한 상품의 수량, 가격 정보 */}
 				<Activity mode={page === 2 ? 'visible' : 'hidden'}>
-					{/* 1. 구매한 상품 모두 선택 */}
+					{/* 구매한 상품 모두 선택란 */}
 					<section className="flex flex-col gap-y-2">
 						<ReviewTitle title="구매하신 상품" subtitle="을 모두 선택해주세요" isNecessary={true} />
 						<div className="grid grid-cols-4 grid-rows-2 gap-1">
-							{/* 상품 목록 */}
 							{products?.map((product: Product) => (
 								<SelectProductItemForCreateReview
 									key={product.product_id}
@@ -319,52 +319,16 @@ function ReviewCreatePage() {
 							{/* 기타 항목 추가 예정 */}
 						</div>
 					</section>
+					{/* 구매한 상품의 수량, 가격 정보 */}
 					<div className="flex flex-col gap-y-4">
 						{selectProducts.map((selectProduct) => (
-							<section key={selectProduct.product_name_ko} className="flex flex-col gap-y-2">
-								<ReviewTitle
-									title={selectProduct.product_name_ko}
-									subtitle="의 구매 수량과 총 금액을 작성해주세요"
-									isNecessary={true}
-								/>
-								<div className="flex gap-x-8">
-									<div className="flex justify-between items-center gap-x-2">
-										<label htmlFor={`${selectProduct.product_name_ko}_order_quantity`} className="sr-only">
-											구매 수량
-										</label>
-										<Input
-											type="number"
-											id={`${selectProduct.product_name_ko}_order_quantity`}
-											min="1"
-											max="100"
-											value={
-												selectedProductsDetail.find((item) => item.product_id === selectProduct.product_id)
-													?.order_quantity ?? 1
-											}
-											onChange={(e) => handleChangeOrderQuantity(selectProduct.product_id, Number(e.target.value))}
-										/>
-										<p>개</p>
-									</div>
-									<div className="flex-1 flex justify-between items-center gap-x-2">
-										<label htmlFor={`${selectProduct.product_name_ko}_order_price`} className="sr-only">
-											총 금액
-										</label>
-										<Input
-											type="number"
-											id={`${selectProduct.product_name_ko}_order_price`}
-											min="1000"
-											max="100000"
-											step="100"
-											value={
-												selectedProductsDetail.find((item) => item.product_id === selectProduct.product_id)
-													?.order_price ?? 1000
-											}
-											onChange={(e) => handleChangeOrderPrice(selectProduct.product_id, Number(e.target.value))}
-										/>
-										<p>원</p>
-									</div>
-								</div>
-							</section>
+							<SelectProductItemDetailForCreateReview
+								key={selectProduct.product_id}
+								selectProduct={selectProduct}
+								selectedProductsDetail={selectedProductsDetail}
+								onChangeQuantity={handleChangeOrderQuantity}
+								onChangePrice={handleChangeOrderPrice}
+							/>
 						))}
 					</div>
 				</Activity>
