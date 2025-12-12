@@ -1,6 +1,6 @@
 function ProgressBar({ page }: { page: number }) {
 	return (
-		<div className="fixed px-3 pt-3 full-width h-fit bg-[#fff] z-99">
+		<div className="fixed px-3 pt-3 full-width h-fit bg-[#fff] z-2">
 			<div className="grid grid-cols-3 h-2 rounded-full bg-muted auto-width">
 				<div className={`rounded-full bg-brown-main ${page >= 2 && 'rounded-r-none'}`}></div>
 				<div
