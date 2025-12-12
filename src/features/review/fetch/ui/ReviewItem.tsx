@@ -67,8 +67,8 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 			<Carousel>
 				<CarouselContent className="-ml-2">
 					{fetchReviewImage?.map((image, index) => (
-						<CarouselItem key={image.review_id} className="basis-2/5 pl-2">
-							<div className="h-full max-h-[150px] w-full max-w-[150px] rounded-md overflow-hidden flex items-center justify-center">
+						<CarouselItem key={image.review_id} className="max-w-[150px] max-h-[150px] pl-2">
+							<div className="h-full w-full rounded-md overflow-hidden flex items-center justify-center">
 								<img
 									src={image.review_image_url}
 									alt={`${index}번 후기 이미지`}
