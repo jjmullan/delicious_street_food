@@ -95,7 +95,7 @@ export async function createReviewImages({
 		// 3. 업로드된 파일의 public URL 가져오기
 		const {
 			data: { publicUrl },
-		} = supabase.storage.from('review-images').getPublicUrl(filePath);
+		} = supabase.storage.from('review_images').getPublicUrl(filePath);
 
 		// 4. review_image 테이블에 삽입
 		const { data: imageData, error: insertError } = await supabase
