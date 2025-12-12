@@ -6,6 +6,7 @@ import useFetchReviewProducts from '@/features/review/fetch/hook/useFetchReviewP
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { formatTimeAgo, getDateTimeKo } from '@/shared/lib/day';
 import type { Review } from '@/shared/types/types';
+import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/shadcn/carousel';
 
 function ReviewItem({ user_id, review_id, review_title, review_text, visit_datetime, created_at }: Review) {
 	// 유저 정보 패칭
@@ -35,13 +36,21 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 				<p className="text-xs text-muted-foreground">{createDatetime}</p>
 			</div>
 			{/* 후기 이미지 */}
-			<div className="">
-				{fetchReviewImage?.map((image, index) => (
-					<div key={image.review_id} className="w-18 h-18 border">
-						<img src={image.review_image_url} alt={`${index}번 후기 이미지`} />
-					</div>
-				))}
-			</div>
+			<Carousel>
+				<CarouselContent className="">
+					{fetchReviewImage?.map((image, index) => (
+						<CarouselItem key={image.review_id} className="basis-3/5">
+							<div className="h-full max-h-[150px] w-full max-w-[150px] rounded-md overflow-hidden flex items-center justify-center">
+								<img
+									src={image.review_image_url}
+									alt={`${index}번 후기 이미지`}
+									className="w-full h-full object-cover"
+								/>
+							</div>
+						</CarouselItem>
+					))}
+				</CarouselContent>
+			</Carousel>
 			{/* 후기 제목, 내용 */}
 			<div className="flex flex-col">
 				<h3 className="text-base font-semibold">{review_title !== '' ? review_title : '제목 없음'}</h3>
