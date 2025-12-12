@@ -11,6 +11,7 @@ import useCreateReviewImages from '@/features/review/create/hook/useCreateReview
 import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
 import type { ImageURL } from '@/features/review/create/types/image';
 import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
+import { MAX_IMAGE_SLOT } from '@/shared/lib/constants';
 import { getNowDateTimeKo } from '@/shared/lib/day';
 import type { API_ReviewProduct, Product, Review } from '@/shared/types/types';
 import { Button } from '@/shared/ui/shadcn/button';
@@ -110,14 +111,24 @@ function ReviewCreatePage() {
 	const handleSelectImages = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
 			const files = Array.from(e.target.files);
-			files.forEach((file) => {
-				if (images.length === 9) {
-					toast.error('최대 업로드 개수를 초과하였습니다.', { position: 'top-center' });
-					return;
-				} else {
-					setImages((prev) => [...prev, { file, previewUrl: URL.createObjectURL(file) }]);
-				}
-			});
+
+			// 남은 업로드 가능 이미지 슬롯 (9 - ?)
+			const slot = MAX_IMAGE_SLOT - images.length;
+			if (slot === 0) {
+				toast.error('이미지는 최대 9개 업로드 가능합니다.', { position: 'top-center' });
+				return;
+			}
+			if (files.length > slot) {
+				toast.warning(`최대 업로드 개수를 초과하여, ${slot}개만 추가됩니다.`, { position: 'top-center' });
+			}
+
+			// 현재 남은 슬롯 수만큼 잘라내서 이미지 업로드하기
+			const addFile = files.slice(0, slot);
+			const newImages = addFile.map((file) => ({
+				file,
+				previewUrl: URL.createObjectURL(file),
+			}));
+			setImages((prev) => [...prev, ...newImages]);
 		}
 	};
 	const handleDeleteImage = (image: ImageURL) => {
@@ -147,6 +158,7 @@ function ReviewCreatePage() {
 		isPending: isCreateReviewImagesPending,
 	} = useCreateReviewImages({});
 
+	// 리뷰 생성 로직
 	const openConfirmModal = useOpenConfirmModal();
 	const handleRequestCreateReview = () => {
 		openConfirmModal({
@@ -207,7 +219,7 @@ function ReviewCreatePage() {
 		});
 	};
 
-	// 버튼 disabled 상태 통합 관리
+	// 버튼 disabled 상태 조건 통합 관리
 	const pageOneDisabled = reviewText === '' || visitDateTime === '';
 	const pageTwoDisabled = selectProducts.length === 0;
 	const pageThreeDisabled = images.length === 0;
@@ -222,7 +234,7 @@ function ReviewCreatePage() {
 	return (
 		<div className="flex flex-col">
 			{/* 진행 바 */}
-			<div className="fixed grid grid-cols-3 h-2 rounded-full bg-muted auto-width">
+			<div className="fixed grid grid-cols-3 h-2 rounded-full bg-muted auto-width z-99">
 				<div className={`rounded-full bg-brown-main ${page >= 2 && 'rounded-r-none'}`}></div>
 				<div
 					className={`rounded-full ${page >= 2 && 'bg-brown-main rounded-l-none'} ${page >= 3 && 'rounded-r-none'}`}
@@ -231,7 +243,7 @@ function ReviewCreatePage() {
 			</div>
 
 			{/* 작성 내용 */}
-			<div className="mt-8 flex flex-col gap-y-6">
+			<div className="mt-8 mb-8 flex flex-col gap-y-6">
 				{/* Part 1. */}
 				<Activity mode={page === 1 ? 'visible' : 'hidden'}>
 					{/* 1. 후기 제목 */}
@@ -378,7 +390,15 @@ function ReviewCreatePage() {
 						<label htmlFor="review_image" className="sr-only">
 							후기 이미지
 						</label>
-						<Input type="file" id="review_image" ref={imageRef} hidden multiple onChange={handleSelectImages} />
+						<Input
+							type="file"
+							id="review_image"
+							ref={imageRef}
+							hidden
+							multiple
+							onChange={handleSelectImages}
+							disabled={isPending}
+						/>
 						<Button
 							type="button"
 							variant={'outline'}
@@ -386,6 +406,7 @@ function ReviewCreatePage() {
 								if (imageRef.current) imageRef.current.click();
 							}}
 							className=""
+							disabled={isPending}
 						>
 							<ImagePlusIcon />
 							<p>이미지 업로드</p>
@@ -395,7 +416,7 @@ function ReviewCreatePage() {
 						<section className="grid grid-cols-3 grid-rows-3 gap-2">
 							{images.map((image, index) => (
 								<div key={image.previewUrl} className="relative border rounded-md overflow-hidden aspect-square">
-									<img src={image.previewUrl} alt={`미리보기 ${index}번`} className="w-full h-full object-fill" />
+									<img src={image.previewUrl} alt={`미리보기 ${index}번`} className="w-full h-full object-cover" />
 									<button
 										type="button"
 										className="absolute top-2 right-2 p-0.5 bg-black/30 rounded-md"
@@ -434,7 +455,12 @@ function ReviewCreatePage() {
 					<Button type="button" className="bg-muted text-balck" disabled={isPending} onClick={handleClickPrevPage}>
 						{`이전 페이지 (${page - 1}/3)`}
 					</Button>
-					<Button type="button" className="flex-1" disabled={pageThreeDisabled} onClick={handleRequestCreateReview}>
+					<Button
+						type="button"
+						className="flex-1"
+						disabled={pageThreeDisabled || isPending}
+						onClick={handleRequestCreateReview}
+					>
 						작성 완료
 					</Button>
 				</div>
