@@ -135,19 +135,7 @@ function ReviewCreatePage() {
 	}, [images]);
 
 	// API 요청
-	const {
-		mutateAsync: createReview,
-		error: createReviewError,
-		isPending: isCreateReviewPending,
-	} = useCreateReview({
-		onSuccess: () => {
-			toast.info('리뷰가 등록되었습니다!', { position: 'top-center' });
-		},
-		onError: (error) => {
-			console.error('리뷰 등록 실패 :', error);
-			toast.error('리뷰 등록이 실패했습니다. 다시 시도해주세요.', { position: 'top-center' });
-		},
-	});
+	const { mutateAsync: createReview, error: createReviewError, isPending: isCreateReviewPending } = useCreateReview({});
 	const {
 		mutateAsync: createReviewProduct,
 		error: createReviewProductError,
@@ -157,14 +145,7 @@ function ReviewCreatePage() {
 		mutateAsync: createReviewImages,
 		error: createReviewImagesError,
 		isPending: isCreateReviewImagesPending,
-	} = useCreateReviewImages({
-		onSuccess: () => {
-			console.log('이미지 업로드 성공!');
-		},
-		onError: (error) => {
-			console.error('이미지 업로드 실패:', error);
-		},
-	});
+	} = useCreateReviewImages({});
 
 	const openConfirmModal = useOpenConfirmModal();
 	const handleRequestCreateReview = () => {
@@ -208,7 +189,6 @@ function ReviewCreatePage() {
 						});
 					}
 
-					// 4. 페이지 이동
 					await openConfirmModal({
 						title: '리뷰 생성이 완료되었습니다!',
 						description: '리뷰 목록 페이지로 이동하시겠습니까?',
@@ -220,8 +200,8 @@ function ReviewCreatePage() {
 						},
 					});
 				} catch (error) {
-					console.error('리뷰 생성 에러!', error);
-					toast.error('리뷰 생성에 실패했습니다. 다시 시도해주세요', { position: 'top-center' });
+					console.error('리뷰 생성에 실패했습니다.', error);
+					toast.error('리뷰 생성에 실패했습니다.', { position: 'top-center' });
 				}
 			},
 		});
