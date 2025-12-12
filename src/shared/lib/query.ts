@@ -18,6 +18,7 @@ export const QUERY_KEYS = {
 	review: {
 		all: ['review'],
 		list: ['review', 'list'],
+		imageById: (reviewId: string) => ['review', 'images', 'byId', reviewId],
 		byId: (reviewId: string) => ['review', 'byId', reviewId],
 	},
 };

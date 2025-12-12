@@ -4,7 +4,7 @@ import { QUERY_KEYS } from '@/shared/lib/query';
 
 function useFetchReviewImages(review_id: string) {
 	return useQuery({
-		queryKey: QUERY_KEYS.review.list,
+		queryKey: QUERY_KEYS.review.imageById(review_id),
 		queryFn: () => fetchReviewImages(review_id),
 	});
 }
