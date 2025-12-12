@@ -1,4 +1,4 @@
-import { ImagePlusIcon, PenIcon, XIcon } from 'lucide-react';
+import { ImagePlusIcon, XIcon } from 'lucide-react';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
@@ -7,6 +7,7 @@ import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import { characterImages } from '@/features/product/item/libs/item';
 import useCreateReview from '@/features/review/create/hook/useCreateReview';
+import useCreateReviewImages from '@/features/review/create/hook/useCreateReviewImages';
 import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
 import type { ImageURL } from '@/features/review/create/types/image';
 import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
@@ -152,6 +153,18 @@ function ReviewCreatePage() {
 		error: createReviewProductError,
 		isPending: isCreateReviewProductPending,
 	} = useCreateReviewProducts({});
+	const {
+		mutateAsync: createReviewImages,
+		error: createReviewImagesError,
+		isPending: isCreateReviewImagesPending,
+	} = useCreateReviewImages({
+		onSuccess: () => {
+			console.log('이미지 업로드 성공!');
+		},
+		onError: (error) => {
+			console.error('이미지 업로드 실패:', error);
+		},
+	});
 
 	const openConfirmModal = useOpenConfirmModal();
 	const handleRequestCreateReview = () => {
@@ -160,28 +173,56 @@ function ReviewCreatePage() {
 			description:
 				'타인에게 불편함을 줄 수 있는 표현, 광고를 목적으로 작성되는 댓글은 사전 고지없이 삭제될 수 있습니다.',
 			onPositive: async () => {
-				const review: Review = await createReview({
-					user_id: user_id!,
-					location_id: location_id!,
-					review_title: reviewTitle,
-					review_text: reviewText,
-					is_recommended: false,
-					visit_datetime: visit_datetime,
-				});
+				try {
+					// 1. 리뷰 생성
+					const review: Review = await createReview({
+						user_id: user_id!,
+						location_id: location_id!,
+						review_title: reviewTitle,
+						review_text: reviewText,
+						is_recommended: false,
+						visit_datetime: visit_datetime,
+					});
 
-				const review_id = review.review_id;
-				await selectedProductsDetail.map(
-					async (product) =>
-						await createReviewProduct({
+					const review_id = review.review_id;
+
+					// 2. 리뷰 상품 생성
+					await Promise.all(
+						selectedProductsDetail.map((product) =>
+							createReviewProduct({
+								review_id,
+								product_id: product.product_id!,
+								order_quantity: product.order_quantity!,
+								order_price: product.order_price!,
+								is_recommend: product.is_recommend!,
+							})
+						)
+					);
+
+					// 3. 이미지 업로드
+					if (images.length > 0) {
+						await createReviewImages({
 							review_id,
-							product_id: product.product_id!,
-							order_quantity: product.order_quantity!,
-							order_price: product.order_price!,
-							is_recommend: product.is_recommend!,
-						})
-				);
+							user_id: user_id!,
+							images,
+						});
+					}
 
-				await navigate(`/location/${location_id}/review/all`);
+					// 4. 페이지 이동
+					await openConfirmModal({
+						title: '리뷰 생성이 완료되었습니다!',
+						description: '리뷰 목록 페이지로 이동하시겠습니까?',
+						onPositive: () => {
+							navigate(`/location/${location_id}/review/all`);
+						},
+						onNegative: () => {
+							navigate(`/`);
+						},
+					});
+				} catch (error) {
+					console.error('리뷰 생성 에러!', error);
+					toast.error('리뷰 생성에 실패했습니다. 다시 시도해주세요', { position: 'top-center' });
+				}
 			},
 		});
 	};
@@ -192,10 +233,11 @@ function ReviewCreatePage() {
 	const pageThreeDisabled = images.length === 0;
 
 	// 에러 통합 관리
-	if (createReviewError || createReviewProductError) return;
+	if (createReviewError || createReviewProductError || createReviewImagesError) return;
 
 	// Pending 통합 상태 통합 관리
-	const isPending = isFetchProductsPending || isCreateReviewPending || isCreateReviewProductPending;
+	const isPending =
+		isFetchProductsPending || isCreateReviewPending || isCreateReviewProductPending || isCreateReviewImagesPending;
 
 	return (
 		<div className="flex flex-col">
