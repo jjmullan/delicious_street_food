@@ -10,6 +10,7 @@ import useCreateReview from '@/features/review/create/hook/useCreateReview';
 import useCreateReviewImages from '@/features/review/create/hook/useCreateReviewImages';
 import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
 import type { ImageURL } from '@/features/review/create/types/image';
+import PreviewImage from '@/features/review/create/ui/PreviewImage';
 import ProgressBar from '@/features/review/create/ui/ProgressBar';
 import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
 import { MAX_IMAGE_SLOT } from '@/shared/lib/constants';
@@ -380,6 +381,7 @@ function ReviewCreatePage() {
 
 				{/* Part 3. 이미지 첨부 */}
 				<Activity mode={page === 3 ? 'visible' : 'hidden'}>
+					{/* 이미지 업로드 */}
 					<section className="flex flex-col gap-y-2">
 						<ReviewTitle title="후기 이미지" subtitle="를 업로드해주세요 (최대 9개)" isNecessary={true} />
 						<label htmlFor="review_image" className="sr-only">
@@ -407,19 +409,11 @@ function ReviewCreatePage() {
 							<p>이미지 업로드</p>
 						</Button>
 					</section>
+					{/* 이미지 미리보기 */}
 					<Activity mode={images.length > 0 ? 'visible' : 'hidden'}>
 						<section className="grid grid-cols-3 gap-2">
 							{images.map((image, index) => (
-								<div key={image.previewUrl} className="relative border rounded-md overflow-hidden aspect-square">
-									<img src={image.previewUrl} alt={`미리보기 ${index}번`} className="w-full h-full object-contain" />
-									<button
-										type="button"
-										className="absolute top-2 right-2 p-0.5 bg-black/30 rounded-md"
-										onClick={() => handleDeleteImage(image)}
-									>
-										<XIcon width={16} height={16} color="#fff" />
-									</button>
-								</div>
+								<PreviewImage key={image.previewUrl} image={image} index={index} onDelete={handleDeleteImage} />
 							))}
 						</section>
 					</Activity>
