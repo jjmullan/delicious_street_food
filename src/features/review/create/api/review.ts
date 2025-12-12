@@ -1,3 +1,4 @@
+import type { ImageURL } from '@/features/review/create/types/image';
 import supabase from '@/shared/api/supabase/supabase';
 import type { API_Review, API_ReviewImage, API_ReviewProduct } from '@/shared/types/types';
 
@@ -57,17 +58,62 @@ export async function createReviewProduct({
 
 /**
  * 특정 위치에 대해 업로드하려는 이미지 목록 데이터를 추가하는 API
+ * 1. Supabase Storage에 이미지 파일 업로드
+ * 2. review_image 테이블에 URL 삽입
  */
-export async function createReviewImages({ review_id, review_image_url }: API_ReviewImage) {
-	const { data, error } = await supabase
-		.from('review_image')
-		.insert({
-			review_id,
-			review_image_url,
-		})
-		.select()
-		.single();
+export async function createReviewImages({
+	review_id,
+	user_id,
+	images,
+}: {
+	review_id: string;
+	user_id: string;
+	images: ImageURL[];
+}) {
+	if (images.length === 0) return [];
 
-	if (error) throw error;
-	return data;
+	const uploadedImages: API_ReviewImage[] = [];
+	for (const image of images) {
+		// 1. 고유한 파일명 생성 (timestamp + random string)
+		const timestamp = Date.now();
+		const randomString = Math.random().toString(36).substring(2, 9);
+		const fileExtension = image.file.name.split('.').pop() || 'webp';
+		const fileName = `${review_id}_${timestamp}_${randomString}.${fileExtension}`;
+		const filePath = `user/${user_id}/review/${review_id}/${fileName}`;
+
+		// 2. Supabase Storage에 이미지 업로드
+		const { error: uploadError } = await supabase.storage.from('review_images').upload(filePath, image.file, {
+			cacheControl: '3600',
+			upsert: false,
+		});
+
+		if (uploadError) {
+			console.error('이미지 업로드 실패:', uploadError);
+			throw uploadError;
+		}
+
+		// 3. 업로드된 파일의 public URL 가져오기
+		const {
+			data: { publicUrl },
+		} = supabase.storage.from('review-images').getPublicUrl(filePath);
+
+		// 4. review_image 테이블에 삽입
+		const { data: imageData, error: insertError } = await supabase
+			.from('review_image')
+			.insert({
+				review_id,
+				review_image_url: publicUrl,
+			})
+			.select()
+			.single();
+
+		if (insertError) {
+			console.error('이미지 DB 삽입 실패:', insertError);
+			throw insertError;
+		}
+
+		uploadedImages.push(imageData);
+	}
+
+	return uploadedImages;
 }
