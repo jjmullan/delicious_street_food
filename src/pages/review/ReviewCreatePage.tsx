@@ -16,6 +16,7 @@ import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
 import { MAX_IMAGE_SLOT } from '@/shared/lib/constants';
 import { getNowDateTimeKo } from '@/shared/lib/day';
 import type { API_ReviewProduct, Product, Review } from '@/shared/types/types';
+import PrevNextButton from '@/shared/ui/button/PrevNextButton';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import { Textarea } from '@/shared/ui/shadcn/textarea';
@@ -421,36 +422,41 @@ function ReviewCreatePage() {
 			</div>
 
 			{/* 버튼 */}
-			{page === 1 ? (
-				<div className="fixed bottom-0 full-width p-3 bg-[#fff]">
-					<Button type="button" className="w-full" disabled={pageOneDisabled} onClick={handleClickNextPage}>
-						{`다음 페이지 (${page + 1}/3)`}
-					</Button>
-				</div>
-			) : page === 2 ? (
-				<div className="fixed bottom-0 full-width p-3 flex flex-col gap-y-2 bg-[#fff]">
-					<Button type="button" className="bg-muted text-black" onClick={handleClickPrevPage}>
-						{`이전 페이지 (${page - 1}/3)`}
-					</Button>
-					<Button type="button" className="flex-1" disabled={pageTwoDisabled} onClick={handleClickNextPage}>
-						{`다음 페이지 (${page + 1}/3)`}
-					</Button>
-				</div>
-			) : (
-				<div className="fixed bottom-0 full-width p-3 flex flex-col gap-y-2 bg-[#fff]">
-					<Button type="button" className="bg-muted text-balck" disabled={isPending} onClick={handleClickPrevPage}>
-						{`이전 페이지 (${page - 1}/3)`}
-					</Button>
-					<Button
-						type="button"
-						className="flex-1"
-						disabled={pageThreeDisabled || isPending}
-						onClick={handleRequestCreateReview}
-					>
-						작성 완료
-					</Button>
-				</div>
-			)}
+			<div className="fixed bottom-0 full-width p-3 flex flex-col gap-y-2">
+				{page === 1 ? (
+					<PrevNextButton
+						disabled={pageOneDisabled}
+						onClick={handleClickNextPage}
+						mode="main"
+						title={`다음 페이지 (${page + 1}/3)`}
+					/>
+				) : page === 2 ? (
+					<>
+						<PrevNextButton onClick={handleClickPrevPage} mode="sub" title={`이전 페이지 (${page - 1}/3)`} />
+						<PrevNextButton
+							disabled={pageTwoDisabled}
+							onClick={handleClickNextPage}
+							mode="main"
+							title={`다음 페이지 (${page + 1}/3)`}
+						/>
+					</>
+				) : (
+					<>
+						<PrevNextButton
+							disabled={isPending}
+							onClick={handleClickPrevPage}
+							mode="sub"
+							title={`이전 페이지 (${page - 1}/3)`}
+						/>
+						<PrevNextButton
+							disabled={pageThreeDisabled || isPending}
+							onClick={handleRequestCreateReview}
+							mode="main"
+							title={`작성 완료`}
+						/>
+					</>
+				)}
+			</div>
 		</div>
 	);
 }
