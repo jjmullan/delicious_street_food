@@ -18,6 +18,7 @@ import { MAX_IMAGE_SLOT } from '@/shared/lib/constants';
 import { getNowDateTimeKo } from '@/shared/lib/day';
 import type { API_ReviewProduct, Product, Review } from '@/shared/types/types';
 import PrevNextButton from '@/shared/ui/button/PrevNextButton';
+import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import { Textarea } from '@/shared/ui/shadcn/textarea';
@@ -410,6 +411,11 @@ function ReviewCreatePage() {
 					</>
 				)}
 			</div>
+
+			{/* 로딩 중 */}
+			<Activity mode={isPending ? 'visible' : 'hidden'}>
+				<FallbackRequestAPI />
+			</Activity>
 		</div>
 	);
 }
