@@ -1,3 +1,4 @@
+import { ImagePlusIcon, PenIcon, XIcon } from 'lucide-react';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
@@ -7,9 +8,10 @@ import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import { characterImages } from '@/features/product/item/libs/item';
 import useCreateReview from '@/features/review/create/hook/useCreateReview';
 import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
+import type { ImageURL } from '@/features/review/create/types/image';
 import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
 import { getNowDateTimeKo } from '@/shared/lib/day';
-import type { API_ReviewImage, API_ReviewProduct, Product, Review } from '@/shared/types/types';
+import type { API_ReviewProduct, Product, Review } from '@/shared/types/types';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import { Textarea } from '@/shared/ui/shadcn/textarea';
@@ -102,7 +104,34 @@ function ReviewCreatePage() {
 	};
 
 	// 이미지 목록
-	const [images, setImages] = useState<API_ReviewImage[]>([]);
+	const [images, setImages] = useState<ImageURL[]>([]);
+	const imageRef = useRef<HTMLInputElement>(null);
+	const handleSelectImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files) {
+			const files = Array.from(e.target.files);
+			files.forEach((file) => {
+				if (images.length === 9) {
+					toast.error('최대 업로드 개수를 초과하였습니다.', { position: 'top-center' });
+					return;
+				} else {
+					setImages((prev) => [...prev, { file, previewUrl: URL.createObjectURL(file) }]);
+				}
+			});
+		}
+	};
+	const handleDeleteImage = (image: ImageURL) => {
+		setImages((prevImages) => prevImages.filter((item) => item.previewUrl !== image.previewUrl));
+
+		URL.revokeObjectURL(image.previewUrl);
+	};
+	useEffect(() => {
+		// 언마운트 시 이미지 URL 삭제
+		return () => {
+			images.forEach((image) => {
+				URL.revokeObjectURL(image.previewUrl);
+			});
+		};
+	}, [images]);
 
 	// API 요청
 	const {
@@ -323,12 +352,39 @@ function ReviewCreatePage() {
 				{/* Part 3. 이미지 첨부 */}
 				<Activity mode={page === 3 ? 'visible' : 'hidden'}>
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="후기 이미지" subtitle="를 업로드해주세요" isNecessary={true} />
-						<label htmlFor="review_title" className="sr-only">
+						<ReviewTitle title="후기 이미지" subtitle="를 업로드해주세요 (최대 9개)" isNecessary={true} />
+						<label htmlFor="review_image" className="sr-only">
 							후기 이미지
 						</label>
-						<Input type="file" id="review_title" className="text-sm" maxLength={30} placeholder="30자 이내" />
+						<Input type="file" id="review_image" ref={imageRef} hidden multiple onChange={handleSelectImages} />
+						<Button
+							type="button"
+							variant={'outline'}
+							onClick={() => {
+								if (imageRef.current) imageRef.current.click();
+							}}
+							className=""
+						>
+							<ImagePlusIcon />
+							<p>이미지 업로드</p>
+						</Button>
 					</section>
+					<Activity mode={images.length > 0 ? 'visible' : 'hidden'}>
+						<section className="grid grid-cols-3 grid-rows-3 gap-2">
+							{images.map((image, index) => (
+								<div key={image.previewUrl} className="relative border rounded-md overflow-hidden aspect-square">
+									<img src={image.previewUrl} alt={`미리보기 ${index}번`} className="w-full h-full object-fill" />
+									<button
+										type="button"
+										className="absolute top-2 right-2 p-0.5 bg-black/30 rounded-md"
+										onClick={() => handleDeleteImage(image)}
+									>
+										<XIcon width={16} height={16} color="#fff" />
+									</button>
+								</div>
+							))}
+						</section>
+					</Activity>
 				</Activity>
 			</div>
 
@@ -356,7 +412,7 @@ function ReviewCreatePage() {
 					<Button type="button" className="bg-muted text-balck" disabled={isPending} onClick={handleClickPrevPage}>
 						{`이전 페이지 (${page - 1}/3)`}
 					</Button>
-					<Button type="button" className="flex-1" disabled={isPending} onClick={handleRequestCreateReview}>
+					<Button type="button" className="flex-1" disabled={pageThreeDisabled} onClick={handleRequestCreateReview}>
 						작성 완료
 					</Button>
 				</div>
