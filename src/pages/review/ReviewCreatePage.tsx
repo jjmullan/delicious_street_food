@@ -60,6 +60,15 @@ function ReviewCreatePage() {
 	const now = getNowDateTimeKo();
 	const [visitDateTime, setVisitDateTime] = useState(now);
 	const handleChangeVisitDateTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const selectDate = new Date(e.target.value);
+		const nowDate = new Date(now);
+
+		if (selectDate > nowDate) {
+			toast.error('현재 시간 이후로 설정할 수 없습니다.', { position: 'top-center' });
+			setVisitDateTime(now);
+			return;
+		}
+
 		setVisitDateTime(e.target.value);
 	};
 
@@ -286,6 +295,7 @@ function ReviewCreatePage() {
 							defaultValue={visitDateTime}
 							onChange={handleChangeVisitDateTime}
 							id="visit_date"
+							max={now}
 						/>
 					</section>
 				</Activity>
