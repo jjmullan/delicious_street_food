@@ -1,11 +1,10 @@
-import { ImagePlusIcon, XIcon } from 'lucide-react';
+import { ImagePlusIcon } from 'lucide-react';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
 import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
-import { characterImages } from '@/features/product/item/libs/item';
 import useCreateReview from '@/features/review/create/hook/useCreateReview';
 import useCreateReviewImages from '@/features/review/create/hook/useCreateReviewImages';
 import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
@@ -13,6 +12,7 @@ import type { ImageURL } from '@/features/review/create/types/image';
 import PreviewImage from '@/features/review/create/ui/PreviewImage';
 import ProgressBar from '@/features/review/create/ui/ProgressBar';
 import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
+import SelectProductItemForCreateReview from '@/features/review/create/ui/SelectProductItemForCreateReview';
 import { MAX_IMAGE_SLOT } from '@/shared/lib/constants';
 import { getNowDateTimeKo } from '@/shared/lib/day';
 import type { API_ReviewProduct, Product, Review } from '@/shared/types/types';
@@ -83,7 +83,7 @@ function ReviewCreatePage() {
 	const [selectedProductsDetail, setSelectedProductDetail] = useState<Partial<API_ReviewProduct>[]>([]);
 
 	// 상품 선택 시, 상품별 입력 데이터 UI 표시 및 상태 업데이트
-	const toggleChangeProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChangeProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const productKoName = e.target.id as Product['product_name_ko'];
 		const selectedProduct = products?.find((p) => p.product_name_ko === productKoName);
 
@@ -308,34 +308,13 @@ function ReviewCreatePage() {
 						<div className="grid grid-cols-4 grid-rows-2 gap-1">
 							{/* 상품 목록 */}
 							{products?.map((product: Product) => (
-								<div
-									key={product.product_name_en}
-									className={`flex flex-col items-center py-3 rounded-md ${selectProducts.some((p) => p.product_name_ko === product.product_name_ko) ? 'border-2  border-brown-sub' : 'border-2 border-[#fff]'}`}
-								>
-									<label
-										htmlFor={product.product_name_ko}
-										className={`flex flex-col items-center justify-center gap-y-1`}
-									>
-										<img
-											src={characterImages[product.product_name_en]}
-											alt={`${product.product_name_en}-${product.product_name_ko}`}
-											className="h-8 aspect-square"
-										/>
-										<p
-											className={`text-xs ${selectProducts.some((p) => p.product_name_ko === product.product_name_ko) ? 'text-brown-main font-semibold' : 'text-muted-foreground '}`}
-										>
-											{product.product_name_ko}
-										</p>
-									</label>
-									<Input
-										type="checkbox"
-										name={`product_${product.product_name_en}`}
-										id={product.product_name_ko}
-										className="sr-only w-4 h-4"
-										onChange={toggleChangeProducts}
-										disabled={isPending}
-									/>
-								</div>
+								<SelectProductItemForCreateReview
+									key={product.product_id}
+									onChangeEvent={handleChangeProducts}
+									disabled={isPending}
+									productDetail={product}
+									selectProducts={selectProducts}
+								/>
 							))}
 							{/* 기타 항목 추가 예정 */}
 						</div>
@@ -432,7 +411,7 @@ function ReviewCreatePage() {
 			</div>
 
 			{/* 버튼 */}
-			<div className="fixed bottom-0 full-width p-3 flex flex-col gap-y-2">
+			<div className="fixed bottom-0 full-width p-3 flex flex-col gap-y-2 bg-[#fff]">
 				{page === 1 ? (
 					<PrevNextButton
 						disabled={pageOneDisabled}
