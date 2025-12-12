@@ -10,7 +10,7 @@ function LoggedInDetailHeader() {
 		navigate('/');
 	};
 	return (
-		<header className="fixed flex justify-between items-center text-sm w-full bg-[#fff]">
+		<header className="fixed flex justify-between items-center text-sm full-width bg-[#fff]">
 			<button
 				type="button"
 				className="cursor-pointer px-4 h-12 flex justify-center items-center"

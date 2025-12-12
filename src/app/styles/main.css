@@ -159,6 +159,10 @@
 	.auto-width {
 		@apply w-[calc(100vw-24px)] max-w-[calc(768px-24px)] min-w-[calc(320px-24px)];
 	}
+
+	.full-width {
+		@apply w-full max-w-[768px] min-w-[320px];
+	}
 }
 
 /* 커스텀 유틸리티 - 위치 마커용 펄스 애니메이션 */

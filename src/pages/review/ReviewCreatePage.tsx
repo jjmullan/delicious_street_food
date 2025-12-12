@@ -1,3 +1,4 @@
+import { ImagePlusIcon, XIcon } from 'lucide-react';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
@@ -6,10 +7,12 @@ import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import { characterImages } from '@/features/product/item/libs/item';
 import useCreateReview from '@/features/review/create/hook/useCreateReview';
+import useCreateReviewImages from '@/features/review/create/hook/useCreateReviewImages';
 import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
+import type { ImageURL } from '@/features/review/create/types/image';
 import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
 import { getNowDateTimeKo } from '@/shared/lib/day';
-import type { API_ReviewImage, API_ReviewProduct, Product, Review } from '@/shared/types/types';
+import type { API_ReviewProduct, Product, Review } from '@/shared/types/types';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import { Textarea } from '@/shared/ui/shadcn/textarea';
@@ -102,27 +105,47 @@ function ReviewCreatePage() {
 	};
 
 	// 이미지 목록
-	const [images, setImages] = useState<API_ReviewImage[]>([]);
+	const [images, setImages] = useState<ImageURL[]>([]);
+	const imageRef = useRef<HTMLInputElement>(null);
+	const handleSelectImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files) {
+			const files = Array.from(e.target.files);
+			files.forEach((file) => {
+				if (images.length === 9) {
+					toast.error('최대 업로드 개수를 초과하였습니다.', { position: 'top-center' });
+					return;
+				} else {
+					setImages((prev) => [...prev, { file, previewUrl: URL.createObjectURL(file) }]);
+				}
+			});
+		}
+	};
+	const handleDeleteImage = (image: ImageURL) => {
+		setImages((prevImages) => prevImages.filter((item) => item.previewUrl !== image.previewUrl));
+
+		URL.revokeObjectURL(image.previewUrl);
+	};
+	useEffect(() => {
+		// 언마운트 시 이미지 URL 삭제
+		return () => {
+			images.forEach((image) => {
+				URL.revokeObjectURL(image.previewUrl);
+			});
+		};
+	}, [images]);
 
 	// API 요청
-	const {
-		mutateAsync: createReview,
-		error: createReviewError,
-		isPending: isCreateReviewPending,
-	} = useCreateReview({
-		onSuccess: () => {
-			toast.info('리뷰가 등록되었습니다!', { position: 'top-center' });
-		},
-		onError: (error) => {
-			console.error('리뷰 등록 실패 :', error);
-			toast.error('리뷰 등록이 실패했습니다. 다시 시도해주세요.', { position: 'top-center' });
-		},
-	});
+	const { mutateAsync: createReview, error: createReviewError, isPending: isCreateReviewPending } = useCreateReview({});
 	const {
 		mutateAsync: createReviewProduct,
 		error: createReviewProductError,
 		isPending: isCreateReviewProductPending,
 	} = useCreateReviewProducts({});
+	const {
+		mutateAsync: createReviewImages,
+		error: createReviewImagesError,
+		isPending: isCreateReviewImagesPending,
+	} = useCreateReviewImages({});
 
 	const openConfirmModal = useOpenConfirmModal();
 	const handleRequestCreateReview = () => {
@@ -131,28 +154,55 @@ function ReviewCreatePage() {
 			description:
 				'타인에게 불편함을 줄 수 있는 표현, 광고를 목적으로 작성되는 댓글은 사전 고지없이 삭제될 수 있습니다.',
 			onPositive: async () => {
-				const review: Review = await createReview({
-					user_id: user_id!,
-					location_id: location_id!,
-					review_title: reviewTitle,
-					review_text: reviewText,
-					is_recommended: false,
-					visit_datetime: visit_datetime,
-				});
+				try {
+					// 1. 리뷰 생성
+					const review: Review = await createReview({
+						user_id: user_id!,
+						location_id: location_id!,
+						review_title: reviewTitle,
+						review_text: reviewText,
+						is_recommended: false,
+						visit_datetime: visit_datetime,
+					});
 
-				const review_id = review.review_id;
-				await selectedProductsDetail.map(
-					async (product) =>
-						await createReviewProduct({
+					const review_id = review.review_id;
+
+					// 2. 리뷰 상품 생성
+					await Promise.all(
+						selectedProductsDetail.map((product) =>
+							createReviewProduct({
+								review_id,
+								product_id: product.product_id!,
+								order_quantity: product.order_quantity!,
+								order_price: product.order_price!,
+								is_recommend: product.is_recommend!,
+							})
+						)
+					);
+
+					// 3. 이미지 업로드
+					if (images.length > 0) {
+						await createReviewImages({
 							review_id,
-							product_id: product.product_id!,
-							order_quantity: product.order_quantity!,
-							order_price: product.order_price!,
-							is_recommend: product.is_recommend!,
-						})
-				);
+							user_id: user_id!,
+							images,
+						});
+					}
 
-				await navigate(`/location/${location_id}/review/all`);
+					await openConfirmModal({
+						title: '리뷰 생성이 완료되었습니다!',
+						description: '리뷰 목록 페이지로 이동하시겠습니까?',
+						onPositive: () => {
+							navigate(`/location/${location_id}/review/all`);
+						},
+						onNegative: () => {
+							navigate(`/`);
+						},
+					});
+				} catch (error) {
+					console.error('리뷰 생성에 실패했습니다.', error);
+					toast.error('리뷰 생성에 실패했습니다.', { position: 'top-center' });
+				}
 			},
 		});
 	};
@@ -163,10 +213,11 @@ function ReviewCreatePage() {
 	const pageThreeDisabled = images.length === 0;
 
 	// 에러 통합 관리
-	if (createReviewError || createReviewProductError) return;
+	if (createReviewError || createReviewProductError || createReviewImagesError) return;
 
 	// Pending 통합 상태 통합 관리
-	const isPending = isFetchProductsPending || isCreateReviewPending || isCreateReviewProductPending;
+	const isPending =
+		isFetchProductsPending || isCreateReviewPending || isCreateReviewProductPending || isCreateReviewImagesPending;
 
 	return (
 		<div className="flex flex-col">
@@ -323,12 +374,39 @@ function ReviewCreatePage() {
 				{/* Part 3. 이미지 첨부 */}
 				<Activity mode={page === 3 ? 'visible' : 'hidden'}>
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="후기 이미지" subtitle="를 업로드해주세요" isNecessary={true} />
-						<label htmlFor="review_title" className="sr-only">
+						<ReviewTitle title="후기 이미지" subtitle="를 업로드해주세요 (최대 9개)" isNecessary={true} />
+						<label htmlFor="review_image" className="sr-only">
 							후기 이미지
 						</label>
-						<Input type="file" id="review_title" className="text-sm" maxLength={30} placeholder="30자 이내" />
+						<Input type="file" id="review_image" ref={imageRef} hidden multiple onChange={handleSelectImages} />
+						<Button
+							type="button"
+							variant={'outline'}
+							onClick={() => {
+								if (imageRef.current) imageRef.current.click();
+							}}
+							className=""
+						>
+							<ImagePlusIcon />
+							<p>이미지 업로드</p>
+						</Button>
 					</section>
+					<Activity mode={images.length > 0 ? 'visible' : 'hidden'}>
+						<section className="grid grid-cols-3 grid-rows-3 gap-2">
+							{images.map((image, index) => (
+								<div key={image.previewUrl} className="relative border rounded-md overflow-hidden aspect-square">
+									<img src={image.previewUrl} alt={`미리보기 ${index}번`} className="w-full h-full object-fill" />
+									<button
+										type="button"
+										className="absolute top-2 right-2 p-0.5 bg-black/30 rounded-md"
+										onClick={() => handleDeleteImage(image)}
+									>
+										<XIcon width={16} height={16} color="#fff" />
+									</button>
+								</div>
+							))}
+						</section>
+					</Activity>
 				</Activity>
 			</div>
 
@@ -356,7 +434,7 @@ function ReviewCreatePage() {
 					<Button type="button" className="bg-muted text-balck" disabled={isPending} onClick={handleClickPrevPage}>
 						{`이전 페이지 (${page - 1}/3)`}
 					</Button>
-					<Button type="button" className="flex-1" disabled={isPending} onClick={handleRequestCreateReview}>
+					<Button type="button" className="flex-1" disabled={pageThreeDisabled} onClick={handleRequestCreateReview}>
 						작성 완료
 					</Button>
 				</div>

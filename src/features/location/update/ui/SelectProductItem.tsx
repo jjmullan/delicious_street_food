@@ -22,9 +22,9 @@ function SelectProductItem() {
 	return (
 		<Select value={selectProduct} onValueChange={setSelectProduct}>
 			<SelectTrigger
-				className={`shrink-0 rounded-full pl-3 pr-2.5 py-1 text-xs border ${selectProduct !== '' && 'border-brown-sub'}`}
+				className={`shrink-0 rounded-full px-3 py-1.5 text-sm border ${selectProduct !== '' && 'border-brown-sub'}`}
 			>
-				<SelectValue placeholder="카테고리" className="h-7" />
+				<SelectValue placeholder="카테고리" className="text-sm" />
 			</SelectTrigger>
 			<SelectContent>
 				<SelectGroup>

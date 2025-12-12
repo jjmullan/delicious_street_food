@@ -35,20 +35,17 @@ function HomeButton() {
 	return (
 		<div>
 			<h1 className="sr-only">포장맛차</h1>
-			{isHome ? (
-				<button
-					type="button"
-					className="w-12 h-12 flex justify-center items-center text-center text-2xl"
-					aria-label="현재 위치로 이동"
-					onClick={handleGoBackToCurrentLocation}
-				>
-					<LocateFixedIcon />
-				</button>
-			) : (
-				<Link to={'/'} className="w-12 flex justify-center items-center text-center text-2xl">
-					<HomeIcon />
-				</Link>
-			)}
+			<button
+				type="button"
+				className="w-18 h-18 flex justify-center items-center text-center text-2xl"
+				aria-label="현재 위치로 이동"
+				onClick={handleGoBackToCurrentLocation}
+			>
+				<div className="flex flex-col items-center gap-y-1">
+					<LocateFixedIcon width={24} height={24} />
+					<p className="text-xs font-medium">현재 위치</p>
+				</div>
+			</button>
 		</div>
 	);
 }

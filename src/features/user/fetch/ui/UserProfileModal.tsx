@@ -22,8 +22,11 @@ function UserProfileModal() {
 	return (
 		<Popover>
 			<PopoverTrigger>
-				<div className="w-12 h-12 flex justify-center items-center">
-					<img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" />
+				<div className="w-18 h-18 flex justify-center items-center">
+					<div className="flex flex-col items-center gap-y-1">
+						<img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" />
+						<p className="text-xs font-medium">마이페이지</p>
+					</div>
 				</div>
 			</PopoverTrigger>
 			<PopoverContent className="flex w-fit flex-col justify-center items-center p-0 text-sm">

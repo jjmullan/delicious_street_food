@@ -1,5 +1,5 @@
 import supabase from '@/shared/api/supabase/supabase';
-import type { Review, ReviewProduct } from '@/shared/types/types';
+import type { API_ReviewImage, Review, ReviewProduct } from '@/shared/types/types';
 
 /**
  * 특정 위치에 작성된 모든 리뷰 정보를 패칭하는 API
@@ -39,6 +39,17 @@ export async function fetchReviewProducts(review_id: string): Promise<ReviewProd
 		.select('*')
 		.eq('review_id', review_id)
 		.order('product_id', { ascending: false });
+
+	if (error) throw error;
+	return data;
+}
+
+export async function fetchReviewImages(review_id: string): Promise<API_ReviewImage[]> {
+	const { data, error } = await supabase
+		.from('review_image')
+		.select('*')
+		.eq('review_id', review_id)
+		.order('created_at');
 
 	if (error) throw error;
 	return data;
