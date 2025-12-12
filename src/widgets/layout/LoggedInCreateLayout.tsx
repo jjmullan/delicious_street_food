@@ -12,7 +12,7 @@ function LoggedInCreateLayout() {
 	return (
 		<div className="min-h-svh full-width">
 			<LoggedInCreateHeader />
-			<main className="mt-12">
+			<main className="mt-12 mb-20">
 				<Outlet />
 			</main>
 		</div>
