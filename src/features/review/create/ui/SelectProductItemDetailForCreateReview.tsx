@@ -30,9 +30,15 @@ function SelectProductItemDetailForCreateReview({
 						id={`${selectProduct.product_name_ko}_order_quantity`}
 						min="1"
 						max="100"
+						inputMode="numeric"
 						value={
 							selectedProductsDetail.find((item) => item.product_id === selectProduct.product_id)?.order_quantity ?? 1
 						}
+						onBlur={(e) => {
+							if (Number(e.target.value) === 0) {
+								onChangeQuantity(selectProduct.product_id, 1);
+							}
+						}}
 						onChange={(e) => onChangeQuantity(selectProduct.product_id, Number(e.target.value))}
 					/>
 					<p>개</p>
@@ -47,6 +53,12 @@ function SelectProductItemDetailForCreateReview({
 						min="1000"
 						max="100000"
 						step="100"
+						inputMode="numeric"
+						onBlur={(e) => {
+							if (Number(e.target.value) === 0) {
+								onChangePrice(selectProduct.product_id, 1000);
+							}
+						}}
 						value={
 							selectedProductsDetail.find((item) => item.product_id === selectProduct.product_id)?.order_price ?? 1000
 						}
