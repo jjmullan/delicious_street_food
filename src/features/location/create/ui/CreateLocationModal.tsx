@@ -42,11 +42,11 @@ function CreateLocationModal() {
 	// 매장 이름 검증
 	const [hasName, setHasName] = useState(false);
 	const [locationName, setLocationName] = useState('');
-	const nameRef = useRef(null);
+	const nameRef = useRef<HTMLInputElement>(null);
 	useEffect(() => {
 		if (hasName) {
 			setLocationName('');
-			nameRef.current.focus();
+			nameRef.current?.focus();
 		}
 	}, [hasName]);
 
