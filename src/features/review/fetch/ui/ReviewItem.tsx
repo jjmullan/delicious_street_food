@@ -1,11 +1,13 @@
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
-import { CalendarDaysIcon, EditIcon, Trash2Icon } from 'lucide-react';
+import { EditIcon, Trash2Icon } from 'lucide-react';
 import { Activity, useState } from 'react';
 import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
-import { characterImages } from '@/features/product/item/libs/item';
 import useFetchReviewImages from '@/features/review/fetch/hook/useFetchReviewImages';
 import useFetchReviewProducts from '@/features/review/fetch/hook/useFetchReviewProducts';
+import ReviewProductItem from '@/features/review/fetch/ui/ReviewProductItem';
+import ReviewTitleAndText from '@/features/review/fetch/ui/ReviewTitleAndText';
+import ReviewVisitDate from '@/features/review/fetch/ui/ReviewVisitDate';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { formatTimeAgo, getDateTimeKo } from '@/shared/lib/day';
 import type { Review } from '@/shared/types/types';
@@ -98,34 +100,29 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 			</Carousel>
 			{/* 후기 제목, 내용 */}
 			<div className="flex flex-col">
-				<h3 className="text-base font-semibold">{review_title !== '' ? review_title : '제목 없음'}</h3>
-				<div className="text-sm">{review_text}</div>
+				<ReviewTitleAndText review_title={review_title ?? '제목 없음'} review_text={review_text} />
 			</div>
 			{/* 구매 상품, 방문일자 */}
 			<div className="flex flex-col gap-y-3">
 				<div className="flex flex-col gap-y-1.5 gap-x-2 text-xs">
 					<p className="font-medium text-muted-foreground">구매 상품</p>
-					{fetchReviewProduct?.map((rp) => (
-						<div key={rp.review_product_id} className="flex items-center gap-x-1">
-							<img
-								src={characterImages[fetchProduct!.find((p) => p.product_id === rp.product_id)!.product_name_en]}
-								alt=""
-								className="h-4 aspect-square"
-							/>
-							<p className="">{fetchProduct?.find((p) => p.product_id === rp.product_id)?.product_name_ko}</p>
-							<span>・</span>
-							<p>{rp.order_quantity}개</p>
-							<span>・</span>
-							<p>{rp.order_price?.toLocaleString()}원</p>
-						</div>
-					))}
+					{fetchReviewProduct?.map((rp) => {
+						const product = fetchProduct?.find((p) => p.product_id === rp.product_id);
+						return (
+							product && (
+								<ReviewProductItem
+									key={rp.review_product_id}
+									product_name_ko={product.product_name_ko}
+									product_name_en={product.product_name_en}
+									{...rp}
+								/>
+							)
+						);
+					})}
 				</div>
 				<div className="flex flex-col gap-x-2 text-xs">
 					<p className="font-medium text-muted-foreground">방문 날짜</p>
-					<div className="flex items-center gap-x-1">
-						<CalendarDaysIcon width={14} />
-						<p className="">{visitDatetime}</p>
-					</div>
+					<ReviewVisitDate visitDatetime={visitDatetime} />
 				</div>
 			</div>
 
