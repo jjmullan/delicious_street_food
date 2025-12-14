@@ -1,6 +1,6 @@
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import { CalendarDaysIcon, EditIcon, Trash2Icon } from 'lucide-react';
-import { Activity } from 'react';
+import { Activity, useState } from 'react';
 import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import { characterImages } from '@/features/product/item/libs/item';
@@ -9,6 +9,7 @@ import useFetchReviewProducts from '@/features/review/fetch/hook/useFetchReviewP
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { formatTimeAgo, getDateTimeKo } from '@/shared/lib/day';
 import type { Review } from '@/shared/types/types';
+import ImageModal from '@/shared/ui/modal/ImageModal';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/shadcn/carousel';
 
 function ReviewItem({ user_id, review_id, review_title, review_text, visit_datetime, created_at }: Review) {
@@ -31,7 +32,17 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 
 	// 리뷰에 해당하는 업로드 이미지 패칭
 	const { data: fetchReviewImage, isPending: isFetchReviewImagePending } = useFetchReviewImages(review_id);
-	console.log(fetchReviewImage);
+
+	// 이미지 모달 상태 관리
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedImageUrl, setSelectedImageUrl] = useState('');
+	const handleClickLargeImage = (imageUrl: string) => {
+		setSelectedImageUrl(imageUrl);
+		setIsModalOpen(true);
+	};
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+	};
 
 	// Pending 상태 통합 관리
 	const isPending =
@@ -40,7 +51,7 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 	return (
 		<div className="px-3 py-4 border-b flex flex-col gap-y-3">
 			{/* 작성자, 작성일 */}
-			<div className="flex justify-between items-start">
+			<div className="flex justify-between items-start mb-2">
 				<div className="flex items-center gap-x-2.5">
 					<div className="w-9 h-9">
 						<img src={profileImage} alt="프로필 이미지" className="w-full h-full object-cover" />
@@ -68,13 +79,19 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 				<CarouselContent className="-ml-2">
 					{fetchReviewImage?.map((image, index) => (
 						<CarouselItem key={image.review_id} className="max-w-[150px] max-h-[150px] pl-2">
-							<div className="h-full w-full rounded-md overflow-hidden flex items-center justify-center">
+							<button
+								type="button"
+								className="h-full w-full rounded-md overflow-hidden flex items-center justify-center"
+								onClick={() => handleClickLargeImage(image.review_image_url)}
+								onKeyDown={(e) => e.key === 'Enter' && handleClickLargeImage(image.review_image_url)}
+							>
 								<img
 									src={image.review_image_url}
 									alt={`${index}번 후기 이미지`}
-									className="w-full h-full object-cover"
+									className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+									aria-label={`${index}번 후기 이미지 확대`}
 								/>
-							</div>
+							</button>
 						</CarouselItem>
 					))}
 				</CarouselContent>
@@ -111,6 +128,9 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 					</div>
 				</div>
 			</div>
+
+			{/* 이미지 확대 모달 */}
+			<ImageModal imageUrl={selectedImageUrl} isOpen={isModalOpen} onClose={handleCloseModal} />
 		</div>
 	);
 }
