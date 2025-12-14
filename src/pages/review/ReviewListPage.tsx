@@ -30,7 +30,6 @@ function ReviewListPage() {
 
 	return (
 		<>
-			<LoggedInDetailHeader title="방문 후기" />
 			<LocationNavigation location_id={location_id!} />
 			<main className="relative">
 				<Activity mode={isPending ? 'hidden' : 'visible'}>
