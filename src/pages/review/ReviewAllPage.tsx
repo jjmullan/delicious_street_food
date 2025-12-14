@@ -7,7 +7,7 @@ import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchRevi
 import ReviewItem from '@/features/review/fetch/ui/ReviewItem';
 import { Button } from '@/shared/ui/shadcn/button';
 
-function ReviewListPage() {
+function ReviewAllPage() {
 	const navigate = useNavigate();
 	const openConfirmModal = useOpenConfirmModal();
 	const handleClickCreateReviewPage = () => {
@@ -62,4 +62,4 @@ function ReviewListPage() {
 	);
 }
 
-export default ReviewListPage;
+export default ReviewAllPage;
