@@ -1,3 +1,4 @@
+// pages 로직 이전 필요
 function LocationReviewAll() {
 	return (
 		<>

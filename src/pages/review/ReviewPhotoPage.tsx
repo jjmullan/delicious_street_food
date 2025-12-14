@@ -1,12 +1,7 @@
-import Location from '@/entities/location/ui/LocationHome';
-import LoggedInDetailHeader from '@/widgets/header/LoggedInDetailHeader';
+import LocationReviewPhoto from '@/entities/review/ui/LocationReviewPhoto';
 
 function ReviewPhotoPage() {
-	return (
-		<>
-			<Location />
-		</>
-	);
+	return <LocationReviewPhoto />;
 }
 
 export default ReviewPhotoPage;

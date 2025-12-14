@@ -1,5 +1,6 @@
 import { Navigate, Outlet, useParams } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
+import LocationNavigation from '@/entities/location/ui/LocationNavigation';
 import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
 import LoggedInDetailHeader from '@/widgets/header/LoggedInDetailHeader';
 
@@ -20,7 +21,10 @@ function LoggedInDetailLayout() {
 	return (
 		<div className="min-h-svh full-width">
 			<LoggedInDetailHeader title={location_name} />
-			<Outlet />
+			<LocationNavigation location_id={location_id!} />
+			<main className="relative mt-24 px-3">
+				<Outlet />
+			</main>
 		</div>
 	);
 }
