@@ -157,11 +157,11 @@
 	}
 
 	.auto-width {
-		@apply w-[calc(100vw-24px)] max-w-[calc(768px-24px)] min-w-[calc(320px-24px)];
+		@apply w-[calc(100vw-24px)] max-w-[calc(767px-24px)] min-w-[calc(320px-24px)];
 	}
 
 	.full-width {
-		@apply w-full max-w-[768px] min-w-[320px];
+		@apply w-full max-w-[767px] min-w-[320px];
 	}
 }
 
@@ -207,7 +207,7 @@
 	}
 
 	.bg-gradient-location {
-		background: radial-gradient(circle, var(--color-brown-main) 0%, transparent 40%, rgba(212, 148, 74, 0.3) 80%);
+		background: radial-gradient(circle, var(--color-brown-main) 0%, transparent 20%, rgba(212, 148, 74, 0.3) 80%);
 	}
 
 	.bg-gradient-marker-me {

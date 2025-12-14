@@ -20,13 +20,7 @@ function LocationInfoModal({
 				{/* 기본 아이콘 */}
 				<div className="relative cursor-pointer">
 					<div className="relative w-7 h-7">
-						{/* 항상 보이는 gradient border (가장 뒤) - 크기 증가 */}
-						<div className="absolute inset-[-12px] rounded-full animate-show-border bg-gradient-location p-1" />
-
-						{/* 펄스 애니메이션 링 (중간) */}
-						<div className="absolute inset-0 rounded-full animate-pulse-ring bg-gradient-marker-location p-1" />
-
-						{/* 중앙 (가장 앞) */}
+						<div className="absolute inset-[-8px] rounded-full bg-gradient-location p-1" />
 						<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center`}>
 							<img src={foodstall} alt="포장마차" className="w-7 h-7 object-contain" />
 						</div>
