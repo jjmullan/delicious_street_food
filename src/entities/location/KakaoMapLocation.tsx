@@ -1,6 +1,5 @@
 import { Activity, useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
-import { useSearchParams } from 'react-router';
 import { toast } from 'sonner';
 import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@/app/store/createLocationStore';
 import { useLocation } from '@/app/store/locationStore';
@@ -20,21 +19,6 @@ import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
 import LoggedInUserOnlyAsideBar from '@/widgets/aside/LoggedInUserOnlyAsideBar';
 
 function KakaoMapLocation() {
-	/* 클릭한 위치 쿼리스트링 추가
-	const [searchParams, setSearchParams] = useSearchParams();
-	const handleParamChange = (filters: { lat: string; lng: string }) => {
-		const newParams = new URLSearchParams(searchParams);
-
-		if (filters.lat) {
-			newParams.set('lat', filters.lat);
-		}
-		if (filters.lng) {
-			newParams.set('lng', filters.lng);
-		}
-
-		setSearchParams(newParams);
-	}; */
-
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
 	const location = useLocation();
 
