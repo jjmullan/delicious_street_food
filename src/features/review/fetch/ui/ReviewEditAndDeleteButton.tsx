@@ -1,17 +1,28 @@
-import { EditIcon, Trash2Icon } from 'lucide-react';
+import { PopoverClose } from '@radix-ui/react-popover';
+import { EditIcon, MoreVerticalIcon, Trash2Icon } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
 
-function ReviewEditAndDeleteButton() {
+function ReviewEditAndDeleteButton({ onDelete }: { onDelete(): void }) {
 	return (
-		<div className="flex gap-x-2">
-			<div className="flex items-center text-xs gap-x-1">
-				<EditIcon width={10} height={10} />
-				<p>수정</p>
-			</div>
-			<div className="flex items-center text-xs gap-x-1 ">
-				<Trash2Icon width={10} height={10} />
-				<p>삭제</p>
-			</div>
-		</div>
+		<Popover>
+			<PopoverTrigger>
+				<MoreVerticalIcon width={16} height={16} />
+			</PopoverTrigger>
+			<PopoverContent className="flex w-fit flex-col justify-center items-center text-sm p-0">
+				<PopoverClose asChild>
+					<button type="button" className="flex justify-center items-center gap-x-1 p-3 pb-1.5">
+						<EditIcon width={12} height={12} />
+						<p className="text-xs">수정</p>
+					</button>
+				</PopoverClose>
+				<PopoverClose asChild>
+					<button type="button" className="flex justify-center items-center gap-x-1 p-3 pt-1.5" onClick={onDelete}>
+						<Trash2Icon width={12} height={12} />
+						<p className="text-xs">삭제</p>
+					</button>
+				</PopoverClose>
+			</PopoverContent>
+		</Popover>
 	);
 }
 

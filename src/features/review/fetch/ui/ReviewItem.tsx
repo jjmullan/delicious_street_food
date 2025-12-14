@@ -1,7 +1,10 @@
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import { Activity, useState } from 'react';
+import { toast } from 'sonner';
+import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
+import { useDeleteReview } from '@/features/review/delete/hook/useDeleteReview';
 import useFetchReviewImages from '@/features/review/fetch/hook/useFetchReviewImages';
 import useFetchReviewProducts from '@/features/review/fetch/hook/useFetchReviewProducts';
 import ReviewEditAndDeleteButton from '@/features/review/fetch/ui/ReviewEditAndDeleteButton';
@@ -32,9 +35,28 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 	const { data: fetchReviewProduct, isPending: isFetchReviewProductPending } = useFetchReviewProducts(review_id);
 	// 전체 상품 목록 패칭 (상품id 와 비교해서 이름 데이터 추출 예정)
 	const { data: fetchProduct, isPending: isFetchProductPending } = useFetchProducts();
-
 	// 리뷰에 해당하는 업로드 이미지 패칭
 	const { data: fetchReviewImage, isPending: isFetchReviewImagePending } = useFetchReviewImages(review_id);
+
+	// 리뷰 삭제 기능
+	const { mutate: deleteReview, isPending: isDeleteReviewPending } = useDeleteReview({
+		onSuccess: () => {
+			toast.info('리뷰가 삭제되었습니다.', { position: 'top-center' });
+		},
+		onError: () => {
+			toast.error('리뷰 삭제가 실패했습니다.', { position: 'top-center' });
+		},
+	});
+	const openConfirmModal = useOpenConfirmModal();
+	const handleDeleteReview = () => {
+		openConfirmModal({
+			title: '리뷰를 정말 삭제하시겠습니까?',
+			description: '삭제된 리뷰는 되돌릴 수 없습니다',
+			onPositive: () => {
+				deleteReview(review_id);
+			},
+		});
+	};
 
 	// 이미지 모달 상태 관리
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,15 +71,19 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 
 	// Pending 상태 통합 관리
 	const isPending =
-		isFetchUserPending || isFetchReviewProductPending || isFetchProductPending || isFetchReviewImagePending;
+		isFetchUserPending ||
+		isFetchReviewProductPending ||
+		isFetchProductPending ||
+		isFetchReviewImagePending ||
+		isDeleteReviewPending;
 
 	return (
 		<div className="px-3 py-4 border-b flex flex-col gap-y-3">
 			{/* 작성자, 작성일 */}
-			<div className="flex justify-between items-start mb-2">
+			<div className="flex justify-between items-center mb-2">
 				<ReviewUserProfile profileImage={profileImage} nickname={nickname!} createDatetime={createDatetime} />
 				<Activity mode={isMine ? 'visible' : 'hidden'}>
-					<ReviewEditAndDeleteButton />
+					<ReviewEditAndDeleteButton onDelete={handleDeleteReview} />
 				</Activity>
 			</div>
 			{/* 후기 이미지 */}
@@ -83,9 +109,7 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 				</CarouselContent>
 			</Carousel>
 			{/* 후기 제목, 내용 */}
-			<div className="flex flex-col">
-				<ReviewTitleAndText review_title={review_title ?? '제목 없음'} review_text={review_text} />
-			</div>
+			<ReviewTitleAndText review_title={review_title ?? '제목 없음'} review_text={review_text} />
 			{/* 구매 상품, 방문일자 */}
 			<div className="flex flex-col gap-y-3">
 				<div className="flex flex-col gap-y-1.5 gap-x-2 text-xs">
