@@ -1,18 +1,24 @@
-import { ImagePlusIcon, XIcon } from 'lucide-react';
+import { ImagePlusIcon } from 'lucide-react';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
 import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
-import { characterImages } from '@/features/product/item/libs/item';
 import useCreateReview from '@/features/review/create/hook/useCreateReview';
 import useCreateReviewImages from '@/features/review/create/hook/useCreateReviewImages';
 import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
 import type { ImageURL } from '@/features/review/create/types/image';
-import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
+import CreateReviewTitle from '@/features/review/create/ui/CreateReviewTitle';
+import PreviewImage from '@/features/review/create/ui/PreviewImage';
+import ProgressBar from '@/features/review/create/ui/ProgressBar';
+import SelectProductItemDetailForCreateReview from '@/features/review/create/ui/SelectProductItemDetailForCreateReview';
+import SelectProductItemForCreateReview from '@/features/review/create/ui/SelectProductItemForCreateReview';
+import { MAX_IMAGE_SLOT } from '@/shared/lib/constants';
 import { getNowDateTimeKo } from '@/shared/lib/day';
 import type { API_ReviewProduct, Product, Review } from '@/shared/types/types';
+import PrevNextButton from '@/shared/ui/button/PrevNextButton';
+import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
 import { Button } from '@/shared/ui/shadcn/button';
 import { Input } from '@/shared/ui/shadcn/input';
 import { Textarea } from '@/shared/ui/shadcn/textarea';
@@ -56,6 +62,15 @@ function ReviewCreatePage() {
 	const now = getNowDateTimeKo();
 	const [visitDateTime, setVisitDateTime] = useState(now);
 	const handleChangeVisitDateTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const selectDate = new Date(e.target.value);
+		const nowDate = new Date(now);
+
+		if (selectDate > nowDate) {
+			toast.error('현재 시간 이후로 설정할 수 없습니다.', { position: 'top-center' });
+			setVisitDateTime(now);
+			return;
+		}
+
 		setVisitDateTime(e.target.value);
 	};
 
@@ -70,7 +85,7 @@ function ReviewCreatePage() {
 	const [selectedProductsDetail, setSelectedProductDetail] = useState<Partial<API_ReviewProduct>[]>([]);
 
 	// 상품 선택 시, 상품별 입력 데이터 UI 표시 및 상태 업데이트
-	const toggleChangeProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChangeProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const productKoName = e.target.id as Product['product_name_ko'];
 		const selectedProduct = products?.find((p) => p.product_name_ko === productKoName);
 
@@ -110,14 +125,24 @@ function ReviewCreatePage() {
 	const handleSelectImages = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
 			const files = Array.from(e.target.files);
-			files.forEach((file) => {
-				if (images.length === 9) {
-					toast.error('최대 업로드 개수를 초과하였습니다.', { position: 'top-center' });
-					return;
-				} else {
-					setImages((prev) => [...prev, { file, previewUrl: URL.createObjectURL(file) }]);
-				}
-			});
+
+			// 남은 업로드 가능 이미지 슬롯 (9 - ?)
+			const slot = MAX_IMAGE_SLOT - images.length;
+			if (slot === 0) {
+				toast.error('이미지는 최대 9개 업로드 가능합니다.', { position: 'top-center' });
+				return;
+			}
+			if (files.length > slot) {
+				toast.warning(`최대 업로드 개수를 초과하여, ${slot}개만 추가됩니다.`, { position: 'top-center' });
+			}
+
+			// 현재 남은 슬롯 수만큼 잘라내서 이미지 업로드하기
+			const addFile = files.slice(0, slot);
+			const newImages = addFile.map((file) => ({
+				file,
+				previewUrl: URL.createObjectURL(file),
+			}));
+			setImages((prev) => [...prev, ...newImages]);
 		}
 	};
 	const handleDeleteImage = (image: ImageURL) => {
@@ -147,6 +172,7 @@ function ReviewCreatePage() {
 		isPending: isCreateReviewImagesPending,
 	} = useCreateReviewImages({});
 
+	// 리뷰 생성 로직
 	const openConfirmModal = useOpenConfirmModal();
 	const handleRequestCreateReview = () => {
 		openConfirmModal({
@@ -207,7 +233,7 @@ function ReviewCreatePage() {
 		});
 	};
 
-	// 버튼 disabled 상태 통합 관리
+	// 버튼 disabled 상태 조건 통합 관리
 	const pageOneDisabled = reviewText === '' || visitDateTime === '';
 	const pageTwoDisabled = selectProducts.length === 0;
 	const pageThreeDisabled = images.length === 0;
@@ -222,21 +248,15 @@ function ReviewCreatePage() {
 	return (
 		<div className="flex flex-col">
 			{/* 진행 바 */}
-			<div className="fixed grid grid-cols-3 h-2 rounded-full bg-muted auto-width">
-				<div className={`rounded-full bg-brown-main ${page >= 2 && 'rounded-r-none'}`}></div>
-				<div
-					className={`rounded-full ${page >= 2 && 'bg-brown-main rounded-l-none'} ${page >= 3 && 'rounded-r-none'}`}
-				></div>
-				<div className={`rounded-full ${page >= 3 && 'bg-brown-main rounded-l-none'}`}></div>
-			</div>
+			<ProgressBar page={page} />
 
 			{/* 작성 내용 */}
-			<div className="mt-8 flex flex-col gap-y-6">
+			<div className="mt-8 mb-8 p-3 flex flex-col gap-y-6">
 				{/* Part 1. */}
 				<Activity mode={page === 1 ? 'visible' : 'hidden'}>
 					{/* 1. 후기 제목 */}
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="후기 제목" subtitle="을 작성해주세요" isNecessary={false} />
+						<CreateReviewTitle title="후기 제목" subtitle="을 작성해주세요" isNecessary={false} />
 						<label htmlFor="review_title" className="sr-only">
 							후기 제목
 						</label>
@@ -252,7 +272,7 @@ function ReviewCreatePage() {
 					</section>
 					{/* 2. 상세 후기 */}
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="상세 후기" subtitle="를 작성해주세요" isNecessary={true} />
+						<CreateReviewTitle title="상세 후기" subtitle="를 작성해주세요" isNecessary={true} />
 						<label htmlFor="review_text" className="sr-only">
 							상세 후기
 						</label>
@@ -267,7 +287,7 @@ function ReviewCreatePage() {
 					</section>
 					{/* 3. 방문 날짜 */}
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="방문 당시 날짜" subtitle="를 선택해주세요" isNecessary={true} />
+						<CreateReviewTitle title="방문 당시 날짜" subtitle="를 선택해주세요" isNecessary={true} />
 						<label htmlFor="visit_date" className="sr-only">
 							방문 날짜
 						</label>
@@ -277,108 +297,60 @@ function ReviewCreatePage() {
 							defaultValue={visitDateTime}
 							onChange={handleChangeVisitDateTime}
 							id="visit_date"
+							max={now}
 						/>
 					</section>
 				</Activity>
 
 				{/* Part 2. 구매한 상품의 수량, 가격 정보 */}
 				<Activity mode={page === 2 ? 'visible' : 'hidden'}>
-					{/* 1. 구매한 상품 모두 선택 */}
+					{/* 구매한 상품 모두 선택란 */}
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="구매하신 상품" subtitle="을 모두 선택해주세요" isNecessary={true} />
+						<CreateReviewTitle title="구매하신 상품" subtitle="을 모두 선택해주세요" isNecessary={true} />
 						<div className="grid grid-cols-4 grid-rows-2 gap-1">
-							{/* 상품 목록 */}
 							{products?.map((product: Product) => (
-								<div
-									key={product.product_name_en}
-									className={`flex flex-col items-center py-3 rounded-md ${selectProducts.some((p) => p.product_name_ko === product.product_name_ko) ? 'border-2  border-brown-sub' : 'border-2 border-[#fff]'}`}
-								>
-									<label
-										htmlFor={product.product_name_ko}
-										className={`flex flex-col items-center justify-center gap-y-1`}
-									>
-										<img
-											src={characterImages[product.product_name_en]}
-											alt={`${product.product_name_en}-${product.product_name_ko}`}
-											className="h-8 aspect-square"
-										/>
-										<p
-											className={`text-xs ${selectProducts.some((p) => p.product_name_ko === product.product_name_ko) ? 'text-brown-main font-semibold' : 'text-muted-foreground '}`}
-										>
-											{product.product_name_ko}
-										</p>
-									</label>
-									<Input
-										type="checkbox"
-										name={`product_${product.product_name_en}`}
-										id={product.product_name_ko}
-										className="sr-only w-4 h-4"
-										onChange={toggleChangeProducts}
-										disabled={isPending}
-									/>
-								</div>
+								<SelectProductItemForCreateReview
+									key={product.product_id}
+									onChangeEvent={handleChangeProducts}
+									disabled={isPending}
+									productDetail={product}
+									selectProducts={selectProducts}
+								/>
 							))}
 							{/* 기타 항목 추가 예정 */}
 						</div>
 					</section>
+					{/* 구매한 상품의 수량, 가격 정보 */}
 					<div className="flex flex-col gap-y-4">
 						{selectProducts.map((selectProduct) => (
-							<section key={selectProduct.product_name_ko} className="flex flex-col gap-y-2">
-								<ReviewTitle
-									title={selectProduct.product_name_ko}
-									subtitle="의 구매 수량과 총 금액을 작성해주세요"
-									isNecessary={true}
-								/>
-								<div className="flex gap-x-8">
-									<div className="flex justify-between items-center gap-x-2">
-										<label htmlFor={`${selectProduct.product_name_ko}_order_quantity`} className="sr-only">
-											구매 수량
-										</label>
-										<Input
-											type="number"
-											id={`${selectProduct.product_name_ko}_order_quantity`}
-											min="1"
-											max="100"
-											value={
-												selectedProductsDetail.find((item) => item.product_id === selectProduct.product_id)
-													?.order_quantity ?? 1
-											}
-											onChange={(e) => handleChangeOrderQuantity(selectProduct.product_id, Number(e.target.value))}
-										/>
-										<p>개</p>
-									</div>
-									<div className="flex-1 flex justify-between items-center gap-x-2">
-										<label htmlFor={`${selectProduct.product_name_ko}_order_price`} className="sr-only">
-											총 금액
-										</label>
-										<Input
-											type="number"
-											id={`${selectProduct.product_name_ko}_order_price`}
-											min="1000"
-											max="100000"
-											step="100"
-											value={
-												selectedProductsDetail.find((item) => item.product_id === selectProduct.product_id)
-													?.order_price ?? 1000
-											}
-											onChange={(e) => handleChangeOrderPrice(selectProduct.product_id, Number(e.target.value))}
-										/>
-										<p>원</p>
-									</div>
-								</div>
-							</section>
+							<SelectProductItemDetailForCreateReview
+								key={selectProduct.product_id}
+								selectProduct={selectProduct}
+								selectedProductsDetail={selectedProductsDetail}
+								onChangeQuantity={handleChangeOrderQuantity}
+								onChangePrice={handleChangeOrderPrice}
+							/>
 						))}
 					</div>
 				</Activity>
 
 				{/* Part 3. 이미지 첨부 */}
 				<Activity mode={page === 3 ? 'visible' : 'hidden'}>
+					{/* 이미지 업로드 */}
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="후기 이미지" subtitle="를 업로드해주세요 (최대 9개)" isNecessary={true} />
+						<CreateReviewTitle title="후기 이미지" subtitle="를 업로드해주세요 (최대 9개)" isNecessary={true} />
 						<label htmlFor="review_image" className="sr-only">
 							후기 이미지
 						</label>
-						<Input type="file" id="review_image" ref={imageRef} hidden multiple onChange={handleSelectImages} />
+						<Input
+							type="file"
+							id="review_image"
+							ref={imageRef}
+							hidden
+							multiple
+							onChange={handleSelectImages}
+							disabled={isPending}
+						/>
 						<Button
 							type="button"
 							variant={'outline'}
@@ -386,24 +358,17 @@ function ReviewCreatePage() {
 								if (imageRef.current) imageRef.current.click();
 							}}
 							className=""
+							disabled={isPending}
 						>
 							<ImagePlusIcon />
 							<p>이미지 업로드</p>
 						</Button>
 					</section>
+					{/* 이미지 미리보기 */}
 					<Activity mode={images.length > 0 ? 'visible' : 'hidden'}>
-						<section className="grid grid-cols-3 grid-rows-3 gap-2">
+						<section className="grid grid-cols-3 gap-2">
 							{images.map((image, index) => (
-								<div key={image.previewUrl} className="relative border rounded-md overflow-hidden aspect-square">
-									<img src={image.previewUrl} alt={`미리보기 ${index}번`} className="w-full h-full object-fill" />
-									<button
-										type="button"
-										className="absolute top-2 right-2 p-0.5 bg-black/30 rounded-md"
-										onClick={() => handleDeleteImage(image)}
-									>
-										<XIcon width={16} height={16} color="#fff" />
-									</button>
-								</div>
+								<PreviewImage key={image.previewUrl} image={image} index={index} onDelete={handleDeleteImage} />
 							))}
 						</section>
 					</Activity>
@@ -411,34 +376,46 @@ function ReviewCreatePage() {
 			</div>
 
 			{/* 버튼 */}
-			{page === 1 ? (
-				<Button
-					type="button"
-					className="fixed bottom-3 auto-width"
-					disabled={pageOneDisabled}
-					onClick={handleClickNextPage}
-				>
-					{`다음 페이지 (${page + 1}/3)`}
-				</Button>
-			) : page === 2 ? (
-				<div className="fixed bottom-3 auto-width flex flex-col gap-y-2">
-					<Button type="button" className="bg-muted text-balck" onClick={handleClickPrevPage}>
-						{`이전 페이지 (${page - 1}/3)`}
-					</Button>
-					<Button type="button" className="flex-1" disabled={pageTwoDisabled} onClick={handleClickNextPage}>
-						{`다음 페이지 (${page + 1}/3)`}
-					</Button>
-				</div>
-			) : (
-				<div className="fixed bottom-3 auto-width flex flex-col gap-y-2">
-					<Button type="button" className="bg-muted text-balck" disabled={isPending} onClick={handleClickPrevPage}>
-						{`이전 페이지 (${page - 1}/3)`}
-					</Button>
-					<Button type="button" className="flex-1" disabled={pageThreeDisabled} onClick={handleRequestCreateReview}>
-						작성 완료
-					</Button>
-				</div>
-			)}
+			<div className="fixed bottom-0 full-width p-3 flex flex-col gap-y-2 bg-[#fff]">
+				{page === 1 ? (
+					<PrevNextButton
+						disabled={pageOneDisabled}
+						onClick={handleClickNextPage}
+						mode="main"
+						title={`다음 페이지 (${page + 1}/3)`}
+					/>
+				) : page === 2 ? (
+					<>
+						<PrevNextButton onClick={handleClickPrevPage} mode="sub" title={`이전 페이지 (${page - 1}/3)`} />
+						<PrevNextButton
+							disabled={pageTwoDisabled}
+							onClick={handleClickNextPage}
+							mode="main"
+							title={`다음 페이지 (${page + 1}/3)`}
+						/>
+					</>
+				) : (
+					<>
+						<PrevNextButton
+							disabled={isPending}
+							onClick={handleClickPrevPage}
+							mode="sub"
+							title={`이전 페이지 (${page - 1}/3)`}
+						/>
+						<PrevNextButton
+							disabled={pageThreeDisabled || isPending}
+							onClick={handleRequestCreateReview}
+							mode="main"
+							title={`작성 완료`}
+						/>
+					</>
+				)}
+			</div>
+
+			{/* 로딩 중 */}
+			<Activity mode={isPending ? 'visible' : 'hidden'}>
+				<FallbackRequestAPI />
+			</Activity>
 		</div>
 	);
 }

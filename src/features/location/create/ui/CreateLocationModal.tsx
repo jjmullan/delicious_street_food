@@ -1,14 +1,12 @@
 import author from '@shared/assets/extra/author.svg';
-import { useState } from 'react';
+import { Activity, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { useCreateLocationModal } from '@/app/store/createLocationModalStore';
 import { useLocationForCreate } from '@/app/store/createLocationStore';
 import { useSession } from '@/app/store/sessionStore';
 import useCreateLocation from '@/features/location/create/hooks/useCreateLocation';
-import { characterImages, items } from '@/features/product/item/libs/item';
-import type { Item } from '@/features/product/item/types/item.type';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
-import Fallback from '@/shared/ui/fallback/Fallback';
+import FallbackText from '@/shared/ui/fallback/FallbackText';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -19,20 +17,11 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/shared/ui/shadcn/alert-dialog';
-import { Input } from '@/shared/ui/shadcn/input';
+import { Button } from '@/shared/ui/shadcn/button';
 
 function CreateLocationModal() {
 	// 선택된 위치 전역 상태 가져오기
 	const clickedlocation = useLocationForCreate();
-
-	// 선택된 상품 카테고리 목록 관리
-	const [products, setProducts] = useState<Item['name_en'][]>([]);
-	const toggleChangeProducts = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const productEnName = e.target.id as Item['name_en'];
-		setProducts((prev) =>
-			e.target.checked ? [...prev, productEnName] : prev.filter((products) => products !== productEnName)
-		);
-	};
 
 	const session = useSession();
 	const userId = session?.user.id;
@@ -42,29 +31,50 @@ function CreateLocationModal() {
 	// 위치 생성 API 호출
 	const { mutate: createLocation, isPending: isCreateLocationPending } = useCreateLocation({
 		onSuccess: () => {
-			toast.info('위치 등록이 성공했습니다.', { position: 'top-center' });
+			toast.info('신규 포장마차가 등록되었습니다!', { position: 'top-center' });
 		},
 		onError: (error) => {
-			toast.error('위치 등록이 실패했습니다.', { position: 'top-center' });
+			toast.error('신규 포장마차 등록이 실패했습니다. 다시 시도해주세요.', { position: 'top-center' });
 			throw error;
 		},
 	});
 
-	const store = useCreateLocationModal();
-	if (!store.isOpen) return null;
+	// 매장 이름 검증
+	const [hasName, setHasName] = useState(false);
+	const [locationName, setLocationName] = useState('');
+	const nameRef = useRef<HTMLInputElement>(null);
+	useEffect(() => {
+		if (hasName) {
+			setLocationName('');
+			nameRef.current?.focus();
+		}
+	}, [hasName]);
 
+	const store = useCreateLocationModal();
 	const handleActionClick = () => {
+		// 매장 이름이 있다고 선택했는데 입력하지 않은 경우
+		if (hasName && locationName.trim() === '') {
+			toast.error('매장 이름을 입력해주세요.', { position: 'top-center' });
+			return;
+		}
+
 		createLocation({
 			user_id: userId!,
 			latitude: String(clickedlocation.lat),
 			longitude: String(clickedlocation.lng),
+			location_name: hasName ? locationName : '포장마차',
 		});
 
-		if (store.onPositive) store.onPositive();
-		store.actions.close();
+		resetAndClose();
 	};
+
 	const handleCancelClick = () => {
-		if (store.onNegative) store.onNegative();
+		resetAndClose();
+	};
+
+	const resetAndClose = () => {
+		setHasName(false);
+		setLocationName('');
 		store.actions.close();
 	};
 
@@ -75,59 +85,61 @@ function CreateLocationModal() {
 		<AlertDialog open={store.isOpen}>
 			<AlertDialogContent>
 				<AlertDialogHeader>
-					<AlertDialogTitle className="text-center">새로운 포장마차를 발견했어요!</AlertDialogTitle>
-					<AlertDialogDescription className="sr-only">지도에 신규 포장마차를 등록해주세요</AlertDialogDescription>
-					<div className="flex flex-col gap-y-5 my-3">
+					<AlertDialogTitle className="text-center">
 						{/* 발견한 사람 */}
-						<div className="text-sm flex flex-col gap-y-2 items-center">
+						<div className="flex flex-col gap-y-2 items-center">
 							<img src={author} alt="author" width={64} />
-							<p className="flex justify-center items-center gap-x-1">
-								발견한 사람: <span className="text-brown-main font-medium">{nickname}</span>
-							</p>
+							새로운 포장마차를 발견했어요!
 						</div>
-						{/* 판매 중인 상품 */}
-						{/* <div className="flex flex-col gap-y-3 mb-2">
-							<div className="flex gap-x-1">
-								<div className="grid grid-rows-2 flex-1">
-									<div className="border-b"></div>
-									<div></div>
-								</div>
-								<h3 className="text-xs flex-1 text-muted-foreground font-medium text-center">판매 중인 상품</h3>
-								<div className="grid grid-rows-2 flex-1">
-									<div className="border-b"></div>
-									<div></div>
-								</div>
+					</AlertDialogTitle>
+					<AlertDialogDescription className="flex flex-col gap-y-4">
+						{/* 1. 매장 이름 유무 */}
+						<div className="flex flex-col justify-center items-center gap-y-2">
+							<p className="text-sm text-foreground">포장마차 이름이 있나요?</p>
+							<div className="flex justify-center items-center w-1/2 rounded-md">
+								<Button
+									type="button"
+									variant={'secondary'}
+									onClick={() => setHasName(true)}
+									className={`flex-1 rounded-r-none text-muted-foreground font-normal bg-[#fff] border border-r-0 ${hasName === true && 'border-2 border-brown-main bg-brown-main text-[#fff] font-semibold'}`}
+									disabled={isPending}
+								>
+									예
+								</Button>
+								<Button
+									type="button"
+									variant={'secondary'}
+									onClick={() => setHasName(false)}
+									className={`flex-1 rounded-l-none text-muted-foreground font-normal bg-[#fff] border border-l-0 ${hasName === false && 'border-2 border-brown-main bg-brown-main text-[#fff] font-semibold'}`}
+									disabled={isPending}
+								>
+									아니오
+								</Button>
 							</div>
-							<div className="flex justify-between">
-								{items.map((item: Item) => (
-									<div key={item.name_en} className="flex flex-col items-center gap-y-1.5 w-1/8">
-										<label htmlFor={item.name_en} className="flex flex-col items-center justify-center gap-y-0.5">
-											<div className="w-fit h-fit">
-												<img
-													src={characterImages[item.name_en]}
-													alt={`${item.name_en}-${item.name_ko}`}
-													className="h-6 aspect-square"
-												/>
-											</div>
-											<p className="text-[10px] text-muted-foreground">{item.name_ko}</p>
-										</label>
-										<Input
-											type="checkbox"
-											name={`product_${item.name_en}`}
-											id={item.name_en}
-											className="w-3 h-3"
-											onChange={toggleChangeProducts}
-											disabled={isPending}
-										/>
-									</div>
-								))}
+						</div>
+
+						{/* 2. 포장마차 이름 입력 */}
+						<Activity mode={hasName ? 'visible' : 'hidden'}>
+							<div className="flex flex-col justify-center items-center gap-y-2">
+								<label htmlFor="location-name" className="text-sm text-foreground">
+									포장마차 이름을 입력해주세요
+								</label>
+								<input
+									id="location-name"
+									type="text"
+									value={locationName}
+									onChange={(e) => setLocationName(e.target.value)}
+									className="w-3/5 border-b p-2 pt-0 outline-0 text-center"
+									disabled={isPending}
+									ref={nameRef}
+								/>
 							</div>
-						</div> */}
-					</div>
+						</Activity>
+					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter className="flex flex-col">
 					<AlertDialogAction onClick={handleActionClick} disabled={isPending} className="flex-1">
-						{isPending ? <Fallback title={'지도에 추가 중'} /> : '신규 포장마차 추가하기'}
+						{isPending ? <FallbackText title={'지도에 추가 중'} /> : '신규 포장마차 추가하기'}
 					</AlertDialogAction>
 					<AlertDialogCancel onClick={handleCancelClick} disabled={isPending} className="flex-1">
 						취소

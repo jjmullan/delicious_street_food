@@ -1,22 +1,23 @@
 import { Navigate, Outlet } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
-import LoggedInCreateHeader from '@/widgets/header/LoggedInCreateHeader';
+import DetailHeader from '@/widgets/header/DetailHeader';
 
 /**
  * 최초 서비스 접근 시, 로그인 페이지로 라우팅
  */
-function LoggedInCreateLayout() {
+function UserDetailLayout() {
+	// 세션 데이터가 없으면 강제 라우팅
 	const session = useSession();
 	if (!session) return <Navigate to={'/login'} replace={true} />;
 
 	return (
 		<div className="min-h-svh full-width">
-			<LoggedInCreateHeader />
-			<main className="p-3 mt-12 mb-16">
+			<DetailHeader title={'마이페이지'} />
+			<main className="mt-12">
 				<Outlet />
 			</main>
 		</div>
 	);
 }
 
-export default LoggedInCreateLayout;
+export default UserDetailLayout;

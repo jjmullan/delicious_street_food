@@ -1,14 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { loggedInCreateRoutes } from '@/app/routes/loggedInCreate.route';
-import { loggedInDetailRoutes } from '@/app/routes/loggedInDetail.route';
-import { loggedInMapRoutes } from '@/app/routes/loggedInMap.route';
+import { createReviewRoutes } from '@/app/routes/createReview.route';
+import { globalMapRoutes } from '@/app/routes/globalMap.route';
+import { locationDetailRoutes } from '@/app/routes/locationDetail.route';
 import { unloggedInRoute } from '@/app/routes/unloggedIn.route';
+import { userDetailRoutes } from '@/app/routes/userDetail.route';
 import ErrorPage from '@/pages/error/ErrorPage';
+import CreateReviewLayout from '@/widgets/layout/CreateReviewLayout';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
-import LoggedInCreateLayout from '@/widgets/layout/LoggedInCreateLayout';
-import LoggedInDetailLayout from '@/widgets/layout/LoggedInDetailLayout';
-import LoggedInMapLayout from '@/widgets/layout/LoggedInMapLayout';
+import LocationDetailLayout from '@/widgets/layout/LocationDetailLayout';
+import MapLayout from '@/widgets/layout/MapLayout';
 import UnloggedInLayout from '@/widgets/layout/UnloggedInLayout';
+import UserDetailLayout from '@/widgets/layout/UserDetailLayout';
 
 /**
  * 애플리케이션의 라우트 설정
@@ -26,18 +28,23 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				// 로그인 된 유저는 카카오 맵 지도 접근 가능
-				Component: LoggedInMapLayout,
-				children: loggedInMapRoutes,
+				Component: MapLayout,
+				children: globalMapRoutes,
 			},
 			{
-				// 로그인 된 유저는 상세 페이지 접근 가능
-				Component: LoggedInDetailLayout,
-				children: loggedInDetailRoutes,
+				// 로그인 된 유저는 위치 상세 페이지 접근 가능
+				Component: LocationDetailLayout,
+				children: locationDetailRoutes,
 			},
 			{
-				// 로그인 된 유저는 생성 페이지 접근 가능
-				Component: LoggedInCreateLayout,
-				children: loggedInCreateRoutes,
+				// 로그인 된 유저는 위치 상세 페이지 접근 가능
+				Component: UserDetailLayout,
+				children: userDetailRoutes,
+			},
+			{
+				// 로그인 된 유저는 리뷰 생성 페이지 접근 가능
+				Component: CreateReviewLayout,
+				children: createReviewRoutes,
 			},
 			{
 				// 세션 데이터가 있다면, 인덱스 페이지로 라우팅

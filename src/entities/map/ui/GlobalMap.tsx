@@ -14,12 +14,15 @@ import { initialLocation } from '@/features/location/fetch/libs/location';
 import type { AbbrLocation } from '@/features/location/fetch/types/location';
 import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
 import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
+import { getLocationAddress } from '@/features/location/fetch/utils/getLocationAddress';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
+import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
 import LoggedInUserOnlyAsideBar from '@/widgets/aside/LoggedInUserOnlyAsideBar';
 
-function KakaoMapLocation() {
+function GlobalMap() {
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
-	const location = useLocation();
+	const location = useLocation() ?? initialLocation;
+	const address = getLocationAddress(location);
 
 	// 위치 패칭 API 호출
 	const { data: fetchLocation, error: isFetchLocationError, isPending: isFetchLocationPending } = useFetchLocations();
@@ -41,11 +44,11 @@ function KakaoMapLocation() {
 	const createLocation = useLocationForCreate() ?? location;
 	const setCreateLocation = useSetCreateLocation();
 
-	// 5초 후 클릭 상태 전환
+	// 5초 후 열린 모달 닫기
 	const [clickedTime, setClickedTime] = useState<number>(0);
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			const currentTime = new Date().getTime();
+			const currentTime = Date.now();
 			if (currentTime - clickedTime < 5000) return;
 
 			setIsCreateLocationUIOpen(false);
@@ -66,7 +69,7 @@ function KakaoMapLocation() {
 		<div className="relative">
 			<Activity mode={isPending ? 'hidden' : 'visible'}>
 				<Map
-					center={location ?? initialLocation}
+					center={location}
 					level={3}
 					className="min-h-screen"
 					onDoubleClick={() => {
@@ -83,14 +86,14 @@ function KakaoMapLocation() {
 						// 현재 위치로부터 최대 거리 검증 (1km 이내)
 						const isWithinMaxDistance = validateMaxDistanceFromCurrentLocation(newLocation, location!);
 						if (!isWithinMaxDistance) {
-							toast.warning('현재 위치로부터 3km 이내인 경우 등록할 수 있습니다.', { position: 'top-center' });
+							toast.warning('현재 위치로부터 3km 이내만 등록할 수 있습니다.', { position: 'top-center' });
 							return;
 						}
 
 						// 기존 위치들과의 거리 검증 (최소 10미터 이상)
 						const isValidDistance = validateLocationDistance(newLocation, fetchLocation!);
 						if (!isValidDistance) {
-							toast.warning('등록된 매장의 위치로부터 10미터 이내이면 등록이 불가합니다.', { position: 'top-center' });
+							toast.warning('기존 포장마차로부터 10미터 이내인 곳은 등록이 불가합니다.', { position: 'top-center' });
 							return;
 						}
 
@@ -98,7 +101,7 @@ function KakaoMapLocation() {
 						setIsCreateLocationUIOpen(true);
 						setCreateLocation(newLocation);
 
-						const time = new Date().getTime();
+						const time = Date.now();
 						setClickedTime(time);
 
 						console.log('생성 위치 위도/경도 :', newLocation);
@@ -133,8 +136,11 @@ function KakaoMapLocation() {
 				</Map>
 				<LoggedInUserOnlyAsideBar />
 			</Activity>
+			<Activity mode={isPending ? 'visible' : 'hidden'}>
+				<FallbackRequestAPI title="지도를 불러오는 중" bgColor="bg-[#fff]" />
+			</Activity>
 		</div>
 	);
 }
 
-export default KakaoMapLocation;
+export default GlobalMap;

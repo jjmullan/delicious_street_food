@@ -17,8 +17,8 @@ export async function fetchLocations() {
 /**
  * 특정 위치 하나 패칭을 요청하는 API
  */
-export async function fetchLocation(lat: string, lng: string) {
-	const { data, error } = await supabase.from('location').select('*').eq('latitude', lat).eq('longitude', lng).single();
+export async function fetchLocation(location_id: string): Promise<Location> {
+	const { data, error } = await supabase.from('location').select('*').eq('location_id', location_id).single();
 
 	if (error) throw error;
 	return data;

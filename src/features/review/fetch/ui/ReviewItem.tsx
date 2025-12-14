@@ -1,14 +1,21 @@
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
-import { CalendarDaysIcon, EditIcon, Trash2Icon } from 'lucide-react';
-import { Activity } from 'react';
+import { Activity, useState } from 'react';
+import { toast } from 'sonner';
+import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
-import { characterImages } from '@/features/product/item/libs/item';
+import { useDeleteReview } from '@/features/review/delete/hook/useDeleteReview';
 import useFetchReviewImages from '@/features/review/fetch/hook/useFetchReviewImages';
 import useFetchReviewProducts from '@/features/review/fetch/hook/useFetchReviewProducts';
+import ReviewProductItem from '@/features/review/fetch/ui/ReviewProductItem';
+import ReviewTitleAndText from '@/features/review/fetch/ui/ReviewTitleAndText';
+import ReviewUserProfile from '@/features/review/fetch/ui/ReviewUserProfile';
+import ReviewVisitDate from '@/features/review/fetch/ui/ReviewVisitDate';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { formatTimeAgo, getDateTimeKo } from '@/shared/lib/day';
 import type { Review } from '@/shared/types/types';
+import EditDeleteButton from '@/shared/ui/button/EditDeleteButton';
+import ImageModal from '@/shared/ui/modal/ImageModal';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/shadcn/carousel';
 
 function ReviewItem({ user_id, review_id, review_title, review_text, visit_datetime, created_at }: Review) {
@@ -28,90 +35,109 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 	const { data: fetchReviewProduct, isPending: isFetchReviewProductPending } = useFetchReviewProducts(review_id);
 	// 전체 상품 목록 패칭 (상품id 와 비교해서 이름 데이터 추출 예정)
 	const { data: fetchProduct, isPending: isFetchProductPending } = useFetchProducts();
-
 	// 리뷰에 해당하는 업로드 이미지 패칭
 	const { data: fetchReviewImage, isPending: isFetchReviewImagePending } = useFetchReviewImages(review_id);
-	console.log(fetchReviewImage);
+
+	// 리뷰 삭제 기능
+	const { mutate: deleteReview, isPending: isDeleteReviewPending } = useDeleteReview({
+		onSuccess: () => {
+			toast.info('리뷰가 삭제되었습니다.', { position: 'top-center' });
+		},
+		onError: () => {
+			toast.error('리뷰 삭제가 실패했습니다.', { position: 'top-center' });
+		},
+	});
+	const openConfirmModal = useOpenConfirmModal();
+	const handleDeleteReview = () => {
+		openConfirmModal({
+			title: '리뷰를 정말 삭제하시겠습니까?',
+			description: '삭제된 리뷰는 되돌릴 수 없습니다',
+			onPositive: () => {
+				deleteReview(review_id);
+			},
+			onNegative: () => {},
+		});
+	};
+
+	// 이미지 모달 상태 관리
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedImageUrl, setSelectedImageUrl] = useState('');
+	const handleClickLargeImage = (imageUrl: string) => {
+		setSelectedImageUrl(imageUrl);
+		setIsModalOpen(true);
+	};
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+	};
 
 	// Pending 상태 통합 관리
 	const isPending =
-		isFetchUserPending || isFetchReviewProductPending || isFetchProductPending || isFetchReviewImagePending;
+		isFetchUserPending ||
+		isFetchReviewProductPending ||
+		isFetchProductPending ||
+		isFetchReviewImagePending ||
+		isDeleteReviewPending;
 
 	return (
-		<div className="px-3 py-4 border-b flex flex-col gap-y-3">
+		<section className="px-3 py-4 border-b flex flex-col gap-y-3">
 			{/* 작성자, 작성일 */}
-			<div className="flex justify-between items-start">
-				<div className="flex items-center gap-x-2.5">
-					<div className="w-9 h-9">
-						<img src={profileImage} alt="프로필 이미지" className="w-full h-full object-cover" />
-					</div>
-					<div className="flex flex-col">
-						<p className="text-sm font-semibold">{nickname}</p>
-						<p className="text-xs text-muted-foreground">{createDatetime}</p>
-					</div>
-				</div>
+			<div className="flex justify-between items-center mb-2">
+				<ReviewUserProfile profileImage={profileImage} nickname={nickname!} createDatetime={createDatetime} />
 				<Activity mode={isMine ? 'visible' : 'hidden'}>
-					<div className="flex gap-x-2">
-						<div className="flex items-center text-xs gap-x-1">
-							<EditIcon width={10} height={10} />
-							<p>수정</p>
-						</div>
-						<div className="flex items-center text-xs gap-x-1 ">
-							<Trash2Icon width={10} height={10} />
-							<p>삭제</p>
-						</div>
-					</div>
+					<EditDeleteButton onDelete={handleDeleteReview} />
 				</Activity>
 			</div>
 			{/* 후기 이미지 */}
 			<Carousel>
 				<CarouselContent className="-ml-2">
 					{fetchReviewImage?.map((image, index) => (
-						<CarouselItem key={image.review_id} className="max-w-[150px] max-h-[150px] pl-2">
-							<div className="h-full w-full rounded-md overflow-hidden flex items-center justify-center">
+						<CarouselItem key={image.review_image_id} className="max-w-[150px] max-h-[150px] pl-2">
+							<button
+								type="button"
+								className="h-full w-full rounded-md overflow-hidden flex items-center justify-center"
+								onClick={() => handleClickLargeImage(image.review_image_url)}
+								onKeyDown={(e) => e.key === 'Enter' && handleClickLargeImage(image.review_image_url)}
+							>
 								<img
 									src={image.review_image_url}
 									alt={`${index}번 후기 이미지`}
-									className="w-full h-full object-cover"
+									className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+									aria-label={`${index}번 후기 이미지 확대`}
 								/>
-							</div>
+							</button>
 						</CarouselItem>
 					))}
 				</CarouselContent>
 			</Carousel>
 			{/* 후기 제목, 내용 */}
-			<div className="flex flex-col">
-				<h3 className="text-base font-semibold">{review_title !== '' ? review_title : '제목 없음'}</h3>
-				<div className="text-sm">{review_text}</div>
-			</div>
+			<ReviewTitleAndText review_title={review_title ?? '제목 없음'} review_text={review_text} />
 			{/* 구매 상품, 방문일자 */}
 			<div className="flex flex-col gap-y-3">
 				<div className="flex flex-col gap-y-1.5 gap-x-2 text-xs">
 					<p className="font-medium text-muted-foreground">구매 상품</p>
-					{fetchReviewProduct?.map((rp) => (
-						<div key={rp.review_product_id} className="flex items-center gap-x-1">
-							<img
-								src={characterImages[fetchProduct!.find((p) => p.product_id === rp.product_id)!.product_name_en]}
-								alt=""
-								className="h-4 aspect-square"
-							/>
-							<p className="">{fetchProduct?.find((p) => p.product_id === rp.product_id)?.product_name_ko}</p>
-							<span>・</span>
-							<p>{rp.order_quantity}개</p>
-							<span>・</span>
-							<p>{rp.order_price?.toLocaleString()}원</p>
-						</div>
-					))}
+					{fetchReviewProduct?.map((rp) => {
+						const product = fetchProduct?.find((p) => p.product_id === rp.product_id);
+						return (
+							product && (
+								<ReviewProductItem
+									key={rp.review_product_id}
+									product_name_ko={product.product_name_ko}
+									product_name_en={product.product_name_en}
+									{...rp}
+								/>
+							)
+						);
+					})}
 				</div>
 				<div className="flex flex-col gap-x-2 text-xs">
 					<p className="font-medium text-muted-foreground">방문 날짜</p>
-					<div className="flex items-center gap-x-1">
-						<CalendarDaysIcon width={14} />
-						<p className="">{visitDatetime}</p>
-					</div>
+					<ReviewVisitDate visitDatetime={visitDatetime} />
 				</div>
 			</div>
-		</div>
+
+			{/* 이미지 확대 모달 */}
+			<ImageModal imageUrl={selectedImageUrl} isOpen={isModalOpen} onClose={handleCloseModal} />
+		</section>
 	);
 }
 

@@ -1,4 +1,12 @@
-function ReviewTitle({ title, subtitle, isNecessary }: { title: string; subtitle: string; isNecessary: boolean }) {
+function CreateReviewTitle({
+	title,
+	subtitle,
+	isNecessary,
+}: {
+	title: string;
+	subtitle: string;
+	isNecessary: boolean;
+}) {
 	return (
 		<h3 className="text-sm">
 			<span className="font-semibold">{title}</span>
@@ -8,4 +16,4 @@ function ReviewTitle({ title, subtitle, isNecessary }: { title: string; subtitle
 	);
 }
 
-export default ReviewTitle;
+export default CreateReviewTitle;

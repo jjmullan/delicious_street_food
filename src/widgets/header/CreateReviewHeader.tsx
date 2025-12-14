@@ -2,7 +2,7 @@ import { RefreshCcwIcon, XCircleIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 
-function LoggedInCreateHeader() {
+function CreateReviewHeader() {
 	const navigate = useNavigate();
 	const openConfirmModal = useOpenConfirmModal();
 	const handleClickCancelButton = () => {
@@ -27,7 +27,7 @@ function LoggedInCreateHeader() {
 	};
 
 	return (
-		<header className="fixed flex justify-between items-center text-sm full-width bg-[#fff]">
+		<header className="fixed flex justify-between items-center text-sm full-width bg-[#fff] z-2">
 			<button
 				type="button"
 				className="cursor-pointer px-4 h-12 flex justify-center items-center"
@@ -35,7 +35,7 @@ function LoggedInCreateHeader() {
 			>
 				<XCircleIcon width={16} />
 			</button>
-			<h2 className="text-lg font-semibold">리뷰 작성</h2>
+			<h2 className="text-lg font-semibold">후기 작성</h2>
 			<button
 				type="button"
 				className="cursor-pointer px-4 h-12 flex justify-center items-center"
@@ -47,4 +47,4 @@ function LoggedInCreateHeader() {
 	);
 }
 
-export default LoggedInCreateHeader;
+export default CreateReviewHeader;

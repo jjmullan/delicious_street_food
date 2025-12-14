@@ -2,7 +2,7 @@ import { ArrowLeftCircle } from 'lucide-react';
 import { Activity } from 'react';
 import { useNavigate } from 'react-router';
 
-function NonMapHeader() {
+function UnloggedInHeader() {
 	// mode === 'default'
 	const navigate = useNavigate();
 	const currentHref = window.location.href.split('/').pop();
@@ -28,4 +28,4 @@ function NonMapHeader() {
 	);
 }
 
-export default NonMapHeader;
+export default UnloggedInHeader;
