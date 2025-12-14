@@ -27,7 +27,7 @@ function LocationReviewAll() {
 	const isPending = isFetchReviewsPending;
 
 	return (
-		<>
+		<div className="px-3">
 			{/* 버튼 UI */}
 			<div className="fixed auto-width mt-24 py-4 top-0 z-1 bg-[#fff]">
 				<Button type="button" variant={'outline'} onClick={handleClickCreateReviewPage} className="full-width">
@@ -56,7 +56,7 @@ function LocationReviewAll() {
 					</Activity>
 				</Activity>
 			</div>
-		</>
+		</div>
 	);
 }
 

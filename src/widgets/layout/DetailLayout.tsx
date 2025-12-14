@@ -22,7 +22,7 @@ function DetailLayout() {
 		<div className="min-h-svh full-width">
 			<LoggedInDetailHeader title={location_name} />
 			<LocationNavigation location_id={location_id!} />
-			<main className="relative mt-24 px-3">
+			<main className="relative mt-24">
 				<Outlet />
 			</main>
 		</div>

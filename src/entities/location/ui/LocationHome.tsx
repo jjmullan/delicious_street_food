@@ -1,5 +1,5 @@
 function LocationHome() {
-	return <div>ㅇㅅㅇ</div>;
+	return <div className="p-3">ㅇㅅㅇ</div>;
 }
 
 export default LocationHome;
