@@ -1,8 +1,8 @@
 import { Navigate, Outlet, useParams } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
-import LocationNavigation from '@/entities/location/ui/LocationNavigation';
 import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
 import LoggedInDetailHeader from '@/widgets/header/LoggedInDetailHeader';
+import LocationNavigation from '@/widgets/nav/LocationNavigation';
 
 /**
  * 최초 서비스 접근 시, 로그인 페이지로 라우팅
