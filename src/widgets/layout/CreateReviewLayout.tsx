@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
-import LoggedInCreateHeader from '@/widgets/header/LoggedInCreateHeader';
+import CreateReviewHeader from '@/widgets/header/CreateReviewHeader';
 
 /**
  * 최초 서비스 접근 시, 로그인 페이지로 라우팅
@@ -11,7 +11,7 @@ function CreateReviewLayout() {
 
 	return (
 		<div className="min-h-svh full-width">
-			<LoggedInCreateHeader />
+			<CreateReviewHeader />
 			<main className="mt-12 mb-20">
 				<Outlet />
 			</main>

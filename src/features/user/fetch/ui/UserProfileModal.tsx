@@ -32,7 +32,7 @@ function UserProfileModal() {
 			</PopoverTrigger>
 			<PopoverContent className="flex w-fit flex-col justify-center items-center p-0 text-sm">
 				<PopoverClose asChild>
-					<Link to={`/mypage/${session!.user.id}`}>
+					<Link to={`/mypage`}>
 						<div className="flex flex-col justify-center gap-y-1 rounded-md shadow-md p-3 pt-4">
 							<div className="flex flex-col justify-center gap-y-2 items-center">
 								<div className="relative h-16 w-16">

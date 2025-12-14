@@ -1,13 +1,13 @@
 import { Navigate, Outlet, useParams } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
 import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
-import LoggedInDetailHeader from '@/widgets/header/LoggedInDetailHeader';
+import DetailHeader from '@/widgets/header/DetailHeader';
 import LocationNavigation from '@/widgets/nav/LocationNavigation';
 
 /**
  * 최초 서비스 접근 시, 로그인 페이지로 라우팅
  */
-function DetailLayout() {
+function LocationDetailLayout() {
 	// 포장마차 위치 정보 가져오기
 	const param = useParams();
 	const location_id = param.locationId;
@@ -20,7 +20,7 @@ function DetailLayout() {
 
 	return (
 		<div className="min-h-svh full-width">
-			<LoggedInDetailHeader title={location_name} />
+			<DetailHeader title={location_name} />
 			<LocationNavigation location_id={location_id!} />
 			<main className="relative mt-24">
 				<Outlet />
@@ -29,4 +29,4 @@ function DetailLayout() {
 	);
 }
 
-export default DetailLayout;
+export default LocationDetailLayout;

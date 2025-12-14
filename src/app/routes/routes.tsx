@@ -1,14 +1,16 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { createReviewRoutes } from '@/app/routes/createReview.route';
-import { detailRoutes } from '@/app/routes/detail.route';
 import { globalMapRoutes } from '@/app/routes/globalMap.route';
+import { locationDetailRoutes } from '@/app/routes/locationDetail.route';
 import { unloggedInRoute } from '@/app/routes/unloggedIn.route';
+import { userDetailRoutes } from '@/app/routes/userDetail.route';
 import ErrorPage from '@/pages/error/ErrorPage';
-import LoggedInCreateLayout from '@/widgets/layout/CreateReviewLayout';
-import DetailLayout from '@/widgets/layout/DetailLayout';
+import CreateReviewLayout from '@/widgets/layout/CreateReviewLayout';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
+import LocationDetailLayout from '@/widgets/layout/LocationDetailLayout';
 import MapLayout from '@/widgets/layout/MapLayout';
 import UnloggedInLayout from '@/widgets/layout/UnloggedInLayout';
+import UserDetailLayout from '@/widgets/layout/UserDetailLayout';
 
 /**
  * 애플리케이션의 라우트 설정
@@ -30,13 +32,18 @@ export const router = createBrowserRouter([
 				children: globalMapRoutes,
 			},
 			{
-				// 로그인 된 유저는 상세 페이지 접근 가능
-				Component: DetailLayout,
-				children: detailRoutes,
+				// 로그인 된 유저는 위치 상세 페이지 접근 가능
+				Component: LocationDetailLayout,
+				children: locationDetailRoutes,
 			},
 			{
-				// 로그인 된 유저는 생성 페이지 접근 가능
-				Component: LoggedInCreateLayout,
+				// 로그인 된 유저는 위치 상세 페이지 접근 가능
+				Component: UserDetailLayout,
+				children: userDetailRoutes,
+			},
+			{
+				// 로그인 된 유저는 리뷰 생성 페이지 접근 가능
+				Component: CreateReviewLayout,
 				children: createReviewRoutes,
 			},
 			{

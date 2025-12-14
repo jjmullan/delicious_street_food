@@ -1,7 +1,7 @@
 import { ArrowLeftCircle, HomeIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
-function LoggedInDetailHeader({ title }: { title: string }) {
+function DetailHeader({ title }: { title: string }) {
 	const navigate = useNavigate();
 	const handleGoBack = () => {
 		navigate(-1);
@@ -30,4 +30,4 @@ function LoggedInDetailHeader({ title }: { title: string }) {
 	);
 }
 
-export default LoggedInDetailHeader;
+export default DetailHeader;

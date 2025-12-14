@@ -2,7 +2,7 @@ import { RefreshCcwIcon, XCircleIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 
-function LoggedInCreateHeader() {
+function CreateReviewHeader() {
 	const navigate = useNavigate();
 	const openConfirmModal = useOpenConfirmModal();
 	const handleClickCancelButton = () => {
@@ -47,4 +47,4 @@ function LoggedInCreateHeader() {
 	);
 }
 
-export default LoggedInCreateHeader;
+export default CreateReviewHeader;
