@@ -4,7 +4,7 @@ import MyPagePage from '@/pages/mypage/MypagePage';
 import ReviewAllPage from '@/pages/review/ReviewAllPage';
 import ReviewPhotoPage from '@/pages/review/ReviewPhotoPage';
 
-export const loggedInDetailRoutes: RouteObject[] = [
+export const detailRoutes: RouteObject[] = [
 	{ path: '/mypage/:userId', Component: MyPagePage },
 	{ path: '/location/:locationId/home', Component: LocationPage },
 	{ path: '/location/:locationId/review/all', Component: ReviewAllPage },

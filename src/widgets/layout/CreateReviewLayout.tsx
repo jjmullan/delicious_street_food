@@ -1,22 +1,22 @@
 import { Navigate, Outlet } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
-import LoggedInMapHeader from '@/widgets/header/LoggedInMapHeader';
+import LoggedInCreateHeader from '@/widgets/header/LoggedInCreateHeader';
 
 /**
  * 최초 서비스 접근 시, 로그인 페이지로 라우팅
  */
-function LoggedInMapLayout() {
+function CreateReviewLayout() {
 	const session = useSession();
-
 	if (!session) return <Navigate to={'/login'} replace={true} />;
+
 	return (
-		<>
-			<main>
+		<div className="min-h-svh full-width">
+			<LoggedInCreateHeader />
+			<main className="mt-12 mb-20">
 				<Outlet />
 			</main>
-			<LoggedInMapHeader />
-		</>
+		</div>
 	);
 }
 
-export default LoggedInMapLayout;
+export default CreateReviewLayout;

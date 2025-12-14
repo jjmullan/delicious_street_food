@@ -1,4 +1,4 @@
-import GlobalMap from '@/entities/map/ui/Map';
+import GlobalMap from '@/entities/map/ui/GlobalMap';
 
 function HomePage() {
 	return (

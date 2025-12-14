@@ -7,7 +7,7 @@ import LoggedInDetailHeader from '@/widgets/header/LoggedInDetailHeader';
 /**
  * 최초 서비스 접근 시, 로그인 페이지로 라우팅
  */
-function LoggedInDetailLayout() {
+function DetailLayout() {
 	// 포장마차 위치 정보 가져오기
 	const param = useParams();
 	const location_id = param.locationId;
@@ -29,4 +29,4 @@ function LoggedInDetailLayout() {
 	);
 }
 
-export default LoggedInDetailLayout;
+export default DetailLayout;

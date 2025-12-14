@@ -1,13 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { loggedInCreateRoutes } from '@/app/routes/loggedInCreate.route';
-import { loggedInDetailRoutes } from '@/app/routes/loggedInDetail.route';
-import { loggedInMapRoutes } from '@/app/routes/loggedInMap.route';
+import { createReviewRoutes } from '@/app/routes/createReview.route';
+import { detailRoutes } from '@/app/routes/detail.route';
+import { globalMapRoutes } from '@/app/routes/globalMap.route';
 import { unloggedInRoute } from '@/app/routes/unloggedIn.route';
 import ErrorPage from '@/pages/error/ErrorPage';
+import LoggedInCreateLayout from '@/widgets/layout/CreateReviewLayout';
+import DetailLayout from '@/widgets/layout/DetailLayout';
 import GlobalLayout from '@/widgets/layout/GlobalLayout';
-import LoggedInCreateLayout from '@/widgets/layout/LoggedInCreateLayout';
-import LoggedInDetailLayout from '@/widgets/layout/LoggedInDetailLayout';
-import LoggedInMapLayout from '@/widgets/layout/LoggedInMapLayout';
+import MapLayout from '@/widgets/layout/MapLayout';
 import UnloggedInLayout from '@/widgets/layout/UnloggedInLayout';
 
 /**
@@ -26,18 +26,18 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				// 로그인 된 유저는 카카오 맵 지도 접근 가능
-				Component: LoggedInMapLayout,
-				children: loggedInMapRoutes,
+				Component: MapLayout,
+				children: globalMapRoutes,
 			},
 			{
 				// 로그인 된 유저는 상세 페이지 접근 가능
-				Component: LoggedInDetailLayout,
-				children: loggedInDetailRoutes,
+				Component: DetailLayout,
+				children: detailRoutes,
 			},
 			{
 				// 로그인 된 유저는 생성 페이지 접근 가능
 				Component: LoggedInCreateLayout,
-				children: loggedInCreateRoutes,
+				children: createReviewRoutes,
 			},
 			{
 				// 세션 데이터가 있다면, 인덱스 페이지로 라우팅
