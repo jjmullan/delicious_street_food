@@ -32,14 +32,14 @@ function ReviewListPage() {
 		<>
 			<LocationNavigation location_id={location_id!} />
 			<main className="relative">
-				<div className="fixed full-width mt-24 p-3 py-4 top-0 z-1 bg-[#fff]">
+				<div className="fixed full-width mt-24 p-3 pt-4 top-0 z-1 bg-[#fff]">
 					<Button type="button" variant={'outline'} onClick={handleClickCreateReviewPage} className="full-width">
 						<PenIcon />
 						<p>리뷰 작성하러 가기</p>
 					</Button>
 				</div>
-				<Activity mode={isPending ? 'hidden' : 'visible'}>
-					<div className="flex flex-col mt-39 px-3">
+				<div className="flex flex-col mt-39 px-3">
+					<Activity mode={isPending ? 'hidden' : 'visible'}>
 						{fetchReviews?.map((review) => (
 							<ReviewItem key={review.review_id} {...review} />
 						))}
@@ -49,8 +49,8 @@ function ReviewListPage() {
 								<p className="font-medium">작성된 리뷰가 없습니다.</p>
 							</div>
 						</Activity>
-					</div>
-				</Activity>
+					</Activity>
+				</div>
 			</main>
 		</>
 	);
