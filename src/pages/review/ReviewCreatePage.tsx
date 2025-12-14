@@ -9,9 +9,9 @@ import useCreateReview from '@/features/review/create/hook/useCreateReview';
 import useCreateReviewImages from '@/features/review/create/hook/useCreateReviewImages';
 import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
 import type { ImageURL } from '@/features/review/create/types/image';
+import CreateReviewTitle from '@/features/review/create/ui/CreateReviewTitle';
 import PreviewImage from '@/features/review/create/ui/PreviewImage';
 import ProgressBar from '@/features/review/create/ui/ProgressBar';
-import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
 import SelectProductItemDetailForCreateReview from '@/features/review/create/ui/SelectProductItemDetailForCreateReview';
 import SelectProductItemForCreateReview from '@/features/review/create/ui/SelectProductItemForCreateReview';
 import { MAX_IMAGE_SLOT } from '@/shared/lib/constants';
@@ -256,7 +256,7 @@ function ReviewCreatePage() {
 				<Activity mode={page === 1 ? 'visible' : 'hidden'}>
 					{/* 1. 후기 제목 */}
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="후기 제목" subtitle="을 작성해주세요" isNecessary={false} />
+						<CreateReviewTitle title="후기 제목" subtitle="을 작성해주세요" isNecessary={false} />
 						<label htmlFor="review_title" className="sr-only">
 							후기 제목
 						</label>
@@ -272,7 +272,7 @@ function ReviewCreatePage() {
 					</section>
 					{/* 2. 상세 후기 */}
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="상세 후기" subtitle="를 작성해주세요" isNecessary={true} />
+						<CreateReviewTitle title="상세 후기" subtitle="를 작성해주세요" isNecessary={true} />
 						<label htmlFor="review_text" className="sr-only">
 							상세 후기
 						</label>
@@ -287,7 +287,7 @@ function ReviewCreatePage() {
 					</section>
 					{/* 3. 방문 날짜 */}
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="방문 당시 날짜" subtitle="를 선택해주세요" isNecessary={true} />
+						<CreateReviewTitle title="방문 당시 날짜" subtitle="를 선택해주세요" isNecessary={true} />
 						<label htmlFor="visit_date" className="sr-only">
 							방문 날짜
 						</label>
@@ -306,7 +306,7 @@ function ReviewCreatePage() {
 				<Activity mode={page === 2 ? 'visible' : 'hidden'}>
 					{/* 구매한 상품 모두 선택란 */}
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="구매하신 상품" subtitle="을 모두 선택해주세요" isNecessary={true} />
+						<CreateReviewTitle title="구매하신 상품" subtitle="을 모두 선택해주세요" isNecessary={true} />
 						<div className="grid grid-cols-4 grid-rows-2 gap-1">
 							{products?.map((product: Product) => (
 								<SelectProductItemForCreateReview
@@ -338,7 +338,7 @@ function ReviewCreatePage() {
 				<Activity mode={page === 3 ? 'visible' : 'hidden'}>
 					{/* 이미지 업로드 */}
 					<section className="flex flex-col gap-y-2">
-						<ReviewTitle title="후기 이미지" subtitle="를 업로드해주세요 (최대 9개)" isNecessary={true} />
+						<CreateReviewTitle title="후기 이미지" subtitle="를 업로드해주세요 (최대 9개)" isNecessary={true} />
 						<label htmlFor="review_image" className="sr-only">
 							후기 이미지
 						</label>

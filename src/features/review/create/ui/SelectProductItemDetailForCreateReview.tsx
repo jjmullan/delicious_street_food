@@ -1,4 +1,4 @@
-import ReviewTitle from '@/features/review/create/ui/ReviewTitle';
+import CreateReviewTitle from '@/features/review/create/ui/CreateReviewTitle';
 import type { API_ReviewProduct, Product } from '@/shared/types/types';
 import { Input } from '@/shared/ui/shadcn/input';
 
@@ -15,7 +15,7 @@ function SelectProductItemDetailForCreateReview({
 }) {
 	return (
 		<section key={selectProduct.product_name_ko} className="flex flex-col gap-y-2">
-			<ReviewTitle
+			<CreateReviewTitle
 				title={selectProduct.product_name_ko}
 				subtitle="의 구매 수량과 총 금액을 작성해주세요"
 				isNecessary={true}
