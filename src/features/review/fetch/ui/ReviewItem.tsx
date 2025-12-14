@@ -1,12 +1,13 @@
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
-import { EditIcon, Trash2Icon } from 'lucide-react';
 import { Activity, useState } from 'react';
 import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import useFetchReviewImages from '@/features/review/fetch/hook/useFetchReviewImages';
 import useFetchReviewProducts from '@/features/review/fetch/hook/useFetchReviewProducts';
+import ReviewEditAndDeleteButton from '@/features/review/fetch/ui/ReviewEditAndDeleteButton';
 import ReviewProductItem from '@/features/review/fetch/ui/ReviewProductItem';
 import ReviewTitleAndText from '@/features/review/fetch/ui/ReviewTitleAndText';
+import ReviewUserProfile from '@/features/review/fetch/ui/ReviewUserProfile';
 import ReviewVisitDate from '@/features/review/fetch/ui/ReviewVisitDate';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { formatTimeAgo, getDateTimeKo } from '@/shared/lib/day';
@@ -54,26 +55,9 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 		<div className="px-3 py-4 border-b flex flex-col gap-y-3">
 			{/* 작성자, 작성일 */}
 			<div className="flex justify-between items-start mb-2">
-				<div className="flex items-center gap-x-2.5">
-					<div className="w-9 h-9">
-						<img src={profileImage} alt="프로필 이미지" className="w-full h-full object-cover" />
-					</div>
-					<div className="flex flex-col">
-						<p className="text-sm font-semibold">{nickname}</p>
-						<p className="text-xs text-muted-foreground">{createDatetime}</p>
-					</div>
-				</div>
+				<ReviewUserProfile profileImage={profileImage} nickname={nickname!} createDatetime={createDatetime} />
 				<Activity mode={isMine ? 'visible' : 'hidden'}>
-					<div className="flex gap-x-2">
-						<div className="flex items-center text-xs gap-x-1">
-							<EditIcon width={10} height={10} />
-							<p>수정</p>
-						</div>
-						<div className="flex items-center text-xs gap-x-1 ">
-							<Trash2Icon width={10} height={10} />
-							<p>삭제</p>
-						</div>
-					</div>
+					<ReviewEditAndDeleteButton />
 				</Activity>
 			</div>
 			{/* 후기 이미지 */}
