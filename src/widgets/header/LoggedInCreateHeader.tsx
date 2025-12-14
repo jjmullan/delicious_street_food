@@ -35,7 +35,7 @@ function LoggedInCreateHeader() {
 			>
 				<XCircleIcon width={16} />
 			</button>
-			<h2 className="text-lg font-semibold">리뷰 작성</h2>
+			<h2 className="text-lg font-semibold">후기 작성</h2>
 			<button
 				type="button"
 				className="cursor-pointer px-4 h-12 flex justify-center items-center"
