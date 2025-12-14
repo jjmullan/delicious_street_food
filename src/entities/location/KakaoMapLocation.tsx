@@ -1,5 +1,6 @@
 import { Activity, useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
+import { useSearchParams } from 'react-router';
 import { toast } from 'sonner';
 import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@/app/store/createLocationStore';
 import { useLocation } from '@/app/store/locationStore';
@@ -19,6 +20,21 @@ import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
 import LoggedInUserOnlyAsideBar from '@/widgets/aside/LoggedInUserOnlyAsideBar';
 
 function KakaoMapLocation() {
+	/* 클릭한 위치 쿼리스트링 추가
+	const [searchParams, setSearchParams] = useSearchParams();
+	const handleParamChange = (filters: { lat: string; lng: string }) => {
+		const newParams = new URLSearchParams(searchParams);
+
+		if (filters.lat) {
+			newParams.set('lat', filters.lat);
+		}
+		if (filters.lng) {
+			newParams.set('lng', filters.lng);
+		}
+
+		setSearchParams(newParams);
+	}; */
+
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
 	const location = useLocation();
 
@@ -42,11 +58,11 @@ function KakaoMapLocation() {
 	const createLocation = useLocationForCreate() ?? location;
 	const setCreateLocation = useSetCreateLocation();
 
-	// 5초 후 클릭 상태 전환
+	// 5초 후 열린 모달 닫기
 	const [clickedTime, setClickedTime] = useState<number>(0);
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			const currentTime = new Date().getTime();
+			const currentTime = Date.now();
 			if (currentTime - clickedTime < 5000) return;
 
 			setIsCreateLocationUIOpen(false);
@@ -84,14 +100,14 @@ function KakaoMapLocation() {
 						// 현재 위치로부터 최대 거리 검증 (1km 이내)
 						const isWithinMaxDistance = validateMaxDistanceFromCurrentLocation(newLocation, location!);
 						if (!isWithinMaxDistance) {
-							toast.warning('현재 위치로부터 3km 이내인 경우 등록할 수 있습니다.', { position: 'top-center' });
+							toast.warning('현재 위치로부터 3km 이내만 등록할 수 있습니다.', { position: 'top-center' });
 							return;
 						}
 
 						// 기존 위치들과의 거리 검증 (최소 10미터 이상)
 						const isValidDistance = validateLocationDistance(newLocation, fetchLocation!);
 						if (!isValidDistance) {
-							toast.warning('등록된 매장의 위치로부터 10미터 이내이면 등록이 불가합니다.', { position: 'top-center' });
+							toast.warning('기존 포장마차로부터 10미터 이내인 곳은 등록이 불가합니다.', { position: 'top-center' });
 							return;
 						}
 
@@ -99,7 +115,7 @@ function KakaoMapLocation() {
 						setIsCreateLocationUIOpen(true);
 						setCreateLocation(newLocation);
 
-						const time = new Date().getTime();
+						const time = Date.now();
 						setClickedTime(time);
 
 						console.log('생성 위치 위도/경도 :', newLocation);
