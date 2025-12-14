@@ -30,20 +30,20 @@ function ToggleSwitchLocationModeButton() {
 				{/* 위치 생성 모드 상태에 따라 아이콘 변경 */}
 				<Activity mode={isUpdateMode ? 'visible' : 'hidden'}>
 					<div className="flex flex-col items-center gap-y-1">
-						<Map width={24} color={'#d4944a'} />
+						<Map width={24} color={'#d4944a'} strokeWidth={1.8} />
 						<p className="text-xs text-brown-main font-medium">돌아가기</p>
 					</div>
 				</Activity>
 				<Activity mode={isUpdateMode ? 'hidden' : 'visible'}>
 					<div className="flex flex-col items-center gap-y-1">
-						<MapPlusIcon width={24} color={'#212121'} />
+						<MapPlusIcon width={24} color={'#212121'} strokeWidth={1.8} />
 						<p className="text-xs font-medium">생성모드</p>
 					</div>
 				</Activity>
 			</button>
-			<Activity mode={isUpdateMode ? 'hidden' : 'visible'}>
+			{/* <Activity mode={isUpdateMode ? 'hidden' : 'visible'}>
 				<Activity mode={isShowInfoText ? 'visible' : 'hidden'}>
-					<div className="absolute font-semibold top-[-16px] left-[-18px] bg-brown-sub text-white rounded-full px-2 py-1 w-42 text-xs animate-bounce flex items-center justify-center">
+					<div className="absolute font-medium top-[-16px] left-[-18px] bg-brown-sub text-white rounded-full px-2 py-1 w-42 text-xs animate-bounce flex items-center justify-center">
 						새로운 포장마차를 발견했다면?
 						<TriangleIcon
 							width={12}
@@ -53,7 +53,7 @@ function ToggleSwitchLocationModeButton() {
 						/>
 					</div>
 				</Activity>
-			</Activity>
+			</Activity> */}
 		</div>
 	);
 }

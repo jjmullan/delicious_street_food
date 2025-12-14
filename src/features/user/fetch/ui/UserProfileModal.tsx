@@ -1,6 +1,6 @@
 import { PopoverClose } from '@radix-ui/react-popover';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
-import { BookmarkIcon, MessageCircleMoreIcon } from 'lucide-react';
+import { BookmarkIcon, MessageCircleMoreIcon, UserCircle2 } from 'lucide-react';
 import { Link } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
 import { signOut } from '@/features/auth/signOut/api/auth';
@@ -24,7 +24,8 @@ function UserProfileModal() {
 			<PopoverTrigger>
 				<div className="w-18 h-18 flex justify-center items-center">
 					<div className="flex flex-col items-center gap-y-1">
-						<img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" />
+						{/* <img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" /> */}
+						<UserCircle2 width={24} height={24} strokeWidth={1.8} />
 						<p className="text-xs font-medium">마이페이지</p>
 					</div>
 				</div>
@@ -36,7 +37,7 @@ function UserProfileModal() {
 							<div className="flex flex-col justify-center gap-y-2 items-center">
 								<div className="relative h-16 w-16">
 									{/* 리워드 이미지 추가 */}
-									<div className="absolute inset-0 border-2 border-brown-main rounded-full">
+									<div className="absolute inset-0 border rounded-full">
 										{/* <img src="" alt="reward" className="absolute inset-0" /> */}
 									</div>
 									{/* 프로필 이미지 */}
