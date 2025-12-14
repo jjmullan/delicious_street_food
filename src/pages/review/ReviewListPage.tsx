@@ -32,25 +32,25 @@ function ReviewListPage() {
 		<>
 			<LocationNavigation location_id={location_id!} />
 			<main className="relative">
+				<div className="fixed full-width mt-24 p-3 py-4 top-0 z-1 bg-[#fff]">
+					<Button type="button" variant={'outline'} onClick={handleClickCreateReviewPage} className="full-width">
+						<PenIcon />
+						<p>리뷰 작성하러 가기</p>
+					</Button>
+				</div>
 				<Activity mode={isPending ? 'hidden' : 'visible'}>
-					<div className="flex flex-col mt-24 px-3">
+					<div className="flex flex-col mt-39 px-3">
 						{fetchReviews?.map((review) => (
 							<ReviewItem key={review.review_id} {...review} />
 						))}
 						<Activity mode={fetchReviews?.length === 0 ? 'visible' : 'hidden'}>
-							<div className="flex flex-col justify-center items-center gap-y-2 min-h-[calc(100svh-96px)]">
+							<div className="flex flex-col justify-center items-center gap-y-2 min-h-[calc(100svh-160px)]">
 								<InfoIcon width={48} height={48} className="stroke-[1.5]" />
 								<p className="font-medium">작성된 리뷰가 없습니다.</p>
 							</div>
 						</Activity>
 					</div>
 				</Activity>
-				<div className="fixed full-width p-3 bottom-0 z-1 bg-[#fff]">
-					<Button type="button" variant={'outline'} onClick={handleClickCreateReviewPage} className="full-width">
-						<PenIcon />
-						<p>리뷰 작성하러 가기</p>
-					</Button>
-				</div>
 			</main>
 		</>
 	);
