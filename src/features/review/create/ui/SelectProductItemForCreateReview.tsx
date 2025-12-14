@@ -15,7 +15,7 @@ function SelectProductItemForCreateReview({
 }) {
 	return (
 		<div
-			className={`flex flex-col items-center py-3 rounded-md ${selectProducts.some((p) => p.product_name_ko === productDetail.product_name_ko) ? 'border-2  border-brown-sub' : 'border-2 border-[#fff]'}`}
+			className={`flex flex-col items-center py-3 rounded-md ${selectProducts.some((p) => p.product_name_ko === productDetail.product_name_ko) ? 'border-2  border-brown-main' : 'border-2 border-[#fff]'}`}
 		>
 			<label htmlFor={productDetail.product_name_ko} className={`flex flex-col items-center justify-center gap-y-1`}>
 				<img

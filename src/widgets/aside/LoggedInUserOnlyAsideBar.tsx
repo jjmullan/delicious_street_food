@@ -21,7 +21,7 @@ function LoggedInUserOnlyAsideBar() {
 			<ul className="overflow-x-auto flex gap-x-1.5 snap-mandatory snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] h-11 items-center justify-start px-0.5">
 				{/* 위치 생성 모드 진행 중 */}
 				<Activity mode={isUpdateMode ? 'visible' : 'hidden'}>
-					<div className="glass w-fit rounded-full flex items-center justify-center px-3 py-1.5 shrink-0 gap-x-1.5 border border-brown-sub text-xs align-text-bottom">
+					<div className="glass w-fit rounded-full flex items-center justify-center px-3 py-1.5 shrink-0 gap-x-1.5 border-2 border-brown-main text-xs align-text-bottom">
 						<PenIcon width={14} />
 						<p className="text-sm align-text-bottom">생성 모드</p>
 					</div>
@@ -31,7 +31,7 @@ function LoggedInUserOnlyAsideBar() {
 					<button
 						type="button"
 						onClick={toggleSearchBar}
-						className={`glass w-fit rounded-full flex items-center justify-center px-3 py-1.5 shrink-0 gap-x-1.5 ${isSearchBarOpen && 'border border-brown-sub'}`}
+						className={`glass w-fit border rounded-full flex items-center justify-center px-3 py-1.5 shrink-0 gap-x-1.5 ${isSearchBarOpen && 'border-2 border-brown-main'}`}
 					>
 						<svg
 							width="120"

@@ -36,7 +36,7 @@ function UserProfileModal() {
 							<div className="flex flex-col justify-center gap-y-2 items-center">
 								<div className="relative h-16 w-16">
 									{/* 리워드 이미지 추가 */}
-									<div className="absolute inset-0 border-2 border-brown-sub rounded-full">
+									<div className="absolute inset-0 border-2 border-brown-main rounded-full">
 										{/* <img src="" alt="reward" className="absolute inset-0" /> */}
 									</div>
 									{/* 프로필 이미지 */}
