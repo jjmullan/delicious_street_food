@@ -31,7 +31,7 @@ function LocationInfoModal({
 				<PopoverClose asChild>
 					<div className="flex flex-col justify-center rounded-md shadow-md w-fit">
 						<Link
-							to={`/location/${location_id}`}
+							to={`/location/${location_id}/home`}
 							className="flex flex-col justify-center gap-y-2 items-center p-3 rounded-md shadow-md"
 						>
 							<div className="relative w-24 h-20">
