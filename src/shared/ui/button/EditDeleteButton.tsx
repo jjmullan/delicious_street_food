@@ -2,7 +2,7 @@ import { PopoverClose } from '@radix-ui/react-popover';
 import { EditIcon, MoreVerticalIcon, Trash2Icon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
 
-function ReviewEditAndDeleteButton({ onDelete }: { onDelete(): void }) {
+function EditDeleteButton({ onDelete }: { onDelete(): void }) {
 	return (
 		<Popover>
 			<PopoverTrigger>
@@ -26,4 +26,4 @@ function ReviewEditAndDeleteButton({ onDelete }: { onDelete(): void }) {
 	);
 }
 
-export default ReviewEditAndDeleteButton;
+export default EditDeleteButton;

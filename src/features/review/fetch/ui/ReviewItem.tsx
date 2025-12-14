@@ -7,7 +7,6 @@ import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import { useDeleteReview } from '@/features/review/delete/hook/useDeleteReview';
 import useFetchReviewImages from '@/features/review/fetch/hook/useFetchReviewImages';
 import useFetchReviewProducts from '@/features/review/fetch/hook/useFetchReviewProducts';
-import ReviewEditAndDeleteButton from '@/features/review/fetch/ui/ReviewEditAndDeleteButton';
 import ReviewProductItem from '@/features/review/fetch/ui/ReviewProductItem';
 import ReviewTitleAndText from '@/features/review/fetch/ui/ReviewTitleAndText';
 import ReviewUserProfile from '@/features/review/fetch/ui/ReviewUserProfile';
@@ -15,6 +14,7 @@ import ReviewVisitDate from '@/features/review/fetch/ui/ReviewVisitDate';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { formatTimeAgo, getDateTimeKo } from '@/shared/lib/day';
 import type { Review } from '@/shared/types/types';
+import EditDeleteButton from '@/shared/ui/button/EditDeleteButton';
 import ImageModal from '@/shared/ui/modal/ImageModal';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/shadcn/carousel';
 
@@ -55,6 +55,7 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 			onPositive: () => {
 				deleteReview(review_id);
 			},
+			onNegative: () => {},
 		});
 	};
 
@@ -83,7 +84,7 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 			<div className="flex justify-between items-center mb-2">
 				<ReviewUserProfile profileImage={profileImage} nickname={nickname!} createDatetime={createDatetime} />
 				<Activity mode={isMine ? 'visible' : 'hidden'}>
-					<ReviewEditAndDeleteButton onDelete={handleDeleteReview} />
+					<EditDeleteButton onDelete={handleDeleteReview} />
 				</Activity>
 			</div>
 			{/* 후기 이미지 */}
