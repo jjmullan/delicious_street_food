@@ -14,13 +14,15 @@ import { initialLocation } from '@/features/location/fetch/libs/location';
 import type { AbbrLocation } from '@/features/location/fetch/types/location';
 import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
 import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
+import { getLocationAddress } from '@/features/location/fetch/utils/getLocationAddress';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
 import LoggedInUserOnlyAsideBar from '@/widgets/aside/LoggedInUserOnlyAsideBar';
 
 function GlobalMap() {
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
-	const location = useLocation();
+	const location = useLocation() ?? initialLocation;
+	const address = getLocationAddress(location);
 
 	// 위치 패칭 API 호출
 	const { data: fetchLocation, error: isFetchLocationError, isPending: isFetchLocationPending } = useFetchLocations();
@@ -67,7 +69,7 @@ function GlobalMap() {
 		<div className="relative">
 			<Activity mode={isPending ? 'hidden' : 'visible'}>
 				<Map
-					center={location ?? initialLocation}
+					center={location}
 					level={3}
 					className="min-h-screen"
 					onDoubleClick={() => {
