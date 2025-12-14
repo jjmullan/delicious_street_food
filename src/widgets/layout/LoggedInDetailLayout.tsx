@@ -11,10 +11,7 @@ function LoggedInDetailLayout() {
 
 	return (
 		<div className="min-h-svh full-width">
-			<LoggedInDetailHeader />
-			<main className="p-3 mt-12">
-				<Outlet />
-			</main>
+			<Outlet />
 		</div>
 	);
 }
