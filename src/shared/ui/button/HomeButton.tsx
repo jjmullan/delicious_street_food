@@ -1,13 +1,9 @@
-import { HomeIcon, LocateFixedIcon } from 'lucide-react';
-import { Link, useParams } from 'react-router';
+import { LocateFixedIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { useSetLocation } from '@/app/store/locationStore';
 import { getLocationData } from '@/features/location/fetch/utils/getLocationData';
 
 function HomeButton() {
-	// 쿼리스트링 데이터가 없을 때, 현재 위치로 이동하도록 동작
-	const param = useParams();
-	const isHome = Object.keys(param).length === 0;
 	const setLocation = useSetLocation();
 	const handleGoBackToCurrentLocation = async () => {
 		try {
@@ -42,7 +38,7 @@ function HomeButton() {
 				onClick={handleGoBackToCurrentLocation}
 			>
 				<div className="flex flex-col items-center gap-y-1">
-					<LocateFixedIcon width={24} height={24} />
+					<LocateFixedIcon width={24} height={24} strokeWidth={1.8} />
 					<p className="text-xs font-medium">현재 위치</p>
 				</div>
 			</button>
