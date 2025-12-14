@@ -91,7 +91,7 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 			<Carousel>
 				<CarouselContent className="-ml-2">
 					{fetchReviewImage?.map((image, index) => (
-						<CarouselItem key={image.review_id} className="max-w-[150px] max-h-[150px] pl-2">
+						<CarouselItem key={image.review_image_id} className="max-w-[150px] max-h-[150px] pl-2">
 							<button
 								type="button"
 								className="h-full w-full rounded-md overflow-hidden flex items-center justify-center"
