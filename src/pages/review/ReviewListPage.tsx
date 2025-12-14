@@ -32,7 +32,7 @@ function ReviewListPage() {
 			<LoggedInDetailHeader title="방문 후기" />
 			<main className="mt-12">
 				<div className="flex flex-col gap-y-1">
-					<div className="fixed px-3 py-2 w-full bg-[#fff] z-1">
+					<div className="fixed px-3 py-2 full-width bg-[#fff] z-1">
 						<Button type="button" variant={'outline'} onClick={handleClickCreateReviewPage} className="w-full">
 							<PenIcon />
 							<p>리뷰 작성하러 가기</p>
