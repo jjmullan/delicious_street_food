@@ -23,19 +23,23 @@ function LocationNavigation({ location_id }: { location_id: string }) {
 		<Activity mode={isPending ? 'hidden' : 'visible'}>
 			<nav className="mt-12 fixed full-width bg-[#fff] z-2">
 				<ul className="flex justify-between">
-					<li className={`flex-1 flex justify-center py-3 border-b-2 ${isHome && 'border-brown-main'}`}>
+					<li className={`flex-1 flex justify-center py-3 border-b-2 ${isHome && 'border-brown-main font-semibold'}`}>
 						<h3>
 							<Link to={`/location/${location_id}/home`}>홈</Link>
 						</h3>
 					</li>
-					<li className={`flex-1 flex justify-center py-3 border-b-2 ${isReviewAll && 'border-brown-main'}`}>
+					<li
+						className={`flex-1 flex justify-center py-3 border-b-2 ${isReviewAll && 'border-brown-main font-semibold'}`}
+					>
 						<h3>
 							<Link to={`/location/${location_id}/review/all`} className="flex items-center">
 								후기&nbsp;<span className="text-sm">({reviewCount})</span>
 							</Link>
 						</h3>
 					</li>
-					<li className={`flex-1 flex justify-center py-3 border-b-2 ${isReviewPhoto && 'border-brown-main'}`}>
+					<li
+						className={`flex-1 flex justify-center py-3 border-b-2 ${isReviewPhoto && 'border-brown-main font-semibold'}`}
+					>
 						<h3>
 							<Link to={`/location/${location_id}/review/photo`} className="flex items-center">
 								사진&nbsp;<span className="text-sm">({imageCount})</span>
