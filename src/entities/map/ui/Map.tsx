@@ -18,7 +18,7 @@ import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
 import LoggedInUserOnlyAsideBar from '@/widgets/aside/LoggedInUserOnlyAsideBar';
 
-function KakaoMapLocation() {
+function GlobalMap() {
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
 	const location = useLocation();
 
@@ -141,4 +141,4 @@ function KakaoMapLocation() {
 	);
 }
 
-export default KakaoMapLocation;
+export default GlobalMap;

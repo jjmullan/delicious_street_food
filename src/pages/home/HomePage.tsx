@@ -1,10 +1,10 @@
-import KakaoMapLocation from '@/entities/location/KakaoMapLocation';
+import GlobalMap from '@/entities/map/ui/Map';
 
 function HomePage() {
 	return (
 		<>
 			{/* 카카오 맵 영역 */}
-			<KakaoMapLocation />
+			<GlobalMap />
 		</>
 	);
 }
