@@ -1,4 +1,4 @@
-import LocationReviewPhoto from '@/entities/review/ui/LocationReviewPhoto';
+import LocationReviewPhoto from '@/entities/location/ui/LocationReviewPhoto';
 
 function ReviewPhotoPage() {
 	return <LocationReviewPhoto />;
