@@ -14,7 +14,7 @@ function LoggedInUserOnlyAsideBar() {
 	const isUpdateMode = useIsCreateMode();
 
 	return (
-		<div className="absolute top-3 left-3 z-1 flex flex-col gap-y-2">
+		<div className="fixed top-0 full-width p-3 z-1 flex flex-col gap-y-2">
 			<Activity mode={isSearchBarOpen && !isUpdateMode ? 'visible' : 'hidden'}>
 				<SearchLocationBar />
 			</Activity>

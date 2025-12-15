@@ -10,12 +10,10 @@ function MapLayout() {
 
 	if (!session) return <Navigate to={'/login'} replace={true} />;
 	return (
-		<>
-			<main>
-				<Outlet />
-			</main>
+		<div className="">
+			<Outlet />
 			<MapHeader />
-		</>
+		</div>
 	);
 }
 

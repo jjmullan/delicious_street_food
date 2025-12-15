@@ -4,7 +4,7 @@ import HomeButton from '@/shared/ui/button/HomeButton';
 
 function MapHeader() {
 	return (
-		<header className="flex justify-around items-center absolute text-lg z-99 glass rounded-t-2xl bottom-0 full-width h-fit pb-3">
+		<header className="flex justify-around items-center fixed text-lg z-99 glass rounded-t-2xl bottom-0 full-width h-fit pb-3 scroll-y-hidden">
 			{/* <ItemListButton /> */}
 			<ToggleSwitchLocationModeButton />
 			<HomeButton />
