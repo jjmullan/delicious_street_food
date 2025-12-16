@@ -1,12 +1,12 @@
 import { InfoIcon, PenIcon } from 'lucide-react';
 import { Activity } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchReviewsByLocation';
 import ReviewItem from '@/features/review/fetch/ui/ReviewItem';
 import { Button } from '@/shared/ui/shadcn/button';
 
-function LocationReviewAll() {
+function LocationReviewAll({ location_id }: { location_id: string }) {
 	const navigate = useNavigate();
 	const openConfirmModal = useOpenConfirmModal();
 	const handleClickCreateReviewPage = () => {
@@ -19,9 +19,7 @@ function LocationReviewAll() {
 		});
 	};
 
-	const param = useParams();
-	const location_id = param.locationId;
-	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id!);
+	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id);
 
 	// Pending 통합 상태 관리
 	const isPending = isFetchReviewsPending;
