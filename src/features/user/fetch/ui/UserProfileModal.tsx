@@ -1,7 +1,9 @@
 import { PopoverClose } from '@radix-ui/react-popover';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import { BookmarkIcon, MessageCircleMoreIcon, UserCircle2 } from 'lucide-react';
+import { Activity } from 'react';
 import { Link } from 'react-router';
+import { useIsCreateMode } from '@/app/store/createLocationStore';
 import { useSession } from '@/app/store/sessionStore';
 import { signOut } from '@/features/auth/signOut/api/auth';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
@@ -19,16 +21,20 @@ function UserProfileModal() {
 	const totalFavoriteCount = data?.total_favorite_count;
 	const userImage = data?.profile_image_url || defaultavatar;
 
+	const isCreateMode = useIsCreateMode();
+
 	return (
 		<Popover>
 			<PopoverTrigger>
-				<div className="w-18 h-18 flex justify-center items-center">
-					<div className="flex flex-col items-center gap-y-1">
-						{/* <img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" /> */}
-						<UserCircle2 width={24} height={24} strokeWidth={1.8} />
-						<p className="text-xs font-medium">마이페이지</p>
+				<Activity mode={isCreateMode ? 'hidden' : 'visible'}>
+					<div className="w-18 h-18 flex justify-center items-center">
+						<div className="flex flex-col items-center gap-y-1">
+							{/* <img src={userImage} className="h-7 w-7 cursor-pointer rounded-full object-cover" alt="user profile" /> */}
+							<UserCircle2 width={24} height={24} strokeWidth={1.8} />
+							<p className="text-xs font-medium">마이페이지</p>
+						</div>
 					</div>
-				</div>
+				</Activity>
 			</PopoverTrigger>
 			<PopoverContent className="flex w-fit flex-col justify-center items-center p-0 text-sm">
 				<PopoverClose asChild>

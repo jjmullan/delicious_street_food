@@ -6,7 +6,7 @@ function LocationMap({ lat, lng, children }: AbbrLocation & { children: ReactNod
 	return (
 		<Map
 			center={{ lat, lng }}
-			level={3}
+			level={2}
 			className="auto-width aspect-square"
 			disableDoubleClick={false}
 			disableDoubleClickZoom={false}

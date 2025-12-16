@@ -1,12 +1,12 @@
-import { Map, MapPlusIcon, TriangleIcon } from 'lucide-react';
+import { MapPlusIcon } from 'lucide-react';
 import { Activity, useEffect, useState } from 'react';
 import { useIsCreateMode, useSetIsCreateMode } from '@/app/store/createLocationStore';
 
 function ToggleSwitchLocationModeButton() {
-	const isUpdateMode = useIsCreateMode();
+	const isCreateMode = useIsCreateMode();
 	const setIsUpdateMode = useSetIsCreateMode();
 	const toggleIsUpdateMode = () => {
-		setIsUpdateMode(isUpdateMode);
+		setIsUpdateMode(isCreateMode);
 	};
 
 	// 10초 후에 안내 텍스트 안보이게 하기
@@ -27,14 +27,7 @@ function ToggleSwitchLocationModeButton() {
 				onClick={toggleIsUpdateMode}
 				aria-label="위치 생성 모드 전환"
 			>
-				{/* 위치 생성 모드 상태에 따라 아이콘 변경 */}
-				<Activity mode={isUpdateMode ? 'visible' : 'hidden'}>
-					<div className="flex flex-col items-center gap-y-1">
-						<Map width={24} color={'#d4944a'} strokeWidth={1.8} />
-						<p className="text-xs text-brown-main font-medium">돌아가기</p>
-					</div>
-				</Activity>
-				<Activity mode={isUpdateMode ? 'hidden' : 'visible'}>
+				<Activity mode={isCreateMode ? 'hidden' : 'visible'}>
 					<div className="flex flex-col items-center gap-y-1">
 						<MapPlusIcon width={24} color={'#212121'} strokeWidth={1.8} />
 						<p className="text-xs font-medium">생성모드</p>

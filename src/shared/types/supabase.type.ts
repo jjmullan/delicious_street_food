@@ -48,7 +48,7 @@ export type Database = {
 				Row: {
 					created_at: string;
 					latitude: string;
-					location_address: string | null;
+					location_address: string;
 					location_id: string;
 					location_name: string | null;
 					longitude: string;
@@ -62,7 +62,7 @@ export type Database = {
 				Insert: {
 					created_at?: string;
 					latitude: string;
-					location_address?: string | null;
+					location_address: string;
 					location_id?: string;
 					location_name?: string | null;
 					longitude: string;
@@ -76,7 +76,7 @@ export type Database = {
 				Update: {
 					created_at?: string;
 					latitude?: string;
-					location_address?: string | null;
+					location_address?: string;
 					location_id?: string;
 					location_name?: string | null;
 					longitude?: string;

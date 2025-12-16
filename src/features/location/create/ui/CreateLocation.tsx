@@ -1,6 +1,7 @@
 import { PlusIcon, XIcon } from 'lucide-react';
+import { useEffect } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
-import { useOpenCreateLocationModal } from '@/app/store/createLocationModalStore';
+import { useCreateLocationModal, useOpenCreateLocationModal } from '@/app/store/createLocationModalStore';
 import type { AbbrLocation } from '@/features/location/fetch/types/location';
 import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 
@@ -23,6 +24,17 @@ function CreateLocation({
 			},
 		});
 	};
+
+	// 위치 생성을 위한 상세 모달이 열려있는 경우, 해당 UI 는 닫기
+	const createLocationModal = useCreateLocationModal();
+	const isModalOpen = createLocationModal.isOpen;
+	useEffect(() => {
+		if (isModalOpen) {
+			handleCloseModal();
+		} else {
+			return;
+		}
+	}, [isModalOpen]);
 
 	return (
 		<CustomOverlayMap position={createLocation ?? location} clickable={true}>

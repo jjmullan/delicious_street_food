@@ -12,9 +12,9 @@ import { router } from '@/app/routes/routes';
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
-			staleTime: 0,
+			staleTime: 1_000 * 60 * 3, // 3분간 상태 유지
+			gcTime: 1_000 * 60 * 5, // 5분간 캐시 보관
 			refetchOnWindowFocus: false,
-			gcTime: 1_000 * 60 * 5, // 5분 캐싱
 		},
 	},
 });

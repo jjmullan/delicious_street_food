@@ -1,6 +1,5 @@
 import { Navigate, Outlet, useParams } from 'react-router';
 import { useSession } from '@/app/store/sessionStore';
-import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
 import DetailHeader from '@/widgets/header/DetailHeader';
 import LocationNavigation from '@/widgets/nav/LocationNavigation';
 
@@ -11,8 +10,6 @@ function LocationDetailLayout() {
 	// 포장마차 위치 정보 가져오기
 	const param = useParams();
 	const location_id = param.locationId;
-	const { data: fetchLocation } = useFetchLocation(location_id!);
-	const location_name = fetchLocation?.location_name ?? '포장마차';
 
 	// 세션 데이터가 없으면 강제 라우팅
 	const session = useSession();
@@ -20,7 +17,7 @@ function LocationDetailLayout() {
 
 	return (
 		<div className="min-h-svh full-width">
-			<DetailHeader title={location_name} />
+			<DetailHeader title={'포장마차'} />
 			<LocationNavigation location_id={location_id!} />
 			<main className="relative mt-24">
 				<Outlet />

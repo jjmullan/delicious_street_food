@@ -20,17 +20,23 @@ export function getNowDateTimeKo() {
 }
 
 /**
- * 특정 시간을 Supabase 의 timestampz 타입에 맞게 치환해서 보여주는 함수
- * @param date
+ * 특정 시간을 'yyyy/mm/dd hh:MM(24H)' 형식으로 치환해서 보여주는 함수
+ * @param date - ISO 8601 문자열 또는 Unix timestamp
+ * @returns 'yyyy/mm/dd hh:MM' 형식의 문자열 (예: '2024/01/15 15:30')
  */
-export function getDateTimeKo(date: number) {
+export function getDateTimeKo({ date, isTimeIncluding = true }: { date: string | number; isTimeIncluding?: boolean }) {
 	const now = new Date(date);
-	const dateTimeLocalValue = now.toLocaleString('ko-KR', {
-		dateStyle: 'full',
-		timeStyle: 'short',
-	});
+	const year = now.getFullYear();
+	const month = String(now.getMonth() + 1).padStart(2, '0');
+	const day = String(now.getDate()).padStart(2, '0');
+	const hours = String(now.getHours()).padStart(2, '0');
+	const minutes = String(now.getMinutes()).padStart(2, '0');
 
-	return dateTimeLocalValue;
+	if (isTimeIncluding) {
+		return `${year}.${month}.${day} ${hours}:${minutes}`;
+	} else {
+		return `${year}.${month}.${day}`;
+	}
 }
 
 /**

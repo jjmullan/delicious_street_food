@@ -10,7 +10,7 @@ export type Reward = Database['public']['Tables']['reward']['Row'];
 export type RewardList = Database['public']['Tables']['reward_list']['Row'];
 export type User = Database['public']['Tables']['user']['Row'];
 
-export type API_Location = Pick<Location, 'user_id' | 'latitude' | 'longitude'>;
+export type API_Location = Pick<Location, 'user_id' | 'latitude' | 'longitude' | 'location_name' | 'location_address'>;
 export type API_Review = Pick<
 	Review,
 	'user_id' | 'location_id' | 'review_title' | 'review_text' | 'is_recommended' | 'visit_datetime'
@@ -20,6 +20,7 @@ export type API_ReviewProduct = Pick<
 	ReviewProduct,
 	'review_id' | 'product_id' | 'is_recommend' | 'order_price' | 'order_quantity'
 >;
+export type API_Favorite = Pick<Favorite, 'location_id' | 'user_id'>;
 
 /**
  * useMutation 에서 사용하는 상황별 로직

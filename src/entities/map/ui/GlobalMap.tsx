@@ -17,7 +17,7 @@ import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 import { getLocationAddress } from '@/features/location/fetch/utils/getLocationAddress';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
-import LoggedInUserOnlyAsideBar from '@/widgets/aside/LoggedInUserOnlyAsideBar';
+import MapAsideBar from '@/widgets/aside/MapAsideBar';
 
 function GlobalMap() {
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
@@ -44,18 +44,18 @@ function GlobalMap() {
 	const createLocation = useLocationForCreate() ?? location;
 	const setCreateLocation = useSetCreateLocation();
 
-	// 5초 후 열린 모달 닫기
+	// 3초 후 열린 모달 닫기
 	const [clickedTime, setClickedTime] = useState<number>(0);
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			const currentTime = Date.now();
-			if (currentTime - clickedTime < 5000) return;
+			if (currentTime - clickedTime < 3000) return;
 
 			setIsCreateLocationUIOpen(false);
-		}, 5_000);
+		}, 3_000);
 
 		return () => clearTimeout(timer);
-	}, [isCreateLocationUIOpen, clickedTime]);
+	}, [clickedTime]);
 
 	// 모달 닫기
 	const handleCloseModal = () => {
@@ -67,78 +67,80 @@ function GlobalMap() {
 
 	return (
 		<div className="relative">
-			<Activity mode={isPending ? 'hidden' : 'visible'}>
-				<Map
-					center={location}
-					level={3}
-					className="min-h-screen"
-					onDoubleClick={() => {
-						return;
-					}}
-					onClick={(_, mouseEvent) => {
-						if (!isCreateMode) return;
-
-						const latLng = mouseEvent.latLng;
-						const lat = latLng.getLat();
-						const lng = latLng.getLng();
-						const newLocation: AbbrLocation = { lat, lng };
-
-						// 현재 위치로부터 최대 거리 검증 (1km 이내)
-						const isWithinMaxDistance = validateMaxDistanceFromCurrentLocation(newLocation, location!);
-						if (!isWithinMaxDistance) {
-							toast.warning('현재 위치로부터 3km 이내만 등록할 수 있습니다.', { position: 'top-center' });
+			<main className="relative">
+				<Activity mode={isPending ? 'hidden' : 'visible'}>
+					<Map
+						center={location}
+						level={3}
+						className="h-svh"
+						onDoubleClick={() => {
 							return;
-						}
+						}}
+						onClick={(_, mouseEvent) => {
+							if (!isCreateMode) return;
 
-						// 기존 위치들과의 거리 검증 (최소 10미터 이상)
-						const isValidDistance = validateLocationDistance(newLocation, fetchLocation!);
-						if (!isValidDistance) {
-							toast.warning('기존 포장마차로부터 10미터 이내인 곳은 등록이 불가합니다.', { position: 'top-center' });
-							return;
-						}
+							const latLng = mouseEvent.latLng;
+							const lat = latLng.getLat();
+							const lng = latLng.getLng();
+							const newLocation: AbbrLocation = { lat, lng };
 
-						// 지도 위치 클릭 시, 생성 UI 강제 팝업 및 클릭 위치 저장
-						setIsCreateLocationUIOpen(true);
-						setCreateLocation(newLocation);
+							// 현재 위치로부터 최대 거리 검증 (1km 이내)
+							const isWithinMaxDistance = validateMaxDistanceFromCurrentLocation(newLocation, location!);
+							if (!isWithinMaxDistance) {
+								toast.warning('현재 위치로부터 3km 이내만 등록할 수 있습니다.', { position: 'top-center' });
+								return;
+							}
 
-						const time = Date.now();
-						setClickedTime(time);
+							// 기존 위치들과의 거리 검증 (최소 10미터 이상)
+							const isValidDistance = validateLocationDistance(newLocation, fetchLocation!);
+							if (!isValidDistance) {
+								toast.warning('기존 포장마차로부터 10미터 이내인 곳은 등록이 불가합니다.', { position: 'top-center' });
+								return;
+							}
 
-						console.log('생성 위치 위도/경도 :', newLocation);
-					}}
-					isPanto={true}
-					disableDoubleClick={isPending}
-					disableDoubleClickZoom={isPending}
-				>
-					<MarkerClusterer averageCenter={true} minLevel={6}>
-						{/* 전체 위치 마커 */}
-						{fetchLocation?.map((location) => (
-							<CustomOverlayMap
-								key={location.location_id}
-								position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
-								clickable={true}
-							>
-								<LocationFinder is_my_location={false} user_Id={user_id} {...location} />
+							// 지도 위치 클릭 시, 생성 UI 강제 팝업 및 클릭 위치 저장
+							setIsCreateLocationUIOpen(true);
+							setCreateLocation(newLocation);
+
+							const time = Date.now();
+							setClickedTime(time);
+
+							console.log('생성 위치 위도/경도 :', newLocation);
+						}}
+						isPanto={true}
+						disableDoubleClick={isPending}
+						disableDoubleClickZoom={isPending}
+					>
+						<MarkerClusterer averageCenter={true} minLevel={6}>
+							{/* 전체 위치 마커 */}
+							{fetchLocation?.map((location) => (
+								<CustomOverlayMap
+									key={location.location_id}
+									position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
+									clickable={true}
+								>
+									<LocationFinder is_my_location={false} user_Id={user_id} {...location} />
+								</CustomOverlayMap>
+							))}
+
+							{/* 현재 위치 마커 */}
+							<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
+								<button type="button">
+									<CurrentLocation />
+								</button>
 							</CustomOverlayMap>
-						))}
-
-						{/* 현재 위치 마커 */}
-						<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
-							<button type="button">
-								<CurrentLocation />
-							</button>
-						</CustomOverlayMap>
-						{/* 신규 위치 마커 */}
-						<Activity mode={isCreateLocationUIOpen ? 'visible' : 'hidden'}>
-							<CreateLocation createLocation={createLocation} handleCloseModal={handleCloseModal} />
-						</Activity>
-					</MarkerClusterer>
-				</Map>
-				<LoggedInUserOnlyAsideBar />
-			</Activity>
-			<Activity mode={isPending ? 'visible' : 'hidden'}>
-				<FallbackRequestAPI title="지도를 불러오는 중" bgColor="bg-[#fff]" />
-			</Activity>
+							{/* 신규 위치 마커 */}
+							<Activity mode={isCreateLocationUIOpen ? 'visible' : 'hidden'}>
+								<CreateLocation createLocation={createLocation} handleCloseModal={handleCloseModal} />
+							</Activity>
+						</MarkerClusterer>
+					</Map>
+				</Activity>
+				<Activity mode={isPending ? 'visible' : 'hidden'}>
+					<FallbackRequestAPI title="지도를 불러오는 중" bgColor="bg-[#fff]" />
+				</Activity>
+			</main>
+			<MapAsideBar />
 		</div>
 	);
 }

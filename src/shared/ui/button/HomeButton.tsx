@@ -1,9 +1,13 @@
 import { LocateFixedIcon } from 'lucide-react';
+import { Activity } from 'react';
 import { toast } from 'sonner';
+import { useIsCreateMode } from '@/app/store/createLocationStore';
 import { useSetLocation } from '@/app/store/locationStore';
 import { getLocationData } from '@/features/location/fetch/utils/getLocationData';
 
 function HomeButton() {
+	const isCreateMode = useIsCreateMode();
+
 	const setLocation = useSetLocation();
 	const handleGoBackToCurrentLocation = async () => {
 		try {
@@ -37,10 +41,12 @@ function HomeButton() {
 				aria-label="현재 위치로 이동"
 				onClick={handleGoBackToCurrentLocation}
 			>
-				<div className="flex flex-col items-center gap-y-1">
-					<LocateFixedIcon width={24} height={24} strokeWidth={1.8} />
-					<p className="text-xs font-medium">현재 위치</p>
-				</div>
+				<Activity mode={isCreateMode ? 'hidden' : 'visible'}>
+					<div className="flex flex-col items-center gap-y-1">
+						<LocateFixedIcon width={24} height={24} strokeWidth={1.8} />
+						<p className="text-xs font-medium">현재 위치</p>
+					</div>
+				</Activity>
 			</button>
 		</div>
 	);

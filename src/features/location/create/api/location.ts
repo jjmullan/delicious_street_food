@@ -1,15 +1,10 @@
 import supabase from '@/shared/api/supabase/supabase';
-import type { API_Location, Location } from '@/shared/types/types';
+import type { API_Location } from '@/shared/types/types';
 
 /**
  * 위치 정보 데이터 추가 요청 API
  */
-export async function createLocation({
-	user_id,
-	latitude,
-	longitude,
-	location_name,
-}: API_Location & Partial<Pick<Location, 'location_name'>>) {
+export async function createLocation({ user_id, latitude, longitude, location_name, location_address }: API_Location) {
 	const { data, error } = await supabase
 		.from('location')
 		.insert({
@@ -17,6 +12,7 @@ export async function createLocation({
 			latitude,
 			longitude,
 			location_name,
+			location_address,
 		})
 		.select()
 		.single();

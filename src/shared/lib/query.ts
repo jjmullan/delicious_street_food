@@ -18,8 +18,19 @@ export const QUERY_KEYS = {
 	review: {
 		all: ['review'],
 		list: ['review', 'list'],
-		imageById: (reviewId: string) => ['review', 'images', 'byId', reviewId],
 		byId: (reviewId: string) => ['review', 'byId', reviewId],
 		byLocationId: (locationId: string) => ['review', 'byLocationId', locationId],
+		images: {
+			byReviewId: (reviewId: string) => ['review', 'images', 'byReviewId', reviewId],
+			byLocationId: (locationId: string) => ['review', 'images', 'byLocationId', locationId],
+		},
+		products: {
+			byReviewId: (reviewId: string) => ['review', 'products', 'byReviewId', reviewId],
+			byLocationId: (locationId: string) => ['review', 'products', 'byLocationId', locationId],
+		},
+	},
+	favorite: {
+		all: ['favorite'],
+		byLocationId: (locationId: string) => ['favorite', 'byLocationId', locationId],
 	},
 };

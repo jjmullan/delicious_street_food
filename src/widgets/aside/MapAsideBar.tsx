@@ -4,7 +4,7 @@ import { useIsCreateMode } from '@/app/store/createLocationStore';
 import SearchLocationBar from '@/features/location/update/ui/SearchLocationBar';
 import SelectProductItem from '@/features/location/update/ui/SelectProductItem';
 
-function LoggedInUserOnlyAsideBar() {
+function MapAsideBar() {
 	const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
 	const toggleSearchBar = () => {
 		setIsSearchBarOpen((state) => !state);
@@ -14,7 +14,7 @@ function LoggedInUserOnlyAsideBar() {
 	const isUpdateMode = useIsCreateMode();
 
 	return (
-		<div className="absolute top-3 left-3 z-1 flex flex-col gap-y-2">
+		<div className="fixed top-0 full-width p-3 z-1 flex flex-col gap-y-2">
 			<Activity mode={isSearchBarOpen && !isUpdateMode ? 'visible' : 'hidden'}>
 				<SearchLocationBar />
 			</Activity>
@@ -31,7 +31,7 @@ function LoggedInUserOnlyAsideBar() {
 					<button
 						type="button"
 						onClick={toggleSearchBar}
-						className={`glass w-fit border rounded-full flex items-center justify-center px-3 py-1.5 shrink-0 gap-x-1.5 ${isSearchBarOpen && 'border-2 border-brown-main'}`}
+						className={`glass w-fit border rounded-full flex items-center justify-center px-3 py-2 shrink-0 gap-x-1.5 ${isSearchBarOpen && 'border-2 border-brown-main'}`}
 					>
 						<svg
 							width="120"
@@ -70,4 +70,4 @@ function LoggedInUserOnlyAsideBar() {
 	);
 }
 
-export default LoggedInUserOnlyAsideBar;
+export default MapAsideBar;

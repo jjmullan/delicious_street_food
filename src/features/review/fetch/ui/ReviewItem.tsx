@@ -24,7 +24,7 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 	const profileImage = fetchUser?.profile_image_url || defaultavatar;
 	const nickname = fetchUser?.nickname;
 	const createDatetime = formatTimeAgo(created_at);
-	const visitDatetime = getDateTimeKo(new Date(visit_datetime).getTime());
+	const visitDatetime = getDateTimeKo({ date: new Date(visit_datetime).getTime(), isTimeIncluding: true });
 
 	// 현재 내 세션 정보의 user_id 추출, 내 리뷰인지 여부에 따른 UI 별도 설정
 	const session = useSession();

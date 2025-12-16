@@ -2,9 +2,10 @@ import author from '@shared/assets/extra/author.svg';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { useCreateLocationModal } from '@/app/store/createLocationModalStore';
-import { useLocationForCreate } from '@/app/store/createLocationStore';
+import { useIsCreateMode, useLocationForCreate, useSetIsCreateMode } from '@/app/store/createLocationStore';
 import { useSession } from '@/app/store/sessionStore';
 import useCreateLocation from '@/features/location/create/hooks/useCreateLocation';
+import { getFullLocationAddress } from '@/features/location/fetch/utils/getLocationAddress';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import FallbackText from '@/shared/ui/fallback/FallbackText';
 import {
@@ -22,11 +23,16 @@ import { Button } from '@/shared/ui/shadcn/button';
 function CreateLocationModal() {
 	// 선택된 위치 전역 상태 가져오기
 	const clickedlocation = useLocationForCreate();
+	const address = getFullLocationAddress(clickedlocation);
 
 	const session = useSession();
 	const userId = session?.user.id;
 	const { data: user } = useFecthUserData(userId);
 	const nickname = user?.nickname;
+
+	// 생성 모드 전역 상태 관리
+	const isCreateMode = useIsCreateMode();
+	const setIsCreateMode = useSetIsCreateMode();
 
 	// 위치 생성 API 호출
 	const { mutate: createLocation, isPending: isCreateLocationPending } = useCreateLocation({
@@ -63,8 +69,10 @@ function CreateLocationModal() {
 			latitude: String(clickedlocation.lat),
 			longitude: String(clickedlocation.lng),
 			location_name: hasName ? locationName : '포장마차',
+			location_address: address,
 		});
 
+		setIsCreateMode(isCreateMode);
 		resetAndClose();
 	};
 
