@@ -8,11 +8,12 @@ function useCreateReviewImages(callbacks: MutationCallback) {
 
 	return useMutation({
 		mutationFn: createReviewImages,
-		onSuccess: () => {
+		onSuccess: (_data, variables) => {
 			if (callbacks.onSuccess) callbacks.onSuccess();
 
+			// 특정 review의 이미지 캐시 무효화
 			queryClient.invalidateQueries({
-				queryKey: QUERY_KEYS.review.all,
+				queryKey: QUERY_KEYS.review.images.byReviewId(variables.review_id),
 			});
 		},
 		onError: (error) => {

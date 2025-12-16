@@ -8,11 +8,12 @@ function useCreateReview(callbacks: MutationCallback) {
 
 	return useMutation({
 		mutationFn: createReview,
-		onSuccess: () => {
+		onSuccess: (data) => {
 			if (callbacks.onSuccess) callbacks.onSuccess();
 
+			// 특정 location의 review 캐시만 무효화
 			queryClient.invalidateQueries({
-				queryKey: QUERY_KEYS.review.all,
+				queryKey: QUERY_KEYS.review.byLocationId(data.location_id),
 			});
 		},
 		onError: (error) => {

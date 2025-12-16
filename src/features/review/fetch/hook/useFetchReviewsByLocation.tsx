@@ -4,8 +4,9 @@ import { QUERY_KEYS } from '@/shared/lib/query';
 
 function useFetchReviewsByLocation(location_id: string) {
 	return useQuery({
-		queryKey: QUERY_KEYS.review.all,
+		queryKey: QUERY_KEYS.review.byLocationId(location_id),
 		queryFn: () => fetchReviewsByLocation(location_id),
+		enabled: !!location_id,
 	});
 }
 
