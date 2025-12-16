@@ -9,13 +9,15 @@ function ResetCreateModeButton() {
 	};
 
 	return (
-		<button
-			type="button"
-			className="fixed glass left-6 bottom-11 w-14 h-14 aspect-square rounded-full z-1 flex justify-center items-center"
-			onClick={toggleCreateMode}
-		>
-			<Undo2Icon width={28} height={28} strokeWidth={1.5} />
-		</button>
+		<div className="full-width pl-6">
+			<button
+				type="button"
+				className="fixed glass bottom-11 w-14 h-14 aspect-square rounded-full z-1 flex justify-center items-center"
+				onClick={toggleCreateMode}
+			>
+				<Undo2Icon width={28} height={28} strokeWidth={1.5} />
+			</button>
+		</div>
 	);
 }
 
