@@ -3,7 +3,7 @@ import { Activity, useEffect, useMemo } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import { useParams } from 'react-router';
 import LocationMap from '@/entities/map/ui/LocationMap';
-import ToggleFavoriteButton from '@/features/favorite/create/ui/ToggleFavoriteButton';
+import ToggleFavoriteButton from '@/features/favorite/toggle/ui/ToggleFavoriteButton';
 import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
 import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 import LocationProductItem from '@/features/location/fetch/ui/LocationProductItem';
