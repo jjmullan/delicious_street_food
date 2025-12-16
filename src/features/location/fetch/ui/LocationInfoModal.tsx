@@ -43,7 +43,7 @@ function LocationInfoModal({ location_id }: Partial<Location> & { userData: Part
 					<div className="flex flex-col justify-center rounded-md shadow-md w-fit">
 						<Link
 							to={`/location/${location_id}/home`}
-							className="flex flex-col justify-center gap-y-2 items-center p-1 rounded-md shadow-md"
+							className="flex flex-col justify-center gap-y-2 items-center p-2 rounded-md shadow-md"
 						>
 							<div className="relative w-24 h-24">
 								{/* 대표 이미지 */}
@@ -51,7 +51,7 @@ function LocationInfoModal({ location_id }: Partial<Location> & { userData: Part
 									<img
 										src={randomReviewImage?.review_image_url}
 										alt="리뷰 이미지"
-										className="absolute inset-0 w-full h-full object-cover rounded-md border-gray-400"
+										className="absolute inset-0 w-full h-full object-cover rounded-md border-2 border-brown-main"
 									/>
 								</Activity>
 								<Activity mode={!randomReviewImage ? 'visible' : 'hidden'}>
@@ -61,7 +61,7 @@ function LocationInfoModal({ location_id }: Partial<Location> & { userData: Part
 									</div>
 								</Activity>
 							</div>
-							<div className="flex justify-center items-center gap-x-2 w-full text-sm pb-2">
+							<div className="flex justify-center items-center gap-x-2 w-full text-sm">
 								<div className="flex gap-x-1 items-center">
 									<MessageCircleMoreIcon width={16} height={16} />
 									<p>{fetchReviews && fetchReviews.length! >= 100 ? 99 : fetchReviews?.length}</p>
