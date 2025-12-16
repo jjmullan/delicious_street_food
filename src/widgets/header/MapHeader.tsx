@@ -8,7 +8,7 @@ function MapHeader() {
 
 	return (
 		<header
-			className={`flex justify-around items-center fixed text-lg z-99 glass rounded-t-2xl bottom-0 full-width h-fit pb-1 scroll-y-hidden ${isCreateMode && 'bottom-[-56px]'}`}
+			className={`flex justify-around items-center fixed text-lg z-1 glass rounded-t-2xl bottom-0 full-width h-fit pb-1 scroll-y-hidden ${isCreateMode && 'bottom-[-56px]'}`}
 		>
 			<ToggleSwitchLocationModeButton />
 			<HomeButton />

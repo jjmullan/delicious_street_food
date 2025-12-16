@@ -1,4 +1,4 @@
-import { Activity, useState } from 'react';
+import { useState } from 'react';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import { characterImages } from '@/features/product/item/libs/item';
 import type { Item } from '@/features/product/item/types/item.type';
@@ -22,7 +22,7 @@ function SelectProductItem() {
 	return (
 		<Select value={selectProduct} onValueChange={setSelectProduct}>
 			<SelectTrigger
-				className={`shrink-0 rounded-full px-3 py-1.5 text-sm border ${selectProduct !== '' && 'border-2 border-brown-main'}`}
+				className={`shrink-0 rounded-full px-3 py-2 text-sm border ${selectProduct !== '' && 'border-2 border-brown-main'}`}
 			>
 				<SelectValue placeholder="카테고리" className="text-sm" />
 			</SelectTrigger>
