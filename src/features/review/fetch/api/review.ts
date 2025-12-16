@@ -44,6 +44,10 @@ export async function fetchReviewProducts(review_id: string): Promise<ReviewProd
 	return data;
 }
 
+/**
+ * 특정 리뷰에 해당하는 모든 이미지 목록을 패칭하는 API
+ * @param review_id
+ */
 export async function fetchReviewImages(review_id: string): Promise<ReviewImage[]> {
 	const { data, error } = await supabase
 		.from('review_image')
@@ -80,4 +84,28 @@ export async function fetchReviewImagesByLocation(location_id: string): Promise<
 	// 중첩된 배열 구조를 평탄화하여 ReviewImage[] 형태로 반환
 	const images = data?.flatMap((review) => review.review_image || []) || [];
 	return images;
+}
+
+/**
+ * 특정 위치의 모든 리뷰 상품을 패칭하는 API
+ * 1. review 테이블에서 location_id로 리뷰 조회
+ * 2. 해당 리뷰들의 review_id로 review_product 테이블에서 상품 조회
+ * @param location_id
+ */
+export async function fetchReviewProductsByLocation(location_id: string): Promise<ReviewProduct[]> {
+	const { data, error } = await supabase
+		.from('review')
+		.select(`
+			review_product (
+				*
+			)
+		`)
+		.eq('location_id', location_id)
+		.order('created_at', { ascending: false });
+
+	if (error) throw error;
+
+	// 중첩된 배열 구조를 평탄화하여 ReviewProduct[] 형태로 반환
+	const products = data?.flatMap((review) => review.review_product || []) || [];
+	return products;
 }
