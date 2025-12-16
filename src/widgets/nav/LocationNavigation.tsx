@@ -12,9 +12,8 @@ function LocationNavigation({ location_id }: { location_id: string }) {
 
 	// 전체 리뷰 수 UI 제공
 	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id);
-	const { data: fetchReviewImages, isPending: isFetchReviewImagesPending } = useFetchReviewImagesByLocation(
-		location_id!
-	);
+	const { data: fetchReviewImages, isPending: isFetchReviewImagesPending } =
+		useFetchReviewImagesByLocation(location_id);
 	const reviewCount = fetchReviews && fetchReviews.length > 99 ? '+99' : fetchReviews?.length;
 	const imageCount = fetchReviewImages && fetchReviewImages.length > 99 ? '+99' : fetchReviewImages?.length;
 
@@ -35,7 +34,10 @@ function LocationNavigation({ location_id }: { location_id: string }) {
 					>
 						<h3>
 							<Link to={`/location/${location_id}/review/all`} className="flex items-center">
-								후기&nbsp;<span className="text-sm">({reviewCount})</span>
+								후기
+								<Activity mode={isPending ? 'hidden' : 'visible'}>
+									&nbsp;<span className="text-sm">({reviewCount})</span>
+								</Activity>
 							</Link>
 						</h3>
 					</li>
