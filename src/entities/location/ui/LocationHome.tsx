@@ -17,20 +17,23 @@ import ShareLocationButton from '@/shared/ui/button/ShareLocationButton';
 import Separator from '@/shared/ui/separator/Separator';
 
 function LocationHome() {
+	// Param 에서 location_id 추출
 	const param = useParams();
 	const location_id = param.locationId;
+
+	// location_id 로 위치 전체 데이터, 위치별 리뷰 데이터, 위치별 리뷰 상품 목록 데이터 추출
 	const { data: fetchLocation, isPending: isFetchLocationPending } = useFetchLocation(location_id!);
 	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id!);
 	const { data: fetchReviewProducts, isPending: isFetchReviewProductsPending } = useFetchReviewProductsByLocation(
 		location_id!
 	);
-	const { data: fetchProducts, isPending: isFetchProductsPending } = useFetchProducts();
 
 	// 위치 상세 데이터 추출
 	const location_name = fetchLocation?.location_name;
 	const user_id = fetchLocation?.user_id;
 
 	// 중복 제거된 unique product_id 추출 및 product_name_ko 오름차순 정렬
+	const { data: fetchProducts, isPending: isFetchProductsPending } = useFetchProducts();
 	const uniqueProductIds = useMemo(() => {
 		if (!fetchReviewProducts || !fetchProducts) return [];
 
@@ -46,6 +49,31 @@ function LocationHome() {
 			return productA.product_name_ko.localeCompare(productB.product_name_ko);
 		});
 	}, [fetchReviewProducts, fetchProducts]);
+
+	// 가장 많이 주문된 product_id 찾기
+	const mostPopularProductId = useMemo(() => {
+		if (!fetchReviewProducts || fetchReviewProducts.length === 0) return null;
+
+		// product_id별 등장 횟수 계산
+		const productCountMap = new Map<string, number>();
+		fetchReviewProducts.forEach((rp) => {
+			const count = productCountMap.get(rp.product_id) || 0;
+			productCountMap.set(rp.product_id, count + 1);
+		});
+
+		// 가장 많이 등장한 product_id 찾기
+		let maxCount = 0;
+		let popularProductId: string | null = null;
+
+		productCountMap.forEach((count, productId) => {
+			if (count > maxCount) {
+				maxCount = count;
+				popularProductId = productId;
+			}
+		});
+
+		return popularProductId;
+	}, [fetchReviewProducts]);
 
 	// 날짜 데이터 추출
 	const created_at = fetchLocation?.created_at ?? Date.now();
@@ -94,7 +122,11 @@ function LocationHome() {
 					<div className="flex flex-col gap-y-2">
 						<div className="flex flex-col items-start gap-y-2">
 							{uniqueProductIds?.map((productId) => (
-								<LocationProductItem key={productId} product_id={productId} />
+								<LocationProductItem
+									key={productId}
+									product_id={productId}
+									isPopular={productId === mostPopularProductId}
+								/>
 							))}
 						</div>
 					</div>
