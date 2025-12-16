@@ -1,8 +1,9 @@
-import { BookmarkIcon, ClockIcon, HatGlassesIcon, MapPinIcon, StoreIcon } from 'lucide-react';
+import { ClockIcon, HatGlassesIcon, MapPinIcon, StoreIcon } from 'lucide-react';
 import { Activity, useEffect, useMemo } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import { useParams } from 'react-router';
 import LocationMap from '@/entities/map/ui/LocationMap';
+import ToggleFavoriteButton from '@/features/favorite/create/ui/ToggleFavoriteButton';
 import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
 import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 import LocationProductItem from '@/features/location/fetch/ui/LocationProductItem';
@@ -14,7 +15,6 @@ import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { getDateTimeKo } from '@/shared/lib/day';
 import ShareLocationButton from '@/shared/ui/button/ShareLocationButton';
 import Separator from '@/shared/ui/separator/Separator';
-import { Button } from '@/shared/ui/shadcn/button';
 
 function LocationHome() {
 	const param = useParams();
@@ -81,10 +81,7 @@ function LocationHome() {
 			<div className="pb-3">
 				{/* 버튼 */}
 				<section className="flex gap-x-2 justify-center px-3 py-4">
-					<Button type="button" variant={'outline'} className="flex-1">
-						<BookmarkIcon width={20} height={20} strokeWidth={1.5} />
-						<p className="text-sm">저장하기</p>
-					</Button>
+					<ToggleFavoriteButton location_id={location_id!} user_id={user_id!} />
 					<ShareLocationButton />
 				</section>
 				<Separator />
