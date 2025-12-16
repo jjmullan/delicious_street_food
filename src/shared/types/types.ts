@@ -10,7 +10,7 @@ export type Reward = Database['public']['Tables']['reward']['Row'];
 export type RewardList = Database['public']['Tables']['reward_list']['Row'];
 export type User = Database['public']['Tables']['user']['Row'];
 
-export type API_Location = Pick<Location, 'user_id' | 'latitude' | 'longitude'>;
+export type API_Location = Pick<Location, 'user_id' | 'latitude' | 'longitude' | 'location_name' | 'location_address'>;
 export type API_Review = Pick<
 	Review,
 	'user_id' | 'location_id' | 'review_title' | 'review_text' | 'is_recommended' | 'visit_datetime'

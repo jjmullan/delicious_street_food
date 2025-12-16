@@ -5,6 +5,7 @@ import { useCreateLocationModal } from '@/app/store/createLocationModalStore';
 import { useLocationForCreate } from '@/app/store/createLocationStore';
 import { useSession } from '@/app/store/sessionStore';
 import useCreateLocation from '@/features/location/create/hooks/useCreateLocation';
+import { getFullLocationAddress } from '@/features/location/fetch/utils/getLocationAddress';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import FallbackText from '@/shared/ui/fallback/FallbackText';
 import {
@@ -22,6 +23,7 @@ import { Button } from '@/shared/ui/shadcn/button';
 function CreateLocationModal() {
 	// 선택된 위치 전역 상태 가져오기
 	const clickedlocation = useLocationForCreate();
+	const address = getFullLocationAddress(clickedlocation);
 
 	const session = useSession();
 	const userId = session?.user.id;
@@ -63,6 +65,7 @@ function CreateLocationModal() {
 			latitude: String(clickedlocation.lat),
 			longitude: String(clickedlocation.lng),
 			location_name: hasName ? locationName : '포장마차',
+			location_address: address,
 		});
 
 		resetAndClose();
