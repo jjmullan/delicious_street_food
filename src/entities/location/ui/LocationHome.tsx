@@ -1,4 +1,4 @@
-import { BookmarkIcon, ClockIcon, HatGlassesIcon, MapPinIcon, Share2Icon, StoreIcon } from 'lucide-react';
+import { BookmarkIcon, ClockIcon, HatGlassesIcon, MapPinIcon, StoreIcon } from 'lucide-react';
 import { Activity, useEffect, useMemo } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import { useParams } from 'react-router';
@@ -12,6 +12,7 @@ import useFetchReviewProductsByLocation from '@/features/review/fetch/hook/useFe
 import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchReviewsByLocation';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { getDateTimeKo } from '@/shared/lib/day';
+import ShareLocationButton from '@/shared/ui/button/ShareLocationButton';
 import Separator from '@/shared/ui/separator/Separator';
 import { Button } from '@/shared/ui/shadcn/button';
 
@@ -86,10 +87,7 @@ function LocationHome() {
 						<BookmarkIcon width={20} height={20} strokeWidth={1.5} />
 						<p className="text-sm">저장하기</p>
 					</Button>
-					<Button type="button" variant={'outline'} className="flex-1">
-						<Share2Icon width={20} height={20} strokeWidth={1.5} />
-						<p className="text-sm">공유하기</p>
-					</Button>
+					<ShareLocationButton />
 				</section>
 				<Separator />
 				{/* 메뉴 */}
