@@ -21,9 +21,9 @@ export function getNowDateTimeKo() {
 
 /**
  * 특정 시간을 Supabase 의 timestampz 타입에 맞게 치환해서 보여주는 함수
- * @param date
+ * @param date - ISO 8601 문자열 또는 Unix timestamp
  */
-export function getDateTimeKo(date: number) {
+export function getDateTimeKo(date: string | number) {
 	const now = new Date(date);
 	const dateTimeLocalValue = now.toLocaleString('ko-KR', {
 		dateStyle: 'full',
