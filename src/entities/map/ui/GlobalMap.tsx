@@ -17,7 +17,7 @@ import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
 import { getLocationAddress } from '@/features/location/fetch/utils/getLocationAddress';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
-import LoggedInUserOnlyAsideBar from '@/widgets/aside/LoggedInUserOnlyAsideBar';
+import MapAsideBar from '@/widgets/aside/MapAsideBar';
 
 function GlobalMap() {
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
@@ -140,7 +140,7 @@ function GlobalMap() {
 					<FallbackRequestAPI title="지도를 불러오는 중" bgColor="bg-[#fff]" />
 				</Activity>
 			</main>
-			<LoggedInUserOnlyAsideBar />
+			<MapAsideBar />
 		</div>
 	);
 }
