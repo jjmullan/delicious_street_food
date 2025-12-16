@@ -20,6 +20,7 @@ export type API_ReviewProduct = Pick<
 	ReviewProduct,
 	'review_id' | 'product_id' | 'is_recommend' | 'order_price' | 'order_quantity'
 >;
+export type API_Favorite = Pick<Favorite, 'location_id' | 'user_id'>;
 
 /**
  * useMutation 에서 사용하는 상황별 로직
