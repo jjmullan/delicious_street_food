@@ -1,4 +1,4 @@
-import { BookmarkIcon, ClockIcon, HatGlassesIcon, MapPinIcon, Share2Icon, StoreIcon, ThumbsUpIcon } from 'lucide-react';
+import { BookmarkIcon, ClockIcon, HatGlassesIcon, MapPinIcon, Share2Icon, StoreIcon } from 'lucide-react';
 import { Activity, useEffect, useMemo } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import { useParams } from 'react-router';
@@ -13,6 +13,7 @@ import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchRevi
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { getDateTimeKo } from '@/shared/lib/day';
 import Separator from '@/shared/ui/separator/Separator';
+import { Button } from '@/shared/ui/shadcn/button';
 
 function LocationHome() {
 	const param = useParams();
@@ -26,8 +27,8 @@ function LocationHome() {
 
 	// 위치 상세 데이터 추출
 	const location_name = fetchLocation?.location_name;
-	const recommend_count = fetchLocation?.total_recommend_count;
-	const bookmark_count = fetchLocation?.total_favorite_count;
+	// const recommend_count = fetchLocation?.total_recommend_count;
+	// const bookmark_count = fetchLocation?.total_favorite_count;
 	const user_id = fetchLocation?.user_id;
 
 	// 중복 제거된 unique product_id 추출 및 product_name_ko 오름차순 정렬
@@ -79,28 +80,16 @@ function LocationHome() {
 	return (
 		<Activity mode={isPending ? 'hidden' : 'visible'}>
 			<div className="pb-3">
-				<section className="flex pt-3 pb-1">
-					<div className="flex-1 flex flex-col items-center justify-center py-3 gap-y-1.5">
-						<p className="text-2xl">{recommend_count}</p>
-						<button type="button" className="flex justify-center items-center gap-x-1.5 px-2 py-1 rounded-md">
-							<ThumbsUpIcon width={16} height={16} strokeWidth={1.5} />
-							<p className="text-sm">추천</p>
-						</button>
-					</div>
-					<div className="flex-1 flex flex-col items-center justify-center py-3 gap-y-1.5">
-						<p className="text-2xl">{bookmark_count}</p>
-						<button type="button" className="flex justify-center items-center gap-x-1.5 px-2 py-1 rounded-md">
-							<BookmarkIcon width={16} height={16} strokeWidth={1.5} />
-							<p className="text-sm">저장</p>
-						</button>
-					</div>
-					<div className="flex-1 flex flex-col items-center justify-center py-3 gap-y-1.5">
-						<p className="text-2xl">{recommend_count}</p>
-						<button type="button" className="flex justify-center items-center gap-x-1.5 px-2 py-1 rounded-md">
-							<Share2Icon width={16} height={16} strokeWidth={1.5} />
-							<p className="text-sm">공유</p>
-						</button>
-					</div>
+				{/* 버튼 */}
+				<section className="flex gap-x-2 justify-center px-3 py-4">
+					<Button type="button" variant={'outline'} className="flex-1">
+						<BookmarkIcon width={20} height={20} strokeWidth={1.5} />
+						<p className="text-sm">저장하기</p>
+					</Button>
+					<Button type="button" variant={'outline'} className="flex-1">
+						<Share2Icon width={20} height={20} strokeWidth={1.5} />
+						<p className="text-sm">공유하기</p>
+					</Button>
 				</section>
 				<Separator />
 				{/* 메뉴 */}
