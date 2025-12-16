@@ -23,4 +23,8 @@ export const QUERY_KEYS = {
 		byId: (reviewId: string) => ['review', 'byId', reviewId],
 		byLocationId: (locationId: string) => ['review', 'byLocationId', locationId],
 	},
+	favorite: {
+		all: ['favorite'],
+		byLocationId: (locationId: string) => ['favorite', 'byLocationId', locationId],
+	},
 };
