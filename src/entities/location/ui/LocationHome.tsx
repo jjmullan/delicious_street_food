@@ -83,17 +83,13 @@ function LocationHome() {
 							<div className="flex items-center justify-center w-6">
 								<StoreIcon width={16} height={16} strokeWidth={1.8} />
 							</div>
-							{location_name === '포장마차' ? (
-								<p className="text-muted-foreground">매장 이름</p>
-							) : (
-								<p>{location_name}</p>
-							)}
+							{location_name ? <p>{location_name}</p> : <p className="text-muted-foreground">포장마차</p>}
 						</div>
 						<div className="flex items-center gap-x-2">
 							<div className="flex items-center justify-center w-6">
 								<ClockIcon width={16} height={16} strokeWidth={1.8} />
 							</div>
-							<p className="text-muted-foreground">운영 시간</p>
+							<p className="text-muted-foreground">운영시간</p>
 						</div>
 						<div className="flex items-center gap-x-2">
 							<div className="flex items-center justify-center w-6">
