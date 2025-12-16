@@ -28,8 +28,6 @@ function LocationHome() {
 
 	// 위치 상세 데이터 추출
 	const location_name = fetchLocation?.location_name;
-	// const recommend_count = fetchLocation?.total_recommend_count;
-	// const bookmark_count = fetchLocation?.total_favorite_count;
 	const user_id = fetchLocation?.user_id;
 
 	// 중복 제거된 unique product_id 추출 및 product_name_ko 오름차순 정렬

@@ -17,6 +17,8 @@ function LocationNavigation({ location_id }: { location_id: string }) {
 	);
 	const reviewCount = fetchReviews && fetchReviews.length > 99 ? '+99' : fetchReviews?.length;
 	const imageCount = fetchReviewImages && fetchReviewImages.length > 99 ? '+99' : fetchReviewImages?.length;
+
+	// Pending 통합 상태 관리
 	const isPending = isFetchReviewsPending || isFetchReviewImagesPending;
 
 	return (
