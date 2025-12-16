@@ -44,18 +44,18 @@ function GlobalMap() {
 	const createLocation = useLocationForCreate() ?? location;
 	const setCreateLocation = useSetCreateLocation();
 
-	// 5초 후 열린 모달 닫기
+	// 3초 후 열린 모달 닫기
 	const [clickedTime, setClickedTime] = useState<number>(0);
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			const currentTime = Date.now();
-			if (currentTime - clickedTime < 5000) return;
+			if (currentTime - clickedTime < 3000) return;
 
 			setIsCreateLocationUIOpen(false);
-		}, 5_000);
+		}, 3_000);
 
 		return () => clearTimeout(timer);
-	}, [isCreateLocationUIOpen, clickedTime]);
+	}, [clickedTime]);
 
 	// 모달 닫기
 	const handleCloseModal = () => {

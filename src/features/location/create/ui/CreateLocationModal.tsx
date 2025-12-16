@@ -2,7 +2,7 @@ import author from '@shared/assets/extra/author.svg';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { useCreateLocationModal } from '@/app/store/createLocationModalStore';
-import { useLocationForCreate } from '@/app/store/createLocationStore';
+import { useIsCreateMode, useLocationForCreate, useSetIsCreateMode } from '@/app/store/createLocationStore';
 import { useSession } from '@/app/store/sessionStore';
 import useCreateLocation from '@/features/location/create/hooks/useCreateLocation';
 import { getFullLocationAddress } from '@/features/location/fetch/utils/getLocationAddress';
@@ -29,6 +29,10 @@ function CreateLocationModal() {
 	const userId = session?.user.id;
 	const { data: user } = useFecthUserData(userId);
 	const nickname = user?.nickname;
+
+	// 생성 모드 전역 상태 관리
+	const isCreateMode = useIsCreateMode();
+	const setIsCreateMode = useSetIsCreateMode();
 
 	// 위치 생성 API 호출
 	const { mutate: createLocation, isPending: isCreateLocationPending } = useCreateLocation({
@@ -68,6 +72,7 @@ function CreateLocationModal() {
 			location_address: address,
 		});
 
+		setIsCreateMode(isCreateMode);
 		resetAndClose();
 	};
 
