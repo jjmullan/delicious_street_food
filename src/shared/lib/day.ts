@@ -24,7 +24,7 @@ export function getNowDateTimeKo() {
  * @param date - ISO 8601 문자열 또는 Unix timestamp
  * @returns 'yyyy/mm/dd hh:MM' 형식의 문자열 (예: '2024/01/15 15:30')
  */
-export function getDateTimeKo(date: string | number) {
+export function getDateTimeKo({ date, isTimeIncluding = true }: { date: string | number; isTimeIncluding?: boolean }) {
 	const now = new Date(date);
 	const year = now.getFullYear();
 	const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -32,7 +32,11 @@ export function getDateTimeKo(date: string | number) {
 	const hours = String(now.getHours()).padStart(2, '0');
 	const minutes = String(now.getMinutes()).padStart(2, '0');
 
-	return `${year}.${month}.${day} ${hours}:${minutes}`;
+	if (isTimeIncluding) {
+		return `${year}.${month}.${day} ${hours}:${minutes}`;
+	} else {
+		return `${year}.${month}.${day}`;
+	}
 }
 
 /**
