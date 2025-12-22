@@ -205,8 +205,8 @@ export type Database = {
 				Row: {
 					created_at: string;
 					is_recommend: boolean | null;
-					order_price: number;
-					order_quantity: number;
+					order_price: number | null;
+					order_quantity: number | null;
 					product_id: string;
 					review_id: string;
 					review_product_id: string;
@@ -215,8 +215,8 @@ export type Database = {
 				Insert: {
 					created_at?: string;
 					is_recommend?: boolean | null;
-					order_price: number;
-					order_quantity: number;
+					order_price?: number | null;
+					order_quantity?: number | null;
 					product_id: string;
 					review_id: string;
 					review_product_id?: string;
@@ -225,8 +225,8 @@ export type Database = {
 				Update: {
 					created_at?: string;
 					is_recommend?: boolean | null;
-					order_price?: number;
-					order_quantity?: number;
+					order_price?: number | null;
+					order_quantity?: number | null;
 					product_id?: string;
 					review_id?: string;
 					review_product_id?: string;
