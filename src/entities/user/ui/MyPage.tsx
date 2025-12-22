@@ -17,6 +17,7 @@ function MyPage() {
 
 	// 유저 정보 패칭
 	const { data: fetchUser, isPending: isFetchUserPending } = useFecthUserData(user_id);
+	const is_admin = fetchUser?.is_admin;
 	const origin_nickname = fetchUser?.nickname;
 	const origin_bio = fetchUser?.bio ?? `한 줄 소개를 입력해주세요`;
 	const origin_profile_image = fetchUser?.profile_image_url ?? defaultavatar;
@@ -46,12 +47,14 @@ function MyPage() {
 		const newNickname = e.target.value;
 		setNickname(newNickname);
 
-		// 닉네임 유효성 검증
-		const validation = validateNickname(newNickname);
-		if (!validation.isValid) {
-			setNicknameError(validation.errorMessage || '');
-		} else {
-			setNicknameError('');
+		// 관리자를 제외한 닉네임 유효성 검증
+		if (!is_admin) {
+			const validation = validateNickname(newNickname);
+			if (!validation.isValid) {
+				setNicknameError(validation.errorMessage || '');
+			} else {
+				setNicknameError('');
+			}
 		}
 	};
 
@@ -70,10 +73,12 @@ function MyPage() {
 	const handleClickEditProfile = async () => {
 		try {
 			// 닉네임 유효성 검증
-			const validation = validateNickname(nickname);
-			if (!validation.isValid) {
-				setNicknameError(validation.errorMessage || '');
-				return;
+			if (!is_admin) {
+				const validation = validateNickname(nickname);
+				if (!validation.isValid) {
+					setNicknameError(validation.errorMessage || '');
+					return;
+				}
 			}
 
 			// 변경 사항 체크
@@ -108,7 +113,7 @@ function MyPage() {
 	const isPending = isFetchUserPending || isUpdateProfileImagePending || isUpdateProfilePending;
 
 	// disabled 상태 통합 관리
-	const disabled = nickname === '' || nicknameError !== '' || nickname === origin_nickname || bio === origin_bio;
+	const disabled = nickname === '' || nicknameError !== '' || (nickname === origin_nickname && bio === origin_bio);
 
 	return (
 		<div className="flex flex-col justify-center items-center min-h-[calc(100svh-48px)] relative">
