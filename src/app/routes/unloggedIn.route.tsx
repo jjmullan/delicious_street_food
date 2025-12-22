@@ -1,7 +1,8 @@
+import SignInPage from '@pages/login/common/SignInCommonPage';
+import SignInWithPasswordPage from '@pages/login/email/SignInWithPasswordPage';
+import SignUpConfirmPage from '@pages/signUp/SignUpConfirmPage';
+import SignUpPage from '@pages/signUp/SignUpPage';
 import type { RouteObject } from 'react-router';
-import SignInPage from '@/pages/login/common/SignInCommonPage';
-import SignInWithPasswordPage from '@/pages/login/email/SignInWithPasswordPage';
-import SignUpPage from '@/pages/signUp/SignUpPage';
 
 export const unloggedInRoute: RouteObject[] = [
 	{
@@ -15,5 +16,9 @@ export const unloggedInRoute: RouteObject[] = [
 	{
 		path: 'signup',
 		Component: SignUpPage,
+	},
+	{
+		path: 'signup/confirm',
+		Component: SignUpConfirmPage,
 	},
 ];

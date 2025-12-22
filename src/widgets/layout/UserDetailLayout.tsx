@@ -14,7 +14,7 @@ function UserDetailLayout() {
 		<div className="min-h-svh full-width">
 			<DetailHeader title={'마이페이지'} />
 			<main className="mt-12">
-				<Outlet />
+				<Outlet context={{ session }} />
 			</main>
 		</div>
 	);

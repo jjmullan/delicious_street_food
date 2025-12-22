@@ -52,7 +52,7 @@ function UserProfileModal() {
 			</PopoverTrigger>
 			<PopoverContent className="flex w-fit flex-col justify-center items-center p-0 text-sm">
 				<PopoverClose asChild>
-					<Link to={`/mypage`}>
+					<Link to={`/mypage/home`}>
 						<div className="flex flex-col justify-center gap-y-1 rounded-md shadow-md p-3 pt-4">
 							<div className="flex flex-col justify-center gap-y-2 items-center">
 								<div className="relative h-16 w-16">
@@ -70,13 +70,13 @@ function UserProfileModal() {
 							<div className="px-4 flex gap-x-3 justify-center">
 								{/* 후기 */}
 								<div className="flex gap-x-1 items-center">
-									<MessageCircleMoreIcon width={12} className="" />
-									<p className="text-xs">{totalReviewCount}</p>
+									<MessageCircleMoreIcon width={16} height={16} className="" />
+									<p className="text-sm">{totalReviewCount}</p>
 								</div>
 								{/* 즐겨찾기 */}
 								<div className="flex gap-x-1 items-center">
-									<BookmarkIcon width={14} className="" />
-									<p className="text-xs">{totalFavoriteCount}</p>
+									<BookmarkIcon width={16} height={16} className="" />
+									<p className="text-sm">{totalFavoriteCount}</p>
 								</div>
 							</div>
 						</div>
