@@ -78,7 +78,7 @@ function LocationHome() {
 	// 날짜 데이터 추출
 	const created_at = fetchLocation?.created_at ?? Date.now();
 	const updated_at = fetchLocation?.updated_at ?? Date.now();
-	const lastProductUpdated = fetchReviews?.pop()?.created_at ?? created_at;
+	const lastProductUpdated = fetchReviews?.at(-1)?.created_at ?? created_at;
 	const created_at_ko = getDateTimeKo({ date: created_at, isTimeIncluding: false });
 	const updated_at_ko = getDateTimeKo({ date: updated_at, isTimeIncluding: false });
 	const lastProductUpdated_ko = getDateTimeKo({ date: lastProductUpdated, isTimeIncluding: false });
