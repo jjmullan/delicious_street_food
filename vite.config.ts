@@ -24,6 +24,8 @@ export default defineConfig({
 						'./src/shared/assets/character/roastedchestnuts.svg',
 						'./src/shared/assets/character/roastedsweetpotato.svg',
 						'./src/shared/assets/character/walnutcake.svg',
+						'./src/shared/assets/character/tteokbokki.svg',
+						'./src/shared/assets/character/peanutbread.svg',
 						'./src/shared/assets/logo-email.svg',
 						'./src/shared/assets/logo-google.svg',
 						'./src/shared/assets/logo-kakao.svg',
