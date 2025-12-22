@@ -32,8 +32,8 @@ function LocationFinder({
 					<div className="absolute inset-0 rounded-full animate-pulse-ring bg-gradient-marker-me p-1" />
 
 					{/* 중앙 (가장 앞) */}
-					<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center`}>
-						<img src={userImage} alt="포장마차" className="w-8 h-8 object-contain" />
+					<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center w-6 h-6`}>
+						<img src={userImage} alt="현재 내 위치" className="w-full h-full rounded-full object-cover" />
 					</div>
 				</div>
 			) : is_create_location ? (

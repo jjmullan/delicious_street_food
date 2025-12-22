@@ -7,7 +7,7 @@ function CreateReviewHeader() {
 	const openConfirmModal = useOpenConfirmModal();
 	const handleClickCancelButton = () => {
 		openConfirmModal({
-			title: '리뷰 작성을 취소하시겠습니까?',
+			title: '후기 작성을 취소하시겠습니까?',
 			description: '작성된 모든 정보가 삭제됩니다.',
 			onPositive: () => {
 				navigate(-1);

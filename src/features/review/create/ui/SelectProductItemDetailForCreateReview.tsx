@@ -21,25 +21,25 @@ function SelectProductItemDetailForCreateReview({
 				isNecessary={true}
 			/>
 			<div className="flex gap-x-8">
-				<div className="flex justify-between items-center gap-x-2">
+				<div className="flex-1 flex justify-between items-center gap-x-2">
 					<label htmlFor={`${selectProduct.product_name_ko}_order_quantity`} className="sr-only">
 						구매 수량
 					</label>
 					<Input
-						type="number"
+						type="text"
 						id={`${selectProduct.product_name_ko}_order_quantity`}
-						min="1"
 						max="100"
 						inputMode="numeric"
 						value={
-							selectedProductsDetail.find((item) => item.product_id === selectProduct.product_id)?.order_quantity ?? 1
+							selectedProductsDetail.find((item) => item.product_id === selectProduct.product_id)?.order_quantity ?? ''
 						}
-						onBlur={(e) => {
-							if (Number(e.target.value) === 0) {
-								onChangeQuantity(selectProduct.product_id, 1);
+						/* onBlur={(e) => { if (Number(e.target.value) === 0) { onChangeQuantity(selectProduct.product_id, 1); } }} */
+						onChange={(e) => {
+							const value = e.target.value;
+							if (value === '' || /^\d+$/.test(value)) {
+								onChangeQuantity(selectProduct.product_id, value === '' ? 0 : Number(value));
 							}
 						}}
-						onChange={(e) => onChangeQuantity(selectProduct.product_id, Number(e.target.value))}
 					/>
 					<p>개</p>
 				</div>
@@ -48,21 +48,21 @@ function SelectProductItemDetailForCreateReview({
 						총 금액
 					</label>
 					<Input
-						type="number"
+						type="text"
 						id={`${selectProduct.product_name_ko}_order_price`}
-						min="1000"
 						max="100000"
 						step="100"
 						inputMode="numeric"
-						onBlur={(e) => {
-							if (Number(e.target.value) === 0) {
-								onChangePrice(selectProduct.product_id, 1000);
+						/* onBlur={(e) => { if (Number(e.target.value) === 0) { onChangePrice(selectProduct.product_id, 1000); }}} */
+						value={
+							selectedProductsDetail.find((item) => item.product_id === selectProduct.product_id)?.order_price ?? ''
+						}
+						onChange={(e) => {
+							const value = e.target.value;
+							if (value === '' || /^\d+$/.test(value)) {
+								onChangePrice(selectProduct.product_id, value === '' ? 0 : Number(value));
 							}
 						}}
-						value={
-							selectedProductsDetail.find((item) => item.product_id === selectProduct.product_id)?.order_price ?? 1000
-						}
-						onChange={(e) => onChangePrice(selectProduct.product_id, Number(e.target.value))}
 					/>
 					<p>원</p>
 				</div>

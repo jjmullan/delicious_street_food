@@ -6,6 +6,8 @@ import { Link } from 'react-router';
 import { useIsCreateMode } from '@/app/store/createLocationStore';
 import { useSession } from '@/app/store/sessionStore';
 import { signOut } from '@/features/auth/signOut/api/auth';
+import useFetchFavoriteByUser from '@/features/favorite/fetch/hooks/useFetchFavoriteByUser';
+import useFetchReviewsByUser from '@/features/review/fetch/hook/useFetchReviewsByUser';
 import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
 
@@ -15,13 +17,25 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popo
 function UserProfileModal() {
 	const session = useSession();
 
-	const { data } = useFecthUserData(session?.user.id);
-	const userNickname = data?.nickname;
-	const totalReviewCount = data?.total_review_count;
-	const totalFavoriteCount = data?.total_favorite_count;
-	const userImage = data?.profile_image_url || defaultavatar;
+	const { data: fetchUser } = useFecthUserData(session?.user.id);
+	const user_id = fetchUser?.user_id;
+	const userNickname = fetchUser?.nickname;
+	const userImage = fetchUser?.profile_image_url || defaultavatar;
 
+	// 전체 Review 데이터에서 해당 유저의 데이터를 가져오기
+	const { data: fetchReviewsByUser, isPending: isFetchReivewsByUserPending } = useFetchReviewsByUser(user_id!);
+	const totalReviewCount = fetchReviewsByUser?.length;
+
+	// 전체 Favorite 데이터에서 해당 유저의 데이터를 가져오기
+	const { data: fetchFavoriteByUser, isPending: isFetchFavoriteByUserPending } = useFetchFavoriteByUser(user_id!);
+	const totalFavoriteCount = fetchFavoriteByUser?.length;
+	console.log(totalFavoriteCount);
+
+	// 생성모드 유무
 	const isCreateMode = useIsCreateMode();
+
+	// Pending 통합 상태 관리
+	const isPending = isFetchReivewsByUserPending || isFetchFavoriteByUserPending;
 
 	return (
 		<Popover>
@@ -54,7 +68,7 @@ function UserProfileModal() {
 								</div>
 							</div>
 							<div className="px-4 flex gap-x-3 justify-center">
-								{/* 리뷰 */}
+								{/* 후기 */}
 								<div className="flex gap-x-1 items-center">
 									<MessageCircleMoreIcon width={12} className="" />
 									<p className="text-xs">{totalReviewCount}</p>

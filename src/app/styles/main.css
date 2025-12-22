@@ -198,27 +198,18 @@
 	}
 
 	.bg-gradient-me {
-		background: radial-gradient(
-			circle,
-			var(--color-pantone-2026-cloud-dancer) 0%,
-			transparent 40%,
-			rgba(240, 239, 235, 0.6) 80%
-		);
-	}
-
-	.bg-gradient-location {
-		background: radial-gradient(circle, var(--color-brown-main) 0%, transparent 20%, rgba(212, 148, 74, 0.3) 80%);
+		background: radial-gradient(circle, var(--color-brown-main) 0%, transparent 40%, rgba(212, 148, 74, 0.4) 80%);
 	}
 
 	.bg-gradient-marker-me {
-		background: radial-gradient(
-			circle,
-			var(--color-pantone-2026-cloud-dancer) 0%,
-			#ffffff 50%,
-			var(--color-pantone-2026-cloud-dancer) 100%
-		);
+		background: radial-gradient(circle, var(--color-brown-main) 0%, transparent 40%, var(--color-brown-main) 100%);
 	}
-	.bg-gradient-marker-location {
-		background: radial-gradient(circle, var(--color-brown-main) 0%, #ffffff 50%, var(--color-brown-main) 100%);
+
+	.bg-gradient-location {
+		background: radial-gradient(circle, var(--color-brown-sub) 0%, transparent 40%, rgba(232, 181, 119, 0.3) 80%);
 	}
+
+	/* .bg-gradient-marker-location {
+		background: radial-gradient(circle, var(--color-brown-sub) 0%, #ffffff 50%, var(--color-brown-sub) 100%);
+	} */
 }

@@ -3,7 +3,7 @@ import supabase from '@/shared/api/supabase/supabase';
 import type { API_Review, API_ReviewImage, API_ReviewProduct } from '@/shared/types/types';
 
 /**
- * 특정 위치에 대해 작성한 상세 리뷰 내용을 생성하는 API
+ * 특정 위치에 대해 작성한 상세 후기 내용을 생성하는 API
  */
 export async function createReview({
 	user_id,
@@ -31,7 +31,7 @@ export async function createReview({
 }
 
 /**
- * 상세 리뷰 내용 중 구매한 상품에 대한 개별 목록을 생성하는 API
+ * 상세 후기 내용 중 구매한 상품에 대한 개별 목록을 생성하는 API
  */
 export async function createReviewProduct({
 	review_id,

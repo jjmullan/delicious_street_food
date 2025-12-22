@@ -1,4 +1,4 @@
-import { ClockIcon, HatGlassesIcon, MapPinIcon, StoreIcon } from 'lucide-react';
+import { ClockIcon, FrownIcon, HatGlassesIcon, MapPinIcon, StoreIcon } from 'lucide-react';
 import { Activity, useEffect, useMemo } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import { useParams } from 'react-router';
@@ -21,7 +21,7 @@ function LocationHome() {
 	const param = useParams();
 	const location_id = param.locationId;
 
-	// location_id 로 위치 전체 데이터, 위치별 리뷰 데이터, 위치별 리뷰 상품 목록 데이터 추출
+	// location_id 로 위치 전체 데이터, 위치별 후기 데이터, 위치별 후기 상품 목록 데이터 추출
 	const { data: fetchLocation, isPending: isFetchLocationPending } = useFetchLocation(location_id!);
 	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id!);
 	const { data: fetchReviewProducts, isPending: isFetchReviewProductsPending } = useFetchReviewProductsByLocation(
@@ -78,7 +78,7 @@ function LocationHome() {
 	// 날짜 데이터 추출
 	const created_at = fetchLocation?.created_at ?? Date.now();
 	const updated_at = fetchLocation?.updated_at ?? Date.now();
-	const lastProductUpdated = fetchReviews?.pop()?.created_at ?? created_at;
+	const lastProductUpdated = fetchReviews?.at(-1)?.created_at ?? created_at;
 	const created_at_ko = getDateTimeKo({ date: created_at, isTimeIncluding: false });
 	const updated_at_ko = getDateTimeKo({ date: updated_at, isTimeIncluding: false });
 	const lastProductUpdated_ko = getDateTimeKo({ date: lastProductUpdated, isTimeIncluding: false });
@@ -128,6 +128,14 @@ function LocationHome() {
 									isPopular={productId === mostPopularProductId}
 								/>
 							))}
+							<Activity mode={uniqueProductIds.length === 0 ? 'visible' : 'hidden'}>
+								<div className="flex items-center gap-x-2">
+									<div className="flex items-center justify-center w-8">
+										<FrownIcon width={16} height={16} strokeWidth={1.8} />
+									</div>
+									<p className="text-muted-foreground">작성된 후기가 없습니다</p>
+								</div>
+							</Activity>
 						</div>
 					</div>
 				</section>
