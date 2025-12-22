@@ -27,7 +27,7 @@ function SignUp() {
 	// 회원가입 API 전송
 	const { mutate: signUp, isPending } = useSignUpWithEmail({
 		onSuccess: () => {
-			navigate('/login/email', { replace: true });
+			navigate(`/signup/confirm?email=${email}`, { replace: true });
 			toast.success('회원가입이 완료되었습니다🎉', {
 				position: 'top-center',
 			});
