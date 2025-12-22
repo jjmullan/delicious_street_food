@@ -313,9 +313,6 @@ export type Database = {
 					is_admin: boolean;
 					nickname: string;
 					profile_image_url: string | null;
-					total_favorite_count: number;
-					total_review_count: number;
-					total_reward_count: number;
 					updated_at: string;
 					user_id: string;
 				};
@@ -325,9 +322,6 @@ export type Database = {
 					is_admin?: boolean;
 					nickname: string;
 					profile_image_url?: string | null;
-					total_favorite_count?: number;
-					total_review_count?: number;
-					total_reward_count?: number;
 					updated_at?: string;
 					user_id?: string;
 				};
@@ -337,9 +331,6 @@ export type Database = {
 					is_admin?: boolean;
 					nickname?: string;
 					profile_image_url?: string | null;
-					total_favorite_count?: number;
-					total_review_count?: number;
-					total_reward_count?: number;
 					updated_at?: string;
 					user_id?: string;
 				};
