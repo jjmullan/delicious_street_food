@@ -1,4 +1,4 @@
-import { ClockIcon, HatGlassesIcon, MapPinIcon, StoreIcon } from 'lucide-react';
+import { ClockIcon, FrownIcon, HatGlassesIcon, MapPinIcon, StoreIcon } from 'lucide-react';
 import { Activity, useEffect, useMemo } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
 import { useParams } from 'react-router';
@@ -128,6 +128,14 @@ function LocationHome() {
 									isPopular={productId === mostPopularProductId}
 								/>
 							))}
+							<Activity mode={uniqueProductIds.length === 0 ? 'visible' : 'hidden'}>
+								<div className="flex items-center gap-x-2">
+									<div className="flex items-center justify-center w-8">
+										<FrownIcon width={16} height={16} strokeWidth={1.8} />
+									</div>
+									<p className="text-muted-foreground">작성된 후기가 없습니다</p>
+								</div>
+							</Activity>
 						</div>
 					</div>
 				</section>
