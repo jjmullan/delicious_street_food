@@ -70,13 +70,13 @@ function UserProfileModal() {
 							<div className="px-4 flex gap-x-3 justify-center">
 								{/* 후기 */}
 								<div className="flex gap-x-1 items-center">
-									<MessageCircleMoreIcon width={12} className="" />
-									<p className="text-xs">{totalReviewCount}</p>
+									<MessageCircleMoreIcon width={16} height={16} className="" />
+									<p className="text-sm">{totalReviewCount}</p>
 								</div>
 								{/* 즐겨찾기 */}
 								<div className="flex gap-x-1 items-center">
-									<BookmarkIcon width={14} className="" />
-									<p className="text-xs">{totalFavoriteCount}</p>
+									<BookmarkIcon width={16} height={16} className="" />
+									<p className="text-sm">{totalFavoriteCount}</p>
 								</div>
 							</div>
 						</div>
