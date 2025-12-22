@@ -99,7 +99,7 @@ function ReviewCreatePage() {
 			e.target.checked
 				? [
 						...prev,
-						{ product_id: selectedProduct.product_id, order_quantity: 1, order_price: 1000, is_recommend: false },
+						{ product_id: selectedProduct.product_id, order_quantity: null, order_price: null, is_recommend: false },
 					]
 				: prev.filter((item) => item.product_id !== selectedProduct.product_id)
 		);
@@ -235,7 +235,10 @@ function ReviewCreatePage() {
 
 	// 버튼 disabled 상태 조건 통합 관리
 	const pageOneDisabled = reviewText === '' || visitDateTime === '';
-	const pageTwoDisabled = selectProducts.length === 0;
+	const pageTwoDisabled =
+		selectProducts.length === 0 ||
+		selectedProductsDetail.some((pd) => !pd.order_price || pd.order_price === 0) ||
+		selectedProductsDetail.some((pd) => !pd.order_quantity || pd.order_quantity === 0);
 	const pageThreeDisabled = images.length === 0;
 
 	// 에러 통합 관리
