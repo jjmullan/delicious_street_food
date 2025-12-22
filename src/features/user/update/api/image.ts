@@ -38,16 +38,16 @@ export async function uploadProfileImage({ user_id, image }: { user_id: string; 
  * 모든 이미지 경로의 파일을 삭제하는 함수
  * @param path 아이디/이미지
  */
-export async function deleteProfileImage({ user_id, path }: { user_id: string; path: string }) {
-	const { data: files, error: fetchFilesError } = await supabase.storage.from('profile_images').list(path);
+// export async function deleteProfileImage({ user_id, path }: { user_id: string; path: string }) {
+// 	const { data: files, error: fetchFilesError } = await supabase.storage.from('profile_images').list(path);
 
-	// 불필요한 삭제 요청 예외처리
-	if (!files || files.length === 0) return;
-	if (fetchFilesError) throw fetchFilesError;
+// 	// 불필요한 삭제 요청 예외처리
+// 	if (!files || files.length === 0) return;
+// 	if (fetchFilesError) throw fetchFilesError;
 
-	// API 요청
-	const { error: removeError } = await supabase.storage
-		.from('profile_images')
-		.remove(files.map((file) => `/user/${path}/${file.name}`));
-	if (removeError) throw removeError;
-}
+// 	// API 요청
+// 	const { error: removeError } = await supabase.storage
+// 		.from('profile_images')
+// 		.remove(files.map((file) => `/user/${path}/${file.name}`));
+// 	if (removeError) throw removeError;
+// }
