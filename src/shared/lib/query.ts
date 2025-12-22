@@ -20,6 +20,7 @@ export const QUERY_KEYS = {
 		list: ['review', 'list'],
 		byId: (reviewId: string) => ['review', 'byId', reviewId],
 		byLocationId: (locationId: string) => ['review', 'byLocationId', locationId],
+		byUserId: (userId: string) => ['review', 'byUserId', userId],
 		images: {
 			byReviewId: (reviewId: string) => ['review', 'images', 'byReviewId', reviewId],
 			byLocationId: (locationId: string) => ['review', 'images', 'byLocationId', locationId],
@@ -32,5 +33,6 @@ export const QUERY_KEYS = {
 	favorite: {
 		all: ['favorite'],
 		byLocationId: (locationId: string) => ['favorite', 'byLocationId', locationId],
+		byUserId: (userId: string) => ['favorite', 'byUserId', userId],
 	},
 };
