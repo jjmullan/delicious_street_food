@@ -10,7 +10,7 @@ function LocationNavigation({ location_id }: { location_id: string }) {
 	const isReviewAll = href.includes('review') && href.includes('all');
 	const isReviewPhoto = href.includes('review') && href.includes('photo');
 
-	// 전체 리뷰 수 UI 제공
+	// 전체 후기 수 UI 제공
 	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id);
 	const { data: fetchReviewImages, isPending: isFetchReviewImagesPending } =
 		useFetchReviewImagesByLocation(location_id);

@@ -26,7 +26,7 @@ import { Textarea } from '@/shared/ui/shadcn/textarea';
 function ReviewCreatePage() {
 	const navigate = useNavigate();
 
-	// 리뷰 페이지 상태 관리
+	// 후기 페이지 상태 관리
 	const [page, setPage] = useState(1);
 	const handleClickNextPage = () => {
 		setPage((state) => state + 1);
@@ -172,16 +172,16 @@ function ReviewCreatePage() {
 		isPending: isCreateReviewImagesPending,
 	} = useCreateReviewImages({});
 
-	// 리뷰 생성 로직
+	// 후기 생성 로직
 	const openConfirmModal = useOpenConfirmModal();
 	const handleRequestCreateReview = () => {
 		openConfirmModal({
-			title: '리뷰 작성을 완료하시겠습니까?',
+			title: '후기 작성을 완료하시겠습니까?',
 			description:
 				'타인에게 불편함을 줄 수 있는 표현, 광고를 목적으로 작성되는 댓글은 사전 고지없이 삭제될 수 있습니다.',
 			onPositive: async () => {
 				try {
-					// 1. 리뷰 생성
+					// 1. 후기 생성
 					const review: Review = await createReview({
 						user_id: user_id!,
 						location_id: location_id!,
@@ -193,7 +193,7 @@ function ReviewCreatePage() {
 
 					const review_id = review.review_id;
 
-					// 2. 리뷰 상품 생성
+					// 2. 후기 상품 생성
 					await Promise.all(
 						selectedProductsDetail.map((product) =>
 							createReviewProduct({
@@ -216,8 +216,8 @@ function ReviewCreatePage() {
 					}
 
 					await openConfirmModal({
-						title: '리뷰 생성이 완료되었습니다!',
-						description: '리뷰 목록 페이지로 이동하시겠습니까?',
+						title: '후기 생성이 완료되었습니다!',
+						description: '후기 목록 페이지로 이동하시겠습니까?',
 						onPositive: () => {
 							navigate(`/location/${location_id}/review/all`);
 						},
@@ -226,8 +226,8 @@ function ReviewCreatePage() {
 						},
 					});
 				} catch (error) {
-					console.error('리뷰 생성에 실패했습니다.', error);
-					toast.error('리뷰 생성에 실패했습니다.', { position: 'top-center' });
+					console.error('후기 생성에 실패했습니다.', error);
+					toast.error('후기 생성에 실패했습니다.', { position: 'top-center' });
 				}
 			},
 		});

@@ -30,7 +30,7 @@ jobs:
           prompt: "/check-fsd"
           claude_args: "--max-turns 3"
 
-  # 코드 품질 리뷰
+  # 코드 품질 후기
   code-review:
     name: Code Quality Review
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           prompt: |
-            이 PR의 변경사항을 검토하고 다음 체크리스트를 기반으로 리뷰해주세요:
+            이 PR의 변경사항을 검토하고 다음 체크리스트를 기반으로 후기해주세요:
 
             1. 코드 품질 (DRY 원칙, 단일 책임 원칙, 명확한 네이밍)
             2. TypeScript 타입 안전성 (any 사용 최소화, 타입 명시)
@@ -60,7 +60,7 @@ jobs:
             각 항목별로 문제점과 개선사항을 구체적으로 제시해주세요.
           claude_args: "--max-turns 5"
 
-  # 온디맨드 리뷰 (PR 댓글에서 @claude 멘션 시)
+  # 온디맨드 후기 (PR 댓글에서 @claude 멘션 시)
   on-demand-review:
     name: On-Demand Review
     runs-on: ubuntu-latest

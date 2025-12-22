@@ -54,7 +54,7 @@ function UserProfileModal() {
 								</div>
 							</div>
 							<div className="px-4 flex gap-x-3 justify-center">
-								{/* 리뷰 */}
+								{/* 후기 */}
 								<div className="flex gap-x-1 items-center">
 									<MessageCircleMoreIcon width={12} className="" />
 									<p className="text-xs">{totalReviewCount}</p>

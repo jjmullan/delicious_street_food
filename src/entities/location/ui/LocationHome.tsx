@@ -21,7 +21,7 @@ function LocationHome() {
 	const param = useParams();
 	const location_id = param.locationId;
 
-	// location_id 로 위치 전체 데이터, 위치별 리뷰 데이터, 위치별 리뷰 상품 목록 데이터 추출
+	// location_id 로 위치 전체 데이터, 위치별 후기 데이터, 위치별 후기 상품 목록 데이터 추출
 	const { data: fetchLocation, isPending: isFetchLocationPending } = useFetchLocation(location_id!);
 	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id!);
 	const { data: fetchReviewProducts, isPending: isFetchReviewProductsPending } = useFetchReviewProductsByLocation(

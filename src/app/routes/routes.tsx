@@ -42,7 +42,7 @@ export const router = createBrowserRouter([
 				children: userDetailRoutes,
 			},
 			{
-				// 로그인 된 유저는 리뷰 생성 페이지 접근 가능
+				// 로그인 된 유저는 후기 생성 페이지 접근 가능
 				Component: CreateReviewLayout,
 				children: createReviewRoutes,
 			},

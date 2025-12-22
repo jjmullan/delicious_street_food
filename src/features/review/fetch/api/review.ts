@@ -2,7 +2,7 @@ import supabase from '@/shared/api/supabase/supabase';
 import type { Review, ReviewImage, ReviewProduct } from '@/shared/types/types';
 
 /**
- * 특정 위치에 작성된 모든 리뷰 정보를 패칭하는 API
+ * 특정 위치에 작성된 모든 후기 정보를 패칭하는 API
  */
 export async function fetchReviewsByLocation(location_id: string): Promise<Review[]> {
 	const { data, error } = await supabase
@@ -16,7 +16,7 @@ export async function fetchReviewsByLocation(location_id: string): Promise<Revie
 }
 
 /**
- * 특정 유저가 작성한 모든 리뷰 정보를 패칭하는 API
+ * 특정 유저가 작성한 모든 후기 정보를 패칭하는 API
  */
 export async function fetchReviewsByUser(user_id: string) {
 	const { data, error } = await supabase
@@ -30,7 +30,7 @@ export async function fetchReviewsByUser(user_id: string) {
 }
 
 /**
- * 특정 리뷰에 해당하는 모든 상품 목록을 패칭하는 API
+ * 특정 후기에 해당하는 모든 상품 목록을 패칭하는 API
  * @param review_id
  */
 export async function fetchReviewProducts(review_id: string): Promise<ReviewProduct[]> {
@@ -45,7 +45,7 @@ export async function fetchReviewProducts(review_id: string): Promise<ReviewProd
 }
 
 /**
- * 특정 리뷰에 해당하는 모든 이미지 목록을 패칭하는 API
+ * 특정 후기에 해당하는 모든 이미지 목록을 패칭하는 API
  * @param review_id
  */
 export async function fetchReviewImages(review_id: string): Promise<ReviewImage[]> {
@@ -60,9 +60,9 @@ export async function fetchReviewImages(review_id: string): Promise<ReviewImage[
 }
 
 /**
- * 특정 위치의 모든 리뷰 이미지를 패칭하는 API
- * 1. review 테이블에서 location_id로 리뷰 조회
- * 2. 해당 리뷰들의 review_id로 review_image 테이블에서 이미지 조회
+ * 특정 위치의 모든 후기 이미지를 패칭하는 API
+ * 1. review 테이블에서 location_id로 후기 조회
+ * 2. 해당 후기들의 review_id로 review_image 테이블에서 이미지 조회
  * @param location_id
  */
 export async function fetchReviewImagesByLocation(location_id: string): Promise<ReviewImage[]> {
@@ -87,9 +87,9 @@ export async function fetchReviewImagesByLocation(location_id: string): Promise<
 }
 
 /**
- * 특정 위치의 모든 리뷰 상품을 패칭하는 API
- * 1. review 테이블에서 location_id로 리뷰 조회
- * 2. 해당 리뷰들의 review_id로 review_product 테이블에서 상품 조회
+ * 특정 위치의 모든 후기 상품을 패칭하는 API
+ * 1. review 테이블에서 location_id로 후기 조회
+ * 2. 해당 후기들의 review_id로 review_product 테이블에서 상품 조회
  * @param location_id
  */
 export async function fetchReviewProductsByLocation(location_id: string): Promise<ReviewProduct[]> {

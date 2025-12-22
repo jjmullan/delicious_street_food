@@ -17,7 +17,7 @@ function LocationInfoModal({ location_id }: Partial<Location> & { userData: Part
 	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id!);
 	const { data: fetchFavorites, isPending: isFetchFavoritesPending } = useFetchFavorite(location_id!);
 
-	// 임의의 리뷰 이미지 선택
+	// 임의의 후기 이미지 선택
 	const randomReviewImage = useMemo(() => {
 		return getRandomArrayItem(fetchReviewImages || []);
 	}, [fetchReviewImages]);
@@ -50,7 +50,7 @@ function LocationInfoModal({ location_id }: Partial<Location> & { userData: Part
 								<Activity mode={randomReviewImage ? 'visible' : 'hidden'}>
 									<img
 										src={randomReviewImage?.review_image_url}
-										alt="리뷰 이미지"
+										alt="후기 이미지"
 										className="absolute inset-0 w-full h-full object-cover rounded-md border-2 border-brown-main"
 									/>
 								</Activity>
@@ -77,7 +77,7 @@ function LocationInfoModal({ location_id }: Partial<Location> & { userData: Part
 							className="flex gap-x-1.5 justify-center items-center text-sm p-3 border-t"
 						>
 							<PenBoxIcon width={12} height={12} />
-							<p>리뷰 작성하기</p>
+							<p>후기 작성하기</p>
 						</Link>
 					</div>
 				</PopoverClose>
