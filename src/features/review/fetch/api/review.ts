@@ -20,7 +20,7 @@ export async function fetchReviewsByLocation(location_id: string): Promise<Revie
  */
 export async function fetchReviewsByUser(user_id: string) {
 	const { data, error } = await supabase
-		.from('location')
+		.from('review')
 		.select('*')
 		.eq('user_id', user_id)
 		.order('created_at', { ascending: false });
