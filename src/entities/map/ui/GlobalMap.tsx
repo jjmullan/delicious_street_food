@@ -136,9 +136,6 @@ function GlobalMap() {
 						</MarkerClusterer>
 					</Map>
 				</Activity>
-				<Activity mode={isPending ? 'visible' : 'hidden'}>
-					<FallbackRequestAPI title="지도를 불러오는 중" bgColor="bg-[#fff]" />
-				</Activity>
 			</main>
 			<MapAsideBar />
 		</div>
