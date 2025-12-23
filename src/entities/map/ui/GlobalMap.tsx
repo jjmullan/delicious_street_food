@@ -36,9 +36,7 @@ function GlobalMap() {
 
 	// 상품 필터링 데이터 패칭 API 호출
 	const productFilter = useProductFilter();
-	const { data: fetchFilteredLocations, isPending: isFetchFilteredLocationPending } = useFetchLocationsByProducts(
-		productFilter?.product_id
-	);
+	const { data: fetchFilteredLocations } = useFetchLocationsByProducts(productFilter?.product_id);
 
 	// product_id가 있으면 필터링된 location, 없으면 전체 location 사용
 	const displayLocations = productFilter?.product_id ? fetchFilteredLocations : fetchLocation;
@@ -68,7 +66,7 @@ function GlobalMap() {
 	};
 
 	// isPending 상태 통합 관리
-	const isPending = isFetchLocationPending || isFetchFilteredLocationPending;
+	const isPending = isFetchLocationPending;
 
 	return (
 		<div className="relative">
