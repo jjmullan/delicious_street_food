@@ -20,13 +20,15 @@ function HomeButton() {
 			if (error instanceof GeolocationPositionError) {
 				switch (error.code) {
 					case error.PERMISSION_DENIED:
-						toast.error('위치 정보 제공이 거부되었습니다.');
+						toast.error('위치 정보 제공이 거부되어 있습니다.', {
+							position: 'top-center',
+						});
 						break;
 					case error.POSITION_UNAVAILABLE:
-						toast.error('위치 정보를 사용할 수 없습니다.');
+						toast.error('위치 정보를 사용할 수 없습니다.', { position: 'top-center' });
 						break;
 					case error.TIMEOUT:
-						toast.error('요청 시간이 초과되었습니다.');
+						toast.error('요청 시간이 초과되었습니다.', { position: 'top-center' });
 						break;
 				}
 			} else {
