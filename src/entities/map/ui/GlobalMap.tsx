@@ -8,10 +8,8 @@ import {
 } from '@features/location/create/utils/validateLocationDistance';
 import useFetchLocations from '@features/location/fetch/hooks/useFetchLocations';
 import useFetchLocationsByProducts from '@features/location/fetch/hooks/useFetchLocationsByProducts';
-import { initialLocation } from '@features/location/fetch/libs/location';
 import type { AbbrLocation } from '@features/location/fetch/types/location';
 import LocationFinder from '@features/location/fetch/ui/LocationFinder';
-import { getLocationAddress } from '@features/location/fetch/utils/getLocationAddress';
 import useFecthUserData from '@features/user/fetch/hooks/useFecthUserData';
 import type { Session } from '@supabase/supabase-js';
 import MapAsideBar from '@widgets/aside/MapAsideBar';
@@ -28,26 +26,7 @@ function GlobalMap() {
 	const user_id = fetchUser?.user_id;
 
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
-	const [searchParams, setSearchParams] = useSearchParams();
-	const location = useLocation() ?? initialLocation;
-	const address = getLocationAddress(location); // 한글명 주소
-
-	// OAuth 최초 접속 시 경로 문제 해결
-	useEffect(() => {
-		if (location) {
-			setSearchParams({ lat: location.lat.toString(), lng: location.lng.toString() });
-		}
-
-		if (!searchParams.get('lat') && !searchParams.get('lng')) {
-			setSearchParams({ lat: location.lat.toString(), lng: location.lng.toString() });
-		}
-	}, []);
-
-	/* useEffect(() => {
-		if (searchParams.get('lat') !== location.lat.toString() && searchParams.get('lng') !== location.lng.toString()) {
-			setSearchParams({ lat: location.lat.toString(), lng: location.lng.toString() });
-		}
-	}, [location]); */
+	const location = useLocation();
 
 	// 위치 패칭 API 호출
 	const { data: fetchLocation, isPending: isFetchLocationPending } = useFetchLocations();
@@ -80,6 +59,11 @@ function GlobalMap() {
 	}, [clickedTime]);
 
 	// 지도 드래그 완료 시 중심점을 쿼리스트링에 저장
+	const [searchParams, setSearchParams] = useSearchParams();
+	const draggedLocation: AbbrLocation = {
+		lat: Number(searchParams.get('lat')),
+		lng: Number(searchParams.get('lng')),
+	};
 	const handleDragEnd = (map: kakao.maps.Map) => {
 		const center = map.getCenter();
 		const lat = center.getLat();
@@ -87,11 +71,6 @@ function GlobalMap() {
 
 		setSearchParams({ lat: lat.toString(), lng: lng.toString() });
 	};
-
-	// 쿼리스트링에서 위도/경도 추출, 유효하지 않으면 기본 location 사용
-	const lat = Number(searchParams.get('lat'));
-	const lng = Number(searchParams.get('lng'));
-	const draggedLocation: AbbrLocation = !Number.isNaN(lat) && !Number.isNaN(lng) ? { lat, lng } : location;
 
 	// 모달 닫기
 	const handleCloseModal = () => {
@@ -106,7 +85,7 @@ function GlobalMap() {
 			<main className="relative">
 				<Activity mode={isPending ? 'hidden' : 'visible'}>
 					<Map
-						center={draggedLocation}
+						center={draggedLocation ?? location}
 						level={3}
 						className="h-svh"
 						onDragEnd={handleDragEnd}

@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router';
+import LocationProvider from '@/app/provider/LocationProvider';
 
 /**
  * 공통 레이아웃
@@ -6,10 +7,12 @@ import { Outlet } from 'react-router';
  */
 function GlobalLayout() {
 	return (
-		<div className="full-width min-h-svh relative md:border-x mx-auto flex flex-col justify-center">
-			{/* 메인 콘텐츠 영역 */}
-			<Outlet />
-		</div>
+		<LocationProvider>
+			<div className="full-width min-h-svh relative md:border-x mx-auto flex flex-col justify-center">
+				{/* 메인 콘텐츠 영역 */}
+				<Outlet />
+			</div>
+		</LocationProvider>
 	);
 }
 
