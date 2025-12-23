@@ -9,17 +9,20 @@ import type { Location } from '@/shared/types/types';
 function LocationFinder({
 	is_my_location,
 	location_id,
-	user_Id,
+	user_id,
 	created_at,
 	total_recommend_count,
 	total_review_count,
 	total_visit_count,
 	total_favorite_count,
 	is_create_location,
-}: { is_my_location: boolean; user_Id?: string } & Partial<Location> & { is_create_location?: boolean }) {
+}: { is_my_location: boolean; user_id?: string } & Partial<Location> & { is_create_location?: boolean }) {
 	// 프로필 이미지 추출
-	const { data } = useFecthUserData(user_Id);
-	const userImage = data?.profile_image_url || defaultavatar;
+	const { data: fetchUser, isPending: isFetchUserPending } = useFecthUserData(user_id);
+	const profile_image_url = fetchUser?.profile_image_url;
+
+	// Pending 통합 상태 관리
+	const isPending = isFetchUserPending;
 
 	return (
 		<>
@@ -27,13 +30,15 @@ function LocationFinder({
 				<div className="relative w-8 h-8">
 					{/* 항상 보이는 gradient border (가장 뒤) - 크기 증가 */}
 					<div className="absolute inset-[-8px] rounded-full animate-show-border bg-gradient-me p-1" />
-
 					{/* 펄스 애니메이션 링 (중간) */}
 					<div className="absolute inset-0 rounded-full animate-pulse-ring bg-gradient-marker-me p-1" />
-
 					{/* 중앙 (가장 앞) */}
 					<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center w-6 h-6`}>
-						<img src={userImage} alt="현재 내 위치" className="w-full h-full rounded-full object-cover" />
+						<img
+							src={profile_image_url ?? defaultavatar}
+							alt="현재 내 위치"
+							className="w-full h-full rounded-full object-cover"
+						/>
 					</div>
 				</div>
 			) : is_create_location ? (
@@ -43,7 +48,7 @@ function LocationFinder({
 				</div>
 			) : (
 				<LocationInfoModal
-					userData={data!}
+					userData={fetchUser!}
 					location_id={location_id}
 					created_at={created_at}
 					total_recommend_count={total_recommend_count}

@@ -10,12 +10,11 @@ import MapHeader from '@/widgets/header/MapHeader';
  */
 function MapLayout() {
 	const isCreateMode = useIsCreateMode();
-
 	const session = useSession();
 	if (!session) return <Navigate to={'/login'} replace={true} />;
 	return (
 		<>
-			<Outlet />
+			<Outlet context={{ session }} />
 			<Activity mode={isCreateMode ? 'visible' : 'hidden'}>
 				<ResetCreateModeButton />
 			</Activity>

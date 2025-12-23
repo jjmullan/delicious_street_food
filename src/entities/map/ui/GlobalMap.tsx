@@ -1,25 +1,28 @@
-import { Activity, useEffect, useState } from 'react';
-import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
-import { toast } from 'sonner';
-import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@/app/store/createLocationStore';
-import { useLocation } from '@/app/store/locationStore';
-import { useSession } from '@/app/store/sessionStore';
-import CreateLocation from '@/features/location/create/ui/CreateLocation';
+import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@app/store/createLocationStore';
+import { useLocation } from '@app/store/locationStore';
+import CreateLocation from '@features/location/create/ui/CreateLocation';
 import {
 	validateLocationDistance,
 	validateMaxDistanceFromCurrentLocation,
-} from '@/features/location/create/utils/validateLocationDistance';
-import useFetchLocations from '@/features/location/fetch/hooks/useFetchLocations';
-import { initialLocation } from '@/features/location/fetch/libs/location';
-import type { AbbrLocation } from '@/features/location/fetch/types/location';
-import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
-import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
-import { getLocationAddress } from '@/features/location/fetch/utils/getLocationAddress';
-import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
-import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
-import MapAsideBar from '@/widgets/aside/MapAsideBar';
+} from '@features/location/create/utils/validateLocationDistance';
+import useFetchLocations from '@features/location/fetch/hooks/useFetchLocations';
+import { initialLocation } from '@features/location/fetch/libs/location';
+import type { AbbrLocation } from '@features/location/fetch/types/location';
+import LocationFinder from '@features/location/fetch/ui/LocationFinder';
+import { getLocationAddress } from '@features/location/fetch/utils/getLocationAddress';
+import useFecthUserData from '@features/user/fetch/hooks/useFecthUserData';
+import type { Session } from '@supabase/supabase-js';
+import MapAsideBar from '@widgets/aside/MapAsideBar';
+import { TriangleIcon } from 'lucide-react';
+import { Activity, useEffect, useState } from 'react';
+import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
+import { useOutletContext } from 'react-router';
+import { toast } from 'sonner';
 
 function GlobalMap() {
+	// 세션 데이터 받아오기
+	const { session } = useOutletContext<{ session: Session }>();
+
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
 	const location = useLocation() ?? initialLocation;
 	const address = getLocationAddress(location);
@@ -28,14 +31,6 @@ function GlobalMap() {
 	const { data: fetchLocation, error: isFetchLocationError, isPending: isFetchLocationPending } = useFetchLocations();
 	if (isFetchLocationError) {
 		toast.error('위치 정보를 가져올 수 없습니다.', { position: 'top-center' });
-	}
-
-	// 세션 데이터 추출
-	const session = useSession();
-	const user_id = session!.user.id;
-	const { error } = useFecthUserData(session?.user.id);
-	if (error) {
-		toast.error('현재 사용자 정보를 가져올 수 없습니다.', { position: 'top-center' });
 	}
 
 	// 클릭한 위치 및 기타 정보를 전역 상태로 관리
@@ -61,6 +56,10 @@ function GlobalMap() {
 	const handleCloseModal = () => {
 		setIsCreateLocationUIOpen(false);
 	};
+
+	// 세션 데이터 추출
+	const { data: fetchUser } = useFecthUserData(session?.user.id);
+	const user_id = fetchUser?.user_id;
 
 	// isPending 상태 통합 관리
 	const isPending = isFetchLocationPending;
@@ -119,14 +118,17 @@ function GlobalMap() {
 									position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
 									clickable={true}
 								>
-									<LocationFinder is_my_location={false} user_Id={user_id} {...location} />
+									<LocationFinder is_my_location={false} {...location} user_id={location.user_id ?? undefined} />
 								</CustomOverlayMap>
 							))}
 
 							{/* 현재 위치 마커 */}
 							<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
 								<button type="button">
-									<CurrentLocation />
+									<div className="relative flex flex-col items-center gap-y-1">
+										<TriangleIcon className="rotate-180 w-3 h-3 fill-red animate-bounce absolute top-[-16px] z-2" />
+										<LocationFinder is_my_location={true} user_id={user_id} />
+									</div>
 								</button>
 							</CustomOverlayMap>
 							{/* 신규 위치 마커 */}

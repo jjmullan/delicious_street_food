@@ -29,7 +29,6 @@ function UserProfileModal() {
 	// 전체 Favorite 데이터에서 해당 유저의 데이터를 가져오기
 	const { data: fetchFavoriteByUser, isPending: isFetchFavoriteByUserPending } = useFetchFavoriteByUser(user_id!);
 	const totalFavoriteCount = fetchFavoriteByUser?.length;
-	console.log(totalFavoriteCount);
 
 	// 생성모드 유무
 	const isCreateMode = useIsCreateMode();
