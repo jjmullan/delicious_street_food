@@ -1,6 +1,6 @@
 import { PopoverClose } from '@radix-ui/react-popover';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
-import { BookmarkIcon, MessageCircleMoreIcon, UserCircle2 } from 'lucide-react';
+import { HeartIcon, MessageCircleMoreIcon, UserCircle2 } from 'lucide-react';
 import { Activity } from 'react';
 import { Link } from 'react-router';
 import { useIsCreateMode } from '@/app/store/createLocationStore';
@@ -52,29 +52,28 @@ function UserProfileModal() {
 			<PopoverContent className="flex w-fit flex-col justify-center items-center p-0 text-sm">
 				<PopoverClose asChild>
 					<Link to={`/mypage/home`}>
-						<div className="flex flex-col justify-center gap-y-1 rounded-md shadow-md p-3 pt-4">
+						<div className="flex flex-col justify-center gap-y-2 rounded-md shadow-md p-3 pt-4">
+							{/* 프로필 */}
 							<div className="flex flex-col justify-center gap-y-2 items-center">
 								<div className="relative h-16 w-16">
-									{/* 리워드 이미지 추가 */}
-									<div className="absolute inset-0 border rounded-full">
-										{/* <img src="" alt="reward" className="absolute inset-0" /> */}
-									</div>
-									{/* 프로필 이미지 */}
+									{/* (필요 시 추가) 리워드 이미지 */}
+									{/* <div className="absolute inset-0 border rounded-full">
+										<img src="" alt="reward" className="absolute inset-0" />
+									</div> */}
 									<img src={userImage} className="cursor-pointer rounded-full object-cover" alt="user profile" />
 								</div>
 								<div className="flex flex-col text-center">
 									<p>{userNickname}</p>
 								</div>
 							</div>
-							<div className="px-4 flex gap-x-3 justify-center">
-								{/* 후기 */}
+							{/* 후기 & 즐겨찾기 */}
+							<div className="px-4 flex gap-x-3 justify-center border-t pt-2">
 								<div className="flex gap-x-1 items-center">
 									<MessageCircleMoreIcon width={16} height={16} className="" />
 									<p className="text-sm">{totalReviewCount}</p>
 								</div>
-								{/* 즐겨찾기 */}
 								<div className="flex gap-x-1 items-center">
-									<BookmarkIcon width={16} height={16} className="" />
+									<HeartIcon width={16} height={16} className="" />
 									<p className="text-sm">{totalFavoriteCount}</p>
 								</div>
 							</div>

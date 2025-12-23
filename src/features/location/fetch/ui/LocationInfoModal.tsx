@@ -7,7 +7,7 @@ import foodstall from '@shared/assets/character/foodstall.svg';
 import { getRandomArrayItem } from '@shared/lib/utils';
 import type { Location, User } from '@shared/types/types';
 import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/shadcn/popover';
-import { BookmarkIcon, CameraIcon, HeartIcon, MessageCircleMoreIcon, PenBoxIcon } from 'lucide-react';
+import { CameraIcon, HeartIcon, MessageCircleMoreIcon, PenBoxIcon } from 'lucide-react';
 import { Activity, useMemo } from 'react';
 import { Link } from 'react-router';
 
@@ -89,7 +89,7 @@ function LocationInfoModal({
 									<p>{fetchReviews && fetchReviews.length! >= 100 ? 99 : fetchReviews?.length}</p>
 								</div>
 								<div className="flex gap-x-1 items-center">
-									<BookmarkIcon width={16} height={16} />
+									<HeartIcon width={16} height={16} className={isFavorited ? 'fill-red-500' : ''} />
 									<p>{fetchFavorites && fetchFavorites.length >= 100 ? 99 : fetchFavorites?.length}</p>
 								</div>
 							</div>

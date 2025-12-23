@@ -1,4 +1,4 @@
-import { BookmarkIcon } from 'lucide-react';
+import { HeartIcon } from 'lucide-react';
 import useFetchFavorite from '@/features/favorite/fetch/hooks/useFetchFavorite';
 import useToggleFavorite from '@/features/favorite/toggle/hooks/useToggleFavorite';
 import { Button } from '@/shared/ui/shadcn/button';
@@ -28,7 +28,7 @@ function ToggleFavoriteButton({ location_id, user_id }: { location_id: string; u
 			className={`flex-1 ${isFavorited && 'border-2 border-brown-main'}`}
 			onClick={handleToggleFavorite}
 		>
-			<BookmarkIcon width={20} height={20} strokeWidth={1.5} fill={isFavorited ? '#d4944a' : '#fff'} />
+			<HeartIcon width={20} height={20} strokeWidth={1.5} fill={isFavorited ? '#d4944a' : '#fff'} />
 			<p className="text-sm">{isFavorited ? '저장됨' : '저장하기'}</p>
 		</Button>
 	);
