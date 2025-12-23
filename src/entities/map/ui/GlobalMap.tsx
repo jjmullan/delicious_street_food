@@ -30,7 +30,24 @@ function GlobalMap() {
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
 	const [searchParams, setSearchParams] = useSearchParams();
 	const location = useLocation() ?? initialLocation;
-	const address = getLocationAddress(location);
+	const address = getLocationAddress(location); // 한글명 주소
+
+	// OAuth 최초 접속 시 경로 문제 해결
+	useEffect(() => {
+		if (location) {
+			setSearchParams({ lat: location.lat.toString(), lng: location.lng.toString() });
+		}
+
+		if (!searchParams.get('lat') && !searchParams.get('lng')) {
+			setSearchParams({ lat: location.lat.toString(), lng: location.lng.toString() });
+		}
+	}, []);
+
+	/* useEffect(() => {
+		if (searchParams.get('lat') !== location.lat.toString() && searchParams.get('lng') !== location.lng.toString()) {
+			setSearchParams({ lat: location.lat.toString(), lng: location.lng.toString() });
+		}
+	}, [location]); */
 
 	// 위치 패칭 API 호출
 	const { data: fetchLocation, isPending: isFetchLocationPending } = useFetchLocations();
@@ -70,10 +87,11 @@ function GlobalMap() {
 
 		setSearchParams({ lat: lat.toString(), lng: lng.toString() });
 	};
-	const draggedLocation: AbbrLocation = {
-		lat: Number(searchParams.get('lat')),
-		lng: Number(searchParams.get('lng')),
-	};
+
+	// 쿼리스트링에서 위도/경도 추출, 유효하지 않으면 기본 location 사용
+	const lat = Number(searchParams.get('lat'));
+	const lng = Number(searchParams.get('lng'));
+	const draggedLocation: AbbrLocation = !Number.isNaN(lat) && !Number.isNaN(lng) ? { lat, lng } : location;
 
 	// 모달 닫기
 	const handleCloseModal = () => {
@@ -88,7 +106,7 @@ function GlobalMap() {
 			<main className="relative">
 				<Activity mode={isPending ? 'hidden' : 'visible'}>
 					<Map
-						center={draggedLocation ?? location}
+						center={draggedLocation}
 						level={3}
 						className="h-svh"
 						onDragEnd={handleDragEnd}
