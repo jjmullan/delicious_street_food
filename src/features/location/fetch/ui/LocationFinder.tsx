@@ -7,19 +7,14 @@ import type { Location } from '@shared/types/types';
  * 현재 위치를 표시해주는 원형 컴포넌트
  */
 function LocationFinder({
-	is_my_location,
-	location_id,
 	user_id,
 	product_name_en,
-	created_at,
-	total_recommend_count,
-	total_review_count,
-	total_visit_count,
-	total_favorite_count,
+	is_my_location,
 	is_create_location,
-}: { is_my_location: boolean; user_id?: string } & Partial<Location> & { is_create_location?: boolean } & {
-		product_name_en?: string;
-	}) {
+	location,
+}: { user_id?: string; product_name_en?: string; is_my_location: boolean; is_create_location?: boolean } & {
+	location?: Partial<Location>;
+}) {
 	// 프로필 이미지 추출
 	const { data: fetchUser, isPending: isFetchUserPending } = useFecthUserData(user_id);
 	const profile_image_url = fetchUser?.profile_image_url;
@@ -50,16 +45,7 @@ function LocationFinder({
 					<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center bg-brown-main`}></div>
 				</div>
 			) : (
-				<LocationInfoModal
-					userData={fetchUser!}
-					location_id={location_id}
-					product_name_en={product_name_en}
-					created_at={created_at}
-					total_recommend_count={total_recommend_count}
-					total_review_count={total_review_count}
-					total_visit_count={total_visit_count}
-					total_favorite_count={total_favorite_count}
-				/>
+				<LocationInfoModal userData={fetchUser!} product_name_en={product_name_en} {...location} />
 			)}
 		</>
 	);

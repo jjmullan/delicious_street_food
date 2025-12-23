@@ -140,9 +140,9 @@ function GlobalMap() {
 								>
 									<LocationFinder
 										is_my_location={false}
-										{...location}
+										location={location}
 										user_id={location.user_id ?? undefined}
-										product_name_en={filteredProductEnName}
+										product_name_en={filteredProductEnName!}
 									/>
 								</CustomOverlayMap>
 							))}
