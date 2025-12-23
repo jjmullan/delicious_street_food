@@ -26,14 +26,14 @@ function LocationFinder({
 
 	return (
 		<>
-			{is_my_location ? (
+			{!isPending && is_my_location ? (
 				<div className="relative w-8 h-8">
 					{/* 항상 보이는 gradient border (가장 뒤) - 크기 증가 */}
-					<div className="absolute inset-[-8px] rounded-full animate-show-border bg-gradient-me p-1" />
+					<div className="absolute inset-[-10px] rounded-full animate-show-border bg-gradient-me p-1" />
 					{/* 펄스 애니메이션 링 (중간) */}
-					<div className="absolute inset-0 rounded-full animate-pulse-ring bg-gradient-marker-me p-1" />
+					<div className="absolute inset-[-2px] rounded-full animate-pulse-ring bg-gradient-marker-me p-1" />
 					{/* 중앙 (가장 앞) */}
-					<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center w-6 h-6`}>
+					<div className={`absolute inset-0 rounded-full m-0.5 z-1 flex items-center justify-center w-7 h-7`}>
 						<img
 							src={profile_image_url ?? defaultavatar}
 							alt="현재 내 위치"
