@@ -12,10 +12,10 @@ function DetailHeader({ title }: { title: string }) {
 		navigate(`/?lat=${location.lat}&lng=${location.lng}`);
 	};
 	return (
-		<header className="fixed flex justify-between items-center text-sm full-width bg-[#fff] z-1">
+		<header className="fixed flex justify-between items-center text-sm max-w-[765px] w-full min-w-[320px] bg-[#fff] z-1">
 			<button
 				type="button"
-				className="cursor-pointer px-4 h-12 flex justify-center items-center"
+				className="cursor-pointer w-12 h-12 flex justify-center items-center"
 				onClick={handleGoBack}
 			>
 				<ArrowLeftCircle width={16} />
@@ -23,7 +23,7 @@ function DetailHeader({ title }: { title: string }) {
 			<h2 className="text-lg font-semibold">{title}</h2>
 			<button
 				type="button"
-				className="cursor-pointer px-4 h-12 flex justify-center items-center"
+				className="cursor-pointer w-12 h-12 flex justify-center items-center"
 				onClick={handleGoRootPage}
 			>
 				<HomeIcon width={16} />

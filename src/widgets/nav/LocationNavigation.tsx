@@ -22,7 +22,7 @@ function LocationNavigation({ location_id }: { location_id: string }) {
 
 	return (
 		<Activity mode={isPending ? 'hidden' : 'visible'}>
-			<nav className="mt-12 fixed full-width bg-[#fff] z-2">
+			<nav className="mt-12 fixed max-w-[765px] w-full min-w-[320px] bg-[#fff] z-2">
 				<ul className="flex justify-between">
 					<li className={`flex-1 flex justify-center py-3 border-b-2 ${isHome && 'border-brown-main font-semibold'}`}>
 						<h3>
