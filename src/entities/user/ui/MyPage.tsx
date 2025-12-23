@@ -10,6 +10,7 @@ import { Textarea } from '@shared/ui/shadcn/textarea';
 import type { Session } from '@supabase/supabase-js';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { useOutletContext } from 'react-router';
+import { toast } from 'sonner';
 import useFetchReviewsByUser from '@/features/review/fetch/hook/useFetchReviewsByUser';
 import ReviewItemForMypage from '@/features/review/fetch/ui/ReviewItemForMypage';
 import Separator from '@/shared/ui/separator/Separator';
@@ -66,7 +67,13 @@ function MyPage() {
 	const profileImageRef = useRef<HTMLInputElement>(null);
 	const handleChangeProfileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) return;
+
 		const file = e.target.files[0];
+		if (file?.type.split('/')[0] !== 'image') {
+			toast.error('이미지 형식이 아닙니다.', { position: 'top-center' });
+			return;
+		}
+
 		if (profileImage) {
 			URL.revokeObjectURL(profileImage.previewUrl);
 		}
