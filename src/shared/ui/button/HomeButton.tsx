@@ -1,17 +1,20 @@
 import { LocateFixedIcon } from 'lucide-react';
 import { Activity } from 'react';
+import { useSearchParams } from 'react-router';
 import { toast } from 'sonner';
 import { useIsCreateMode } from '@/app/store/createLocationStore';
 import { useSetLocation } from '@/app/store/locationStore';
 import { getLocationData } from '@/features/location/fetch/utils/getLocationData';
 
 function HomeButton() {
-	const isCreateMode = useIsCreateMode();
+	const [searchParams, setSearchParams] = useSearchParams();
 
+	const isCreateMode = useIsCreateMode();
 	const setLocation = useSetLocation();
 	const handleGoBackToCurrentLocation = async () => {
 		try {
 			const location = await getLocationData();
+			setSearchParams({ lat: location.lat.toString(), lng: location.lng.toString() });
 			setLocation(location);
 		} catch (error) {
 			if (error instanceof GeolocationPositionError) {
