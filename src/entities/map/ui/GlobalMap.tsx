@@ -28,6 +28,7 @@ function GlobalMap() {
 	const user_id = fetchUser?.user_id;
 
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
+	const [searchParams, setSearchParams] = useSearchParams();
 	const location = useLocation() ?? initialLocation;
 	const address = getLocationAddress(location);
 
@@ -62,7 +63,6 @@ function GlobalMap() {
 	}, [clickedTime]);
 
 	// 지도 드래그 완료 시 중심점을 쿼리스트링에 저장
-	const [searchParams, setSearchParams] = useSearchParams();
 	const handleDragEnd = (map: kakao.maps.Map) => {
 		const center = map.getCenter();
 		const lat = center.getLat();
@@ -149,15 +149,13 @@ function GlobalMap() {
 
 							{/* 현재 위치 마커 */}
 							<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
-								<button type="button">
-									<div className="relative flex flex-col items-center gap-y-1">
-										<TriangleIcon
-											className="rotate-180 w-3.5 h-3.5 fill-black animate-bounce absolute -top-5 z-2"
-											strokeWidth={1.8}
-										/>
-										<LocationFinder is_my_location={true} user_id={user_id} />
-									</div>
-								</button>
+								<div className="relative flex flex-col items-center gap-y-1">
+									<TriangleIcon
+										className="rotate-180 w-3.5 h-3.5 fill-black animate-bounce absolute -top-5 z-2"
+										strokeWidth={1.8}
+									/>
+									<LocationFinder is_my_location={true} user_id={user_id} />
+								</div>
 							</CustomOverlayMap>
 							{/* 신규 위치 마커 */}
 							<Activity mode={isCreateLocationUIOpen ? 'visible' : 'hidden'}>
