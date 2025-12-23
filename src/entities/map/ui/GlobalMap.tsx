@@ -136,7 +136,10 @@ function GlobalMap() {
 							<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
 								<button type="button">
 									<div className="relative flex flex-col items-center gap-y-1">
-										<TriangleIcon className="rotate-180 w-3 h-3 fill-red animate-bounce absolute top-[-16px] z-2" />
+										<TriangleIcon
+											className="rotate-180 w-3.5 h-3.5 fill-black animate-bounce absolute -top-5 z-2"
+											strokeWidth={1.8}
+										/>
 										<LocationFinder is_my_location={true} user_id={user_id} />
 									</div>
 								</button>

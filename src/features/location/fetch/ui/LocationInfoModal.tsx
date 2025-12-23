@@ -7,19 +7,27 @@ import foodstall from '@shared/assets/character/foodstall.svg';
 import { getRandomArrayItem } from '@shared/lib/utils';
 import type { Location, User } from '@shared/types/types';
 import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/shadcn/popover';
-import { BookmarkIcon, CameraIcon, MessageCircleMoreIcon, PenBoxIcon } from 'lucide-react';
+import { BookmarkIcon, CameraIcon, HeartIcon, MessageCircleMoreIcon, PenBoxIcon } from 'lucide-react';
 import { Activity, useMemo } from 'react';
 import { Link } from 'react-router';
 
 function LocationInfoModal({
+	userData,
 	location_id,
 	product_name_en,
 }: Partial<Location> & { userData: Partial<User> } & { product_name_en?: string }) {
+	// 데이터 패칭
 	const { data: fetchReviewImages, isPending: isFetchReviewImagesPending } = useFetchReviewImagesByLocation(
 		location_id!
 	);
 	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id!);
 	const { data: fetchFavorites, isPending: isFetchFavoritesPending } = useFetchFavorite(location_id!);
+
+	// 내가 해당 장소에 즐겨찾기 등록을 했는지 여부를 검증
+	const isFavorited = useMemo(() => {
+		if (!fetchFavorites || !userData?.user_id) return false;
+		return fetchFavorites.some((favorite) => favorite.user_id === userData.user_id);
+	}, [fetchFavorites, userData?.user_id]);
 
 	// 임의의 후기 이미지 선택
 	const randomReviewImage = useMemo(() => {
@@ -34,7 +42,7 @@ function LocationInfoModal({
 			<PopoverTrigger>
 				{/* 기본 아이콘 */}
 				<div className="relative cursor-pointer">
-					<div className="relative w-7 h-7">
+					<div className="relative w-7 h-7 flex flex-col items-center justify-center">
 						<div className="absolute inset-[-8px] rounded-full bg-gradient-location p-1" />
 						<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center`}>
 							<img
@@ -43,6 +51,12 @@ function LocationInfoModal({
 								className="w-7 h-7 object-contain"
 							/>
 						</div>
+						{/* 즐겨찾기 배지 */}
+						{isFavorited && (
+							<div className="absolute -top-4 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center shadow-sm z-10">
+								<HeartIcon width={10} height={10} fill="white" stroke="white" strokeWidth={1.8} />
+							</div>
+						)}
 					</div>
 				</div>
 			</PopoverTrigger>
