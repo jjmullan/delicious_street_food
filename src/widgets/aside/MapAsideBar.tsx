@@ -55,8 +55,8 @@ function MapAsideBar() {
 									y2="17.3428"
 									gradientUnits="userSpaceOnUse"
 								>
-									<stop stop-color="#24C6DC" />
-									<stop offset="1" stop-color="#514A9D" />
+									<stop stopColor="#24C6DC" />
+									<stop offset="1" stopColor="#514A9D" />
 								</linearGradient>
 							</defs>
 						</svg>
