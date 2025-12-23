@@ -1,10 +1,15 @@
 import { TriangleIcon } from 'lucide-react';
 import { Activity, useState } from 'react';
 import { Link } from 'react-router';
+import { toast } from 'sonner';
+import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
+import { deleteReview } from '@/features/review/delete/api/review';
+import { useDeleteReview } from '@/features/review/delete/hook/useDeleteReview';
 import useFetchReviewImagesByReview from '@/features/review/fetch/hook/useFetchReviewImages';
 import { getDateTimeKo } from '@/shared/lib/day';
 import type { Review } from '@/shared/types/types';
+import EditDeleteButton from '@/shared/ui/button/EditDeleteButton';
 import ImageModal from '@/shared/ui/modal/ImageModal';
 import { Carousel, CarouselContent, CarouselItem } from '@/shared/ui/shadcn/carousel';
 
@@ -23,6 +28,27 @@ function ReviewItemForMypage({ review_id, review_title, review_text, location_id
 		setIsModalOpen(false);
 	};
 
+	// 리뷰 삭제
+	const { mutate: deleteReview } = useDeleteReview({
+		onSuccess: () => {
+			toast.info('후기가 삭제되었습니다.', { position: 'top-center' });
+		},
+		onError: () => {
+			toast.error('후기 삭제가 실패했습니다.', { position: 'top-center' });
+		},
+	});
+	const openConfirmModal = useOpenConfirmModal();
+	const handleDeleteReview = () => {
+		openConfirmModal({
+			title: '후기를 정말 삭제하시겠습니까?',
+			description: '삭제된 후기는 되돌릴 수 없습니다',
+			onPositive: () => {
+				deleteReview(review_id);
+			},
+			onNegative: () => {},
+		});
+	};
+
 	const visitDatetime = getDateTimeKo({ date: new Date(visit_datetime).getTime(), isTimeIncluding: true });
 
 	return (
@@ -30,12 +56,15 @@ function ReviewItemForMypage({ review_id, review_title, review_text, location_id
 			<div className="rounded-md p-4 flex flex-col gap-y-3 w-full bg-white">
 				<h4 className="sr-only">내가 작성한 리뷰 목록</h4>
 				{/* 방문한 장소, 방문 시간 */}
-				<div className="flex text-xs gap-x-1">
-					<Link to={`/location/${fetchLocation?.location_id}/home`} className="font-semibold text-muted-foreground">
-						{fetchLocation?.location_name ?? '포장마차'}
-					</Link>
-					<span>・</span>
-					<p className="text-muted-foreground">{visitDatetime} 방문</p>
+				<div className="flex text-xs items-center justify-between">
+					<div className="flex gap-x-1">
+						<Link to={`/location/${fetchLocation?.location_id}/home`} className="font-semibold text-muted-foreground">
+							{fetchLocation?.location_name ?? '포장마차'}
+						</Link>
+						<span>・</span>
+						<p className="text-muted-foreground">{visitDatetime} 방문</p>
+					</div>
+					<EditDeleteButton onDelete={handleDeleteReview} />
 				</div>
 				{/* 제목, 글 */}
 				<div className="flex flex-col gap-y-1">

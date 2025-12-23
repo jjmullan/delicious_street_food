@@ -10,6 +10,7 @@ import { Textarea } from '@shared/ui/shadcn/textarea';
 import type { Session } from '@supabase/supabase-js';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { useOutletContext } from 'react-router';
+import { toast } from 'sonner';
 import useFetchReviewsByUser from '@/features/review/fetch/hook/useFetchReviewsByUser';
 import ReviewItemForMypage from '@/features/review/fetch/ui/ReviewItemForMypage';
 import Separator from '@/shared/ui/separator/Separator';
@@ -66,7 +67,13 @@ function MyPage() {
 	const profileImageRef = useRef<HTMLInputElement>(null);
 	const handleChangeProfileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) return;
+
 		const file = e.target.files[0];
+		if (file?.type.split('/')[0] !== 'image') {
+			toast.error('이미지 형식이 아닙니다.', { position: 'top-center' });
+			return;
+		}
+
 		if (profileImage) {
 			URL.revokeObjectURL(profileImage.previewUrl);
 		}
@@ -117,7 +124,8 @@ function MyPage() {
 	const isPending = isFetchUserPending || isUpdateProfileImagePending || isUpdateProfilePending || isFetchReviewsByUser;
 
 	// disabled 상태 통합 관리
-	const disabled = nickname === '' || nicknameError !== '' || (nickname === origin_nickname && bio === origin_bio);
+	const disabled =
+		nickname === '' || nicknameError !== '' || (!profileImage && nickname === origin_nickname && bio === origin_bio);
 
 	return (
 		<div className="flex flex-col items-center min-h-[calc(100svh-48px)] relative gap-y-3">
@@ -128,7 +136,7 @@ function MyPage() {
 					{/* 프로필 이미지 */}
 					<div className="relative h-28 w-28">
 						<div className="absolute inset-0 border rounded-full">{/* 여기에 리워드 이미지 추가 */}</div>
-						<img src={origin_profile_image} className="cursor-pointer rounded-full object-cover" alt="user profile" />
+						<img src={origin_profile_image} className="rounded-full object-contain w-full h-full" alt="user profile" />
 					</div>
 					{/* 프로필 설명 */}
 					<div className="flex flex-col items-center">
@@ -161,7 +169,7 @@ function MyPage() {
 							<div className="absolute inset-0 border rounded-full">{/* 여기에 리워드 이미지 추가 */}</div>
 							<img
 								src={profileImage?.previewUrl ?? origin_profile_image}
-								className="cursor-pointer rounded-full w-full h-full object-cover"
+								className="cursor-pointer rounded-full w-full h-full object-contain"
 								alt="user profile"
 							/>
 						</button>

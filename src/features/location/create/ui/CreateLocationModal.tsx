@@ -68,7 +68,7 @@ function CreateLocationModal() {
 			user_id: userId!,
 			latitude: String(clickedlocation.lat),
 			longitude: String(clickedlocation.lng),
-			location_name: hasName ? locationName : '포장마차',
+			location_name: hasName ? locationName : null,
 			location_address: address,
 		});
 

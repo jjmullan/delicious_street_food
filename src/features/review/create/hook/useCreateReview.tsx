@@ -13,6 +13,9 @@ function useCreateReview(callbacks: MutationCallback) {
 
 			// 특정 location의 review 관련 캐시 무효화
 			queryClient.invalidateQueries({
+				queryKey: QUERY_KEYS.review.all,
+			});
+			queryClient.invalidateQueries({
 				queryKey: QUERY_KEYS.review.byLocationId(data.location_id),
 			});
 			queryClient.invalidateQueries({

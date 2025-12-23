@@ -2,6 +2,7 @@ import { EyeClosedIcon, EyeIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
+import { useLocation } from '@/app/store/locationStore';
 import useSignInWithPassword from '@/features/auth/signIn/hooks/mutation/useSignInWithPassword';
 import { generateErrorMessage } from '@/shared/lib/error';
 import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
@@ -11,6 +12,7 @@ import Title from '@/shared/ui/title/Title';
 
 function SignInWithPassword() {
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	// 이메일 로그인
 	const [email, setEmail] = useState('');
@@ -18,8 +20,8 @@ function SignInWithPassword() {
 
 	const { mutate: signInWithPassword, isPending } = useSignInWithPassword({
 		onSuccess: () => {
+			navigate(`/?lat=${location.lat}&lng=${location.lng}`, { replace: true });
 			toast.success('로그인 되었습니다.', { position: 'top-center' });
-			navigate('/', { replace: true });
 		},
 		onError: (error) => {
 			const message = generateErrorMessage(error);

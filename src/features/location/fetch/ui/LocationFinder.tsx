@@ -45,7 +45,7 @@ function LocationFinder({
 					<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center bg-brown-main`}></div>
 				</div>
 			) : (
-				<LocationInfoModal userData={fetchUser!} product_name_en={product_name_en} {...location} />
+				<LocationInfoModal product_name_en={product_name_en} {...location} />
 			)}
 		</>
 	);
