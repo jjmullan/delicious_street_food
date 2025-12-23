@@ -18,20 +18,30 @@ import { Activity, useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { useOutletContext } from 'react-router';
 import { toast } from 'sonner';
+import { useProductFilter } from '@/app/store/productFilterStore';
+import useFetchLocationsByProducts from '@/features/location/fetch/hooks/useFetchLocationsByProducts';
 
 function GlobalMap() {
 	// 세션 데이터 받아오기
 	const { session } = useOutletContext<{ session: Session }>();
+	const { data: fetchUser } = useFecthUserData(session?.user.id);
+	const user_id = fetchUser?.user_id;
 
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
 	const location = useLocation() ?? initialLocation;
 	const address = getLocationAddress(location);
 
 	// 위치 패칭 API 호출
-	const { data: fetchLocation, error: isFetchLocationError, isPending: isFetchLocationPending } = useFetchLocations();
-	if (isFetchLocationError) {
-		toast.error('위치 정보를 가져올 수 없습니다.', { position: 'top-center' });
-	}
+	const { data: fetchLocation, isPending: isFetchLocationPending } = useFetchLocations();
+
+	// 상품 필터링 데이터 패칭 API 호출
+	const productFilter = useProductFilter();
+	const { data: fetchFilteredLocations, isPending: isFetchFilteredLocationPending } = useFetchLocationsByProducts(
+		productFilter?.product_id
+	);
+
+	// product_id가 있으면 필터링된 location, 없으면 전체 location 사용
+	const displayLocations = productFilter?.product_id ? fetchFilteredLocations : fetchLocation;
 
 	// 클릭한 위치 및 기타 정보를 전역 상태로 관리
 	const isCreateMode = useIsCreateMode();
@@ -57,12 +67,8 @@ function GlobalMap() {
 		setIsCreateLocationUIOpen(false);
 	};
 
-	// 세션 데이터 추출
-	const { data: fetchUser } = useFecthUserData(session?.user.id);
-	const user_id = fetchUser?.user_id;
-
 	// isPending 상태 통합 관리
-	const isPending = isFetchLocationPending;
+	const isPending = isFetchLocationPending || isFetchFilteredLocationPending;
 
 	return (
 		<div className="relative">
@@ -111,8 +117,8 @@ function GlobalMap() {
 						disableDoubleClickZoom={isPending}
 					>
 						<MarkerClusterer averageCenter={true} minLevel={6}>
-							{/* 전체 위치 마커 */}
-							{fetchLocation?.map((location) => (
+							{/* 전체 위치 마커 또는 필터링된 위치 마커 */}
+							{displayLocations?.map((location) => (
 								<CustomOverlayMap
 									key={location.location_id}
 									position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
