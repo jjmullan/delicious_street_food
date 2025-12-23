@@ -1,39 +1,51 @@
 import { type ReactNode, useEffect } from 'react';
 import { toast } from 'sonner';
-import { useSetLocation } from '@/app/store/locationStore';
+import { useIsLocationUpdated, useSetLocation } from '@/app/store/locationStore';
 import { useIsSessionLoaded, useSession } from '@/app/store/sessionStore';
 
 function LocationProvider({ children }: { children: ReactNode }) {
-	const setLocation = useSetLocation();
 	const session = useSession();
 	const userId = session?.user.id;
 	const isSessionLoaded = useIsSessionLoaded();
 
+	// 위치정보
+	const isLocationUpdated = useIsLocationUpdated();
+	const setLocation = useSetLocation();
+
 	useEffect(() => {
+		// 세션이 로드되지 않았거나 userId가 없으면 실행하지 않음
 		if (!isSessionLoaded || !userId) {
 			return;
 		}
 
-		// 예외 처리
-		if (!navigator.geolocation) {
-			toast.error('해당 지역은 위치 서비스를 지원하지 않습니다.');
+		// 이미 위치 정보를 가져왔으면 실행하지 않음 (최초 로그인 시에만 실행)
+		if (isLocationUpdated) {
 			return;
 		}
 
-		// 현재 위치를 계속해서 추적
+		// 예외 처리: 브라우저가 위치 서비스를 지원하지 않는 경우
+		if (!navigator.geolocation) {
+			toast.error('해당 지역은 위치 서비스를 지원하지 않습니다.', { position: 'top-center' });
+			return;
+		}
+
+		// 최초 로그인 시 위치 정보 동의 요청 및 현재 위치 가져오기
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
 				console.log('현재 위치 정보:', position);
 
-				setLocation({
+				const newLocation = {
 					lat: position.coords.latitude,
 					lng: position.coords.longitude,
-				});
+				};
+
+				// 전역 상태에 위치 저장
+				setLocation(newLocation);
 			},
 			(error) => {
 				switch (error.code) {
 					case error.PERMISSION_DENIED:
-						toast.error('위치 정보 제공이 거부되었습니다.', { position: 'top-center' });
+						toast.error('위치 정보 제공이 거부되었습니다. 기본 위치로 설정됩니다.', { position: 'top-center' });
 						break;
 					case error.POSITION_UNAVAILABLE:
 						toast.error('위치 정보를 사용할 수 없습니다.', { position: 'top-center' });
@@ -49,7 +61,7 @@ function LocationProvider({ children }: { children: ReactNode }) {
 				timeout: 10_000, // 10초 안에 위치 정보를 가져오기 (무한 대기 상태 방지 목적)
 			}
 		);
-	}, [setLocation, userId, isSessionLoaded]);
+	}, [userId, isSessionLoaded, isLocationUpdated, setLocation]);
 
 	return children;
 }
