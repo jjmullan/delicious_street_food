@@ -1,39 +1,47 @@
 import { type ReactNode, useEffect } from 'react';
+import { useSearchParams } from 'react-router';
 import { toast } from 'sonner';
-import { useSetLocation } from '@/app/store/locationStore';
-import { useIsSessionLoaded, useSession } from '@/app/store/sessionStore';
+import { useIsLocationUpdated, useSetLocation } from '@/app/store/locationStore';
+import { initialLocation } from '@/features/location/fetch/libs/location';
 
 function LocationProvider({ children }: { children: ReactNode }) {
+	// 위치정보
+	const isLocationUpdated = useIsLocationUpdated();
 	const setLocation = useSetLocation();
-	const session = useSession();
-	const userId = session?.user.id;
-	const isSessionLoaded = useIsSessionLoaded();
+	const [searchParam, setSearchParam] = useSearchParams();
 
 	useEffect(() => {
-		if (!isSessionLoaded || !userId) {
+		// 이미 위치 정보를 가져왔으면 실행하지 않음 (최초 로그인 시에만 실행)
+		if (isLocationUpdated) {
 			return;
 		}
 
-		// 예외 처리
+		// 예외 처리: 브라우저가 위치 서비스를 지원하지 않는 경우
 		if (!navigator.geolocation) {
-			toast.error('해당 지역은 위치 서비스를 지원하지 않습니다.');
+			toast.error('해당 지역은 위치 서비스를 지원하지 않습니다.', { position: 'top-center' });
 			return;
 		}
 
-		// 현재 위치를 계속해서 추적
+		// 최초 로그인 시 위치 정보 동의 요청 및 현재 위치 가져오기
 		navigator.geolocation.getCurrentPosition(
 			(position) => {
 				console.log('현재 위치 정보:', position);
 
-				setLocation({
+				const newLocation = {
 					lat: position.coords.latitude,
 					lng: position.coords.longitude,
-				});
+				};
+
+				// 전역 상태에 위치 저장
+				setLocation(newLocation);
+				setSearchParam({ lat: newLocation.lat.toString(), lng: newLocation.lng.toString() });
 			},
 			(error) => {
 				switch (error.code) {
 					case error.PERMISSION_DENIED:
-						toast.error('위치 정보 제공이 거부되었습니다.', { position: 'top-center' });
+						setLocation(initialLocation);
+						setSearchParam({ lat: initialLocation.lat.toString(), lng: initialLocation.lng.toString() });
+						toast.error('위치 정보 제공이 거부되었습니다. 기본 위치로 설정됩니다.', { position: 'top-center' });
 						break;
 					case error.POSITION_UNAVAILABLE:
 						toast.error('위치 정보를 사용할 수 없습니다.', { position: 'top-center' });
@@ -49,7 +57,7 @@ function LocationProvider({ children }: { children: ReactNode }) {
 				timeout: 10_000, // 10초 안에 위치 정보를 가져오기 (무한 대기 상태 방지 목적)
 			}
 		);
-	}, [setLocation, userId, isSessionLoaded]);
+	}, [isLocationUpdated, setLocation]);
 
 	return children;
 }

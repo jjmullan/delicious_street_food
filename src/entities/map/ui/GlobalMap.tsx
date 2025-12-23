@@ -1,42 +1,43 @@
-import { Activity, useEffect, useState } from 'react';
-import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
-import { toast } from 'sonner';
-import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@/app/store/createLocationStore';
-import { useLocation } from '@/app/store/locationStore';
-import { useSession } from '@/app/store/sessionStore';
-import CreateLocation from '@/features/location/create/ui/CreateLocation';
+import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@app/store/createLocationStore';
+import { useLocation } from '@app/store/locationStore';
+import { useProductFilter } from '@app/store/productFilterStore';
+import CreateLocation from '@features/location/create/ui/CreateLocation';
 import {
 	validateLocationDistance,
 	validateMaxDistanceFromCurrentLocation,
-} from '@/features/location/create/utils/validateLocationDistance';
-import useFetchLocations from '@/features/location/fetch/hooks/useFetchLocations';
-import { initialLocation } from '@/features/location/fetch/libs/location';
-import type { AbbrLocation } from '@/features/location/fetch/types/location';
-import CurrentLocation from '@/features/location/fetch/ui/CurrentLocation';
-import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
-import { getLocationAddress } from '@/features/location/fetch/utils/getLocationAddress';
-import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
-import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
-import MapAsideBar from '@/widgets/aside/MapAsideBar';
+} from '@features/location/create/utils/validateLocationDistance';
+import useFetchLocations from '@features/location/fetch/hooks/useFetchLocations';
+import useFetchLocationsByProducts from '@features/location/fetch/hooks/useFetchLocationsByProducts';
+import type { AbbrLocation } from '@features/location/fetch/types/location';
+import LocationFinder from '@features/location/fetch/ui/LocationFinder';
+import useFecthUserData from '@features/user/fetch/hooks/useFecthUserData';
+import type { Session } from '@supabase/supabase-js';
+import MapAsideBar from '@widgets/aside/MapAsideBar';
+import { TriangleIcon } from 'lucide-react';
+import { Activity, useEffect, useState } from 'react';
+import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
+import { useOutletContext, useSearchParams } from 'react-router';
+import { toast } from 'sonner';
 
 function GlobalMap() {
+	// 세션 데이터 받아오기
+	const { session } = useOutletContext<{ session: Session }>();
+	const { data: fetchUser } = useFecthUserData(session?.user.id);
+	const user_id = fetchUser?.user_id;
+
 	// LocalStorage 에서 현재 나의 위치 데이터를 가져오기
-	const location = useLocation() ?? initialLocation;
-	const address = getLocationAddress(location);
+	const location = useLocation();
 
 	// 위치 패칭 API 호출
-	const { data: fetchLocation, error: isFetchLocationError, isPending: isFetchLocationPending } = useFetchLocations();
-	if (isFetchLocationError) {
-		toast.error('위치 정보를 가져올 수 없습니다.', { position: 'top-center' });
-	}
+	const { data: fetchLocation, isPending: isFetchLocationPending } = useFetchLocations();
 
-	// 세션 데이터 추출
-	const session = useSession();
-	const user_id = session!.user.id;
-	const { error } = useFecthUserData(session?.user.id);
-	if (error) {
-		toast.error('현재 사용자 정보를 가져올 수 없습니다.', { position: 'top-center' });
-	}
+	// 상품 필터링 데이터 패칭 API 호출
+	const productFilter = useProductFilter();
+	const filteredProductEnName = productFilter?.product_name_en;
+	const { data: fetchFilteredLocations } = useFetchLocationsByProducts(productFilter?.product_id);
+
+	// product_id가 있으면 필터링된 location, 없으면 전체 location 사용
+	const displayLocations = productFilter?.product_id ? fetchFilteredLocations : fetchLocation;
 
 	// 클릭한 위치 및 기타 정보를 전역 상태로 관리
 	const isCreateMode = useIsCreateMode();
@@ -57,6 +58,20 @@ function GlobalMap() {
 		return () => clearTimeout(timer);
 	}, [clickedTime]);
 
+	// 지도 드래그 완료 시 중심점을 쿼리스트링에 저장
+	const [searchParams, setSearchParams] = useSearchParams();
+	const draggedLocation: AbbrLocation = {
+		lat: Number(searchParams.get('lat')),
+		lng: Number(searchParams.get('lng')),
+	};
+	const handleDragEnd = (map: kakao.maps.Map) => {
+		const center = map.getCenter();
+		const lat = center.getLat();
+		const lng = center.getLng();
+
+		setSearchParams({ lat: lat.toString(), lng: lng.toString() });
+	};
+
 	// 모달 닫기
 	const handleCloseModal = () => {
 		setIsCreateLocationUIOpen(false);
@@ -70,9 +85,10 @@ function GlobalMap() {
 			<main className="relative">
 				<Activity mode={isPending ? 'hidden' : 'visible'}>
 					<Map
-						center={location}
+						center={draggedLocation ?? location}
 						level={3}
 						className="h-svh"
+						onDragEnd={handleDragEnd}
 						onDoubleClick={() => {
 							return;
 						}}
@@ -112,22 +128,31 @@ function GlobalMap() {
 						disableDoubleClickZoom={isPending}
 					>
 						<MarkerClusterer averageCenter={true} minLevel={6}>
-							{/* 전체 위치 마커 */}
-							{fetchLocation?.map((location) => (
+							{/* 전체 위치 마커 또는 필터링된 위치 마커 */}
+							{displayLocations?.map((location) => (
 								<CustomOverlayMap
 									key={location.location_id}
 									position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
 									clickable={true}
 								>
-									<LocationFinder is_my_location={false} user_Id={user_id} {...location} />
+									<LocationFinder
+										is_my_location={false}
+										location={location}
+										user_id={location.user_id ?? undefined}
+										product_name_en={filteredProductEnName!}
+									/>
 								</CustomOverlayMap>
 							))}
 
 							{/* 현재 위치 마커 */}
 							<CustomOverlayMap position={{ lat: location!.lat, lng: location!.lng }} clickable={true}>
-								<button type="button">
-									<CurrentLocation />
-								</button>
+								<div className="relative flex flex-col items-center gap-y-1">
+									<TriangleIcon
+										className="rotate-180 w-3.5 h-3.5 fill-black animate-bounce absolute -top-5 z-2"
+										strokeWidth={1.8}
+									/>
+									<LocationFinder is_my_location={true} user_id={user_id} />
+								</div>
 							</CustomOverlayMap>
 							{/* 신규 위치 마커 */}
 							<Activity mode={isCreateLocationUIOpen ? 'visible' : 'hidden'}>

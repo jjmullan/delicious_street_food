@@ -79,7 +79,7 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 		isDeleteReviewPending;
 
 	return (
-		<section className="px-3 py-4 border-b flex flex-col gap-y-3">
+		<li className="px-3 py-4 border-b flex flex-col gap-y-3">
 			{/* 작성자, 작성일 */}
 			<div className="flex justify-between items-center mb-2">
 				<ReviewUserProfile profileImage={profileImage} nickname={nickname!} createDatetime={createDatetime} />
@@ -137,7 +137,7 @@ function ReviewItem({ user_id, review_id, review_title, review_text, visit_datet
 
 			{/* 이미지 확대 모달 */}
 			<ImageModal imageUrl={selectedImageUrl} isOpen={isModalOpen} onClose={handleCloseModal} />
-		</section>
+		</li>
 	);
 }
 

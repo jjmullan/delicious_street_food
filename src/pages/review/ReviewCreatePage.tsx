@@ -1,9 +1,9 @@
+import type { Session } from '@supabase/supabase-js';
 import { ImagePlusIcon } from 'lucide-react';
 import { Activity, useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useOutletContext, useParams } from 'react-router';
 import { toast } from 'sonner';
 import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
-import { useSession } from '@/app/store/sessionStore';
 import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import useCreateReview from '@/features/review/create/hook/useCreateReview';
 import useCreateReviewImages from '@/features/review/create/hook/useCreateReviewImages';
@@ -40,7 +40,7 @@ function ReviewCreatePage() {
 	const location_id = param.locationId;
 
 	// 등록할 유저 아이디
-	const session = useSession();
+	const { session } = useOutletContext<{ session: Session }>();
 	const user_id = session?.user.id;
 
 	// 등록할 후기 제목

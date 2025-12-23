@@ -10,6 +10,9 @@ import { Textarea } from '@shared/ui/shadcn/textarea';
 import type { Session } from '@supabase/supabase-js';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { useOutletContext } from 'react-router';
+import useFetchReviewsByUser from '@/features/review/fetch/hook/useFetchReviewsByUser';
+import ReviewItemForMypage from '@/features/review/fetch/ui/ReviewItemForMypage';
+import Separator from '@/shared/ui/separator/Separator';
 
 function MyPage() {
 	const { session } = useOutletContext<{ session: Session }>();
@@ -25,6 +28,7 @@ function MyPage() {
 	// 프로필 이미지 업데이트 API
 	const { mutateAsync: updateProfileImage, isPending: isUpdateProfileImagePending } = useUpdateProfileImage({});
 	const { mutateAsync: updateProfile, isPending: isUpdateProfilePending } = useUpdateProfile({});
+	const { data: fetchReviewsByUser, isPending: isFetchReviewsByUser } = useFetchReviewsByUser(user_id);
 
 	// 유저 정보 수정
 	const [editMode, setEditMode] = useState(false);
@@ -110,15 +114,16 @@ function MyPage() {
 	};
 
 	// Pending 상태 통합 관리
-	const isPending = isFetchUserPending || isUpdateProfileImagePending || isUpdateProfilePending;
+	const isPending = isFetchUserPending || isUpdateProfileImagePending || isUpdateProfilePending || isFetchReviewsByUser;
 
 	// disabled 상태 통합 관리
 	const disabled = nickname === '' || nicknameError !== '' || (nickname === origin_nickname && bio === origin_bio);
 
 	return (
-		<div className="flex flex-col justify-center items-center min-h-[calc(100svh-48px)] relative">
-			<Activity mode={editMode ? 'hidden' : 'visible'}>
-				<section className="flex flex-col justify-center items-center gap-y-4">
+		<div className="flex flex-col items-center min-h-[calc(100svh-48px)] relative gap-y-3">
+			<section className="flex flex-col justify-center items-center gap-y-4 w-full px-8 min-h-[calc(100svh-160px)]">
+				{/* 기본 모드 */}
+				<Activity mode={editMode ? 'hidden' : 'visible'}>
 					<h3 className="sr-only">프로필</h3>
 					{/* 프로필 이미지 */}
 					<div className="relative h-28 w-28">
@@ -138,10 +143,10 @@ function MyPage() {
 					<Button type="button" onClick={() => setEditMode(true)}>
 						프로필 수정
 					</Button>
-				</section>
-			</Activity>
-			<Activity mode={editMode ? 'visible' : 'hidden'}>
-				<section className="flex flex-col justify-center items-center gap-y-4 w-full px-8">
+				</Activity>
+
+				{/* 수정 모드 */}
+				<Activity mode={editMode ? 'visible' : 'hidden'}>
 					<h3 className="sr-only">프로필 수정</h3>
 					{/* 프로필 이미지 */}
 					<input type="file" id="profile_image" hidden ref={profileImageRef} onChange={handleChangeProfileImage} />
@@ -207,8 +212,14 @@ function MyPage() {
 							취소
 						</Button>
 					</div>
-				</section>
-			</Activity>
+				</Activity>
+			</section>
+			<Separator />
+			<ul className="flex flex-col px-3 pb-3 w-full gap-y-2">
+				{fetchReviewsByUser?.map((review) => (
+					<ReviewItemForMypage key={review.review_id} {...review} />
+				))}
+			</ul>
 			{/* <section className="fixed bottom-0 p-6">
   				<h3 className="sr-only">마이페이지 배경 설정</h3>
   				<div className="flex gap-x-2">

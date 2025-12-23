@@ -18,7 +18,7 @@ export async function fetchReviewsByLocation(location_id: string): Promise<Revie
 /**
  * 특정 유저가 작성한 모든 후기 정보를 패칭하는 API
  */
-export async function fetchReviewsByUser(user_id: string) {
+export async function fetchReviewsByUser(user_id: string): Promise<Review[]> {
 	const { data, error } = await supabase
 		.from('review')
 		.select('*')

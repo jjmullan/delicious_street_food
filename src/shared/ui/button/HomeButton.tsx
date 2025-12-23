@@ -1,29 +1,34 @@
 import { LocateFixedIcon } from 'lucide-react';
 import { Activity } from 'react';
+import { useSearchParams } from 'react-router';
 import { toast } from 'sonner';
 import { useIsCreateMode } from '@/app/store/createLocationStore';
 import { useSetLocation } from '@/app/store/locationStore';
 import { getLocationData } from '@/features/location/fetch/utils/getLocationData';
 
 function HomeButton() {
-	const isCreateMode = useIsCreateMode();
+	const [searchParams, setSearchParams] = useSearchParams();
 
+	const isCreateMode = useIsCreateMode();
 	const setLocation = useSetLocation();
 	const handleGoBackToCurrentLocation = async () => {
 		try {
 			const location = await getLocationData();
+			setSearchParams({ lat: location.lat.toString(), lng: location.lng.toString() });
 			setLocation(location);
 		} catch (error) {
 			if (error instanceof GeolocationPositionError) {
 				switch (error.code) {
 					case error.PERMISSION_DENIED:
-						toast.error('위치 정보 제공이 거부되었습니다.');
+						toast.error('위치 정보 제공이 거부되어 있습니다.', {
+							position: 'top-center',
+						});
 						break;
 					case error.POSITION_UNAVAILABLE:
-						toast.error('위치 정보를 사용할 수 없습니다.');
+						toast.error('위치 정보를 사용할 수 없습니다.', { position: 'top-center' });
 						break;
 					case error.TIMEOUT:
-						toast.error('요청 시간이 초과되었습니다.');
+						toast.error('요청 시간이 초과되었습니다.', { position: 'top-center' });
 						break;
 				}
 			} else {

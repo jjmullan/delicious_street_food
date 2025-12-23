@@ -2,6 +2,7 @@ import { InfoIcon, PenIcon } from 'lucide-react';
 import { Activity } from 'react';
 import { useNavigate } from 'react-router';
 import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
+import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
 import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchReviewsByLocation';
 import ReviewItem from '@/features/review/fetch/ui/ReviewItem';
 import { Button } from '@/shared/ui/shadcn/button';
@@ -19,10 +20,12 @@ function LocationReviewAll({ location_id }: { location_id: string }) {
 		});
 	};
 
+	// 리뷰 목록 패칭
 	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id);
+	const { data: fetchProducts, isPending: isFetchProductsPending } = useFetchProducts();
 
 	// Pending 통합 상태 관리
-	const isPending = isFetchReviewsPending;
+	const isPending = isFetchReviewsPending || isFetchProductsPending;
 
 	return (
 		<div className="px-3">
@@ -34,26 +37,26 @@ function LocationReviewAll({ location_id }: { location_id: string }) {
 				</Button>
 			</div>
 			{/* 후기 목록 UI */}
-			<div className="flex flex-col mt-39 pb-3">
+			<ul className="flex flex-col mt-41 pb-3">
 				<Activity mode={isPending ? 'hidden' : 'visible'}>
 					{/* 후기가 없을 때 대체 UI */}
 					<Activity mode={fetchReviews?.length === 0 ? 'visible' : 'hidden'}>
-						<div className="flex flex-col justify-center items-center gap-y-2 min-h-[calc(100svh-160px)]">
+						<li className="flex flex-col justify-center items-center gap-y-2 min-h-[calc(100svh-176px)]">
 							<InfoIcon width={48} height={48} className="stroke-[1.5]" />
 							<p className="font-medium">작성된 후기가 없습니다.</p>
-						</div>
+						</li>
 					</Activity>
 					{/* 후기가 있을 때 */}
 					<Activity mode={fetchReviews && fetchReviews.length > 0 ? 'visible' : 'hidden'}>
 						{fetchReviews?.map((review) => (
 							<ReviewItem key={review.review_id} {...review} />
 						))}
-						<div className="flex justify-center items-center p-3 text-sm border-b border-t-0 bg-muted">
+						<li className="flex justify-center items-center p-3 text-sm border-b border-t-0 bg-muted">
 							마지막 후기입니다
-						</div>
+						</li>
 					</Activity>
 				</Activity>
-			</div>
+			</ul>
 		</div>
 	);
 }
