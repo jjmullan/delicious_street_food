@@ -129,7 +129,7 @@ function MyPage() {
 					{/* 프로필 이미지 */}
 					<div className="relative h-28 w-28">
 						<div className="absolute inset-0 border rounded-full">{/* 여기에 리워드 이미지 추가 */}</div>
-						<img src={origin_profile_image} className="cursor-pointer rounded-full object-cover" alt="user profile" />
+						<img src={origin_profile_image} className="rounded-full object-contain w-full h-full" alt="user profile" />
 					</div>
 					{/* 프로필 설명 */}
 					<div className="flex flex-col items-center">
@@ -162,7 +162,7 @@ function MyPage() {
 							<div className="absolute inset-0 border rounded-full">{/* 여기에 리워드 이미지 추가 */}</div>
 							<img
 								src={profileImage?.previewUrl ?? origin_profile_image}
-								className="cursor-pointer rounded-full w-full h-full object-cover"
+								className="cursor-pointer rounded-full w-full h-full object-contain"
 								alt="user profile"
 							/>
 						</button>
