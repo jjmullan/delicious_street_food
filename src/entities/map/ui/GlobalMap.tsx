@@ -1,11 +1,13 @@
 import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@app/store/createLocationStore';
 import { useLocation } from '@app/store/locationStore';
+import { useProductFilter } from '@app/store/productFilterStore';
 import CreateLocation from '@features/location/create/ui/CreateLocation';
 import {
 	validateLocationDistance,
 	validateMaxDistanceFromCurrentLocation,
 } from '@features/location/create/utils/validateLocationDistance';
 import useFetchLocations from '@features/location/fetch/hooks/useFetchLocations';
+import useFetchLocationsByProducts from '@features/location/fetch/hooks/useFetchLocationsByProducts';
 import { initialLocation } from '@features/location/fetch/libs/location';
 import type { AbbrLocation } from '@features/location/fetch/types/location';
 import LocationFinder from '@features/location/fetch/ui/LocationFinder';
@@ -18,8 +20,6 @@ import { Activity, useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
 import { useOutletContext } from 'react-router';
 import { toast } from 'sonner';
-import { useProductFilter } from '@/app/store/productFilterStore';
-import useFetchLocationsByProducts from '@/features/location/fetch/hooks/useFetchLocationsByProducts';
 
 function GlobalMap() {
 	// 세션 데이터 받아오기
@@ -36,6 +36,7 @@ function GlobalMap() {
 
 	// 상품 필터링 데이터 패칭 API 호출
 	const productFilter = useProductFilter();
+	const filteredProductEnName = productFilter?.product_name_en;
 	const { data: fetchFilteredLocations } = useFetchLocationsByProducts(productFilter?.product_id);
 
 	// product_id가 있으면 필터링된 location, 없으면 전체 location 사용
@@ -122,7 +123,12 @@ function GlobalMap() {
 									position={{ lat: Number(location.latitude), lng: Number(location.longitude) }}
 									clickable={true}
 								>
-									<LocationFinder is_my_location={false} {...location} user_id={location.user_id ?? undefined} />
+									<LocationFinder
+										is_my_location={false}
+										{...location}
+										user_id={location.user_id ?? undefined}
+										product_name_en={filteredProductEnName}
+									/>
 								</CustomOverlayMap>
 							))}
 

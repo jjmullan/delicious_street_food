@@ -1,16 +1,20 @@
+import useFetchFavorite from '@features/favorite/fetch/hooks/useFetchFavorite';
+import { characterImages } from '@features/product/item/libs/item';
+import useFetchReviewImagesByLocation from '@features/review/fetch/hook/useFetchReviewImagesByLocation';
+import useFetchReviewsByLocation from '@features/review/fetch/hook/useFetchReviewsByLocation';
 import { PopoverClose } from '@radix-ui/react-popover';
 import foodstall from '@shared/assets/character/foodstall.svg';
+import { getRandomArrayItem } from '@shared/lib/utils';
+import type { Location, User } from '@shared/types/types';
+import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/shadcn/popover';
 import { BookmarkIcon, CameraIcon, MessageCircleMoreIcon, PenBoxIcon } from 'lucide-react';
 import { Activity, useMemo } from 'react';
 import { Link } from 'react-router';
-import useFetchFavorite from '@/features/favorite/fetch/hooks/useFetchFavorite';
-import useFetchReviewImagesByLocation from '@/features/review/fetch/hook/useFetchReviewImagesByLocation';
-import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchReviewsByLocation';
-import { getRandomArrayItem } from '@/shared/lib/utils';
-import type { Location, User } from '@/shared/types/types';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
 
-function LocationInfoModal({ location_id }: Partial<Location> & { userData: Partial<User> }) {
+function LocationInfoModal({
+	location_id,
+	product_name_en,
+}: Partial<Location> & { userData: Partial<User> } & { product_name_en?: string }) {
 	const { data: fetchReviewImages, isPending: isFetchReviewImagesPending } = useFetchReviewImagesByLocation(
 		location_id!
 	);
@@ -33,7 +37,11 @@ function LocationInfoModal({ location_id }: Partial<Location> & { userData: Part
 					<div className="relative w-7 h-7">
 						<div className="absolute inset-[-8px] rounded-full bg-gradient-location p-1" />
 						<div className={`absolute inset-0 rounded-full m-1 z-1 flex items-center justify-center`}>
-							<img src={foodstall} alt="포장마차" className="w-7 h-7 object-contain" />
+							<img
+								src={product_name_en ? characterImages[product_name_en] : foodstall}
+								alt="포장마차"
+								className="w-7 h-7 object-contain"
+							/>
 						</div>
 					</div>
 				</div>

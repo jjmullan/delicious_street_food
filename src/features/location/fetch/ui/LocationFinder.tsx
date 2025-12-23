@@ -1,7 +1,7 @@
+import LocationInfoModal from '@features/location/fetch/ui/LocationInfoModal';
+import useFecthUserData from '@features/user/fetch/hooks/useFecthUserData';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
-import LocationInfoModal from '@/features/location/fetch/ui/LocationInfoModal';
-import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
-import type { Location } from '@/shared/types/types';
+import type { Location } from '@shared/types/types';
 
 /**
  * 현재 위치를 표시해주는 원형 컴포넌트
@@ -10,13 +10,16 @@ function LocationFinder({
 	is_my_location,
 	location_id,
 	user_id,
+	product_name_en,
 	created_at,
 	total_recommend_count,
 	total_review_count,
 	total_visit_count,
 	total_favorite_count,
 	is_create_location,
-}: { is_my_location: boolean; user_id?: string } & Partial<Location> & { is_create_location?: boolean }) {
+}: { is_my_location: boolean; user_id?: string } & Partial<Location> & { is_create_location?: boolean } & {
+		product_name_en?: string;
+	}) {
 	// 프로필 이미지 추출
 	const { data: fetchUser, isPending: isFetchUserPending } = useFecthUserData(user_id);
 	const profile_image_url = fetchUser?.profile_image_url;
@@ -50,6 +53,7 @@ function LocationFinder({
 				<LocationInfoModal
 					userData={fetchUser!}
 					location_id={location_id}
+					product_name_en={product_name_en}
 					created_at={created_at}
 					total_recommend_count={total_recommend_count}
 					total_review_count={total_review_count}
