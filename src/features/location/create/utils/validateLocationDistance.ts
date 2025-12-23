@@ -79,6 +79,24 @@ export function validateLocationDistance(
 }
 
 /**
+ * 두 지점 간의 거리를 계산합니다.
+ * @param location1 첫 번째 위치
+ * @param location2 두 번째 위치
+ * @returns 두 지점 간의 거리 (미터 단위)
+ */
+export function calculateDistanceFromLocation(location1: AbbrLocation, location2: AbbrLocation): number {
+	// 위치가 없는 경우 0 반환
+	if (!location1 || !location2) {
+		return 0;
+	}
+
+	// 하버사인 공식을 사용하여 거리 계산
+	const distance = calculateHaversineDistance(location1.lat, location1.lng, location2.lat, location2.lng);
+
+	return distance;
+}
+
+/**
  * 클릭한 위치가 현재 위치로부터 최대 거리 이내에 있는지 검증합니다.
  * @param clickedLocation 클릭한 위치
  * @param currentLocation 현재 위치
