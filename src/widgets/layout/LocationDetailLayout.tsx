@@ -20,7 +20,7 @@ function LocationDetailLayout() {
 			<DetailHeader title={'포장마차'} />
 			<LocationNavigation location_id={location_id!} />
 			<main className="relative mt-24">
-				<Outlet />
+				<Outlet context={{ session }} />
 			</main>
 		</div>
 	);

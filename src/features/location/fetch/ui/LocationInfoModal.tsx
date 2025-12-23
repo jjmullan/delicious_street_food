@@ -1,26 +1,30 @@
+import { useLocation } from '@app/store/locationStore';
 import useFetchFavorite from '@features/favorite/fetch/hooks/useFetchFavorite';
+import { calculateDistanceFromLocation } from '@features/location/create/utils/validateLocationDistance';
 import { characterImages } from '@features/product/item/libs/item';
 import useFetchReviewImagesByLocation from '@features/review/fetch/hook/useFetchReviewImagesByLocation';
 import useFetchReviewsByLocation from '@features/review/fetch/hook/useFetchReviewsByLocation';
 import { PopoverClose } from '@radix-ui/react-popover';
 import foodstall from '@shared/assets/character/foodstall.svg';
 import { getRandomArrayItem } from '@shared/lib/utils';
-import type { Location, User } from '@shared/types/types';
+import type { Location } from '@shared/types/types';
 import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/shadcn/popover';
+import type { Session } from '@supabase/supabase-js';
 import { CameraIcon, HeartIcon, MessageCircleMoreIcon } from 'lucide-react';
 import { Activity, useMemo } from 'react';
-import { Link } from 'react-router';
-import { useLocation } from '@/app/store/locationStore';
-import { calculateDistanceFromLocation } from '@/features/location/create/utils/validateLocationDistance';
+import { Link, useOutletContext } from 'react-router';
 
 function LocationInfoModal({
-	userData,
 	location_id,
 	latitude,
 	longitude,
 	location_name,
 	product_name_en,
-}: Partial<Location> & { userData: Partial<User> } & { product_name_en?: string }) {
+}: Partial<Location> & { product_name_en?: string }) {
+	// 현재 로그인한 사용자 정보 가져오기
+	const { session } = useOutletContext<{ session: Session }>();
+	const current_user_id = session?.user?.id;
+
 	// 데이터 패칭
 	const { data: fetchReviewImages, isPending: isFetchReviewImagesPending } = useFetchReviewImagesByLocation(
 		location_id!
@@ -30,9 +34,9 @@ function LocationInfoModal({
 
 	// 내가 해당 장소에 즐겨찾기 등록을 했는지 여부를 검증
 	const isFavorited = useMemo(() => {
-		if (!fetchFavorites || !userData?.user_id) return false;
-		return fetchFavorites.some((favorite) => favorite.user_id === userData.user_id);
-	}, [fetchFavorites, userData?.user_id]);
+		if (!fetchFavorites || !current_user_id) return false;
+		return fetchFavorites.some((favorite) => favorite.user_id === current_user_id);
+	}, [fetchFavorites, current_user_id]);
 
 	// 현재 위치와 장소와의 위치를 계산
 	const location = useLocation();

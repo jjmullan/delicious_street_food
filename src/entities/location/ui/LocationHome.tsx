@@ -1,22 +1,26 @@
+import LocationMap from '@entities/map/ui/LocationMap';
+import ToggleFavoriteButton from '@features/favorite/toggle/ui/ToggleFavoriteButton';
+import useFetchLocation from '@features/location/fetch/hooks/useFetchLocation';
+import LocationFinder from '@features/location/fetch/ui/LocationFinder';
+import LocationProductItem from '@features/location/fetch/ui/LocationProductItem';
+import { getFullLocationAddress } from '@features/location/fetch/utils/getLocationAddress';
+import useFetchProducts from '@features/product/item/hooks/useFetchProducts';
+import useFetchReviewProductsByLocation from '@features/review/fetch/hook/useFetchReviewProductsByLocation';
+import useFetchReviewsByLocation from '@features/review/fetch/hook/useFetchReviewsByLocation';
+import useFecthUserData from '@features/user/fetch/hooks/useFecthUserData';
+import { getDateTimeKo } from '@shared/lib/day';
+import ShareLocationButton from '@shared/ui/button/ShareLocationButton';
+import Separator from '@shared/ui/separator/Separator';
+import type { Session } from '@supabase/supabase-js';
 import { ClockIcon, FrownIcon, HatGlassesIcon, MapPinIcon, StoreIcon } from 'lucide-react';
 import { Activity, useEffect, useMemo } from 'react';
 import { CustomOverlayMap } from 'react-kakao-maps-sdk';
-import { useParams } from 'react-router';
-import LocationMap from '@/entities/map/ui/LocationMap';
-import ToggleFavoriteButton from '@/features/favorite/toggle/ui/ToggleFavoriteButton';
-import useFetchLocation from '@/features/location/fetch/hooks/useFetchLocation';
-import LocationFinder from '@/features/location/fetch/ui/LocationFinder';
-import LocationProductItem from '@/features/location/fetch/ui/LocationProductItem';
-import { getFullLocationAddress } from '@/features/location/fetch/utils/getLocationAddress';
-import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
-import useFetchReviewProductsByLocation from '@/features/review/fetch/hook/useFetchReviewProductsByLocation';
-import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchReviewsByLocation';
-import useFecthUserData from '@/features/user/fetch/hooks/useFecthUserData';
-import { getDateTimeKo } from '@/shared/lib/day';
-import ShareLocationButton from '@/shared/ui/button/ShareLocationButton';
-import Separator from '@/shared/ui/separator/Separator';
+import { useOutletContext, useParams } from 'react-router';
 
 function LocationHome() {
+	// context 로 session 받아오기
+	const { session } = useOutletContext<{ session: Session }>();
+
 	// Param 에서 location_id 추출
 	const param = useParams();
 	const location_id = param.locationId;
@@ -30,7 +34,10 @@ function LocationHome() {
 
 	// 위치 상세 데이터 추출
 	const location_name = fetchLocation?.location_name;
-	const user_id = fetchLocation?.user_id;
+	const location_creator_id = fetchLocation?.user_id;
+
+	// 현재 로그인한 사용자 ID (즐겨찾기 기능에 사용)
+	const current_user_id = session?.user?.id;
 
 	// 중복 제거된 unique product_id 추출 및 product_name_ko 오름차순 정렬
 	const { data: fetchProducts, isPending: isFetchProductsPending } = useFetchProducts();
@@ -83,8 +90,8 @@ function LocationHome() {
 	const updated_at_ko = getDateTimeKo({ date: updated_at, isTimeIncluding: false });
 	const lastProductUpdated_ko = getDateTimeKo({ date: lastProductUpdated, isTimeIncluding: false });
 
-	// 유저 데이터 추출
-	const { data: fetchUser, isPending: isFetchUserPending } = useFecthUserData(user_id!);
+	// 장소 생성자 유저 데이터 추출
+	const { data: fetchUser, isPending: isFetchUserPending } = useFecthUserData(location_creator_id!);
 	const nickname = fetchUser?.nickname;
 
 	// 위도/경도 기반 주소 데이터 추출
@@ -109,7 +116,7 @@ function LocationHome() {
 			<div className="pb-3">
 				{/* 버튼 */}
 				<section className="flex gap-x-2 justify-center px-3 py-4">
-					<ToggleFavoriteButton location_id={location_id!} user_id={user_id!} />
+					<ToggleFavoriteButton location_id={location_id!} user_id={current_user_id!} />
 					<ShareLocationButton />
 				</section>
 				<Separator />
