@@ -86,7 +86,7 @@ function GlobalMap() {
 				<Activity mode={isPending ? 'hidden' : 'visible'}>
 					<Map
 						center={draggedLocation ?? location}
-						level={3}
+						level={4}
 						className="h-svh"
 						onDragEnd={handleDragEnd}
 						onDoubleClick={() => {
