@@ -102,7 +102,7 @@ function LocationInfoModal({
 								</Activity>
 								<div className="flex justify-center items-center gap-x-0.5">
 									{/* <MousePointer2Icon width={14} height={14} strokeWidth={1.8} className="scale-x-[-1]" /> */}
-									<p className="text-xs">현재 위치로부터 {fotmattedDistance}</p>
+									<p className="text-xs px-2">현재 위치로부터 {fotmattedDistance}</p>
 								</div>
 							</div>
 							{/* 후기 & 즐겨찾기 */}
