@@ -1,13 +1,15 @@
 import { ArrowLeftCircle, HomeIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
+import { useLocation } from '@/app/store/locationStore';
 
 function DetailHeader({ title }: { title: string }) {
 	const navigate = useNavigate();
+	const location = useLocation();
 	const handleGoBack = () => {
 		navigate(-1);
 	};
 	const handleGoRootPage = () => {
-		navigate('/');
+		navigate(`/?lat=${location.lat}&lng=${location.lng}`);
 	};
 	return (
 		<header className="fixed flex justify-between items-center text-sm full-width bg-[#fff] z-1">
