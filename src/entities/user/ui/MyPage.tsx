@@ -117,7 +117,8 @@ function MyPage() {
 	const isPending = isFetchUserPending || isUpdateProfileImagePending || isUpdateProfilePending || isFetchReviewsByUser;
 
 	// disabled 상태 통합 관리
-	const disabled = nickname === '' || nicknameError !== '' || (nickname === origin_nickname && bio === origin_bio);
+	const disabled =
+		nickname === '' || nicknameError !== '' || (!profileImage && nickname === origin_nickname && bio === origin_bio);
 
 	return (
 		<div className="flex flex-col items-center min-h-[calc(100svh-48px)] relative gap-y-3">
