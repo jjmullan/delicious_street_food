@@ -7,8 +7,8 @@ import UnloggedInHeader from '@/widgets/header/UnloggedInHeader';
  */
 function UnloggedInLayout() {
 	const session = useSession();
-
 	if (session) return <Navigate to={'/'} replace={true} />;
+
 	return (
 		<>
 			<main className="px-4">

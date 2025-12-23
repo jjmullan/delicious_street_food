@@ -13,7 +13,7 @@ function CreateReviewLayout() {
 		<div className="min-h-svh full-width">
 			<CreateReviewHeader />
 			<main className="mt-12 mb-20">
-				<Outlet />
+				<Outlet context={{ session }} />
 			</main>
 		</div>
 	);
