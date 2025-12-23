@@ -1,5 +1,6 @@
 import { Activity } from 'react';
 import { Navigate, Outlet } from 'react-router';
+import LocationProvider from '@/app/provider/LocationProvider';
 import { useIsCreateMode } from '@/app/store/createLocationStore';
 import { useSession } from '@/app/store/sessionStore';
 import ResetCreateModeButton from '@/features/location/create/ui/ResetCreateModeButton';
@@ -13,13 +14,13 @@ function MapLayout() {
 	const session = useSession();
 	if (!session) return <Navigate to={'/login'} replace={true} />;
 	return (
-		<>
+		<LocationProvider>
 			<Outlet context={{ session }} />
 			<Activity mode={isCreateMode ? 'visible' : 'hidden'}>
 				<ResetCreateModeButton />
 			</Activity>
 			<MapHeader />
-		</>
+		</LocationProvider>
 	);
 }
 
