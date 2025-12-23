@@ -1,23 +1,16 @@
 import { type ReactNode, useEffect } from 'react';
+import { useSearchParams } from 'react-router';
 import { toast } from 'sonner';
 import { useIsLocationUpdated, useSetLocation } from '@/app/store/locationStore';
-import { useIsSessionLoaded, useSession } from '@/app/store/sessionStore';
+import { initialLocation } from '@/features/location/fetch/libs/location';
 
 function LocationProvider({ children }: { children: ReactNode }) {
-	const session = useSession();
-	const userId = session?.user.id;
-	const isSessionLoaded = useIsSessionLoaded();
-
 	// 위치정보
 	const isLocationUpdated = useIsLocationUpdated();
 	const setLocation = useSetLocation();
+	const [searchParam, setSearchParam] = useSearchParams();
 
 	useEffect(() => {
-		// 세션이 로드되지 않았거나 userId가 없으면 실행하지 않음
-		if (!isSessionLoaded || !userId) {
-			return;
-		}
-
 		// 이미 위치 정보를 가져왔으면 실행하지 않음 (최초 로그인 시에만 실행)
 		if (isLocationUpdated) {
 			return;
@@ -41,10 +34,13 @@ function LocationProvider({ children }: { children: ReactNode }) {
 
 				// 전역 상태에 위치 저장
 				setLocation(newLocation);
+				setSearchParam({ lat: newLocation.lat.toString(), lng: newLocation.lng.toString() });
 			},
 			(error) => {
 				switch (error.code) {
 					case error.PERMISSION_DENIED:
+						setLocation(initialLocation);
+						setSearchParam({ lat: initialLocation.lat.toString(), lng: initialLocation.lng.toString() });
 						toast.error('위치 정보 제공이 거부되었습니다. 기본 위치로 설정됩니다.', { position: 'top-center' });
 						break;
 					case error.POSITION_UNAVAILABLE:
@@ -61,7 +57,7 @@ function LocationProvider({ children }: { children: ReactNode }) {
 				timeout: 10_000, // 10초 안에 위치 정보를 가져오기 (무한 대기 상태 방지 목적)
 			}
 		);
-	}, [userId, isSessionLoaded, isLocationUpdated, setLocation]);
+	}, [isLocationUpdated, setLocation]);
 
 	return children;
 }
