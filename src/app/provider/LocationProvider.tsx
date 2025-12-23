@@ -1,15 +1,20 @@
 import { type ReactNode, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useIsLocationUpdated, useSetLocation } from '@/app/store/locationStore';
+import { useSetSession } from '@/app/store/sessionStore';
 import { initialLocation } from '@/features/location/fetch/libs/location';
 
 function LocationProvider({ children }: { children: ReactNode }) {
+	// 세션
+	const setSession = useSetSession();
+
 	// 위치정보
 	const isLocationUpdated = useIsLocationUpdated();
 	const setLocation = useSetLocation();
 	const [isLocationLoading, setIsLocationLoading] = useState(!isLocationUpdated);
 	const [searchParam, setSearchParam] = useSearchParams();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		// 이미 위치 정보를 가져왔으면 실행하지 않음 (최초 로그인 시에만 실행)
@@ -52,6 +57,9 @@ function LocationProvider({ children }: { children: ReactNode }) {
 						toast.error('위치 정보를 사용할 수 없습니다.', { position: 'top-center' });
 						break;
 					case error.TIMEOUT:
+						setSession(null);
+						navigate('/login');
+						setIsLocationLoading(false);
 						toast.error('요청 시간이 초과되었습니다.', { position: 'top-center' });
 						break;
 				}
