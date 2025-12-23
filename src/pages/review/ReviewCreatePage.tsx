@@ -1,27 +1,27 @@
+import { useOpenConfirmModal } from '@app/store/confirmModalStore';
+import useFetchProducts from '@features/product/item/hooks/useFetchProducts';
+import useCreateReview from '@features/review/create/hook/useCreateReview';
+import useCreateReviewImages from '@features/review/create/hook/useCreateReviewImages';
+import useCreateReviewProducts from '@features/review/create/hook/useCreateReviewProduct';
+import type { ImageURL } from '@features/review/create/types/image';
+import CreateReviewTitle from '@features/review/create/ui/CreateReviewTitle';
+import PreviewImage from '@features/review/create/ui/PreviewImage';
+import ProgressBar from '@features/review/create/ui/ProgressBar';
+import SelectProductItemDetailForCreateReview from '@features/review/create/ui/SelectProductItemDetailForCreateReview';
+import SelectProductItemForCreateReview from '@features/review/create/ui/SelectProductItemForCreateReview';
+import { MAX_IMAGE_SLOT } from '@shared/lib/constants';
+import { getNowDateTimeKo } from '@shared/lib/day';
+import type { API_ReviewProduct, Product, Review } from '@shared/types/types';
+import PrevNextButton from '@shared/ui/button/PrevNextButton';
+import FallbackRequestAPI from '@shared/ui/fallback/FallbackRequestAPI';
+import { Button } from '@shared/ui/shadcn/button';
+import { Input } from '@shared/ui/shadcn/input';
+import { Textarea } from '@shared/ui/shadcn/textarea';
 import type { Session } from '@supabase/supabase-js';
 import { ImagePlusIcon } from 'lucide-react';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router';
 import { toast } from 'sonner';
-import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
-import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
-import useCreateReview from '@/features/review/create/hook/useCreateReview';
-import useCreateReviewImages from '@/features/review/create/hook/useCreateReviewImages';
-import useCreateReviewProducts from '@/features/review/create/hook/useCreateReviewProduct';
-import type { ImageURL } from '@/features/review/create/types/image';
-import CreateReviewTitle from '@/features/review/create/ui/CreateReviewTitle';
-import PreviewImage from '@/features/review/create/ui/PreviewImage';
-import ProgressBar from '@/features/review/create/ui/ProgressBar';
-import SelectProductItemDetailForCreateReview from '@/features/review/create/ui/SelectProductItemDetailForCreateReview';
-import SelectProductItemForCreateReview from '@/features/review/create/ui/SelectProductItemForCreateReview';
-import { MAX_IMAGE_SLOT } from '@/shared/lib/constants';
-import { getNowDateTimeKo } from '@/shared/lib/day';
-import type { API_ReviewProduct, Product, Review } from '@/shared/types/types';
-import PrevNextButton from '@/shared/ui/button/PrevNextButton';
-import FallbackRequestAPI from '@/shared/ui/fallback/FallbackRequestAPI';
-import { Button } from '@/shared/ui/shadcn/button';
-import { Input } from '@/shared/ui/shadcn/input';
-import { Textarea } from '@/shared/ui/shadcn/textarea';
 
 function ReviewCreatePage() {
 	const navigate = useNavigate();
@@ -125,6 +125,12 @@ function ReviewCreatePage() {
 	const handleSelectImages = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
 			const files = Array.from(e.target.files);
+			const notImageFiles = files.filter((file) => file.type.split('/')[0] !== 'image').length;
+
+			if (notImageFiles > 0) {
+				toast.error('이미지가 아닌 파일이 있습니다. 다시 확인해주세요.', { position: 'top-center' });
+				return;
+			}
 
 			// 남은 업로드 가능 이미지 슬롯 (9 - ?)
 			const slot = MAX_IMAGE_SLOT - images.length;
