@@ -18,7 +18,7 @@ import MapAsideBar from '@widgets/aside/MapAsideBar';
 import { TriangleIcon } from 'lucide-react';
 import { Activity, useEffect, useState } from 'react';
 import { CustomOverlayMap, Map, MarkerClusterer } from 'react-kakao-maps-sdk';
-import { useOutletContext } from 'react-router';
+import { useOutletContext, useSearchParams } from 'react-router';
 import { toast } from 'sonner';
 
 function GlobalMap() {
@@ -61,6 +61,20 @@ function GlobalMap() {
 		return () => clearTimeout(timer);
 	}, [clickedTime]);
 
+	// 지도 드래그 완료 시 중심점을 쿼리스트링에 저장
+	const [searchParams, setSearchParams] = useSearchParams();
+	const handleDragEnd = (map: kakao.maps.Map) => {
+		const center = map.getCenter();
+		const lat = center.getLat();
+		const lng = center.getLng();
+
+		setSearchParams({ lat: lat.toString(), lng: lng.toString() });
+	};
+	const draggedLocation: AbbrLocation = {
+		lat: Number(searchParams.get('lat')),
+		lng: Number(searchParams.get('lng')),
+	};
+
 	// 모달 닫기
 	const handleCloseModal = () => {
 		setIsCreateLocationUIOpen(false);
@@ -74,9 +88,10 @@ function GlobalMap() {
 			<main className="relative">
 				<Activity mode={isPending ? 'hidden' : 'visible'}>
 					<Map
-						center={location}
+						center={draggedLocation ?? location}
 						level={3}
 						className="h-svh"
+						onDragEnd={handleDragEnd}
 						onDoubleClick={() => {
 							return;
 						}}
