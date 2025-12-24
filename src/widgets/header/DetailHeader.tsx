@@ -12,7 +12,7 @@ function DetailHeader({ title }: { title: string }) {
 		navigate(`/?lat=${location.lat}&lng=${location.lng}`);
 	};
 	return (
-		<header className="fixed flex justify-between items-center text-sm max-w-[765px] w-full min-w-[320px] bg-[#fff] z-1">
+		<header className="fixed flex justify-between items-center text-sm max-w-[765px] w-full min-w-[320px] bg-[#fff] z-2">
 			<button
 				type="button"
 				className="cursor-pointer w-12 h-12 flex justify-center items-center"
