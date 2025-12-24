@@ -8,7 +8,7 @@ function UnloggedInHeader() {
 	const currentHref = window.location.href.split('/').pop();
 
 	return (
-		<header className="flex justify-between items-center text-lg absolute top-0 w-full">
+		<header className="flex justify-between items-center text-lg absolute top-0 w-full bg-[#fff] z-2">
 			<button
 				type="button"
 				onClick={() => navigate(-1)}
