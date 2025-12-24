@@ -185,7 +185,7 @@ function LocationHome() {
 					</div>
 				</section>
 				{/* 지도 */}
-				<section className="flex px-3">
+				<section className="flex px-3 pb-50">
 					<h4 className="sr-only">위치 정보</h4>
 					<LocationMap lat={lat} lng={lng}>
 						<CustomOverlayMap position={{ lat, lng }} clickable={true}>
