@@ -1,6 +1,7 @@
 import author from '@shared/assets/extra/author.svg';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 import { useCreateLocationModal } from '@/app/store/createLocationModalStore';
 import { useIsCreateMode, useLocationForCreate, useSetIsCreateMode } from '@/app/store/createLocationStore';
 import { useSession } from '@/app/store/sessionStore';
@@ -57,7 +58,17 @@ function CreateLocationModal() {
 	}, [hasName]);
 
 	const store = useCreateLocationModal();
+	const openConfirmModal = useOpenConfirmModal();
 	const handleActionClick = () => {
+		openConfirmModal({
+			title: '정말 생성하시겠습니까?',
+			description: '한번 생성된 포장마차는 임의로 수정, 삭제할 수 없습니다. 위치 정보와 매장명을 꼭 확인해주세요!',
+			onPositive: () => {
+				handleRequestCreateLocation();
+			},
+		});
+	};
+	const handleRequestCreateLocation = () => {
 		// 매장 이름이 있다고 선택했는데 입력하지 않은 경우
 		if (hasName && locationName.trim() === '') {
 			toast.error('매장 이름을 입력해주세요.', { position: 'top-center' });
