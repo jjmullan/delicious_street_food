@@ -57,10 +57,10 @@ export async function deleteFavorite(favorite_id: string): Promise<Favorite | nu
  * @returns {Promise<Favorite[]>} 해당 위치의 모든 즐겨찾기 목록
  * @throws {Error} 데이터베이스 조회 실패 시 Supabase 에러 발생
  * @example
- * const favorites = await fetchFavorite('loc-123');
+ * const favorites = await fetchFavoriteByLocation('loc-123');
  * console.log(`총 ${favorites.length}명이 즐겨찾기했습니다.`);
  */
-export async function fetchFavorite(location_id: string): Promise<Favorite[]> {
+export async function fetchFavoriteByLocation(location_id: string): Promise<Favorite[]> {
 	const { data, error } = await supabase.from('favorite').select('*').eq('location_id', location_id);
 
 	if (error) throw error;

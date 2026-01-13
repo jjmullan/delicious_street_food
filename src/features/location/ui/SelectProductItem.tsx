@@ -1,6 +1,6 @@
 import { useProductFilter, useResetProductFilter, useSetProductFilter } from '@app/store/productFilterStore';
-import useFetchProducts from '@features/product/item/hooks/useFetchProducts';
-import { characterImages } from '@features/product/item/libs/item';
+import useFetchProducts from '@features/product/hooks/useFetchProducts';
+import { characterImages } from '@features/product/libs/item';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@shared/ui/shadcn/select';
 import { XCircleIcon } from 'lucide-react';
 

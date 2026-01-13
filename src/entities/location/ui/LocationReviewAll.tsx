@@ -1,5 +1,5 @@
 import { useOpenConfirmModal } from '@app/store/confirmModalStore';
-import useFetchProducts from '@features/product/item/hooks/useFetchProducts';
+import useFetchProducts from '@features/product/hooks/useFetchProducts';
 import useFetchReviewsByLocation from '@features/review/hooks/useFetchReviewsByLocation';
 import ReviewItem from '@features/review/ui/ReviewItem';
 import { Button } from '@shared/ui/shadcn/button';

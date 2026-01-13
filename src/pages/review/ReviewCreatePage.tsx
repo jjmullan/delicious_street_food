@@ -1,5 +1,5 @@
 import { useOpenConfirmModal } from '@app/store/confirmModalStore';
-import useFetchProducts from '@features/product/item/hooks/useFetchProducts';
+import useFetchProducts from '@features/product/hooks/useFetchProducts';
 import useCreateReview from '@features/review/hooks/useCreateReview';
 import useCreateReviewImages from '@features/review/hooks/useCreateReviewImages';
 import useCreateReviewProducts from '@features/review/hooks/useCreateReviewProduct';

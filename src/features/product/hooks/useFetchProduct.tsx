@@ -1,4 +1,4 @@
-import { fetchProduct } from '@features/product/item/api/product';
+import { fetchProduct } from '@features/product/api/product';
 import { QUERY_KEYS } from '@shared/lib/query';
 import { useQuery } from '@tanstack/react-query';
 

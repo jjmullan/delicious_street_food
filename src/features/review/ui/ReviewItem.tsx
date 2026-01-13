@@ -1,6 +1,6 @@
 import { useOpenConfirmModal } from '@app/store/confirmModalStore';
 import { useSession } from '@app/store/sessionStore';
-import useFetchProducts from '@features/product/item/hooks/useFetchProducts';
+import useFetchProducts from '@features/product/hooks/useFetchProducts';
 import { useDeleteReview } from '@features/review/hooks/useDeleteReview';
 import useFetchReviewImages from '@features/review/hooks/useFetchReviewImages';
 import useFetchReviewProducts from '@features/review/hooks/useFetchReviewProducts';

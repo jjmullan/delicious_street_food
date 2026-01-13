@@ -1,5 +1,5 @@
-import { items } from '@features/product/item/libs/item';
-import ProductItem from '@features/product/item/ui/ProductItem';
+import { items } from '@features/product/libs/item';
+import ProductItem from '@features/product/ui/ProductItem';
 
 /**
  * 길거리 음식 상품 리스트

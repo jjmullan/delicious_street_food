@@ -1,5 +1,5 @@
-import useFetchProducts from '@features/product/item/hooks/useFetchProducts';
-import { characterImages } from '@features/product/item/libs/item';
+import useFetchProducts from '@features/product/hooks/useFetchProducts';
+import { characterImages } from '@features/product/libs/item';
 import { Activity } from 'react';
 
 interface LocationProductItemProps {

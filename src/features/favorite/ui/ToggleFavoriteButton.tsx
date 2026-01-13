@@ -1,10 +1,10 @@
-import useFetchFavorite from '@features/favorite/hooks/useFetchFavorite';
+import useFetchFavoriteByLocation from '@features/favorite/hooks/useFetchFavoriteByLocation';
 import useToggleFavorite from '@features/favorite/hooks/useToggleFavorite';
 import { Button } from '@shared/ui/shadcn/button';
 import { HeartIcon } from 'lucide-react';
 
 function ToggleFavoriteButton({ location_id, user_id }: { location_id: string; user_id: string }) {
-	const { data: favorites } = useFetchFavorite(location_id);
+	const { data: favorites } = useFetchFavoriteByLocation(location_id);
 	const { mutate: toggleFavorite } = useToggleFavorite(location_id, user_id);
 
 	// 현재 사용자의 즐겨찾기 찾기

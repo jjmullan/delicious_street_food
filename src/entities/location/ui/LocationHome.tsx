@@ -4,7 +4,7 @@ import useFetchLocation from '@features/location/hooks/useFetchLocation';
 import LocationFinder from '@features/location/ui/LocationFinder';
 import LocationProductItem from '@features/location/ui/LocationProductItem';
 import { getFullLocationAddress } from '@features/location/utils/getLocationAddress';
-import useFetchProducts from '@features/product/item/hooks/useFetchProducts';
+import useFetchProducts from '@features/product/hooks/useFetchProducts';
 import useFetchReviewProductsByLocation from '@features/review/hooks/useFetchReviewProductsByLocation';
 import useFetchReviewsByLocation from '@features/review/hooks/useFetchReviewsByLocation';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';

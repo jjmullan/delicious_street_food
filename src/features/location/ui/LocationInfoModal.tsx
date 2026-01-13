@@ -1,7 +1,7 @@
 import { useLocation } from '@app/store/locationStore';
-import useFetchFavorite from '@features/favorite/hooks/useFetchFavorite';
+import useFetchFavoriteByLocation from '@features/favorite/hooks/useFetchFavoriteByLocation';
 import { calculateDistanceFromLocation } from '@features/location/utils/validateLocationDistance';
-import { characterImages } from '@features/product/item/libs/item';
+import { characterImages } from '@features/product/libs/item';
 import useFetchReviewImagesByLocation from '@features/review/hooks/useFetchReviewImagesByLocation';
 import useFetchReviewsByLocation from '@features/review/hooks/useFetchReviewsByLocation';
 import { PopoverClose } from '@radix-ui/react-popover';
@@ -30,7 +30,7 @@ function LocationInfoModal({
 		location_id!
 	);
 	const { data: fetchReviews, isPending: isFetchReviewsPending } = useFetchReviewsByLocation(location_id!);
-	const { data: fetchFavorites, isPending: isFetchFavoritesPending } = useFetchFavorite(location_id!);
+	const { data: fetchFavorites, isPending: isFetchFavoritesPending } = useFetchFavoriteByLocation(location_id!);
 
 	// 내가 해당 장소에 즐겨찾기 등록을 했는지 여부를 검증
 	const isFavorited = useMemo(() => {
