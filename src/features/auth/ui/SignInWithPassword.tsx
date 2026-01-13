@@ -1,14 +1,14 @@
+import { useLocation } from '@app/store/locationStore';
+import useSignInWithPassword from '@features/auth/hooks/useSignInWithPassword';
+import { generateErrorMessage } from '@shared/lib/error';
+import AdditionalNoticeAtEdge from '@shared/ui/description/AdditionalNoticeAtEdge';
+import FallbackText from '@shared/ui/fallback/FallbackText';
+import { Input } from '@shared/ui/shadcn/input';
+import Title from '@shared/ui/title/Title';
 import { EyeClosedIcon, EyeIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import { useLocation } from '@/app/store/locationStore';
-import useSignInWithPassword from '@/features/auth/signIn/hooks/mutation/useSignInWithPassword';
-import { generateErrorMessage } from '@/shared/lib/error';
-import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
-import FallbackText from '@/shared/ui/fallback/FallbackText';
-import { Input } from '@/shared/ui/shadcn/input';
-import Title from '@/shared/ui/title/Title';
 
 function SignInWithPassword() {
 	const navigate = useNavigate();

@@ -1,11 +1,11 @@
+import useSignUpWithEmail from '@features/auth/hooks/useSignUpWithEmail';
+import validateEmail from '@features/auth/utils/validateEmail';
+import validatePassword from '@features/auth/utils/validatePassword';
+import { generateErrorMessage } from '@shared/lib/error';
+import AdditionalNoticeAtEdge from '@shared/ui/description/AdditionalNoticeAtEdge';
 import { Activity, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
-import useSignUpWithEmail from '@/features/auth/signUp/hooks/useSignUpWithEmail';
-import validateEmail from '@/features/auth/signUp/util/validateEmail';
-import validatePassword from '@/features/auth/signUp/util/validatePassword';
-import { generateErrorMessage } from '@/shared/lib/error';
-import AdditionalNoticeAtEdge from '@/shared/ui/description/AdditionalNoticeAtEdge';
 import FallbackText from '@/shared/ui/fallback/FallbackText';
 import { Input } from '@/shared/ui/shadcn/input';
 

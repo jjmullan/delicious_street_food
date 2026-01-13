@@ -1,6 +1,6 @@
+import { SignInWithOAuth } from '@features/auth/api/auth';
+import type { MutationCallback } from '@shared/types/types';
 import { useMutation } from '@tanstack/react-query';
-import { SignInWithOAuth } from '@/features/auth/signIn/api/auth';
-import type { MutationCallback } from '@/shared/types/types';
 
 /**
  * 이메일, 비밀번호를 이용한 로그인 요청 기능

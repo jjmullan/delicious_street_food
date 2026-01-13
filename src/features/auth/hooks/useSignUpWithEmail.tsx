@@ -1,6 +1,6 @@
+import { SignUpWithEmail } from '@features/auth/api/auth';
+import type { MutationCallback } from '@shared/types/types';
 import { useMutation } from '@tanstack/react-query';
-import { SignUpWithEmail } from '@/features/auth/signUp/api/auth';
-import type { MutationCallback } from '@/shared/types/types';
 
 function useSignUpWithEmail(callbacks: MutationCallback) {
 	return useMutation({

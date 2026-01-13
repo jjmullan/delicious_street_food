@@ -1,7 +1,7 @@
+import { useOpenConfirmModal } from '@app/store/confirmModalStore';
+import { signOut } from '@features/auth/api/auth';
 import { LogOutIcon } from 'lucide-react';
 import { toast } from 'sonner';
-import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
-import { signOut } from '@/features/auth/signOut/api/auth';
 
 function SignOutButton() {
 	const openConfirmModal = useOpenConfirmModal();
