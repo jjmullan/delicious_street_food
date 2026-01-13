@@ -10,7 +10,25 @@ import type {
 } from '@shared/types/types';
 
 /**
- * 특정 위치에 대해 작성한 상세 후기 내용을 생성하는 API
+ * @description 특정 위치에 대한 상세 후기를 생성합니다.
+ * @param {API_Review} params - 후기 생성 파라미터
+ * @param {string} params.user_id - 후기 작성자 ID
+ * @param {string} params.location_id - 후기 대상 위치 ID
+ * @param {string} params.review_title - 후기 제목
+ * @param {string} params.review_text - 후기 본문 내용
+ * @param {boolean} params.is_recommended - 추천 여부
+ * @param {string} params.visit_datetime - 방문 일시
+ * @returns {Promise<Review>} 생성된 후기 데이터
+ * @throws {Error} 데이터베이스 삽입 실패 시 Supabase 에러 발생
+ * @example
+ * const review = await createReview({
+ *   user_id: 'user-123',
+ *   location_id: 'loc-456',
+ *   review_title: '맛있어요!',
+ *   review_text: '붕어빵이 정말 맛있었습니다.',
+ *   is_recommended: true,
+ *   visit_datetime: '2024-01-15T14:30:00'
+ * });
  */
 export async function createReview({
 	user_id,
@@ -38,7 +56,23 @@ export async function createReview({
 }
 
 /**
- * 상세 후기 내용 중 구매한 상품에 대한 개별 목록을 생성하는 API
+ * @description 후기에 포함된 개별 상품 정보를 생성합니다.
+ * @param {API_ReviewProduct} params - 후기 상품 생성 파라미터
+ * @param {string} params.review_id - 후기 ID
+ * @param {string} params.product_id - 상품 ID
+ * @param {boolean} params.is_recommend - 해당 상품 추천 여부
+ * @param {number} params.order_price - 구매 가격
+ * @param {number} params.order_quantity - 구매 수량
+ * @returns {Promise<ReviewProduct>} 생성된 후기 상품 데이터
+ * @throws {Error} 데이터베이스 삽입 실패 시 Supabase 에러 발생
+ * @example
+ * const reviewProduct = await createReviewProduct({
+ *   review_id: 'review-789',
+ *   product_id: 'prod-붕어빵',
+ *   is_recommend: true,
+ *   order_price: 1000,
+ *   order_quantity: 3
+ * });
  */
 export async function createReviewProduct({
 	review_id,
@@ -64,9 +98,26 @@ export async function createReviewProduct({
 }
 
 /**
- * 특정 위치에 대해 업로드하려는 이미지 목록 데이터를 추가하는 API
- * 1. Supabase Storage에 이미지 파일 업로드
- * 2. review_image 테이블에 URL 삽입
+ * @description 후기에 첨부할 이미지들을 Supabase Storage에 업로드하고 DB에 저장합니다.
+ *
+ * 동작 과정:
+ * 1. 각 이미지에 대해 고유한 파일명 생성 (review_id + timestamp + random)
+ * 2. Supabase Storage 'review_images' 버킷에 업로드
+ * 3. Public URL 생성
+ * 4. review_image 테이블에 URL 정보 삽입
+ *
+ * @param {Object} params - 이미지 업로드 파라미터
+ * @param {string} params.review_id - 후기 ID
+ * @param {string} params.user_id - 사용자 ID (파일 경로에 사용)
+ * @param {ImageURL[]} params.images - 업로드할 이미지 파일 배열
+ * @returns {Promise<API_ReviewImage[]>} 업로드된 이미지 정보 배열 (빈 배열 가능)
+ * @throws {Error} 이미지 업로드 또는 DB 삽입 실패 시 에러 발생
+ * @example
+ * const uploadedImages = await createReviewImages({
+ *   review_id: 'review-789',
+ *   user_id: 'user-123',
+ *   images: [{ file: imageFile1, previewUrl: 'blob:...' }]
+ * });
  */
 export async function createReviewImages({
 	review_id,
@@ -126,7 +177,13 @@ export async function createReviewImages({
 }
 
 /**
- * 특정 위치에 작성된 모든 후기 정보를 패칭하는 API
+ * @description 특정 위치에 작성된 모든 후기를 최신순으로 조회합니다.
+ * @param {string} location_id - 조회할 위치 ID
+ * @returns {Promise<Review[]>} 해당 위치의 후기 목록 (created_at 내림차순 정렬)
+ * @throws {Error} 데이터베이스 조회 실패 시 Supabase 에러 발생
+ * @example
+ * const reviews = await fetchReviewsByLocation('loc-456');
+ * console.log(`${reviews.length}개의 후기가 있습니다.`);
  */
 export async function fetchReviewsByLocation(location_id: string): Promise<Review[]> {
 	const { data, error } = await supabase
@@ -140,7 +197,13 @@ export async function fetchReviewsByLocation(location_id: string): Promise<Revie
 }
 
 /**
- * 특정 유저가 작성한 모든 후기 정보를 패칭하는 API
+ * @description 특정 사용자가 작성한 모든 후기를 최신순으로 조회합니다.
+ * @param {string} user_id - 조회할 사용자 ID
+ * @returns {Promise<Review[]>} 해당 사용자의 후기 목록 (created_at 내림차순 정렬)
+ * @throws {Error} 데이터베이스 조회 실패 시 Supabase 에러 발생
+ * @example
+ * const myReviews = await fetchReviewsByUser('user-123');
+ * myReviews.forEach(review => console.log(review.review_title));
  */
 export async function fetchReviewsByUser(user_id: string): Promise<Review[]> {
 	const { data, error } = await supabase
@@ -154,8 +217,13 @@ export async function fetchReviewsByUser(user_id: string): Promise<Review[]> {
 }
 
 /**
- * 특정 후기에 해당하는 모든 상품 목록을 패칭하는 API
- * @param review_id
+ * @description 특정 후기에 포함된 모든 상품 목록을 조회합니다.
+ * @param {string} review_id - 조회할 후기 ID
+ * @returns {Promise<ReviewProduct[]>} 후기에 포함된 상품 목록 (product_id 내림차순 정렬)
+ * @throws {Error} 데이터베이스 조회 실패 시 Supabase 에러 발생
+ * @example
+ * const products = await fetchReviewProducts('review-789');
+ * products.forEach(p => console.log(`${p.product_id}: ${p.order_quantity}개`));
  */
 export async function fetchReviewProducts(review_id: string): Promise<ReviewProduct[]> {
 	const { data, error } = await supabase
@@ -169,8 +237,13 @@ export async function fetchReviewProducts(review_id: string): Promise<ReviewProd
 }
 
 /**
- * 특정 후기에 해당하는 모든 이미지 목록을 패칭하는 API
- * @param review_id
+ * @description 특정 후기에 첨부된 모든 이미지를 조회합니다.
+ * @param {string} review_id - 조회할 후기 ID
+ * @returns {Promise<ReviewImage[]>} 후기 이미지 목록 (created_at 오름차순 정렬)
+ * @throws {Error} 데이터베이스 조회 실패 시 Supabase 에러 발생
+ * @example
+ * const images = await fetchReviewImages('review-789');
+ * images.forEach(img => console.log(img.review_image_url));
  */
 export async function fetchReviewImages(review_id: string): Promise<ReviewImage[]> {
 	const { data, error } = await supabase
@@ -184,10 +257,19 @@ export async function fetchReviewImages(review_id: string): Promise<ReviewImage[
 }
 
 /**
- * 특정 위치의 모든 후기 이미지를 패칭하는 API
+ * @description 특정 위치에 작성된 모든 후기의 이미지를 조회합니다.
+ *
+ * 동작 과정:
  * 1. review 테이블에서 location_id로 후기 조회
  * 2. 해당 후기들의 review_id로 review_image 테이블에서 이미지 조회
- * @param location_id
+ * 3. 중첩된 배열 구조를 평탄화하여 반환
+ *
+ * @param {string} location_id - 조회할 위치 ID
+ * @returns {Promise<ReviewImage[]>} 해당 위치의 모든 후기 이미지 목록
+ * @throws {Error} 데이터베이스 조회 실패 시 Supabase 에러 발생
+ * @example
+ * const images = await fetchReviewImagesByLocation('loc-456');
+ * console.log(`총 ${images.length}개의 이미지가 있습니다.`);
  */
 export async function fetchReviewImagesByLocation(location_id: string): Promise<ReviewImage[]> {
 	const { data, error } = await supabase
@@ -211,10 +293,19 @@ export async function fetchReviewImagesByLocation(location_id: string): Promise<
 }
 
 /**
- * 특정 위치의 모든 후기 상품을 패칭하는 API
+ * @description 특정 위치에 작성된 모든 후기의 상품 정보를 조회합니다.
+ *
+ * 동작 과정:
  * 1. review 테이블에서 location_id로 후기 조회
  * 2. 해당 후기들의 review_id로 review_product 테이블에서 상품 조회
- * @param location_id
+ * 3. 중첩된 배열 구조를 평탄화하여 반환
+ *
+ * @param {string} location_id - 조회할 위치 ID
+ * @returns {Promise<ReviewProduct[]>} 해당 위치의 모든 후기 상품 목록
+ * @throws {Error} 데이터베이스 조회 실패 시 Supabase 에러 발생
+ * @example
+ * const products = await fetchReviewProductsByLocation('loc-456');
+ * console.log(`총 ${products.length}개의 상품 리뷰가 있습니다.`);
  */
 export async function fetchReviewProductsByLocation(location_id: string): Promise<ReviewProduct[]> {
 	const { data, error } = await supabase
@@ -234,6 +325,15 @@ export async function fetchReviewProductsByLocation(location_id: string): Promis
 	return products;
 }
 
+/**
+ * @description 특정 후기를 삭제합니다.
+ * @param {string} review_id - 삭제할 후기 ID
+ * @returns {Promise<Review>} 삭제된 후기 데이터
+ * @throws {Error} 데이터베이스 삭제 실패 시 Supabase 에러 발생
+ * @example
+ * const deleted = await deleteReview('review-789');
+ * console.log(`"${deleted.review_title}" 후기가 삭제되었습니다.`);
+ */
 export async function deleteReview(review_id: string) {
 	const { data, error } = await supabase.from('review').delete().eq('review_id', review_id).select().single();
 

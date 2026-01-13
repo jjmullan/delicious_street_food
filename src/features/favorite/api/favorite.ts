@@ -2,7 +2,17 @@ import supabase from '@shared/api/supabase/supabase';
 import type { API_Favorite, Favorite } from '@shared/types/types';
 
 /**
- * 즐겨찾기 데이터 추가 요청 API
+ * @description 특정 위치를 사용자의 즐겨찾기 목록에 추가합니다.
+ * @param {API_Favorite} params - 즐겨찾기 생성 파라미터
+ * @param {string} params.location_id - 즐겨찾기에 추가할 위치 ID
+ * @param {string} params.user_id - 사용자 ID
+ * @returns {Promise<Favorite>} 생성된 즐겨찾기 데이터
+ * @throws {Error} 데이터베이스 삽입 실패 시 Supabase 에러 발생
+ * @example
+ * const favorite = await createFavorite({
+ *   location_id: 'loc-123',
+ *   user_id: 'user-456'
+ * });
  */
 export async function createFavorite({ location_id, user_id }: API_Favorite): Promise<Favorite> {
 	const { data, error } = await supabase
@@ -19,8 +29,15 @@ export async function createFavorite({ location_id, user_id }: API_Favorite): Pr
 }
 
 /**
- * 즐겨찾기 데이터 삭제 요청 API
- * 결과가 없을 수 있으므로 maybeSingle() 사용
+ * @description 즐겨찾기 ID를 사용하여 특정 즐겨찾기를 삭제합니다.
+ * @param {string} favorite_id - 삭제할 즐겨찾기 ID
+ * @returns {Promise<Favorite | null>} 삭제된 즐겨찾기 데이터 (없을 경우 null 반환)
+ * @throws {Error} 데이터베이스 삭제 실패 시 Supabase 에러 발생
+ * @example
+ * const deleted = await deleteFavorite('fav-123');
+ * if (deleted) {
+ *   console.log('즐겨찾기가 삭제되었습니다.');
+ * }
  */
 export async function deleteFavorite(favorite_id: string): Promise<Favorite | null> {
 	const { data, error } = await supabase
@@ -35,7 +52,13 @@ export async function deleteFavorite(favorite_id: string): Promise<Favorite | nu
 }
 
 /**
- * 특정 위치에 저장된 모든 즐겨찾기 데이터를 패칭하는 API
+ * @description 특정 위치에 대한 모든 즐겨찾기 데이터를 조회합니다.
+ * @param {string} location_id - 조회할 위치 ID
+ * @returns {Promise<Favorite[]>} 해당 위치의 모든 즐겨찾기 목록
+ * @throws {Error} 데이터베이스 조회 실패 시 Supabase 에러 발생
+ * @example
+ * const favorites = await fetchFavorite('loc-123');
+ * console.log(`총 ${favorites.length}명이 즐겨찾기했습니다.`);
  */
 export async function fetchFavorite(location_id: string): Promise<Favorite[]> {
 	const { data, error } = await supabase.from('favorite').select('*').eq('location_id', location_id);
@@ -45,7 +68,13 @@ export async function fetchFavorite(location_id: string): Promise<Favorite[]> {
 }
 
 /**
- * 특정 유저가 저장된 모든 즐겨찾기 데이터를 패칭하는 API
+ * @description 특정 사용자가 저장한 모든 즐겨찾기 데이터를 조회합니다.
+ * @param {string} user_id - 조회할 사용자 ID
+ * @returns {Promise<Favorite[]>} 해당 사용자의 모든 즐겨찾기 목록
+ * @throws {Error} 데이터베이스 조회 실패 시 Supabase 에러 발생
+ * @example
+ * const myFavorites = await fetchFavoritebyUser('user-456');
+ * myFavorites.forEach(fav => console.log(fav.location_id));
  */
 export async function fetchFavoritebyUser(user_id: string): Promise<Favorite[]> {
 	const { data, error } = await supabase.from('favorite').select('*').eq('user_id', user_id);

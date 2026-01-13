@@ -1,6 +1,26 @@
 import type { ImageURL } from '@features/review/types/image';
 import supabase from '@shared/api/supabase/supabase';
 
+/**
+ * @description 사용자 프로필 이미지를 업로드하고 기존 이미지를 교체합니다.
+ *
+ * 동작 과정:
+ * 1. 기존 프로필 이미지 조회 및 삭제
+ * 2. 새 이미지를 Supabase Storage 'profile_images' 버킷에 업로드
+ * 3. Public URL 생성
+ * 4. user 테이블의 profile_image_url 필드 업데이트
+ *
+ * @param {Object} params - 이미지 업로드 파라미터
+ * @param {string} params.user_id - 사용자 ID
+ * @param {ImageURL} [params.image] - 업로드할 이미지 (선택)
+ * @returns {Promise<User | undefined>} 업데이트된 사용자 데이터 (이미지가 없으면 undefined)
+ * @throws {Error} 이미지 업로드 또는 DB 업데이트 실패 시 에러 발생
+ * @example
+ * const updatedUser = await uploadProfileImage({
+ *   user_id: 'user-123',
+ *   image: { file: imageFile, previewUrl: 'blob:...' }
+ * });
+ */
 export async function uploadProfileImage({ user_id, image }: { user_id: string; image?: ImageURL }) {
 	if (!image) return;
 
