@@ -780,7 +780,7 @@ src/features/
 │   │   └── ToggleFavoriteButton.tsx
 │   ├── hooks/
 │   │   ├── useToggleFavorite.tsx
-│   │   ├── useFetchFavorite.tsx
+│   │   ├── useFetchFavoriteByLocation.tsx
 │   │   └── useFetchFavoriteByUser.tsx
 │   ├── api/
 │   │   └── favorite.ts
