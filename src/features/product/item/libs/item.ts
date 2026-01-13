@@ -1,4 +1,4 @@
-import type { Item } from '@/features/product/item/types/item.type';
+import type { Item } from '@features/product/item/types/item.type';
 
 export const items: Item[] = [
 	{

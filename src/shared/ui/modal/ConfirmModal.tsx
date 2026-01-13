@@ -1,4 +1,4 @@
-import { useConfirmModal } from '@/app/store/confirmModalStore';
+import { useConfirmModal } from '@app/store/confirmModalStore';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -8,7 +8,7 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from '@/shared/ui/shadcn/alert-dialog';
+} from '@shared/ui/shadcn/alert-dialog';
 
 function ConfirmModal() {
 	const store = useConfirmModal();

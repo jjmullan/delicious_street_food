@@ -1,6 +1,6 @@
+import type { Product } from '@shared/types/types';
 import { create } from 'zustand';
 import { combine, devtools } from 'zustand/middleware';
-import type { Product } from '@/shared/types/types';
 
 type State = {
 	product: Product | null;

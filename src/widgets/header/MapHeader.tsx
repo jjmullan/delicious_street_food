@@ -1,7 +1,7 @@
-import { useIsCreateMode } from '@/app/store/createLocationStore';
-import ToggleSwitchLocationModeButton from '@/features/location/create/ui/ToggleSwitchLocationModeButton';
-import UserProfileModal from '@/features/user/fetch/ui/UserProfileModal';
-import HomeButton from '@/shared/ui/button/HomeButton';
+import { useIsCreateMode } from '@app/store/createLocationStore';
+import ToggleSwitchLocationModeButton from '@features/location/ui/ToggleSwitchLocationModeButton';
+import UserProfileModal from '@features/user/ui/UserProfileModal';
+import HomeButton from '@shared/ui/button/HomeButton';
 
 function MapHeader() {
 	const isCreateMode = useIsCreateMode();

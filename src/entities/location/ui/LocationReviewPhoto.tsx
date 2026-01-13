@@ -1,7 +1,7 @@
+import useFetchReviewImagesByLocation from '@features/review/hooks/useFetchReviewImagesByLocation';
+import ImageModal from '@shared/ui/modal/ImageModal';
 import { useState } from 'react';
 import { useParams } from 'react-router';
-import useFetchReviewImagesByLocation from '@/features/review/fetch/hook/useFetchReviewImagesByLocation';
-import ImageModal from '@/shared/ui/modal/ImageModal';
 
 function LocationReviewPhoto() {
 	const param = useParams();

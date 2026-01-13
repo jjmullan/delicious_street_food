@@ -1,9 +1,12 @@
-import type { ImageURL } from '@features/review/create/types/image';
-import useFecthUserData from '@features/user/fetch/hooks/useFecthUserData';
-import useUpdateProfile from '@features/user/update/hooks/useUpdateProfile';
-import useUpdateProfileImage from '@features/user/update/hooks/useUpdateProfileImage';
-import validateNickname from '@features/user/update/libs/validateNickname';
+import useFetchReviewsByUser from '@features/review/hooks/useFetchReviewsByUser';
+import type { ImageURL } from '@features/review/types/image';
+import ReviewItemForMypage from '@features/review/ui/ReviewItemForMypage';
+import useFecthUserData from '@features/user/hooks/useFecthUserData';
+import useUpdateProfile from '@features/user/hooks/useUpdateProfile';
+import useUpdateProfileImage from '@features/user/hooks/useUpdateProfileImage';
+import validateNickname from '@features/user/libs/validateNickname';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
+import Separator from '@shared/ui/separator/Separator';
 import { Button } from '@shared/ui/shadcn/button';
 import { Input } from '@shared/ui/shadcn/input';
 import { Textarea } from '@shared/ui/shadcn/textarea';
@@ -11,9 +14,6 @@ import type { Session } from '@supabase/supabase-js';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { useOutletContext } from 'react-router';
 import { toast } from 'sonner';
-import useFetchReviewsByUser from '@/features/review/fetch/hook/useFetchReviewsByUser';
-import ReviewItemForMypage from '@/features/review/fetch/ui/ReviewItemForMypage';
-import Separator from '@/shared/ui/separator/Separator';
 
 function MyPage() {
 	const { session } = useOutletContext<{ session: Session }>();

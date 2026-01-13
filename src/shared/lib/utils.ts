@@ -1,6 +1,6 @@
+import { expressions, foods } from '@shared/lib/nickname';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { expressions, foods } from '@/shared/lib/nickname';
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));

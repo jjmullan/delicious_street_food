@@ -1,8 +1,7 @@
 import * as SelectPrimitive from '@radix-ui/react-select';
+import { cn } from '@shared/lib/utils';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import type * as React from 'react';
-
-import { cn } from '@/shared/lib/utils';
 
 function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
 	return <SelectPrimitive.Root data-slot="select" {...props} />;

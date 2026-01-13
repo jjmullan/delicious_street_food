@@ -1,6 +1,6 @@
+import { useLocation } from '@app/store/locationStore';
 import { ArrowLeftCircle, HomeIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { useLocation } from '@/app/store/locationStore';
 
 function DetailHeader({ title }: { title: string }) {
 	const navigate = useNavigate();

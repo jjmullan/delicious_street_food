@@ -1,5 +1,5 @@
+import LocationReviewAll from '@entities/location/ui/LocationReviewAll';
 import { useParams } from 'react-router';
-import LocationReviewAll from '@/entities/location/ui/LocationReviewAll';
 
 function ReviewAllPage() {
 	const param = useParams();

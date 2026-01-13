@@ -9,7 +9,7 @@ export { default as useSignUpWithEmail } from './hooks/useSignUpWithEmail';
 // Types
 export type { Validate } from './types/types';
 export { default as SignInCommon } from './ui/SignInCommon';
-export { default as SignInWithPassword } from './ui/SignInWithPassword';
+export { default as SignInWithPasswordPage } from './ui/SignInWithPassword';
 export { default as SignOutButton } from './ui/SignOutButton';
 export { default as SignUp } from './ui/SignUp';
 export { default as SignUpConfirm } from './ui/SignUpConfirm';

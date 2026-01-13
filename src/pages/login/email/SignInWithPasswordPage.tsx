@@ -1,4 +1,4 @@
-import SignInWithPassword from '@/features/auth/signIn/ui/SignInWithPassword';
+import { SignInWithPasswordPage as SignInWithPassword } from '@features/auth';
 
 function SignInWithPasswordPage() {
 	return <SignInWithPassword />;

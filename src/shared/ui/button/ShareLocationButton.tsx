@@ -1,5 +1,5 @@
+import { Button } from '@shared/ui/shadcn/button';
 import { Share2Icon } from 'lucide-react';
-import { Button } from '@/shared/ui/shadcn/button';
 
 function ShareLocationButton() {
 	// 공유하기 버튼 동작

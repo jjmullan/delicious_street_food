@@ -1,4 +1,4 @@
-import SignUpConfirm from '@features/auth/signUp/ui/SignUpConfirm';
+import { SignUpConfirm } from '@features/auth';
 
 function SignUpConfirmPage() {
 	return <SignUpConfirm />;

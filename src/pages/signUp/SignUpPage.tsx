@@ -1,4 +1,4 @@
-import SignUp from '@/features/auth/signUp/ui/SignUp';
+import { SignUp } from '@features/auth';
 
 function SignUpPage() {
 	return <SignUp />;

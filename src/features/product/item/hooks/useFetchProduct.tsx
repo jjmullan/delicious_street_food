@@ -1,6 +1,6 @@
+import { fetchProduct } from '@features/product/item/api/product';
+import { QUERY_KEYS } from '@shared/lib/query';
 import { useQuery } from '@tanstack/react-query';
-import { fetchProduct } from '@/features/product/item/api/product';
-import { QUERY_KEYS } from '@/shared/lib/query';
 
 export default function useFetchProduct(product_id: string) {
 	return useQuery({

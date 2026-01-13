@@ -1,7 +1,7 @@
+import LocationPage from '@pages/location/LocationPage';
+import ReviewAllPage from '@pages/review/ReviewAllPage';
+import ReviewPhotoPage from '@pages/review/ReviewPhotoPage';
 import type { RouteObject } from 'react-router';
-import LocationPage from '@/pages/location/LocationPage';
-import ReviewAllPage from '@/pages/review/ReviewAllPage';
-import ReviewPhotoPage from '@/pages/review/ReviewPhotoPage';
 
 export const locationDetailRoutes: RouteObject[] = [
 	{ path: '/location/:locationId/home', Component: LocationPage },

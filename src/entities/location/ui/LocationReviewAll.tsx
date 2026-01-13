@@ -1,11 +1,11 @@
+import { useOpenConfirmModal } from '@app/store/confirmModalStore';
+import useFetchProducts from '@features/product/item/hooks/useFetchProducts';
+import useFetchReviewsByLocation from '@features/review/hooks/useFetchReviewsByLocation';
+import ReviewItem from '@features/review/ui/ReviewItem';
+import { Button } from '@shared/ui/shadcn/button';
 import { InfoIcon, PenIcon } from 'lucide-react';
 import { Activity } from 'react';
 import { useNavigate } from 'react-router';
-import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
-import useFetchProducts from '@/features/product/item/hooks/useFetchProducts';
-import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchReviewsByLocation';
-import ReviewItem from '@/features/review/fetch/ui/ReviewItem';
-import { Button } from '@/shared/ui/shadcn/button';
 
 function LocationReviewAll({ location_id }: { location_id: string }) {
 	const navigate = useNavigate();

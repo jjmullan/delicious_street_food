@@ -1,4 +1,4 @@
-import type { Database } from '@/shared/types/supabase.type';
+import type { Database } from '@shared/types/supabase.type';
 
 export type Favorite = Database['public']['Tables']['favorite']['Row'];
 export type Location = Database['public']['Tables']['location']['Row'];

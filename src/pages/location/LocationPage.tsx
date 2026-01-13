@@ -1,4 +1,4 @@
-import Location from '@/entities/location/ui/LocationHome';
+import Location from '@entities/location/ui/LocationHome';
 
 function LocationPage() {
 	return <Location />;

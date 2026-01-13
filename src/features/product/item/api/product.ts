@@ -1,5 +1,5 @@
-import supabase from '@/shared/api/supabase/supabase';
-import type { Product } from '@/shared/types/types';
+import supabase from '@shared/api/supabase/supabase';
+import type { Product } from '@shared/types/types';
 
 /**
  * 전체 상품 카테고리 목록 패칭을 요청하는 API

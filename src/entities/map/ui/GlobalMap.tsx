@@ -1,16 +1,16 @@
 import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@app/store/createLocationStore';
 import { useLocation } from '@app/store/locationStore';
 import { useProductFilter } from '@app/store/productFilterStore';
-import CreateLocation from '@features/location/create/ui/CreateLocation';
+import useFetchLocations from '@features/location/hooks/useFetchLocations';
+import useFetchLocationsByProducts from '@features/location/hooks/useFetchLocationsByProducts';
+import type { AbbrLocation } from '@features/location/types/location';
+import CreateLocation from '@features/location/ui/CreateLocation';
+import LocationFinder from '@features/location/ui/LocationFinder';
 import {
 	validateLocationDistance,
 	validateMaxDistanceFromCurrentLocation,
-} from '@features/location/create/utils/validateLocationDistance';
-import useFetchLocations from '@features/location/fetch/hooks/useFetchLocations';
-import useFetchLocationsByProducts from '@features/location/fetch/hooks/useFetchLocationsByProducts';
-import type { AbbrLocation } from '@features/location/fetch/types/location';
-import LocationFinder from '@features/location/fetch/ui/LocationFinder';
-import useFecthUserData from '@features/user/fetch/hooks/useFecthUserData';
+} from '@features/location/utils/validateLocationDistance';
+import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import type { Session } from '@supabase/supabase-js';
 import MapAsideBar from '@widgets/aside/MapAsideBar';
 import { TriangleIcon } from 'lucide-react';

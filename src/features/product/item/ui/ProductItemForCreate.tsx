@@ -1,5 +1,5 @@
-import { characterImages } from '@/features/product/item/libs/item';
-import type { Item } from '@/features/product/item/types/item.type';
+import { characterImages } from '@features/product/item/libs/item';
+import type { Item } from '@features/product/item/types/item.type';
 
 function ProductItemForCreate({ name_ko, name_en }: Item) {
 	// name_en에 해당하는 이미지 가져오기

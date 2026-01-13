@@ -1,7 +1,7 @@
+import { useSetLoginProvider } from '@app/store/loginProviderStore';
+import { useIsSessionLoaded, useSession } from '@app/store/sessionStore';
 import type { Provider } from '@supabase/supabase-js';
 import { type ReactNode, useEffect } from 'react';
-import { useSetLoginProvider } from '@/app/store/loginProviderStore';
-import { useIsSessionLoaded, useSession } from '@/app/store/sessionStore';
 
 function LoginProviderProvider({ children }: { children: ReactNode }) {
 	const isSessionLoaded = useIsSessionLoaded();

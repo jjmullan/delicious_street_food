@@ -1,4 +1,4 @@
-import MyPage from '@/entities/user/ui/MyPage';
+import MyPage from '@entities/user/ui/MyPage';
 
 function MyPageHomePage() {
 	return <MyPage />;

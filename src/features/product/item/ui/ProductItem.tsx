@@ -1,5 +1,5 @@
-import { characterImages } from '@/features/product/item/libs/item';
-import type { Item } from '@/features/product/item/types/item.type';
+import { characterImages } from '@features/product/item/libs/item';
+import type { Item } from '@features/product/item/types/item.type';
 
 /**
  * 길거리 음식 개별 상품

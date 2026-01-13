@@ -1,7 +1,7 @@
+import { initialLocation } from '@features/location/libs/location';
+import type { AbbrLocation } from '@features/location/types/location';
 import { create } from 'zustand';
 import { combine, devtools, persist } from 'zustand/middleware';
-import { initialLocation } from '@/features/location/fetch/libs/location';
-import type { AbbrLocation } from '@/features/location/fetch/types/location';
 
 type State = {
 	location: AbbrLocation;

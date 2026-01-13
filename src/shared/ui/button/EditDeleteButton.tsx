@@ -1,6 +1,6 @@
 import { PopoverClose } from '@radix-ui/react-popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/shadcn/popover';
 import { MoreVerticalIcon, Trash2Icon } from 'lucide-react';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/shadcn/popover';
 
 function EditDeleteButton({ onDelete }: { onDelete(): void }) {
 	return (

@@ -6,7 +6,7 @@ import {
 	SelectLabel,
 	SelectTrigger,
 	SelectValue,
-} from '@/shared/ui/shadcn/select';
+} from '@shared/ui/shadcn/select';
 
 function SelectCountry() {
 	return (

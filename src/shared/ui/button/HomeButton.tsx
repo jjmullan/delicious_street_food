@@ -1,10 +1,10 @@
+import { useIsCreateMode } from '@app/store/createLocationStore';
+import { useSetLocation } from '@app/store/locationStore';
+import { getLocationData } from '@features/location/utils/getLocationData';
 import { LocateFixedIcon } from 'lucide-react';
 import { Activity } from 'react';
 import { useSearchParams } from 'react-router';
 import { toast } from 'sonner';
-import { useIsCreateMode } from '@/app/store/createLocationStore';
-import { useSetLocation } from '@/app/store/locationStore';
-import { getLocationData } from '@/features/location/fetch/utils/getLocationData';
 
 function HomeButton() {
 	const [searchParams, setSearchParams] = useSearchParams();

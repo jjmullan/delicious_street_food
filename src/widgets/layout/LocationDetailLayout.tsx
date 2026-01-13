@@ -1,7 +1,7 @@
+import { useSession } from '@app/store/sessionStore';
+import DetailHeader from '@widgets/header/DetailHeader';
+import LocationNavigation from '@widgets/nav/LocationNavigation';
 import { Navigate, Outlet, useParams } from 'react-router';
-import { useSession } from '@/app/store/sessionStore';
-import DetailHeader from '@/widgets/header/DetailHeader';
-import LocationNavigation from '@/widgets/nav/LocationNavigation';
 
 /**
  * 최초 서비스 접근 시, 로그인 페이지로 라우팅

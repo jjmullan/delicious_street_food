@@ -1,16 +1,16 @@
+import { createReviewRoutes } from '@app/routes/createReview.route';
+import { globalMapRoutes } from '@app/routes/globalMap.route';
+import { locationDetailRoutes } from '@app/routes/locationDetail.route';
+import { unloggedInRoute } from '@app/routes/unloggedIn.route';
+import { userDetailRoutes } from '@app/routes/userDetail.route';
+import ErrorPage from '@pages/error/ErrorPage';
+import CreateReviewLayout from '@widgets/layout/CreateReviewLayout';
+import GlobalLayout from '@widgets/layout/GlobalLayout';
+import LocationDetailLayout from '@widgets/layout/LocationDetailLayout';
+import MapLayout from '@widgets/layout/MapLayout';
+import UnloggedInLayout from '@widgets/layout/UnloggedInLayout';
+import UserDetailLayout from '@widgets/layout/UserDetailLayout';
 import { createBrowserRouter } from 'react-router-dom';
-import { createReviewRoutes } from '@/app/routes/createReview.route';
-import { globalMapRoutes } from '@/app/routes/globalMap.route';
-import { locationDetailRoutes } from '@/app/routes/locationDetail.route';
-import { unloggedInRoute } from '@/app/routes/unloggedIn.route';
-import { userDetailRoutes } from '@/app/routes/userDetail.route';
-import ErrorPage from '@/pages/error/ErrorPage';
-import CreateReviewLayout from '@/widgets/layout/CreateReviewLayout';
-import GlobalLayout from '@/widgets/layout/GlobalLayout';
-import LocationDetailLayout from '@/widgets/layout/LocationDetailLayout';
-import MapLayout from '@/widgets/layout/MapLayout';
-import UnloggedInLayout from '@/widgets/layout/UnloggedInLayout';
-import UserDetailLayout from '@/widgets/layout/UserDetailLayout';
 
 /**
  * 애플리케이션의 라우트 설정
