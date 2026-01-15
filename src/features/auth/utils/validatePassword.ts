@@ -1,5 +1,5 @@
-import { regPassword } from '@features/auth/lib/regExp';
 import type { Validate } from '@features/auth/types/types';
+import { regPassword } from '@features/auth/utils/regExp';
 
 /**
  * 비밀번호의 입력 오류 및 정규표현식을 검증하는 기능 함수
