@@ -1,6 +1,6 @@
 import { updateProfile } from '@features/user/api/user';
 import { QUERY_KEYS } from '@shared/lib/query';
-import type { MutationCallback } from '@shared/types/api';
+import type { MutationCallback } from '@shared/types/mutation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function useUpdateProfile(callbacks: MutationCallback) {

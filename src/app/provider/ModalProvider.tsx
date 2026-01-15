@@ -1,5 +1,5 @@
 import CreateLocationModal from '@features/location/ui/CreateLocationModal';
-import ConfirmModal from '@shared/ui/modal/ConfirmModal';
+import ConfirmModal from '@shared/ui/modal/components/ConfirmModal';
 import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 

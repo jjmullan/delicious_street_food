@@ -6,9 +6,9 @@ import useFetchReviewImagesByLocation from '@features/review/hooks/useFetchRevie
 import useFetchReviewsByLocation from '@features/review/hooks/useFetchReviewsByLocation';
 import { PopoverClose } from '@radix-ui/react-popover';
 import foodstall from '@shared/assets/character/foodstall.svg';
-import { getRandomArrayItem } from '@shared/lib/utils';
+import { getRandomArrayItem } from '@shared/lib/cn';
 import type { Location } from '@shared/types/api';
-import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/shadcn/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/shadcn/components/popover';
 import type { Session } from '@supabase/supabase-js';
 import { CameraIcon, HeartIcon, MessageCircleMoreIcon } from 'lucide-react';
 import { Activity, useMemo } from 'react';

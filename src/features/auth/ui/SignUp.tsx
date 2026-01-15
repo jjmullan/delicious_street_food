@@ -1,9 +1,9 @@
 import useSignUpWithEmail from '@features/auth/hooks/useSignUpWithEmail';
+import { generateErrorMessage } from '@features/auth/lib/error';
 import validateEmail from '@features/auth/utils/validateEmail';
 import validatePassword from '@features/auth/utils/validatePassword';
-import { generateErrorMessage } from '@shared/lib/error';
-import AdditionalNoticeAtEdge from '@shared/ui/description/AdditionalNoticeAtEdge';
-import FallbackText from '@shared/ui/fallback/FallbackText';
+import AdditionalForSignIn from '@shared/ui/description/components/AdditionalForSignIn';
+import Fallback from '@shared/ui/fallback/components/Fallback';
 import { Input } from '@shared/ui/shadcn/input';
 import { Activity, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -127,9 +127,9 @@ function SignUp() {
 				disabled={isPending || email.trim() === '' || password.trim() === '' || passwordConfirm.trim() === ''}
 				onClick={handleClickSubmit}
 			>
-				{isPending ? <FallbackText title={'회원가입 중'} /> : <p className="text-white">회원가입</p>}
+				{isPending ? <Fallback title={'회원가입 중'} isText={true} /> : <p className="text-white">회원가입</p>}
 			</button>
-			<AdditionalNoticeAtEdge text={'이미 계정이 있으시다면?'} link={'login'} linkText={'로그인'} />
+			<AdditionalForSignIn text={'이미 계정이 있으시다면?'} link={'login'} linkText={'로그인'} />
 		</div>
 	);
 }

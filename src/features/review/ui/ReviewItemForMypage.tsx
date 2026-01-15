@@ -2,12 +2,12 @@ import useFetchLocation from '@features/location/hooks/useFetchLocation';
 import { deleteReview } from '@features/review/api/review';
 import { useDeleteReview } from '@features/review/hooks/useDeleteReview';
 import useFetchReviewImagesByReview from '@features/review/hooks/useFetchReviewImages';
-import { getDateTimeKo } from '@shared/lib/day';
-import { useOpenConfirmModal } from '@shared/model/confirmModal';
 import type { Review } from '@shared/types/api';
-import EditDeleteButton from '@shared/ui/button/EditDeleteButton';
-import ImageModal from '@shared/ui/modal/ImageModal';
+import EditDeleteButton from '@shared/ui/button/components/EditDeleteButton';
+import ImageModal from '@shared/ui/modal/components/ImageModal';
+import { useOpenConfirmModal } from '@shared/ui/modal/model/confirmModal';
 import { Carousel, CarouselContent, CarouselItem } from '@shared/ui/shadcn/carousel';
+import { getDateTimeKo } from '@shared/utils/day';
 import { TriangleIcon } from 'lucide-react';
 import { Activity, useState } from 'react';
 import { Link } from 'react-router';
@@ -54,7 +54,7 @@ function ReviewItemForMypage({ review_id, review_title, review_text, location_id
 	return (
 		<li className="flex flex-col">
 			<div className="rounded-md p-4 flex flex-col gap-y-3 w-full bg-white">
-				<h4 className="sr-only">내가 작성한 리뷰 목록</h4>
+				<h4 className="sr-only">내가 작성한 후기 목록</h4>
 				{/* 방문한 장소, 방문 시간 */}
 				<div className="flex text-xs items-center justify-between">
 					<div className="flex gap-x-1">

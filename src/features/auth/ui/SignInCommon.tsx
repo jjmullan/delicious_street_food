@@ -2,7 +2,7 @@ import useSingInWithOAuth from '@features/auth/hooks/useSignInWithOAuth';
 import emailSvg from '@shared/assets/logo-email.svg';
 import google from '@shared/assets/logo-google.svg';
 import kakao from '@shared/assets/logo-kakao.svg';
-import Title from '@shared/ui/title/Title';
+import Title from '@shared/ui/title/components/Title';
 import { useNavigate } from 'react-router';
 
 function SignInCommon() {

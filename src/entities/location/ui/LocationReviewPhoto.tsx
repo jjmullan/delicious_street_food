@@ -1,5 +1,5 @@
 import useFetchReviewImagesByLocation from '@features/review/hooks/useFetchReviewImagesByLocation';
-import ImageModal from '@shared/ui/modal/ImageModal';
+import ImageModal from '@shared/ui/modal/components/ImageModal';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 

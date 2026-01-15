@@ -8,13 +8,13 @@ import ReviewUserProfile from '@features/review/ui/ReviewUserProfile';
 import ReviewVisitDate from '@features/review/ui/ReviewVisitDate';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
-import { formatTimeAgo, getDateTimeKo } from '@shared/lib/day';
-import { useOpenConfirmModal } from '@shared/model/confirmModal';
 import { useSession } from '@shared/model/session';
 import type { Review } from '@shared/types/api';
-import EditDeleteButton from '@shared/ui/button/EditDeleteButton';
-import ImageModal from '@shared/ui/modal/ImageModal';
+import EditDeleteButton from '@shared/ui/button/components/EditDeleteButton';
+import ImageModal from '@shared/ui/modal/components/ImageModal';
+import { useOpenConfirmModal } from '@shared/ui/modal/model/confirmModal';
 import { Carousel, CarouselContent, CarouselItem } from '@shared/ui/shadcn/carousel';
+import { formatTimeAgo, getDateTimeKo } from '@shared/utils/day';
 import { Activity, useState } from 'react';
 import { toast } from 'sonner';
 

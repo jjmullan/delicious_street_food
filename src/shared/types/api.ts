@@ -23,11 +23,3 @@ export type API_ReviewProduct = Pick<
 	'review_id' | 'product_id' | 'is_recommend' | 'order_price' | 'order_quantity'
 >;
 export type API_Favorite = Pick<Favorite, 'location_id' | 'user_id'>;
-
-// [Tanstack Query] Mutation 콜백 함수 정의
-export type MutationCallback = {
-	onSuccess?(): void;
-	onMutate?(): void;
-	onError?(error: Error): void;
-	onSettled?(): void;
-};

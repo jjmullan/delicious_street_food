@@ -6,7 +6,7 @@ import useUpdateProfile from '@features/user/hooks/useUpdateProfile';
 import useUpdateProfileImage from '@features/user/hooks/useUpdateProfileImage';
 import validateNickname from '@features/user/libs/validateNickname';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
-import Separator from '@shared/ui/separator/Separator';
+import Separator from '@shared/ui/separator/components/Separator';
 import { Button } from '@shared/ui/shadcn/button';
 import { Input } from '@shared/ui/shadcn/input';
 import { Textarea } from '@shared/ui/shadcn/textarea';

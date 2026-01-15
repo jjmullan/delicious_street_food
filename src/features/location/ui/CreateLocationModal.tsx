@@ -4,9 +4,9 @@ import useCreateLocation from '@features/location/hooks/useCreateLocation';
 import { getFullLocationAddress } from '@features/location/utils/getLocationAddress';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import author from '@shared/assets/extra/author.svg';
-import { useOpenConfirmModal } from '@shared/model/confirmModal';
 import { useSession } from '@shared/model/session';
-import FallbackText from '@shared/ui/fallback/FallbackText';
+import Fallback from '@shared/ui/fallback/components/Fallback';
+import { useOpenConfirmModal } from '@shared/ui/modal/model/confirmModal';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -158,7 +158,7 @@ function CreateLocationModal() {
 				</AlertDialogHeader>
 				<AlertDialogFooter className="flex flex-col">
 					<AlertDialogAction onClick={handleActionClick} disabled={isPending} className="flex-1">
-						{isPending ? <FallbackText title={'지도에 추가 중'} /> : '신규 포장마차 추가하기'}
+						{isPending ? <Fallback title={'지도에 추가 중'} isText={false} /> : '신규 포장마차 추가하기'}
 					</AlertDialogAction>
 					<AlertDialogCancel onClick={handleCancelClick} disabled={isPending} className="flex-1">
 						취소

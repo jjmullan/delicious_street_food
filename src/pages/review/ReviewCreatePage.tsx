@@ -2,21 +2,21 @@ import useFetchProducts from '@features/product/hooks/useFetchProducts';
 import useCreateReview from '@features/review/hooks/useCreateReview';
 import useCreateReviewImages from '@features/review/hooks/useCreateReviewImages';
 import useCreateReviewProducts from '@features/review/hooks/useCreateReviewProduct';
+import { MAX_IMAGE_SLOT } from '@features/review/libs/constants';
 import type { ImageURL } from '@features/review/types/image';
 import CreateReviewTitle from '@features/review/ui/CreateReviewTitle';
 import PreviewImage from '@features/review/ui/PreviewImage';
 import ProgressBar from '@features/review/ui/ProgressBar';
 import SelectProductItemDetailForCreateReview from '@features/review/ui/SelectProductItemDetailForCreateReview';
 import SelectProductItemForCreateReview from '@features/review/ui/SelectProductItemForCreateReview';
-import { MAX_IMAGE_SLOT } from '@shared/lib/constants';
-import { getNowDateTimeKo } from '@shared/lib/day';
-import { useOpenConfirmModal } from '@shared/model/confirmModal';
 import type { API_ReviewProduct, Product, Review } from '@shared/types/api';
-import PrevNextButton from '@shared/ui/button/PrevNextButton';
-import FallbackRequestAPI from '@shared/ui/fallback/FallbackRequestAPI';
-import { Button } from '@shared/ui/shadcn/button';
-import { Input } from '@shared/ui/shadcn/input';
-import { Textarea } from '@shared/ui/shadcn/textarea';
+import PrevNextButton from '@shared/ui/button/components/PrevNextButton';
+import Fallback from '@shared/ui/fallback/components/Fallback';
+import { useOpenConfirmModal } from '@shared/ui/modal/model/confirmModal';
+import { Button } from '@shared/ui/shadcn/components/button';
+import { Input } from '@shared/ui/shadcn/components/input';
+import { Textarea } from '@shared/ui/shadcn/components/textarea';
+import { getNowDateTimeKo } from '@shared/utils/day';
 import type { Session } from '@supabase/supabase-js';
 import { ImagePlusIcon } from 'lucide-react';
 import { Activity, useEffect, useRef, useState } from 'react';
@@ -423,7 +423,7 @@ function ReviewCreatePage() {
 
 			{/* 로딩 중 */}
 			<Activity mode={isPending ? 'visible' : 'hidden'}>
-				<FallbackRequestAPI />
+				<Fallback title={'후기 작성 중'} isText={false} />
 			</Activity>
 		</div>
 	);

@@ -1,10 +1,10 @@
 import { useLocation } from '@app/store/locationStore';
 import useSignInWithPassword from '@features/auth/hooks/useSignInWithPassword';
-import { generateErrorMessage } from '@shared/lib/error';
-import AdditionalNoticeAtEdge from '@shared/ui/description/AdditionalNoticeAtEdge';
-import FallbackText from '@shared/ui/fallback/FallbackText';
+import { generateErrorMessage } from '@features/auth/lib/error';
+import AdditionalForSignIn from '@shared/ui/description/components/AdditionalForSignIn';
+import Fallback from '@shared/ui/fallback/components/Fallback';
 import { Input } from '@shared/ui/shadcn/input';
-import Title from '@shared/ui/title/Title';
+import Title from '@shared/ui/title/components/Title';
 import { EyeClosedIcon, EyeIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -76,9 +76,9 @@ function SignInWithPassword() {
 					onClick={handleClickSignInWithPassword}
 					disabled={isPending || email.trim() === '' || password.trim() === ''}
 				>
-					{isPending ? <FallbackText title={'로그인 중'} /> : <p className="text-white">로그인</p>}
+					{isPending ? <Fallback title={'로그인 중'} isText={true} /> : <p className="text-white">로그인</p>}
 				</button>
-				<AdditionalNoticeAtEdge text={'아직 계정이 없으시다면?'} link={'signup'} linkText={'이메일 회원가입'} />
+				<AdditionalForSignIn text={'아직 계정이 없으시다면?'} link={'signup'} linkText={'이메일 회원가입'} />
 			</div>
 		</div>
 	);

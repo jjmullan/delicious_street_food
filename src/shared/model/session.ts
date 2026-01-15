@@ -1,7 +1,7 @@
+import type { SessionAction, SessionState } from '@shared/model/model.type';
 import type { Session } from '@supabase/supabase-js';
 import { create } from 'zustand';
 import { combine, devtools, persist } from 'zustand/middleware';
-import type { SessionAction, SessionState } from '../types/model';
 
 const initialState: SessionState = {
 	session: null,

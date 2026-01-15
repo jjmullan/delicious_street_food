@@ -1,5 +1,5 @@
 import { signOut } from '@features/auth/api/auth';
-import { useOpenConfirmModal } from '@shared/model/confirmModal';
+import { useOpenConfirmModal } from '@shared/ui/modal/model/confirmModal';
 import { LogOutIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
