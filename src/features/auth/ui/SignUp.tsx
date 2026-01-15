@@ -4,7 +4,7 @@ import validateEmail from '@features/auth/utils/validateEmail';
 import validatePassword from '@features/auth/utils/validatePassword';
 import AdditionalForSignIn from '@shared/ui/description/components/AdditionalForSignIn';
 import Fallback from '@shared/ui/fallback/components/Fallback';
-import { Input } from '@shared/ui/shadcn/input';
+import { Input } from '@shared/ui/shadcn/components/input';
 import { Activity, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';

@@ -3,7 +3,7 @@ import useSignInWithPassword from '@features/auth/hooks/useSignInWithPassword';
 import { generateErrorMessage } from '@features/auth/lib/error';
 import AdditionalForSignIn from '@shared/ui/description/components/AdditionalForSignIn';
 import Fallback from '@shared/ui/fallback/components/Fallback';
-import { Input } from '@shared/ui/shadcn/input';
+import { Input } from '@shared/ui/shadcn/components/input';
 import Title from '@shared/ui/title/components/Title';
 import { EyeClosedIcon, EyeIcon } from 'lucide-react';
 import { useState } from 'react';

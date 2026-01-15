@@ -2,7 +2,7 @@ import useFetchProducts from '@features/product/hooks/useFetchProducts';
 import useFetchReviewsByLocation from '@features/review/hooks/useFetchReviewsByLocation';
 import ReviewItem from '@features/review/ui/ReviewItem';
 import { useOpenConfirmModal } from '@shared/ui/modal/model/confirmModal';
-import { Button } from '@shared/ui/shadcn/button';
+import { Button } from '@shared/ui/shadcn/components/button';
 import { InfoIcon, PenIcon } from 'lucide-react';
 import { Activity } from 'react';
 import { useNavigate } from 'react-router';

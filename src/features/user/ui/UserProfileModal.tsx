@@ -6,7 +6,7 @@ import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import { PopoverClose } from '@radix-ui/react-popover';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import { useSession } from '@shared/model/session';
-import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/shadcn/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/shadcn/components/popover';
 import { HeartIcon, MessageCircleMoreIcon, UserCircle2 } from 'lucide-react';
 import { Activity } from 'react';
 import { Link } from 'react-router';

@@ -1,6 +1,6 @@
 import useFetchFavoriteByLocation from '@features/favorite/hooks/useFetchFavoriteByLocation';
 import useToggleFavorite from '@features/favorite/hooks/useToggleFavorite';
-import { Button } from '@shared/ui/shadcn/button';
+import { Button } from '@shared/ui/shadcn/components/button';
 import { HeartIcon } from 'lucide-react';
 
 function ToggleFavoriteButton({ location_id, user_id }: { location_id: string; user_id: string }) {

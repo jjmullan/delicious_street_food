@@ -1,5 +1,5 @@
+import { getRandomUserNickname } from '@features/user/libs/generateNickname';
 import supabase from '@shared/api/supabase/supabase';
-import { getRandomUserNickname } from '@shared/lib/cn';
 
 /**
  * @description 신규 사용자를 생성하고 랜덤 닉네임을 할당합니다.

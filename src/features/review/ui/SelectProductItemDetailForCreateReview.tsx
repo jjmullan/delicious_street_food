@@ -1,6 +1,6 @@
 import CreateReviewTitle from '@features/review/ui/CreateReviewTitle';
 import type { API_ReviewProduct, Product } from '@shared/types/api';
-import { Input } from '@shared/ui/shadcn/input';
+import { Input } from '@shared/ui/shadcn/components/input';
 
 function SelectProductItemDetailForCreateReview({
 	selectProduct,

@@ -1,4 +1,4 @@
-import { Input } from '@shared/ui/shadcn/input';
+import { Input } from '@shared/ui/shadcn/components/input';
 import { XIcon } from 'lucide-react';
 import { useState } from 'react';
 

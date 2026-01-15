@@ -1,6 +1,6 @@
 import { characterImages } from '@features/product/libs/item';
 import type { Product } from '@shared/types/api';
-import { Input } from '@shared/ui/shadcn/input';
+import { Input } from '@shared/ui/shadcn/components/input';
 
 function SelectProductItemForCreateReview({
 	productDetail,

@@ -16,8 +16,8 @@ import {
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-} from '@shared/ui/shadcn/alert-dialog';
-import { Button } from '@shared/ui/shadcn/button';
+} from '@shared/ui/shadcn/components/alert-dialog';
+import { Button } from '@shared/ui/shadcn/components/button';
 import { Activity, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 

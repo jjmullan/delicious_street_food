@@ -13,7 +13,7 @@ import type { Review } from '@shared/types/api';
 import EditDeleteButton from '@shared/ui/button/components/EditDeleteButton';
 import ImageModal from '@shared/ui/modal/components/ImageModal';
 import { useOpenConfirmModal } from '@shared/ui/modal/model/confirmModal';
-import { Carousel, CarouselContent, CarouselItem } from '@shared/ui/shadcn/carousel';
+import { Carousel, CarouselContent, CarouselItem } from '@shared/ui/shadcn/components/carousel';
 import { formatTimeAgo, getDateTimeKo } from '@shared/utils/day';
 import { Activity, useState } from 'react';
 import { toast } from 'sonner';
