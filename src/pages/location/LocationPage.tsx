@@ -1,7 +1,5 @@
 import Location from '@entities/location/ui/LocationHome';
 
-function LocationPage() {
+export default function LocationPage() {
 	return <Location />;
 }
-
-export default LocationPage;

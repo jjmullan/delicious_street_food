@@ -1,7 +1,5 @@
 import { SignUpConfirm } from '@features/auth';
 
-function SignUpConfirmPage() {
+export default function SignUpConfirmPage() {
 	return <SignUpConfirm />;
 }
-
-export default SignUpConfirmPage;

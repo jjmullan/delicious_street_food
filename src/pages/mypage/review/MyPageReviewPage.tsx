@@ -1,9 +1,7 @@
-function MyPageReviewPage() {
+export default function MyPageReviewPage() {
 	return (
 		<>
 			<h1>MyPageReviewPage Component</h1>
 		</>
 	);
 }
-
-export default MyPageReviewPage;

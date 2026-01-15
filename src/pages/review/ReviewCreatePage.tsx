@@ -23,7 +23,7 @@ import { Activity, useEffect, useRef, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router';
 import { toast } from 'sonner';
 
-function ReviewCreatePage() {
+export default function ReviewCreatePage() {
 	const navigate = useNavigate();
 
 	// 후기 페이지 상태 관리
@@ -428,5 +428,3 @@ function ReviewCreatePage() {
 		</div>
 	);
 }
-
-export default ReviewCreatePage;

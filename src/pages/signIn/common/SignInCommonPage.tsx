@@ -1,9 +1,6 @@
 import { SignInCommon } from '@features/auth';
-
 // import Title from '@shared/ui/title/Title';
 
-function SignInCommonPage() {
+export default function SignInCommonPage() {
 	return <SignInCommon />;
 }
-
-export default SignInCommonPage;

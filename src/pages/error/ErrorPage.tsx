@@ -7,7 +7,7 @@ import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom';
  * - 404 Not Found, 500 Internal Server Error 등의 라우팅 에러를 처리
  * - useRouteError 훅을 사용하여 에러 정보를 가져옵니다.
  */
-function ErrorPage() {
+export default function ErrorPage() {
 	const error = useRouteError();
 
 	// React Router의 에러 응답인지 확인
@@ -50,5 +50,3 @@ function ErrorPage() {
 		</div>
 	);
 }
-
-export default ErrorPage;

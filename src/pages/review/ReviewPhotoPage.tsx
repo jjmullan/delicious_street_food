@@ -1,7 +1,5 @@
 import LocationReviewPhoto from '@entities/location/ui/LocationReviewPhoto';
 
-function ReviewPhotoPage() {
+export default function ReviewPhotoPage() {
 	return <LocationReviewPhoto />;
 }
-
-export default ReviewPhotoPage;

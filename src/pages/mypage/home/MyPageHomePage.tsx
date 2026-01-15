@@ -1,7 +1,5 @@
 import MyPage from '@entities/user/ui/MyPage';
 
-function MyPageHomePage() {
+export default function MyPageHomePage() {
 	return <MyPage />;
 }
-
-export default MyPageHomePage;
