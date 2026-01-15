@@ -1,5 +1,50 @@
-import type { Validate } from '@features/auth/types/types';
-import { regPassword } from '@features/auth/utils/regExp';
+import type { Validate } from '@features/auth/model/types';
+
+const regEmail = /^[a-zA-Z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+const regPassword = {
+	minLength: /.{8,}/,
+	hasLowerCase: /[a-z]/,
+	hasUpperCase: /[A-Z]/,
+	hasDigit: /\d/,
+	hasSymbol: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/,
+};
+
+/**
+ * 이메일의 입력 오류 및 정규표현식을 검증하는 기능 함수
+ * @param email 이메일
+ * @returns
+ */
+export function validateEmail(email: string): Validate {
+	// 이메일 오류 검증
+	if (!email || email.trim() === '') {
+		return {
+			errors: {
+				email: '이메일을 입력해주세요.',
+			},
+			isValid: false,
+		};
+	}
+
+	// 정규표현식 검증
+	if (!regEmail.test(email)) {
+		return {
+			errors: {
+				email: '올바른 이메일 형식이 아닙니다.',
+			},
+			isValid: false,
+		};
+	}
+
+	return {
+		errors: {
+			email: '',
+		},
+		data: {
+			email,
+		},
+		isValid: true,
+	};
+}
 
 /**
  * 비밀번호의 입력 오류 및 정규표현식을 검증하는 기능 함수
@@ -7,7 +52,7 @@ import { regPassword } from '@features/auth/utils/regExp';
  * @param passwordConfirm 비밀번호 확인
  * @returns
  */
-export default function validatePassword(password: string, passwordConfirm: string): Validate {
+export function validatePassword(password: string, passwordConfirm: string): Validate {
 	// 비밀번호 오류 검증
 	if (!password || password.trim() === '') {
 		return {

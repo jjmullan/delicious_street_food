@@ -1,6 +1,6 @@
 import { useLocation } from '@app/store/locationStore';
-import useSignInWithPassword from '@features/auth/hooks/useSignInWithPassword';
 import { generateErrorMessage } from '@features/auth/lib/error';
+import useSignInWithPassword from '@features/auth/model/useSignInWithPassword';
 import AdditionalForSignIn from '@shared/ui/description/components/AdditionalForSignIn';
 import Fallback from '@shared/ui/fallback/components/Fallback';
 import { Input } from '@shared/ui/shadcn/components/input';
