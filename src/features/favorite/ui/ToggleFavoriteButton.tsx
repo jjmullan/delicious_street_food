@@ -1,5 +1,5 @@
-import useFetchFavoriteByLocation from '@features/favorite/hooks/useFetchFavoriteByLocation';
-import useToggleFavorite from '@features/favorite/hooks/useToggleFavorite';
+import useFetchFavoriteByLocation from '@entities/favorite/model/useFetchFavoriteByLocation';
+import useToggleFavorite from '@features/favorite/model/useToggleFavorite';
 import { Button } from '@shared/ui/shadcn/components/button';
 import { HeartIcon } from 'lucide-react';
 

@@ -1,7 +1,7 @@
 import { useLocation } from '@app/store/locationStore';
+import useFetchFavoriteByLocation from '@entities/favorite/model/useFetchFavoriteByLocation';
 import { calculateDistanceFromLocation } from '@entities/location/lib/validateLocationDistance';
 import { characterImages } from '@entities/product/lib/item';
-import useFetchFavoriteByLocation from '@features/favorite/hooks/useFetchFavoriteByLocation';
 import useFetchReviewImagesByLocation from '@features/review/hooks/useFetchReviewImagesByLocation';
 import useFetchReviewsByLocation from '@features/review/hooks/useFetchReviewsByLocation';
 import { PopoverClose } from '@radix-ui/react-popover';

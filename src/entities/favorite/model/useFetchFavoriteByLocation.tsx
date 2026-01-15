@@ -1,21 +1,19 @@
-import { fetchFavoritebyUser } from '@features/favorite/api/favorite';
+import { fetchFavoriteByLocation } from '@entities/favorite/api/favorite';
 import { QUERY_KEYS } from '@shared/lib/query';
 import { useQuery } from '@tanstack/react-query';
 
-function useFetchFavoriteByUser(user_id: string) {
+export default function useFetchFavoriteByLocation(locationId: string) {
 	return useQuery({
-		queryKey: QUERY_KEYS.favorite.byUserId(user_id),
+		queryKey: QUERY_KEYS.favorite.byLocationId(locationId),
 		queryFn: async () => {
 			try {
-				const user = await fetchFavoritebyUser(user_id);
+				const user = await fetchFavoriteByLocation(locationId);
 				return user;
 			} catch (error) {
 				console.error('즐겨찾기 패칭 오류:', error);
 				if (error instanceof Error) throw error;
 			}
 		},
-		enabled: !!user_id,
+		enabled: !!locationId,
 	});
 }
-
-export default useFetchFavoriteByUser;
