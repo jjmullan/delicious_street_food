@@ -1,4 +1,4 @@
-import { characterImages } from '@features/product/libs/item';
+import { characterImages } from '@entities/product/lib/item';
 import type { Product } from '@shared/types/api';
 import { Input } from '@shared/ui/shadcn/components/input';
 

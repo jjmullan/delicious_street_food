@@ -1,6 +1,6 @@
 import { useProductFilter, useResetProductFilter, useSetProductFilter } from '@app/store/productFilterStore';
-import useFetchProducts from '@features/product/hooks/useFetchProducts';
-import { characterImages } from '@features/product/libs/item';
+import { characterImages } from '@entities/product/lib/item';
+import useFetchProducts from '@entities/product/model/useFetchProducts';
 import {
 	Select,
 	SelectContent,

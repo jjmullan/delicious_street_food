@@ -1,0 +1,10 @@
+import { fetchProducts } from '@entities/product/api/product';
+import { QUERY_KEYS } from '@shared/lib/query';
+import { useQuery } from '@tanstack/react-query';
+
+export default function useFetchProducts() {
+	return useQuery({
+		queryKey: QUERY_KEYS.item.all,
+		queryFn: fetchProducts,
+	});
+}

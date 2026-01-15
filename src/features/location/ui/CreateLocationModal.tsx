@@ -1,7 +1,7 @@
 import { useCreateLocationModal } from '@app/store/createLocationModalStore';
 import { useIsCreateMode, useLocationForCreate, useSetIsCreateMode } from '@app/store/createLocationStore';
+import { getFullLocationAddress } from '@entities/location/lib/getLocationAddress';
 import useCreateLocation from '@features/location/hooks/useCreateLocation';
-import { getFullLocationAddress } from '@features/location/utils/getLocationAddress';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import author from '@shared/assets/extra/author.svg';
 import { useSession } from '@shared/model/session';

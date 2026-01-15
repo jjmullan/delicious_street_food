@@ -1,4 +1,4 @@
-import { characterImages } from '@features/product/libs/item';
+import { characterImages } from '@entities/product/lib/item';
 import type { Product, ReviewProduct } from '@shared/types/api';
 
 function ReviewProductItem({

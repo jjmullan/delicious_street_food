@@ -1,4 +1,4 @@
-import useFetchLocation from '@features/location/hooks/useFetchLocation';
+import useFetchLocation from '@entities/location/model/useFetchLocation';
 import { deleteReview } from '@features/review/api/review';
 import { useDeleteReview } from '@features/review/hooks/useDeleteReview';
 import useFetchReviewImagesByReview from '@features/review/hooks/useFetchReviewImages';

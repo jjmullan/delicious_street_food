@@ -1,4 +1,4 @@
-import useFetchProducts from '@features/product/hooks/useFetchProducts';
+import useFetchProducts from '@entities/product/model/useFetchProducts';
 import { useDeleteReview } from '@features/review/hooks/useDeleteReview';
 import useFetchReviewImages from '@features/review/hooks/useFetchReviewImages';
 import useFetchReviewProducts from '@features/review/hooks/useFetchReviewProducts';

@@ -1,6 +1,6 @@
 import { useIsCreateMode } from '@app/store/createLocationStore';
 import { useSetLocation } from '@app/store/locationStore';
-import { getLocationData } from '@features/location/utils/getLocationData';
+import { getLocationData } from '@entities/location/lib/getLocationData';
 import { LocateFixedIcon } from 'lucide-react';
 import { Activity } from 'react';
 import { useSearchParams } from 'react-router';

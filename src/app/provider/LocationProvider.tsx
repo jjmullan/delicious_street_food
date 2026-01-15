@@ -1,5 +1,5 @@
 import { useIsLocationUpdated, useSetLocation } from '@app/store/locationStore';
-import { initialLocation } from '@features/location/libs/location';
+import { initialLocation } from '@entities/location/lib/location';
 import { useSetSession } from '@shared/model/session';
 import { type ReactNode, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';

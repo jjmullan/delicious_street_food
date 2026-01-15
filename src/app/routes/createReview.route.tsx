@@ -1,4 +1,4 @@
-import ReviewCreatePage from '@pages/review/ReviewCreatePage';
+import ReviewCreatePage from '@pages/location/review/create/ReviewCreatePage';
 import type { RouteObject } from 'react-router';
 
 export const createReviewRoutes: RouteObject[] = [

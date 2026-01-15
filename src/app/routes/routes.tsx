@@ -3,7 +3,7 @@ import { globalMapRoutes } from '@app/routes/globalMap.route';
 import { locationDetailRoutes } from '@app/routes/locationDetail.route';
 import { unloggedInRoute } from '@app/routes/unloggedIn.route';
 import { userDetailRoutes } from '@app/routes/userDetail.route';
-import ErrorPage from '@pages/error/ErrorPage';
+import GlobalError from '@pages/GlobalError';
 import CreateReviewLayout from '@widgets/layout/CreateReviewLayout';
 import GlobalLayout from '@widgets/layout/GlobalLayout';
 import LocationDetailLayout from '@widgets/layout/LocationDetailLayout';
@@ -18,13 +18,13 @@ import { createBrowserRouter } from 'react-router-dom';
  *
  * 구조:
  * - element: Layout - 전역 레이아웃 컴포넌트 (헤더, 푸터 등)
- * - errorElement: ErrorPage - 라우팅 에러 처리 컴포넌트
+ * - errorElement: GlobalError - 라우팅 에러 처리 컴포넌트
  * - children: 하위 라우트들 (Layout의 <Outlet />에 렌더링됨)
  */
 export const router = createBrowserRouter([
 	{
 		Component: GlobalLayout,
-		errorElement: <ErrorPage />,
+		errorElement: <GlobalError />,
 		children: [
 			{
 				// 로그인 된 유저는 카카오 맵 지도 접근 가능
