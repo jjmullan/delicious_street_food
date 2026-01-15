@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { combine, devtools } from 'zustand/middleware';
-import type { ConfirmModalState, OpenState } from '../types/store';
+import type { ConfirmModalState, OpenState } from '../types/model';
 
 const initialState = {
 	isOpen: false,

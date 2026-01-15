@@ -1,16 +1,13 @@
 import type { Session } from '@supabase/supabase-js';
 import { create } from 'zustand';
 import { combine, devtools, persist } from 'zustand/middleware';
-import type { SessionAction, SessionState } from '../types/store';
+import type { SessionAction, SessionState } from '../types/model';
 
 const initialState: SessionState = {
 	session: null,
 	isLoaded: false,
 };
 
-/**
- * Zustand 를 이용하여 Local Storage 에서 로그인 정보를 가져오기
- */
 export const useSessionStore = create(
 	devtools(
 		persist(
