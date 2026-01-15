@@ -52,10 +52,6 @@ export type Database = {
 					location_id: string;
 					location_name: string | null;
 					longitude: string;
-					total_favorite_count: number;
-					total_recommend_count: number;
-					total_review_count: number;
-					total_visit_count: number;
 					updated_at: string;
 					user_id: string | null;
 				};
@@ -66,10 +62,6 @@ export type Database = {
 					location_id?: string;
 					location_name?: string | null;
 					longitude: string;
-					total_favorite_count?: number;
-					total_recommend_count?: number;
-					total_review_count?: number;
-					total_visit_count?: number;
 					updated_at?: string;
 					user_id?: string | null;
 				};
@@ -80,10 +72,6 @@ export type Database = {
 					location_id?: string;
 					location_name?: string | null;
 					longitude?: string;
-					total_favorite_count?: number;
-					total_recommend_count?: number;
-					total_review_count?: number;
-					total_visit_count?: number;
 					updated_at?: string;
 					user_id?: string | null;
 				};
@@ -254,18 +242,21 @@ export type Database = {
 					created_at: string;
 					reward_id: string;
 					reward_name: string;
+					reward_sort: string;
 					updated_at: string;
 				};
 				Insert: {
 					created_at?: string;
 					reward_id?: string;
 					reward_name: string;
+					reward_sort: string;
 					updated_at?: string;
 				};
 				Update: {
 					created_at?: string;
 					reward_id?: string;
 					reward_name?: string;
+					reward_sort?: string;
 					updated_at?: string;
 				};
 				Relationships: [];
@@ -315,6 +306,7 @@ export type Database = {
 					profile_image_url: string | null;
 					updated_at: string;
 					user_id: string;
+					wallpaper: string | null;
 				};
 				Insert: {
 					bio?: string | null;
@@ -324,6 +316,7 @@ export type Database = {
 					profile_image_url?: string | null;
 					updated_at?: string;
 					user_id?: string;
+					wallpaper?: string | null;
 				};
 				Update: {
 					bio?: string | null;
@@ -333,6 +326,7 @@ export type Database = {
 					profile_image_url?: string | null;
 					updated_at?: string;
 					user_id?: string;
+					wallpaper?: string | null;
 				};
 				Relationships: [];
 			};

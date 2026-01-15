@@ -17,7 +17,7 @@
     "clean": "rm -rf dist",
     "compile": "run-s clean build preview",
     "prepare": "husky",
-    "type-gen": "npx supabase gen types typescript --project-id \"ixndsaifjzjtffbhrsvc\" --schema public > src/shared/types/supabase.type.ts"
+    "type-gen": "npx supabase gen types typescript --project-id \"ixndsaifjzjtffbhrsvc\" --schema public > src/shared/api/supabase/supabase.type.ts"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json}": [

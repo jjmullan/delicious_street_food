@@ -1,4 +1,4 @@
-import type { Database } from '@shared/types/supabase.type';
+import type { Database } from '@shared/api/supabase/supabase.type';
 
 // [Supabase] 1차 정제 : 테이블 컬럼 타입만 추출
 export type Favorite = Database['public']['Tables']['favorite']['Row'];
