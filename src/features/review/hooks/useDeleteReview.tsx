@@ -1,6 +1,6 @@
 import { deleteReview } from '@features/review/api/review';
 import { QUERY_KEYS } from '@shared/lib/query';
-import type { MutationCallback, Review } from '@shared/types/types';
+import type { MutationCallback, Review } from '@shared/types/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export function useDeleteReview(callbacks: MutationCallback) {

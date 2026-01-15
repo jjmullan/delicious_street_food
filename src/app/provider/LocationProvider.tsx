@@ -1,6 +1,6 @@
 import { useIsLocationUpdated, useSetLocation } from '@app/store/locationStore';
-import { useSetSession } from '@app/store/sessionStore';
 import { initialLocation } from '@features/location/libs/location';
+import { useSetSession } from '@shared/model/session';
 import { type ReactNode, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';

@@ -1,5 +1,3 @@
-import { useOpenConfirmModal } from '@app/store/confirmModalStore';
-import { useSession } from '@app/store/sessionStore';
 import useFetchProducts from '@features/product/hooks/useFetchProducts';
 import { useDeleteReview } from '@features/review/hooks/useDeleteReview';
 import useFetchReviewImages from '@features/review/hooks/useFetchReviewImages';
@@ -11,7 +9,9 @@ import ReviewVisitDate from '@features/review/ui/ReviewVisitDate';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import { formatTimeAgo, getDateTimeKo } from '@shared/lib/day';
-import type { Review } from '@shared/types/types';
+import { useOpenConfirmModal } from '@shared/model/confirmModal';
+import { useSession } from '@shared/model/session';
+import type { Review } from '@shared/types/api';
 import EditDeleteButton from '@shared/ui/button/EditDeleteButton';
 import ImageModal from '@shared/ui/modal/ImageModal';
 import { Carousel, CarouselContent, CarouselItem } from '@shared/ui/shadcn/carousel';

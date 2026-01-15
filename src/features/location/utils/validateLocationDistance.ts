@@ -5,7 +5,7 @@ import {
 	MINIMUM_LOCATION_DISTANCE_METERS,
 } from '@features/location/libs/distance';
 import type { AbbrLocation } from '@features/location/types/location';
-import type { Location as SupabaseLocation } from '@shared/types/types';
+import type { Location as SupabaseLocation } from '@shared/types/api';
 
 /**
  * 하버사인 공식을 사용하여 두 지점 간의 거리를 계산합니다.

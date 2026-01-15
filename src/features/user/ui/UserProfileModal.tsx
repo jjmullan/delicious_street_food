@@ -1,11 +1,11 @@
 import { useIsCreateMode } from '@app/store/createLocationStore';
-import { useSession } from '@app/store/sessionStore';
 import { signOut } from '@features/auth/api/auth';
 import useFetchFavoriteByUser from '@features/favorite/hooks/useFetchFavoriteByUser';
 import useFetchReviewsByUser from '@features/review/hooks/useFetchReviewsByUser';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import { PopoverClose } from '@radix-ui/react-popover';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
+import { useSession } from '@shared/model/session';
 import { Popover, PopoverContent, PopoverTrigger } from '@shared/ui/shadcn/popover';
 import { HeartIcon, MessageCircleMoreIcon, UserCircle2 } from 'lucide-react';
 import { Activity } from 'react';

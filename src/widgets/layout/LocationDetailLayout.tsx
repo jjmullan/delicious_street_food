@@ -1,4 +1,4 @@
-import { useSession } from '@app/store/sessionStore';
+import { useSession } from '@shared/model/session';
 import DetailHeader from '@widgets/header/DetailHeader';
 import LocationNavigation from '@widgets/nav/LocationNavigation';
 import { Navigate, Outlet, useParams } from 'react-router';

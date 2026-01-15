@@ -1,4 +1,4 @@
-import type { Product } from '@shared/types/types';
+import type { Product } from '@shared/types/api';
 import { create } from 'zustand';
 import { combine, devtools } from 'zustand/middleware';
 

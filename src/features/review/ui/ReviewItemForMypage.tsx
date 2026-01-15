@@ -1,10 +1,10 @@
-import { useOpenConfirmModal } from '@app/store/confirmModalStore';
 import useFetchLocation from '@features/location/hooks/useFetchLocation';
 import { deleteReview } from '@features/review/api/review';
 import { useDeleteReview } from '@features/review/hooks/useDeleteReview';
 import useFetchReviewImagesByReview from '@features/review/hooks/useFetchReviewImages';
 import { getDateTimeKo } from '@shared/lib/day';
-import type { Review } from '@shared/types/types';
+import { useOpenConfirmModal } from '@shared/model/confirmModal';
+import type { Review } from '@shared/types/api';
 import EditDeleteButton from '@shared/ui/button/EditDeleteButton';
 import ImageModal from '@shared/ui/modal/ImageModal';
 import { Carousel, CarouselContent, CarouselItem } from '@shared/ui/shadcn/carousel';

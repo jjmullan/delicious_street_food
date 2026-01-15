@@ -1,4 +1,4 @@
-import { useConfirmModal } from '@app/store/confirmModalStore';
+import { useConfirmModal } from '@shared/model/confirmModal';
 import {
 	AlertDialog,
 	AlertDialogAction,

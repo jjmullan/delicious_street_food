@@ -1,5 +1,5 @@
 import { useSetLoginProvider } from '@app/store/loginProviderStore';
-import { useIsSessionLoaded, useSession } from '@app/store/sessionStore';
+import { useIsSessionLoaded, useSession } from '@shared/model/session';
 import type { Provider } from '@supabase/supabase-js';
 import { type ReactNode, useEffect } from 'react';
 

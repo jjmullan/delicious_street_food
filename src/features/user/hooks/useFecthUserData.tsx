@@ -1,7 +1,7 @@
-import { useSession } from '@app/store/sessionStore';
 import { createUser, fetchProfile } from '@features/user/api/user';
 import { QUERY_KEYS } from '@shared/lib/query';
-import type { User } from '@shared/types/types';
+import { useSession } from '@shared/model/session';
+import type { User } from '@shared/types/api';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { useQuery } from '@tanstack/react-query';
 

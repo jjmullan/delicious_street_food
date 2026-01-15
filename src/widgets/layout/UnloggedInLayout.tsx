@@ -1,4 +1,4 @@
-import { useSession } from '@app/store/sessionStore';
+import { useSession } from '@shared/model/session';
 import UnloggedInHeader from '@widgets/header/UnloggedInHeader';
 import { Navigate, Outlet } from 'react-router';
 

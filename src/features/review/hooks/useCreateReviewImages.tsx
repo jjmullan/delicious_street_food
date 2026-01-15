@@ -1,6 +1,6 @@
 import { createReviewImages } from '@features/review/api/review';
 import { QUERY_KEYS } from '@shared/lib/query';
-import type { MutationCallback } from '@shared/types/types';
+import type { MutationCallback } from '@shared/types/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function useCreateReviewImages(callbacks: MutationCallback) {

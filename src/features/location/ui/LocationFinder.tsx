@@ -1,7 +1,7 @@
 import LocationInfoModal from '@features/location/ui/LocationInfoModal';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
-import type { Location } from '@shared/types/types';
+import type { Location } from '@shared/types/api';
 
 /**
  * 현재 위치를 표시해주는 원형 컴포넌트

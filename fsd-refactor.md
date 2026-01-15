@@ -1,1117 +1,541 @@
-# FSD 아키텍처 리팩토링 계획
+# FSD 아키텍처 리팩토링 실행 계획
 
-> **작성일**: 2026-01-13
-> **기준 문서**: fsd.md
-> **진행 방식**: Priority 역순 (3 → 2 → 1)
+> **작업 방식**: Bottom-up (shared → entities → features → widgets → pages → app)
+> **예상 소요 시간**: 18-26시간
+> **현재 FSD 준수율**: 74% → 목표: 95%+
 
----
+## 전략 요약
 
-## 📋 리팩토링 진행 순서
+### 사용자 결정사항
+1. **작업 순서**: FSD 레이어 순서 (하위부터 상위로)
+2. **Entities 구조**: UI 컴포넌트 모두 이동 → 순수 타입/모델만 남김
+3. **Store 전략**:
+   - `confirmModalStore`, `sessionStore` → `shared/model/`로 이동
+   - 나머지 store들 → `features/*/model/`로 이동
 
-```
-Phase 1: 슬라이스 구조 정리 (Priority 3)
-   ↓
-Phase 2: Entities 파일 재배치 (Priority 2-B)
-   ↓
-Phase 3: Same-Layer Cross-Import 제거 (Priority 2-A)
-   ↓
-Phase 4: Public API 구현 (Priority 1-B)
-   ↓
-Phase 5: App Store 의존성 제거 (Priority 1-A)
-```
-
-**진행 이유**:
-- 먼저 구조를 정리하고 파일을 올바른 위치로 이동
-- 레이어 간 의존성 정리 후 Public API 구현
-- 마지막으로 가장 영향 범위가 큰 App Store 의존성 제거
+### 주요 위반 사항
+- **Shared Layer**: 2개 파일이 app/features 의존
+- **Entities Layer**: 6개 UI 컴포넌트 (모두 widgets/pages로 이동 필요)
+- **Features Layer**: 12건 cross-import, 17건 app store 의존
+- **Widgets/Pages**: 12건 app store 의존
+- **총 위반 건수**: 70건 이상
 
 ---
 
-## Phase 1: 슬라이스 구조 정리
+## Phase 1: Shared Layer 개선 (2-3시간)
 
 ### 목표
-중복되거나 과도하게 분리된 슬라이스를 통합하여 관리 용이성 향상
+Shared layer의 app/features 의존성 제거 (전역 store를 shared로 이동)
 
-### 현재 상태 분석
+### 작업 내용
 
-#### Features 레이어
-```
-features/
-├── auth/
-│   ├── signUp/      ← 통합 검토
-│   ├── signIn/      ← 통합 검토
-│   └── signOut/     ← 통합 검토
-├── location/
-│   ├── create/      ← 통합 검토
-│   ├── fetch/       ← 통합 검토
-│   ├── update/      ← 통합 검토
-│   └── delete/      ← 통합 검토
-├── user/
-│   ├── create/      ← 통합 검토
-│   ├── fetch/       ← 통합 검토
-│   └── update/      ← 통합 검토
-├── review/
-│   ├── create/      ← 통합 검토
-│   ├── fetch/       ← 통합 검토
-│   └── delete/      ← 통합 검토
-├── favorite/
-│   ├── fetch/       ← 통합 검토
-│   └── toggle/      ← 통합 검토
-└── product/
-    └── item/        ← 적절함 (단일 슬라이스)
+#### 1-1. Store 이동
+```bash
+# 생성
+src/shared/model/confirmModal.ts     # confirmModalStore 복사
+src/shared/model/session.ts          # sessionStore 복사
+src/shared/model/index.ts            # Public API
 ```
 
-### 작업 항목
+#### 1-2. Import 경로 업데이트 (18개 파일)
+```typescript
+// 변경 전
+from '@app/store/confirmModalStore'
+from '@app/store/sessionStore'
 
-#### ✅ 1-1. 통합 필요성 판단 기준
-- [ ] 각 하위 슬라이스가 독립적으로 사용되는가?
-- [ ] 하위 슬라이스 간 공유되는 타입/유틸이 많은가?
-- [ ] 통합 시 Public API가 더 명확해지는가?
-
-#### ✅ 1-2. 권장 통합 방안
-
-**Option A: 완전 통합 (권장)**
-```
-features/
-├── auth/                    # 통합
-│   ├── ui/
-│   │   ├── SignUp.tsx
-│   │   ├── SignIn.tsx
-│   │   └── SignOutButton.tsx
-│   ├── hooks/
-│   │   ├── useSignUp.tsx
-│   │   ├── useSignIn.tsx
-│   │   └── useSignOut.tsx
-│   ├── api/
-│   │   └── auth.ts
-│   ├── types/
-│   └── index.ts
-├── location/                # 통합
-│   ├── ui/
-│   ├── hooks/
-│   ├── api/
-│   ├── types/
-│   └── index.ts
-... (나머지 동일)
+// 변경 후
+from '@shared/model'
 ```
 
-**Option B: 부분 통합 (현재 구조 유지하되 index.ts로 노출)**
-```
-features/
-├── auth/
-│   ├── signUp/
-│   ├── signIn/
-│   ├── signOut/
-│   └── index.ts           # Public API 추가
-├── location/
-│   ├── create/
-│   ├── fetch/
-│   ├── update/
-│   ├── delete/
-│   └── index.ts           # Public API 추가
-```
+**영향받는 파일**:
+- `src/shared/ui/modal/ConfirmModal.tsx`
+- `src/shared/ui/button/HomeButton.tsx`
+- `src/features/**/*.tsx` (8개 파일)
+- `src/widgets/**/*.tsx` (9개 파일)
+- `src/pages/review/ReviewCreatePage.tsx`
 
-### 결정 사항
-- [ ] Option A (완전 통합) 선택
-- [ ] Option B (부분 통합) 선택
+#### 검증
+```bash
+pnpm tsc --noEmit
+pnpm build
+grep -r "from '@app/store/confirmModalStore'" src/  # 결과 없어야 함
+grep -r "from '@app/store/sessionStore'" src/       # 결과 없어야 함
+```
 
 ---
 
-## Phase 2: Entities 파일 재배치
+## Phase 2: Entities Layer 재구성 (3-4시간)
 
 ### 목표
-Entities 레이어를 순수한 비즈니스 엔티티로 정리
+Entities의 모든 UI 컴포넌트를 widgets/pages로 이동, 순수 타입만 남김
 
-### 문제 파일 목록
+### 작업 내용
 
-| 현재 위치 | 문제점 | 이동 대상 | 우선순위 |
-|----------|--------|----------|---------|
-| `entities/location/ui/LocationHome.tsx` | Features/Widgets 조합 | `pages/location/LocationHomePage.tsx` | 🚨 Critical |
-| `entities/user/ui/MyPage.tsx` | Features 다수 사용 | `pages/mypage/MyPageHomePage.tsx` | 🚨 Critical |
-| `entities/map/ui/GlobalMap.tsx` | App Store 3건, Features 7건, Widget 1건 import | `widgets/map/GlobalMap.tsx` | 🚨 Critical |
-| `entities/location/ui/LocationReviewAll.tsx` | Features 3건, App Store 1건 | `widgets/location/LocationReviewAll.tsx` | ⚠️ High |
-| `entities/location/ui/LocationReviewPhoto.tsx` | Features 1건 | `widgets/location/LocationReviewPhoto.tsx` | ⚠️ High |
-| `entities/map/ui/LocationMap.tsx` | Features 1건 | `widgets/map/LocationMap.tsx` | ⚠️ Medium |
+#### 2-1. UI 컴포넌트 이동 (6개 파일)
 
-### 작업 항목
+| 현재 위치 | 이동 대상 | 우선순위 |
+|----------|----------|---------|
+| `entities/location/ui/LocationHome.tsx` | `pages/location/LocationHomePage.tsx` | Critical |
+| `entities/user/ui/MyPage.tsx` | `pages/mypage/MyPageHomePage.tsx` | Critical |
+| `entities/map/ui/GlobalMap.tsx` | `widgets/map/GlobalMap.tsx` | Critical |
+| `entities/location/ui/LocationReviewAll.tsx` | `widgets/location/LocationReviewAll.tsx` | High |
+| `entities/location/ui/LocationReviewPhoto.tsx` | `widgets/location/LocationReviewPhoto.tsx` | High |
+| `entities/map/ui/LocationMap.tsx` | `widgets/map/LocationMap.tsx` | Medium |
 
-#### ✅ 2-1. LocationHome.tsx 이동
+#### 2-2. Import 경로 업데이트
+각 파일 이동 후 해당 파일을 import하는 모든 파일의 경로 업데이트
+
 ```bash
-# 현재
-src/entities/location/ui/LocationHome.tsx
-
-# 이동 후
-src/pages/location/LocationHomePage.tsx
+# 영향받는 파일 찾기
+grep -r "entities/location/ui/LocationHome" src/
+grep -r "entities/user/ui/MyPage" src/
+grep -r "entities/map/ui/GlobalMap" src/
 ```
 
-**수정 내용**:
-- [ ] 파일 이동
-- [ ] import 경로 업데이트 (9건 features imports)
-- [ ] 관련 페이지 라우팅 업데이트
+#### 2-3. 순수 Entity 타입 생성
 
-#### ✅ 2-2. MyPage.tsx 이동
 ```bash
-# 현재
-src/entities/user/ui/MyPage.tsx
-
-# 이동 후
-src/pages/mypage/MyPageHomePage.tsx
+# 생성
+src/entities/location/model/types.ts
+src/entities/location/index.ts
+src/entities/user/model/types.ts
+src/entities/user/index.ts
+src/entities/map/model/types.ts
+src/entities/map/index.ts
+src/entities/review/model/types.ts
+src/entities/review/index.ts
+src/entities/product/model/types.ts
+src/entities/product/index.ts
 ```
 
-**수정 내용**:
-- [ ] 파일 이동
-- [ ] import 경로 업데이트 (7건 features imports)
-- [ ] 관련 페이지 라우팅 업데이트
-
-#### ✅ 2-3. GlobalMap.tsx 이동
-```bash
-# 현재
-src/entities/map/ui/GlobalMap.tsx
-
-# 이동 후
-src/widgets/map/GlobalMap.tsx
-```
-
-**수정 내용**:
-- [ ] 파일 이동
-- [ ] import 경로 업데이트:
-  - App Store 3건 (Phase 5에서 처리)
-  - Features 7건
-  - Widget 1건 (MapAsideBar)
-- [ ] 관련 페이지에서 import 경로 업데이트
-
-#### ✅ 2-4. LocationReviewAll.tsx 이동
-```bash
-# 현재
-src/entities/location/ui/LocationReviewAll.tsx
-
-# 이동 후
-src/widgets/location/LocationReviewAll.tsx
-```
-
-**수정 내용**:
-- [ ] 파일 이동
-- [ ] import 경로 업데이트 (Features 3건, App Store 1건)
-
-#### ✅ 2-5. LocationReviewPhoto.tsx 이동
-```bash
-# 현재
-src/entities/location/ui/LocationReviewPhoto.tsx
-
-# 이동 후
-src/widgets/location/LocationReviewPhoto.tsx
-```
-
-**수정 내용**:
-- [ ] 파일 이동
-- [ ] import 경로 업데이트 (Features 1건)
-
-#### ✅ 2-6. LocationMap.tsx 이동
-```bash
-# 현재
-src/entities/map/ui/LocationMap.tsx
-
-# 이동 후
-src/widgets/map/LocationMap.tsx
-```
-
-**수정 내용**:
-- [ ] 파일 이동
-- [ ] import 경로 업데이트 (Features 1건)
-
-#### ✅ 2-7. Entities 폴더 정리
-- [ ] 빈 폴더 제거 (`entities/location/ui`, `entities/user/ui`, `entities/map/ui`)
-- [ ] Entities 레이어를 순수 비즈니스 엔티티 타입/모델로만 구성
-
----
-
-## Phase 3: Same-Layer Cross-Import 제거
-
-### 목표
-같은 레이어끼리의 직접 의존성 제거
-
-### 위반 사례
-
-#### 🚨 3-1. Features → Features (5건)
-| 파일 | 위반 import | 해결 방법 |
-|------|------------|----------|
-| `features/location/fetch/ui/LocationInfoModal.tsx` | `favorite`, `product`, `review` (5건) | Pages에서 조합 또는 Entities로 추상화 |
-| `features/location/fetch/ui/LocationFinder.tsx` | `user` (1건) | Props로 전달 또는 Entities 활용 |
-
-#### ⚠️ 3-2. Entities → Entities (1건)
-| 파일 | 위반 import | 해결 방법 |
-|------|------------|----------|
-| `entities/location/ui/LocationHome.tsx` | `entities/map/ui/LocationMap` | Phase 2에서 이동 시 해결 (Pages로) |
-
-### 작업 항목
-
-#### ✅ 3-1. LocationInfoModal.tsx 리팩토링
-
-**현재 코드 (❌)**:
-```tsx
-// features/location/fetch/ui/LocationInfoModal.tsx
-import { ToggleFavoriteButton } from '@/features/favorite/toggle/ui/ToggleFavoriteButton';
-import { ProductList } from '@/features/product/item/ui/ProductList';
-import { ReviewItem } from '@/features/review/fetch/ui/ReviewItem';
-```
-
-**개선 방안 1: Pages에서 조합 (✅ 권장)**
-```tsx
-// pages/location/LocationDetailPage.tsx
-import { LocationInfo } from '@/features/location/fetch';
-import { ToggleFavoriteButton } from '@/features/favorite/toggle';
-import { ProductList } from '@/features/product/item';
-import { ReviewList } from '@/features/review/fetch';
-
-function LocationDetailPage() {
-  return (
-    <>
-      <LocationInfo />
-      <ToggleFavoriteButton />
-      <ProductList />
-      <ReviewList />
-    </>
-  );
-}
-```
-
-**개선 방안 2: Entities로 추상화 (✅ 선택 사항)**
-```tsx
+**타입 예시**:
+```typescript
 // entities/location/model/types.ts
-export interface LocationDetail {
+export interface LocationEntity {
   id: string;
   name: string;
-  isFavorite: boolean;
-  products: Product[];
-  reviews: Review[];
-}
-
-// features/location/fetch/ui/LocationInfoModal.tsx
-import { LocationDetail } from '@/entities/location';
-```
-
-**작업**:
-- [ ] LocationInfoModal을 순수 컴포넌트로 리팩토링
-- [ ] Pages 레이어에서 feature 조합
-- [ ] Cross-import 제거 확인
-
-#### ✅ 3-2. LocationFinder.tsx 리팩토링
-
-**현재 코드 (❌)**:
-```tsx
-// features/location/fetch/ui/LocationFinder.tsx
-import { UserProfile } from '@/features/user/fetch/ui/UserProfileModal';
-```
-
-**개선 방안: Props로 전달 (✅)**
-```tsx
-// features/location/fetch/ui/LocationFinder.tsx
-interface LocationFinderProps {
-  onUserClick?: (userId: string) => void;
-}
-
-// pages에서 조합
-import { LocationFinder } from '@/features/location/fetch';
-import { useOpenUserProfile } from '@/features/user/fetch';
-
-function Page() {
-  const openUserProfile = useOpenUserProfile();
-  return <LocationFinder onUserClick={openUserProfile} />;
+  latitude: number;
+  longitude: number;
+  address?: string;
+  created_at: string;
+  updated_at: string;
 }
 ```
 
-**작업**:
-- [ ] LocationFinder Props 추가
-- [ ] User feature import 제거
-- [ ] Pages에서 조합 구현
-
----
-
-## Phase 4: Public API 구현
-
-### 목표
-모든 슬라이스에 Public API (`index.ts`) 생성
-
-### 현황
-- **누락 슬라이스 수**: 47개
-- **영향 범위**: Features, Entities, Pages, Widgets 전체
-
-### Public API 구현 원칙
-
-1. **노출할 것**
-   - UI 컴포넌트 (외부에서 사용)
-   - Custom Hooks
-   - 타입 정의 (다른 레이어에서 필요한 경우)
-   - 유틸리티 함수 (재사용 가능)
-
-2. **숨길 것**
-   - API 함수 (내부 구현)
-   - 내부 유틸리티
-   - Private 컴포넌트
-   - 상수 (내부 전용)
-
-### 작업 항목
-
-#### ✅ 4-1. Features 레이어 Public API (22개 슬라이스)
-
-**예시: features/auth/signUp/index.ts**
-```typescript
-// UI Components
-export { SignUp, SignUpConfirm } from './ui/SignUp';
-
-// Custom Hooks
-export { useSignUpWithEmail } from './hooks/useSignUpWithEmail';
-
-// Types (외부에서 필요한 경우만)
-export type { SignUpFormData } from './types/types';
-
-// Utils (재사용 가능한 경우만)
-export { validateEmail, validatePassword } from './util/validatePassword';
-```
-
-**생성할 index.ts 목록**:
-- [ ] `features/auth/signUp/index.ts`
-- [ ] `features/auth/signIn/index.ts`
-- [ ] `features/auth/signOut/index.ts`
-- [ ] `features/location/create/index.ts`
-- [ ] `features/location/fetch/index.ts`
-- [ ] `features/location/update/index.ts`
-- [ ] `features/location/delete/index.ts`
-- [ ] `features/favorite/fetch/index.ts`
-- [ ] `features/favorite/toggle/index.ts`
-- [ ] `features/user/create/index.ts`
-- [ ] `features/user/fetch/index.ts`
-- [ ] `features/user/update/index.ts`
-- [ ] `features/product/item/index.ts`
-- [ ] `features/review/create/index.ts`
-- [ ] `features/review/fetch/index.ts`
-- [ ] `features/review/delete/index.ts`
-
-#### ✅ 4-2. Entities 레이어 Public API (8개 슬라이스)
-
-**예시: entities/location/index.ts**
-```typescript
-// Types & Interfaces
-export type { Location, LocationDetail, LocationAddress } from './model/types';
-
-// Utils (비즈니스 로직)
-export { validateLocationDistance } from './lib/validation';
-export { formatLocationAddress } from './lib/formatter';
-```
-
-**생성할 index.ts 목록**:
-- [ ] `entities/location/index.ts`
-- [ ] `entities/user/index.ts`
-- [ ] `entities/map/index.ts`
-- [ ] `entities/review/index.ts`
-- [ ] `entities/product/index.ts`
-- [ ] `entities/favorite/index.ts`
-
-#### ✅ 4-3. Widgets 레이어 Public API (5개 슬라이스)
-
-**예시: widgets/header/index.ts**
-```typescript
-export { MapHeader } from './MapHeader';
-export { DetailHeader } from './DetailHeader';
-export { UnloggedInHeader } from './UnloggedInHeader';
-export { CreateReviewHeader } from './CreateReviewHeader';
-```
-
-**생성할 index.ts 목록**:
-- [ ] `widgets/header/index.ts`
-- [ ] `widgets/footer/index.ts`
-- [ ] `widgets/nav/index.ts`
-- [ ] `widgets/aside/index.ts`
-- [ ] `widgets/layout/index.ts`
-
-#### ✅ 4-4. Pages 레이어 Public API (12개 슬라이스)
-
-**예시: pages/home/index.ts**
-```typescript
-export { HomePage } from './HomePage';
-```
-
-**생성할 index.ts 목록**:
-- [ ] `pages/home/index.ts`
-- [ ] `pages/location/index.ts`
-- [ ] `pages/mypage/home/index.ts`
-- [ ] `pages/mypage/favorite/index.ts`
-- [ ] `pages/mypage/review/index.ts`
-- [ ] `pages/review/index.ts`
-- [ ] `pages/signUp/index.ts`
-- [ ] `pages/login/common/index.ts`
-- [ ] `pages/login/email/index.ts`
-- [ ] `pages/error/index.ts`
-
-#### ✅ 4-5. 전체 import 경로 업데이트
-
-**변경 전 (❌)**:
-```typescript
-import { SignUp } from '@/features/auth/signUp/ui/SignUp';
-import { useSignUpWithEmail } from '@/features/auth/signUp/hooks/useSignUpWithEmail';
-```
-
-**변경 후 (✅)**:
-```typescript
-import { SignUp, useSignUpWithEmail } from '@/features/auth/signUp';
-```
-
-**작업**:
-- [ ] 모든 import 문 검색 및 변경
-- [ ] `/ui/`, `/hooks/`, `/api/` 경로 제거
-- [ ] Public API로만 접근하도록 수정
-- [ ] 빌드 테스트 및 오류 수정
-
----
-
-## Phase 5: App Store 의존성 제거
-
-### 목표
-하위 레이어에서 App 레이어의 전역 Store 직접 import 제거
-
-### 위반 통계
-| 레이어 | 위반 건수 | 영향 파일 수 |
-|--------|----------|-------------|
-| ENTITIES → APP | 4건 | 2개 |
-| FEATURES → APP | 17건 | 12개 |
-| WIDGETS → APP | 11건 | 9개 |
-| PAGES → APP | 1건 | 1개 |
-| **합계** | **33건** | **24개** |
-
-### App Store 목록 및 사용 현황
-
-```typescript
-app/store/
-├── confirmModalStore.ts        (12개 파일에서 import)
-├── createLocationStore.ts      (7개 파일에서 import)
-├── locationStore.ts            (4개 파일에서 import)
-├── sessionStore.ts             (9개 파일에서 import)
-├── productFilterStore.ts       (2개 파일에서 import)
-├── createLocationModalStore.ts (3개 파일에서 import)
-└── loginProviderStore.ts       (사용 현황 미파악)
-```
-
-### 개선 전략
-
-#### 전략 1: Props Drilling
-상위 레이어에서 하위로 데이터/핸들러 전달
-
-#### 전략 2: Context API
-특정 서브트리에만 적용되는 로컬 Context
-
-#### 전략 3: Features Model
-Features 내부에 model 세그먼트로 상태 관리 이동
-
-#### 전략 4: Composition Pattern
-상위 레이어에서 조합, 하위는 순수 컴포넌트
-
-### 작업 항목
-
-#### ✅ 5-1. confirmModalStore 리팩토링 (12개 파일)
-
-**사용 파일 목록**:
-- `features/auth/signOut/ui/SignOutButton.tsx`
-- `features/location/create/ui/CreateLocationModal.tsx`
-- `features/review/fetch/ui/ReviewItem.tsx`
-- `widgets/header/CreateReviewHeader.tsx`
-- `pages/review/ReviewCreatePage.tsx`
-- ... (7개 추가 파일)
-
-**개선 방안: Props로 전달 (✅)**
-
-```typescript
-// Before (❌)
-// features/auth/signOut/ui/SignOutButton.tsx
-import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
-
-function SignOutButton() {
-  const openConfirm = useOpenConfirmModal();
-  // ...
-}
-
-// After (✅)
-// features/auth/signOut/ui/SignOutButton.tsx
-interface SignOutButtonProps {
-  onConfirm: () => void;
-}
-
-function SignOutButton({ onConfirm }: SignOutButtonProps) {
-  // ...
-}
-
-// pages/mypage/MyPageHomePage.tsx
-import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
-import { SignOutButton } from '@/features/auth/signOut';
-
-function MyPageHomePage() {
-  const openConfirm = useOpenConfirmModal();
-  return <SignOutButton onConfirm={openConfirm} />;
-}
-```
-
-**작업**:
-- [ ] SignOutButton Props 추가
-- [ ] CreateLocationModal Props 추가
-- [ ] ReviewItem Props 추가
-- [ ] CreateReviewHeader Props 추가
-- [ ] ReviewCreatePage에서만 confirmModalStore 사용
-- [ ] 나머지 7개 파일 수정
-- [ ] confirmModalStore import 제거 확인
-
-#### ✅ 5-2. sessionStore 리팩토링 (9개 파일)
-
-**사용 파일 목록**:
-- `widgets/layout/UserDetailLayout.tsx`
-- `widgets/layout/CreateReviewLayout.tsx`
-- `widgets/layout/UnloggedInLayout.tsx`
-- `widgets/layout/LocationDetailLayout.tsx`
-- `widgets/layout/MapLayout.tsx`
-- `features/user/fetch/ui/UserProfileModal.tsx`
-- `features/review/fetch/ui/ReviewItem.tsx`
-- ... (2개 추가 파일)
-
-**개선 방안: Context API (✅)**
-
-```typescript
-// app/provider/SessionProvider.tsx
-import { createContext, useContext } from 'react';
-
-const SessionContext = createContext(null);
-
-export function SessionProvider({ children }) {
-  // sessionStore 로직을 여기로 이동
-  return <SessionContext.Provider value={session}>{children}</SessionContext.Provider>;
-}
-
-export function useSession() {
-  return useContext(SessionContext);
-}
-
-// widgets/layout/UserDetailLayout.tsx
-import { useSession } from '@/app/provider/SessionProvider';
-
-function UserDetailLayout() {
-  const session = useSession();
-  // ...
-}
-```
-
-**작업**:
-- [ ] SessionProvider에 sessionStore 로직 통합
-- [ ] useSession hook 생성
-- [ ] 9개 파일에서 sessionStore → useSession 변경
-- [ ] sessionStore.ts 파일 제거 (또는 SessionProvider 내부로 이동)
-
-#### ✅ 5-3. createLocationStore 리팩토링 (7개 파일)
-
-**사용 파일 목록**:
-- `widgets/layout/MapLayout.tsx`
-- `widgets/aside/MapAsideBar.tsx`
-- `widgets/header/MapHeader.tsx`
-- `features/location/create/ui/CreateLocationModal.tsx`
-- `features/user/fetch/ui/UserProfileModal.tsx`
-- `entities/map/ui/GlobalMap.tsx` (Phase 2에서 widgets로 이동)
-- ... (1개 추가 파일)
-
-**개선 방안: Features Model로 이동 (✅)**
-
-```typescript
-// features/location/create/model/createLocationModel.ts
-import { create } from 'zustand';
-
-export const useCreateLocationStore = create((set) => ({
-  // createLocationStore 로직 이동
-}));
-
-// features/location/create/index.ts
-export { useCreateLocationStore } from './model/createLocationModel';
-
-// widgets/layout/MapLayout.tsx
-import { useCreateLocationStore } from '@/features/location/create';
-```
-
-**작업**:
-- [ ] `features/location/create/model/` 폴더 생성
-- [ ] createLocationStore → createLocationModel 이동
-- [ ] Public API에 export 추가
-- [ ] 7개 파일 import 경로 변경
-- [ ] app/store/createLocationStore.ts 제거
-
-#### ✅ 5-4. locationStore 리팩토링 (4개 파일)
-
-**사용 파일 목록**:
-- `features/auth/signIn/ui/SignInWithPassword.tsx`
-- `widgets/header/DetailHeader.tsx`
-- `entities/map/ui/GlobalMap.tsx` (Phase 2에서 widgets로 이동)
-- ... (1개 추가 파일)
-
-**개선 방안: Features Model로 이동 (✅)**
-
-```typescript
-// features/location/fetch/model/locationModel.ts
-export const useLocationStore = create((set) => ({
-  // locationStore 로직 이동
-}));
-
-// features/location/fetch/index.ts
-export { useLocationStore } from './model/locationModel';
-```
-
-**작업**:
-- [ ] `features/location/fetch/model/` 폴더 생성
-- [ ] locationStore → locationModel 이동
-- [ ] 4개 파일 import 경로 변경
-- [ ] app/store/locationStore.ts 제거
-
-#### ✅ 5-5. productFilterStore 리팩토링 (2개 파일)
-
-**사용 파일 목록**:
-- `features/location/update/ui/SelectProductItem.tsx`
-- `entities/map/ui/GlobalMap.tsx` (Phase 2에서 widgets로 이동)
-
-**개선 방안: Features Model로 이동 (✅)**
-
-```typescript
-// features/product/item/model/productFilterModel.ts
-export const useProductFilterStore = create((set) => ({
-  // productFilterStore 로직 이동
-}));
-
-// features/product/item/index.ts
-export { useProductFilterStore } from './model/productFilterModel';
-```
-
-**작업**:
-- [ ] `features/product/item/model/` 폴더 생성
-- [ ] productFilterStore → productFilterModel 이동
-- [ ] 2개 파일 import 경로 변경
-- [ ] app/store/productFilterStore.ts 제거
-
-#### ✅ 5-6. createLocationModalStore 리팩토링 (3개 파일)
-
-**개선 방안: Features Model로 이동 (✅)**
-
-```typescript
-// features/location/create/model/createLocationModalModel.ts
-export const useCreateLocationModalStore = create((set) => ({
-  // createLocationModalStore 로직 이동
-}));
-```
-
-**작업**:
-- [ ] createLocationModalStore → createLocationModalModel 이동
-- [ ] 3개 파일 import 경로 변경
-- [ ] app/store/createLocationModalStore.ts 제거
-
-#### ✅ 5-7. loginProviderStore 검토
-
-**작업**:
-- [ ] 사용 현황 파악
-- [ ] Provider로 전환 또는 Features Model로 이동
-- [ ] app/store/loginProviderStore.ts 제거 (또는 유지)
-
----
-
-## 📊 최종 폴더 구조 (리팩토링 완료 후)
-
-### Features 레이어
-```
-src/features/
-├── auth/
-│   ├── ui/
-│   │   ├── SignUp.tsx
-│   │   ├── SignUpConfirm.tsx
-│   │   ├── SignInWithPassword.tsx
-│   │   ├── SignInCommon.tsx
-│   │   └── SignOutButton.tsx
-│   ├── hooks/
-│   │   ├── useSignUpWithEmail.tsx
-│   │   ├── useSignInWithPassword.tsx
-│   │   ├── useSignInWithOAuth.tsx
-│   │   └── useSignOut.tsx
-│   ├── api/
-│   │   └── auth.ts
-│   ├── types/
-│   │   └── types.ts
-│   ├── utils/
-│   │   ├── validatePassword.ts
-│   │   └── validateEmail.ts
-│   ├── lib/
-│   │   └── regExp.ts
-│   └── index.ts               # ✅ Public API
-│
-├── location/
-│   ├── ui/
-│   │   ├── CreateLocationModal.tsx
-│   │   ├── LocationInfoModal.tsx
-│   │   ├── LocationFinder.tsx
-│   │   ├── LocationProductItem.tsx
-│   │   ├── SearchLocationBar.tsx
-│   │   ├── SelectProductItem.tsx
-│   │   ├── ToggleSwitchLocationModeButton.tsx
-│   │   ├── ResetCreateModeButton.tsx
-│   │   └── CreateLocation.tsx
-│   ├── hooks/
-│   │   ├── useCreateLocation.tsx
-│   │   ├── useFetchLocation.tsx
-│   │   ├── useFetchLocations.tsx
-│   │   ├── useFetchLocationsByProducts.tsx
-│   │   ├── useUpdateLocation.tsx
-│   │   └── useDeleteLocation.tsx
-│   ├── model/                 # ✅ Store 이동
-│   │   ├── createLocationModel.ts
-│   │   ├── createLocationModalModel.ts
-│   │   └── locationModel.ts
-│   ├── api/
-│   │   └── location.ts
-│   ├── types/
-│   │   └── location.ts
-│   ├── utils/
-│   │   ├── getLocationAddress.ts
-│   │   ├── getLocationData.tsx
-│   │   └── validateLocationDistance.ts
-│   ├── libs/
-│   │   ├── location.ts
-│   │   └── distance.ts
-│   └── index.ts               # ✅ Public API
-│
-├── favorite/
-│   ├── ui/
-│   │   └── ToggleFavoriteButton.tsx
-│   ├── hooks/
-│   │   ├── useToggleFavorite.tsx
-│   │   ├── useFetchFavoriteByLocation.tsx
-│   │   └── useFetchFavoriteByUser.tsx
-│   ├── api/
-│   │   └── favorite.ts
-│   └── index.ts               # ✅ Public API
-│
-├── user/
-│   ├── ui/
-│   │   └── UserProfileModal.tsx
-│   ├── hooks/
-│   │   ├── useFetchUserData.tsx
-│   │   ├── useUpdateProfile.tsx
-│   │   ├── useUpdateProfileImage.tsx
-│   │   └── useCreateUser.tsx
-│   ├── api/
-│   │   ├── user.ts
-│   │   └── image.ts
-│   ├── libs/
-│   │   └── validateNickname.ts
-│   └── index.ts               # ✅ Public API
-│
-├── product/
-│   ├── ui/
-│   │   ├── ProductList.tsx
-│   │   ├── ProductItem.tsx
-│   │   └── ProductItemForCreate.tsx
-│   ├── hooks/
-│   │   ├── useFetchProducts.tsx
-│   │   └── useFetchProduct.tsx
-│   ├── model/                 # ✅ Store 이동
-│   │   └── productFilterModel.ts
-│   ├── api/
-│   │   └── product.ts
-│   ├── types/
-│   │   └── item.type.ts
-│   ├── libs/
-│   │   └── item.ts
-│   └── index.ts               # ✅ Public API
-│
-└── review/
-    ├── ui/
-    │   ├── ReviewItem.tsx
-    │   ├── ReviewItemForMypage.tsx
-    │   ├── ReviewUserProfile.tsx
-    │   ├── ReviewVisitDate.tsx
-    │   ├── ReviewTitleAndText.tsx
-    │   ├── ReviewProductItem.tsx
-    │   ├── CreateReviewTitle.tsx
-    │   ├── PreviewImage.tsx
-    │   ├── ProgressBar.tsx
-    │   ├── SelectProductItemForCreateReview.tsx
-    │   └── SelectProductItemDetailForCreateReview.tsx
-    ├── hooks/
-    │   ├── useFetchReviewImages.tsx
-    │   ├── useFetchReviewProducts.tsx
-    │   ├── useFetchReviewImagesByLocation.tsx
-    │   ├── useFetchReviewProductsByLocation.tsx
-    │   ├── useFetchReviewsByUser.tsx
-    │   ├── useFetchReviewsByLocation.tsx
-    │   ├── useCreateReview.tsx
-    │   ├── useCreateReviewImages.tsx
-    │   ├── useCreateReviewProduct.tsx
-    │   └── useDeleteReview.tsx
-    ├── api/
-    │   └── review.ts
-    ├── types/
-    │   └── image.ts
-    └── index.ts               # ✅ Public API
-```
-
-### Entities 레이어
-```
-src/entities/
-├── location/
-│   ├── model/
-│   │   ├── types.ts          # 순수 비즈니스 타입
-│   │   └── constants.ts
-│   └── index.ts              # ✅ Public API
-│
-├── user/
-│   ├── model/
-│   │   ├── types.ts
-│   │   └── constants.ts
-│   └── index.ts              # ✅ Public API
-│
-├── map/
-│   ├── model/
-│   │   ├── types.ts
-│   │   └── constants.ts
-│   └── index.ts              # ✅ Public API
-│
-├── review/
-│   ├── model/
-│   │   ├── types.ts
-│   │   └── constants.ts
-│   └── index.ts              # ✅ Public API
-│
-├── product/
-│   ├── model/
-│   │   ├── types.ts
-│   │   └── constants.ts
-│   └── index.ts              # ✅ Public API
-│
-└── favorite/
-    ├── model/
-    │   └── types.ts
-    └── index.ts              # ✅ Public API
-```
-
-### Widgets 레이어
-```
-src/widgets/
-├── header/
-│   ├── MapHeader.tsx
-│   ├── DetailHeader.tsx
-│   ├── UnloggedInHeader.tsx
-│   └── CreateReviewHeader.tsx
-│   └── index.ts              # ✅ Public API
-│
-├── footer/
-│   ├── Footer.tsx
-│   └── index.ts              # ✅ Public API
-│
-├── nav/
-│   ├── LocationNavigation.tsx
-│   └── index.ts              # ✅ Public API
-│
-├── aside/
-│   ├── MapAsideBar.tsx
-│   └── index.ts              # ✅ Public API
-│
-├── layout/
-│   ├── GlobalLayout.tsx
-│   ├── UserDetailLayout.tsx
-│   ├── CreateReviewLayout.tsx
-│   ├── UnloggedInLayout.tsx
-│   ├── LocationDetailLayout.tsx
-│   └── MapLayout.tsx
-│   └── index.ts              # ✅ Public API
-│
-├── location/                 # ✅ Entities에서 이동
-│   ├── LocationReviewAll.tsx
-│   ├── LocationReviewPhoto.tsx
-│   └── index.ts
-│
-└── map/                      # ✅ Entities에서 이동
-    ├── GlobalMap.tsx
-    ├── LocationMap.tsx
-    └── index.ts
-```
-
-### Pages 레이어
-```
-src/pages/
-├── home/
-│   ├── HomePage.tsx
-│   └── index.ts              # ✅ Public API
-│
-├── location/
-│   ├── LocationPage.tsx
-│   ├── LocationHomePage.tsx  # ✅ Entities에서 이동
-│   └── index.ts
-│
-├── mypage/
-│   ├── home/
-│   │   ├── MyPageHomePage.tsx  # ✅ Entities에서 이동 & 리네임
-│   │   └── index.ts
-│   ├── favorite/
-│   │   ├── MyPageFavoritePage.tsx
-│   │   └── index.ts
-│   └── review/
-│       ├── MyPageReviewPage.tsx
-│       └── index.ts
-│
-├── review/
-│   ├── ReviewCreatePage.tsx
-│   ├── ReviewPhotoPage.tsx
-│   ├── ReviewAllPage.tsx
-│   └── index.ts
-│
-├── signUp/
-│   ├── SignUpPage.tsx
-│   ├── SignUpConfirmPage.tsx
-│   └── index.ts
-│
-├── login/
-│   ├── common/
-│   │   ├── SignInCommonPage.tsx
-│   │   └── index.ts
-│   └── email/
-│       ├── SignInWithPasswordPage.tsx
-│       └── index.ts
-│
-└── error/
-    ├── ErrorPage.tsx
-    └── index.ts
-```
-
-### App 레이어
-```
-src/app/
-├── index.tsx
-├── provider/
-│   ├── SessionProvider.tsx   # ✅ sessionStore 통합
-│   ├── ModalProvider.tsx
-│   ├── LoginProviderProvider.tsx
-│   └── LocationProvider.tsx
-├── routes/
-│   ├── routes.tsx
-│   ├── globalMap.route.tsx
-│   ├── locationDetail.route.tsx
-│   ├── userDetail.route.tsx
-│   ├── createReview.route.tsx
-│   └── unloggedIn.route.tsx
-├── store/                    # ✅ 대부분 Features로 이동
-│   └── (필요시 전역 상태만 유지)
-└── styles/
-    └── main.css
-```
-
----
-
-## 🎯 예상 효과
-
-### 1. 의존성 방향 정상화
-```
-✅ app → pages, widgets, features, entities, shared
-✅ pages → widgets, features, entities, shared
-✅ widgets → features, entities, shared
-✅ features → entities, shared
-✅ entities → shared만
-✅ shared → 아무것도 import 불가
-```
-
-### 2. 재사용성 향상
-- Features/Entities가 순수 컴포넌트로 변경
-- Props를 통한 유연한 조합 가능
-- 테스트 용이성 증가
-
-### 3. 유지보수성 개선
-- Public API를 통한 명확한 인터페이스
-- 내부 구조 변경 시 외부 영향 최소화
-- 슬라이스 독립성 증가
-
-### 4. FSD 준수율 향상
-```
-현재: 약 74%
-목표: 95% 이상
-```
-
----
-
-## 📝 주의사항
-
-### 리팩토링 원칙
-1. **한 번에 하나의 Phase만 진행**
-2. **각 Phase 완료 후 반드시 빌드 테스트**
-3. **Git commit은 Phase 단위로 분리**
-4. **기존 기능 동작 확인 후 다음 Phase 진행**
-
-### Git 전략
+#### 검증
 ```bash
-# Phase별 브랜치 생성
-git checkout -b refactor/fsd/phase-1-slice-structure
-git checkout -b refactor/fsd/phase-2-entities-relocation
-git checkout -b refactor/fsd/phase-3-cross-import
-git checkout -b refactor/fsd/phase-4-public-api
-git checkout -b refactor/fsd/phase-5-app-store
+find src/entities -name "*.tsx" -type f  # UI 컴포넌트 없어야 함
+pnpm tsc --noEmit
+pnpm build
 ```
 
-### 테스트 체크리스트
-- [ ] 빌드 성공 (`npm run build`)
-- [ ] 타입 에러 없음 (`tsc --noEmit`)
-- [ ] 런타임 에러 없음 (주요 페이지 수동 테스트)
-- [ ] Import 순환 참조 없음
-- [ ] Public API만 사용하는지 확인
+---
+
+## Phase 3: Features Layer 개선 (6-8시간)
+
+### 목표
+1. Feature 관련 store를 features/model로 이동
+2. Cross-feature import 정리
+3. Public API 구현
+
+### 작업 내용
+
+#### 3-1. Store 이동 (4개 store)
+
+| Store | 현재 위치 | 이동 대상 | 영향 파일 수 |
+|-------|----------|----------|------------|
+| createLocationStore | `app/store/` | `features/location/model/` | 7 |
+| locationStore | `app/store/` | `features/location/model/` | 4 |
+| productFilterStore | `app/store/` | `features/product/model/` | 2 |
+| createLocationModalStore | `app/store/` | `features/location/model/` | 3 |
+
+#### 3-2. Import 경로 업데이트
+
+```typescript
+// 변경 전
+from '@app/store/createLocationStore'
+from '@app/store/locationStore'
+from '@app/store/productFilterStore'
+
+// 변경 후
+from '@features/location/model/createLocationStore'
+from '@features/location/model/locationStore'
+from '@features/product/model/productFilterStore'
+```
+
+**영향받는 파일**:
+- `src/shared/ui/button/HomeButton.tsx`
+- `src/widgets/**/*.tsx` (다수)
+- `src/features/**/*.tsx` (다수)
+
+#### 3-3. Cross-Feature Import 처리
+
+**문제 파일**: `features/location/ui/LocationInfoModal.tsx`
+- favorite, product, review feature를 import
+
+**전략**: 현재 상태 유지 (순환 의존성이 없으면 FSD에서 허용)
+- 의존성 문서화
+- 순환 참조 검증
+
+#### 3-4. Public API 구현 (모든 features)
+
+```bash
+# 생성
+src/features/auth/index.ts
+src/features/location/index.ts
+src/features/favorite/index.ts
+src/features/user/index.ts
+src/features/product/index.ts
+src/features/review/index.ts
+```
+
+**Public API 예시**:
+```typescript
+// features/location/index.ts
+export * from './model/createLocationStore';
+export * from './model/locationStore';
+export { default as useCreateLocation } from './hooks/useCreateLocation';
+export { default as CreateLocationModal } from './ui/CreateLocationModal';
+export type { AbbrLocation } from './types/location';
+```
+
+#### 3-5. Import 경로 전역 업데이트
+
+```typescript
+// 변경 전
+from '@features/auth/ui/SignUp'
+from '@features/location/hooks/useCreateLocation'
+
+// 변경 후
+from '@features/auth'
+from '@features/location'
+```
+
+**영향 범위**: 50+ 파일
+
+#### 3-6. 기존 app/store 파일 삭제
+
+```bash
+# 삭제 대상
+src/app/store/confirmModalStore.ts
+src/app/store/sessionStore.ts
+src/app/store/createLocationStore.ts
+src/app/store/locationStore.ts
+src/app/store/productFilterStore.ts
+src/app/store/createLocationModalStore.ts
+
+# 검토 필요 (사용 여부 확인 후)
+src/app/store/loginProviderStore.ts
+```
+
+#### 검증
+```bash
+grep -r "from '@app/store/" src/ | grep -v loginProviderStore  # 결과 없어야 함
+grep -r "from '@features/.*/ui/" src/ | grep -v "src/features/"  # 최소화
+pnpm tsc --noEmit
+pnpm build
+```
 
 ---
 
-## 🔗 참고 문서
+## Phase 4: Widgets Layer 개선 (2-3시간)
 
-- [FSD 공식 문서](https://feature-sliced.design/)
-- [Layers Reference](https://feature-sliced.design/docs/reference/layers)
-- [Public API Guide](https://feature-sliced.design/docs/reference/public-api)
-- [Import Rules](https://feature-sliced.design/docs/reference/layers#import-rule-on-layers)
+### 목표
+Widgets Public API 구현 및 의존성 검증
+
+### 작업 내용
+
+#### 4-1. Public API 생성 (7개 디렉토리)
+
+```bash
+src/widgets/header/index.ts
+src/widgets/layout/index.ts
+src/widgets/aside/index.ts
+src/widgets/nav/index.ts
+src/widgets/footer/index.ts
+src/widgets/location/index.ts      # Phase 2에서 생성된 디렉토리
+src/widgets/map/index.ts           # Phase 2에서 생성된 디렉토리
+```
+
+#### 4-2. Import 경로 업데이트
+
+```typescript
+// 변경 전
+from '@widgets/header/MapHeader'
+from '@widgets/layout/MapLayout'
+
+// 변경 후
+from '@widgets/header'
+from '@widgets/layout'
+```
+
+**영향받는 파일**: pages, app/routes
+
+#### 검증
+```bash
+grep -r "from '@widgets/.*/.*\.tsx'" src/pages/
+grep -r "from '@app/" src/widgets/ | grep -v provider  # app import 없어야 함
+pnpm tsc --noEmit
+pnpm build
+```
 
 ---
 
-## ✅ 진행 상황 체크
+## Phase 5: Pages Layer 개선 (2-3시간)
 
-### Phase 1: 슬라이스 구조 정리
-- [ ] 통합 방안 결정
-- [ ] 구조 변경 완료
-- [ ] 빌드 테스트 통과
+### 목표
+Pages Public API 구현
 
-### Phase 2: Entities 파일 재배치
-- [ ] LocationHome.tsx 이동
-- [ ] MyPage.tsx 이동
-- [ ] GlobalMap.tsx 이동
-- [ ] LocationReviewAll.tsx 이동
-- [ ] LocationReviewPhoto.tsx 이동
-- [ ] LocationMap.tsx 이동
-- [ ] 빈 폴더 정리
-- [ ] 빌드 테스트 통과
+### 작업 내용
 
-### Phase 3: Same-Layer Cross-Import 제거
-- [ ] LocationInfoModal 리팩토링
-- [ ] LocationFinder 리팩토링
-- [ ] 빌드 테스트 통과
+#### 5-1. Public API 생성 (9개 디렉토리)
 
-### Phase 4: Public API 구현
-- [ ] Features 레이어 (16개)
-- [ ] Entities 레이어 (6개)
-- [ ] Widgets 레이어 (5개)
-- [ ] Pages 레이어 (10개)
-- [ ] 전체 import 경로 업데이트
-- [ ] 빌드 테스트 통과
+```bash
+src/pages/home/index.ts
+src/pages/location/index.ts
+src/pages/mypage/home/index.ts
+src/pages/mypage/favorite/index.ts
+src/pages/mypage/review/index.ts
+src/pages/review/index.ts
+src/pages/signUp/index.ts
+src/pages/signIn/index.ts
+src/pages/error/index.ts
+```
 
-### Phase 5: App Store 의존성 제거
-- [ ] confirmModalStore (12개)
-- [ ] sessionStore (9개)
-- [ ] createLocationStore (7개)
-- [ ] locationStore (4개)
-- [ ] productFilterStore (2개)
-- [ ] createLocationModalStore (3개)
-- [ ] loginProviderStore 검토
-- [ ] 빌드 테스트 통과
+#### 5-2. Import 경로 업데이트
 
-### 최종 점검
-- [ ] FSD 의존성 규칙 100% 준수
-- [ ] Public API 100% 구현
-- [ ] App Store 의존성 0건
-- [ ] Same-Layer Cross-Import 0건
-- [ ] 전체 빌드 성공
-- [ ] 전체 기능 정상 동작
+```typescript
+// 변경 전
+from '@pages/home/HomePage'
+from '@pages/location/LocationHomePage'
+
+// 변경 후
+from '@pages/home'
+from '@pages/location'
+```
+
+**영향받는 파일**: app/routes/\*.tsx
+
+#### 검증
+```bash
+grep -r "from '@pages/.*/.*.tsx'" src/app/routes/
+grep -r "from '@app/store" src/pages/
+pnpm tsc --noEmit
+pnpm build
+```
+
+---
+
+## Phase 6: App Layer 정리 (1-2시간)
+
+### 목표
+App layer 최종 정리 및 검증
+
+### 작업 내용
+
+#### 6-1. Provider 업데이트
+
+```bash
+# 확인 및 업데이트
+src/app/provider/SessionProvider.tsx
+src/app/provider/ModalProvider.tsx
+src/app/provider/LoginProviderProvider.tsx
+src/app/provider/LocationProvider.tsx
+```
+
+모든 provider가 `@shared/model` 또는 `@features/*/model` 사용하는지 확인
+
+#### 6-2. app/store 디렉토리 정리
+
+```bash
+# 디렉토리가 비었으면 삭제
+ls -la src/app/store/
+# (비어있으면) rmdir src/app/store
+```
+
+#### 검증
+```bash
+grep -r "from '@app/store/" src/ | grep -v "src/app/provider"
+grep -r "from '@features/.*/ui/" src/app/
+pnpm tsc --noEmit
+pnpm build
+```
+
+---
+
+## Phase 7: 최종 검증 및 문서화 (2-3시간)
+
+### 목표
+FSD 아키텍처 규칙 100% 준수 검증 및 문서화
+
+### 검증 항목
+
+#### 7-1. 의존성 규칙 검증
+
+```bash
+# Shared → 아무것도 import 불가
+grep -r "from '@\(app\|pages\|widgets\|features\|entities\)/" src/shared/
+
+# Entities → Shared만
+grep -r "from '@\(app\|pages\|widgets\|features\)/" src/entities/
+
+# Features → Entities, Shared만 (cross-feature는 문서화됨)
+grep -r "from '@\(app\|pages\|widgets\)/" src/features/
+
+# Widgets → Features, Entities, Shared만
+grep -r "from '@\(app\|pages\)/" src/widgets/
+
+# Pages → App provider/routes 제외하고 app import 없음
+grep -r "from '@app/" src/pages/ | grep -v "from '@app/\(provider\|routes\)/"
+```
+
+#### 7-2. Public API 검증
+
+```bash
+# 내부 세그먼트 직접 import 최소화
+grep -r "from '@features/.*/\(ui\|hooks\|api\)/" src/ | grep -v "src/features/"
+grep -r "from '@widgets/.*/.*\.tsx'" src/ | grep -v "src/widgets/"
+grep -r "from '@pages/.*/.*\.tsx'" src/ | grep -v "src/pages/"
+```
+
+#### 7-3. 순환 의존성 검증
+
+```bash
+# 주요 cross-feature 관계 확인
+grep -r "from '@features/location'" src/features/favorite/
+grep -r "from '@features/favorite'" src/features/location/
+grep -r "from '@features/review'" src/features/location/
+grep -r "from '@features/location'" src/features/review/
+```
+
+#### 7-4. 빌드 및 타입 검증
+
+```bash
+rm -rf dist/
+pnpm build
+pnpm tsc --noEmit
+pnpm lint  # (있는 경우)
+pnpm test  # (있는 경우)
+```
+
+#### 7-5. 수동 테스트
+
+**주요 시나리오 테스트**:
+1. ✓ 회원가입 / 로그인
+2. ✓ 지도에서 장소 탐색
+3. ✓ 새 장소 생성
+4. ✓ 장소 상세 정보 보기
+5. ✓ 즐겨찾기 추가/제거
+6. ✓ 리뷰 작성
+7. ✓ 사용자 프로필 보기
+8. ✓ 로그아웃
+
+#### 7-6. 문서 업데이트
+
+```bash
+# 업데이트 또는 생성
+docs/fsd-architecture.md          # FSD 아키텍처 개요
+fsd-refactor.md                   # 리팩토링 완료 보고서
+```
+
+---
+
+## 중요 파일 목록
+
+### 최우선 처리 (Phase 1-2)
+
+1. **app/store/confirmModalStore.ts** → shared/model/
+2. **app/store/sessionStore.ts** → shared/model/
+3. **shared/ui/button/HomeButton.tsx** (3개 store 의존)
+4. **entities/map/ui/GlobalMap.tsx** (11개 의존성)
+5. **entities/location/ui/LocationHome.tsx** (9개 feature import)
+
+### 복잡도 높음 (Phase 3)
+
+6. **features/location/ui/LocationInfoModal.tsx** (4개 feature import)
+7. **app/store/createLocationStore.ts** (7개 파일이 사용)
+8. **app/store/locationStore.ts** (4개 파일이 사용)
+
+---
+
+## Git 전략
+
+### 커밋 방식
+각 Phase별로 작은 커밋 단위로 진행:
+
+```bash
+# Phase 1
+git commit -m "[fsd] refactor(shared): Move confirmModal, session stores to shared/model"
+git commit -m "[fsd] refactor(shared): Update 18 files to use shared/model"
+
+# Phase 2
+git commit -m "[fsd] refactor(entities): Move GlobalMap to widgets/map"
+git commit -m "[fsd] refactor(entities): Move LocationHome to pages/location"
+git commit -m "[fsd] refactor(entities): Create pure entity types"
+
+# Phase 3
+git commit -m "[fsd] refactor(features): Move location stores to features/model"
+git commit -m "[fsd] refactor(features): Implement Public API for all features"
+git commit -m "[fsd] refactor(features): Update 50+ imports to use Public API"
+
+# Phase 4-7
+# (각 Phase별 유사한 방식)
+```
+
+### 브랜치 전략
+- 현재 브랜치: `refactor/fsd/50/yj`
+- 각 Phase별 서브 브랜치 생성 (선택사항)
+
+---
+
+## 위험 요소 및 대응
+
+### High Risk
+1. **Phase 3**: Store 이동 + cross-import 처리 (가장 복잡)
+   - **대응**: 작은 단위로 커밋, 각 store별로 순차 처리
+
+2. **HomeButton.tsx**: 3개 store 동시 의존
+   - **대응**: Phase 1, 3에서 순차적으로 처리
+
+3. **GlobalMap.tsx**: 11개 의존성
+   - **대응**: Phase 2에서 이동, Phase 3에서 store 의존성 해결
+
+### Medium Risk
+4. **Import 경로 대량 변경** (50+ 파일)
+   - **대응**: 전역 검색-치환, 단계별 검증
+
+5. **순환 의존성 발생 가능**
+   - **대응**: Phase 7에서 검증 스크립트 실행
+
+### Mitigation
+- ✅ 각 Phase 완료 후 빌드/타입 체크
+- ✅ 주요 기능 수동 테스트 (Phase 2, 3, 7)
+- ✅ Git 커밋 단위 작게 유지 (롤백 용이)
+
+---
+
+## 예상 결과
+
+### Before
+- FSD 준수율: 74%
+- App Store 의존성: 33건
+- Public API 구현: 0%
+- Cross-layer 위반: 70건+
+
+### After
+- FSD 준수율: 95%+
+- App Store 의존성: 0건
+- Public API 구현: 100%
+- Cross-layer 위반: 0건 (문서화된 cross-feature만)
+
+---
+
+## 검증 완료 조건
+
+✅ 모든 레이어가 의존성 규칙 준수
+✅ Public API 100% 구현
+✅ App Store 의존성 0건
+✅ 빌드 성공
+✅ 타입 체크 통과
+✅ 주요 기능 정상 동작
+✅ 순환 의존성 없음

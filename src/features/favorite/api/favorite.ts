@@ -1,5 +1,5 @@
 import supabase from '@shared/api/supabase/supabase';
-import type { API_Favorite, Favorite } from '@shared/types/types';
+import type { API_Favorite, Favorite } from '@shared/types/api';
 
 /**
  * @description 특정 위치를 사용자의 즐겨찾기 목록에 추가합니다.

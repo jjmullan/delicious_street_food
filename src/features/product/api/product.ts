@@ -1,5 +1,5 @@
 import supabase from '@shared/api/supabase/supabase';
-import type { Product } from '@shared/types/types';
+import type { Product } from '@shared/types/api';
 
 /**
  * @description 모든 상품 카테고리 목록을 한글명 오름차순으로 조회합니다.

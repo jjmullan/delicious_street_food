@@ -1,7 +1,7 @@
 import LocationProvider from '@app/provider/LocationProvider';
 import { useIsCreateMode } from '@app/store/createLocationStore';
-import { useSession } from '@app/store/sessionStore';
 import ResetCreateModeButton from '@features/location/ui/ResetCreateModeButton';
+import { useSession } from '@shared/model/session';
 import MapHeader from '@widgets/header/MapHeader';
 import { Activity } from 'react';
 import { Navigate, Outlet } from 'react-router';

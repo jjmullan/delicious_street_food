@@ -1,11 +1,11 @@
-import { useOpenConfirmModal } from '@app/store/confirmModalStore';
 import { useCreateLocationModal } from '@app/store/createLocationModalStore';
 import { useIsCreateMode, useLocationForCreate, useSetIsCreateMode } from '@app/store/createLocationStore';
-import { useSession } from '@app/store/sessionStore';
 import useCreateLocation from '@features/location/hooks/useCreateLocation';
 import { getFullLocationAddress } from '@features/location/utils/getLocationAddress';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import author from '@shared/assets/extra/author.svg';
+import { useOpenConfirmModal } from '@shared/model/confirmModal';
+import { useSession } from '@shared/model/session';
 import FallbackText from '@shared/ui/fallback/FallbackText';
 import {
 	AlertDialog,

@@ -1,5 +1,5 @@
 import { characterImages } from '@features/product/libs/item';
-import type { Product, ReviewProduct } from '@shared/types/types';
+import type { Product, ReviewProduct } from '@shared/types/api';
 
 function ReviewProductItem({
 	review_product_id,

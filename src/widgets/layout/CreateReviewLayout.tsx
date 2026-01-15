@@ -1,4 +1,4 @@
-import { useSession } from '@app/store/sessionStore';
+import { useSession } from '@shared/model/session';
 import CreateReviewHeader from '@widgets/header/CreateReviewHeader';
 import { Navigate, Outlet } from 'react-router';
 

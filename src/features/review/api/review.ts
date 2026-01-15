@@ -7,7 +7,7 @@ import type {
 	Review,
 	ReviewImage,
 	ReviewProduct,
-} from '@shared/types/types';
+} from '@shared/types/api';
 
 /**
  * @description 특정 위치에 대한 상세 후기를 생성합니다.

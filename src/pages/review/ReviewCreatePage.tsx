@@ -1,4 +1,3 @@
-import { useOpenConfirmModal } from '@app/store/confirmModalStore';
 import useFetchProducts from '@features/product/hooks/useFetchProducts';
 import useCreateReview from '@features/review/hooks/useCreateReview';
 import useCreateReviewImages from '@features/review/hooks/useCreateReviewImages';
@@ -11,7 +10,8 @@ import SelectProductItemDetailForCreateReview from '@features/review/ui/SelectPr
 import SelectProductItemForCreateReview from '@features/review/ui/SelectProductItemForCreateReview';
 import { MAX_IMAGE_SLOT } from '@shared/lib/constants';
 import { getNowDateTimeKo } from '@shared/lib/day';
-import type { API_ReviewProduct, Product, Review } from '@shared/types/types';
+import { useOpenConfirmModal } from '@shared/model/confirmModal';
+import type { API_ReviewProduct, Product, Review } from '@shared/types/api';
 import PrevNextButton from '@shared/ui/button/PrevNextButton';
 import FallbackRequestAPI from '@shared/ui/fallback/FallbackRequestAPI';
 import { Button } from '@shared/ui/shadcn/button';

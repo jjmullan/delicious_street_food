@@ -1,5 +1,5 @@
 import supabase from '@shared/api/supabase/supabase';
-import type { API_Location, Location } from '@shared/types/types';
+import type { API_Location, Location } from '@shared/types/api';
 
 /**
  * @description 새로운 위치 정보를 데이터베이스에 추가합니다.
