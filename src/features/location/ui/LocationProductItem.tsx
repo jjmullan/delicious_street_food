@@ -1,5 +1,5 @@
-import { characterImages } from '@entities/product/lib/item';
 import useFetchProducts from '@entities/product/model/useFetchProducts';
+import { characterImages } from '@shared/lib/characterImages';
 import { Activity } from 'react';
 
 interface LocationProductItemProps {

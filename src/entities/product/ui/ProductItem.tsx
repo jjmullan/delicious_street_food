@@ -1,5 +1,5 @@
-import { characterImages } from '@entities/product/lib/item';
 import type { Item } from '@entities/product/model/types';
+import { characterImages } from '@shared/lib/characterImages';
 
 /**
  * 길거리 음식 개별 상품

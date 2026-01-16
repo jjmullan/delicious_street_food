@@ -2,7 +2,7 @@
 export { fetchProduct, fetchProducts } from './api/product';
 
 // Lib
-export { characterImages, items } from './lib/item';
+export { items } from './lib/item';
 
 // Model
 export type { Item } from './model/types';
