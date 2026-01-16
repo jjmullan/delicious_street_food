@@ -2,7 +2,7 @@ import type { AbbrLocation } from '@entities/location/model/location';
 import type { ReactNode } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 
-function LocationMap({ lat, lng, children }: AbbrLocation & { children: ReactNode }) {
+export default function LocationMap({ lat, lng, children }: AbbrLocation & { children: ReactNode }) {
 	return (
 		<Map
 			center={{ lat, lng }}
@@ -15,5 +15,3 @@ function LocationMap({ lat, lng, children }: AbbrLocation & { children: ReactNod
 		</Map>
 	);
 }
-
-export default LocationMap;
