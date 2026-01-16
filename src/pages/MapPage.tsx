@@ -1,13 +1,13 @@
-import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@app/store/createLocationStore';
-import { useLocation } from '@app/store/locationStore';
-import { useProductFilter } from '@app/store/productFilterStore';
 import {
 	validateLocationDistance,
 	validateMaxDistanceFromCurrentLocation,
 } from '@entities/location/lib/validateLocationDistance';
+import { useLocation } from '@entities/location/model/location';
 import type { AbbrLocation } from '@entities/location/model/types';
 import useFetchLocations from '@entities/location/model/useFetchLocations';
 import useFetchLocationsByProducts from '@entities/location/model/useFetchLocationsByProducts';
+import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@features/location/model/createLocation';
+import { useProductFilter } from '@features/location/model/productFilter';
 import CreateLocation from '@features/location/ui/CreateLocation';
 import LocationFinder from '@features/location/ui/LocationFinder';
 import useFecthUserData from '@features/profile/model/useFetchUserProfile';

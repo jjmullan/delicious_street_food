@@ -1,4 +1,4 @@
-import { useLocation } from '@app/store/locationStore';
+import { useLocation } from '@entities/location/model/location';
 import { generateErrorMessage } from '@features/auth/lib/error';
 import useSignInWithPassword from '@features/auth/model/useSignInWithPassword';
 import AdditionalForSignIn from '@shared/ui/description/components/AdditionalForSignIn';

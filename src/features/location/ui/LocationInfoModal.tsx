@@ -1,6 +1,6 @@
-import { useLocation } from '@app/store/locationStore';
 import useFetchFavoriteByLocation from '@entities/favorite/model/useFetchFavoriteByLocation';
 import { calculateDistanceFromLocation } from '@entities/location/lib/validateLocationDistance';
+import { useLocation } from '@entities/location/model/location';
 import { useFetchReviewImagesByLocation, useFetchReviewsByLocation } from '@entities/review';
 import { PopoverClose } from '@radix-ui/react-popover';
 import foodstall from '@shared/assets/character/foodstall.svg';

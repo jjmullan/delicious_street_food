@@ -1,4 +1,4 @@
-import { useLocation } from '@app/store/locationStore';
+import { useLocation } from '@entities/location/model/location';
 import { ArrowLeftCircle, HomeIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
 

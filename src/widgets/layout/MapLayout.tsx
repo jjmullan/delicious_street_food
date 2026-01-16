@@ -1,5 +1,5 @@
 import LocationProvider from '@app/provider/LocationProvider';
-import { useIsCreateMode } from '@app/store/createLocationStore';
+import { useIsCreateMode } from '@features/location/model/createLocation';
 import ResetCreateModeButton from '@features/location/ui/ResetCreateModeButton';
 import { useSession } from '@shared/model/session';
 import MapHeader from '@widgets/header/MapHeader';

@@ -1,4 +1,4 @@
-import { useIsCreateMode } from '@app/store/createLocationStore';
+import { useIsCreateMode } from '@features/location/model/createLocation';
 import SearchLocationBar from '@features/location/ui/SearchLocationBar';
 import SelectProductItem from '@features/location/ui/SelectProductItem';
 import { PenIcon } from 'lucide-react';

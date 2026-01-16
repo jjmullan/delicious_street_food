@@ -1,5 +1,5 @@
-import { useCreateLocationModal, useOpenCreateLocationModal } from '@app/store/createLocationModalStore';
 import type { AbbrLocation } from '@entities/location/model/types';
+import { useCreateLocationModal, useOpenCreateLocationModal } from '@features/location/model/createLocationModal';
 import LocationFinder from '@features/location/ui/LocationFinder';
 import { PlusIcon, XIcon } from 'lucide-react';
 import { useEffect } from 'react';
