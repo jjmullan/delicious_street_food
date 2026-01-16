@@ -13,11 +13,7 @@ function ProductItem({ name_ko, name_en }: Item) {
 			// className="h-fit shrink-0 bg-white/80 rounded-full flex items-center justify-center gap-x-2 px-3 py-2 border-2"
 			className={`h-7 shrink-0 rounded-full px-2 py-1 flex items-center justify-center glass`}
 		>
-			<button
-				type="button"
-				className="flex items-center justify-center gap-x-1.5"
-				onClick={() => console.log(name_ko, ' 클릭됨')}
-			>
+			<button type="button" className="flex items-center justify-center gap-x-1.5">
 				<img src={characterImage} alt={name_ko} className="h-4 w-auto object-contain aspect-square" />
 				<p className="text-[12px] align-text-bottom">{name_ko}</p>
 			</button>
