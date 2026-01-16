@@ -7,7 +7,7 @@ import {
 	useFetchReviewImages,
 	useFetchReviewProducts,
 } from '@entities/review';
-import useFecthUserData from '@features/profile/model/useFetchUserProfile';
+import { useFetchUserData as useFecthUserData } from '@features/profile/@x/review';
 import { useDeleteReview } from '@features/review/model/useDeleteReview';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import { useSession } from '@shared/model/session';

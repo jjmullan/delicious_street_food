@@ -1,4 +1,4 @@
-import type { ImageURL } from '@features/review/model/types';
+import type { ImageURL } from '@features/review/@x/profile';
 import supabase from '@shared/api/supabase/supabase';
 
 /**
