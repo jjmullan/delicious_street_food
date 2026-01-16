@@ -17,7 +17,7 @@ export {
 } from './lib/validateLocationDistance';
 
 // Model
-export type { AbbrLocation } from './model/location';
+export type { AbbrLocation } from './model/types';
 export { default as useFetchLocation } from './model/useFetchLocation';
 export { default as useFetchLocations } from './model/useFetchLocations';
 export { default as useFetchLocationsByProducts } from './model/useFetchLocationsByProducts';

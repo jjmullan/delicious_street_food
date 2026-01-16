@@ -1,5 +1,5 @@
 import { characterImages } from '@entities/product/lib/item';
-import type { Item } from '@entities/product/model/item.type';
+import type { Item } from '@entities/product/model/types';
 
 function ProductItemForCreate({ name_ko, name_en }: Item) {
 	// name_en에 해당하는 이미지 가져오기

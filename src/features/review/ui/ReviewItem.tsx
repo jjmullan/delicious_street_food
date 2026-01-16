@@ -1,11 +1,13 @@
 import useFetchProducts from '@entities/product/model/useFetchProducts';
-import { useDeleteReview } from '@features/review/hooks/useDeleteReview';
-import useFetchReviewImages from '@features/review/hooks/useFetchReviewImages';
-import useFetchReviewProducts from '@features/review/hooks/useFetchReviewProducts';
-import ReviewProductItem from '@features/review/ui/ReviewProductItem';
-import ReviewTitleAndText from '@features/review/ui/ReviewTitleAndText';
-import ReviewUserProfile from '@features/review/ui/ReviewUserProfile';
-import ReviewVisitDate from '@features/review/ui/ReviewVisitDate';
+import {
+	ReviewProductItem,
+	ReviewTitleAndText,
+	ReviewUserProfile,
+	ReviewVisitDate,
+	useFetchReviewImages,
+	useFetchReviewProducts,
+} from '@entities/review';
+import { useDeleteReview } from '@features/review/model/useDeleteReview';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import { useSession } from '@shared/model/session';

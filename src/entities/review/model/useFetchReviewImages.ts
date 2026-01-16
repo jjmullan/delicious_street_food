@@ -1,8 +1,8 @@
-import { fetchReviewImages } from '@features/review/api/review';
+import { fetchReviewImages } from '@entities/review/api/review';
 import { QUERY_KEYS } from '@shared/lib/query';
 import { useQuery } from '@tanstack/react-query';
 
-function useFetchReviewImagesByReview(review_id: string) {
+function useFetchReviewImages(review_id: string) {
 	return useQuery({
 		queryKey: QUERY_KEYS.review.images.byReviewId(review_id),
 		queryFn: () => fetchReviewImages(review_id),
@@ -10,4 +10,4 @@ function useFetchReviewImagesByReview(review_id: string) {
 	});
 }
 
-export default useFetchReviewImagesByReview;
+export default useFetchReviewImages;

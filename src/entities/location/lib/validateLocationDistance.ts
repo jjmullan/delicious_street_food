@@ -4,7 +4,7 @@ import {
 	MAXIMUM_DISTANCE_FROM_CURRENT_LOCATION_METERS,
 	MINIMUM_LOCATION_DISTANCE_METERS,
 } from '@entities/location/lib/distance';
-import type { AbbrLocation } from '@entities/location/model/location';
+import type { AbbrLocation } from '@entities/location/model/types';
 import type { Location as SupabaseLocation } from '@shared/types/api';
 
 /**

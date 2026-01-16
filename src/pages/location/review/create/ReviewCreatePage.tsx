@@ -1,9 +1,9 @@
 import useFetchProducts from '@entities/product/model/useFetchProducts';
-import useCreateReview from '@features/review/hooks/useCreateReview';
-import useCreateReviewImages from '@features/review/hooks/useCreateReviewImages';
-import useCreateReviewProducts from '@features/review/hooks/useCreateReviewProduct';
-import { MAX_IMAGE_SLOT } from '@features/review/libs/constants';
-import type { ImageURL } from '@features/review/types/image';
+import { MAX_IMAGE_SLOT } from '@features/review/lib/constants';
+import type { ImageURL } from '@features/review/model/types';
+import useCreateReview from '@features/review/model/useCreateReview';
+import useCreateReviewImages from '@features/review/model/useCreateReviewImages';
+import useCreateReviewProducts from '@features/review/model/useCreateReviewProduct';
 import CreateReviewTitle from '@features/review/ui/CreateReviewTitle';
 import PreviewImage from '@features/review/ui/PreviewImage';
 import ProgressBar from '@features/review/ui/ProgressBar';

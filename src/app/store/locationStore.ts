@@ -1,5 +1,5 @@
 import { initialLocation } from '@entities/location/lib/location';
-import type { AbbrLocation } from '@entities/location/model/location';
+import type { AbbrLocation } from '@entities/location/model/types';
 import { create } from 'zustand';
 import { combine, devtools, persist } from 'zustand/middleware';
 

@@ -5,7 +5,7 @@ export { fetchProduct, fetchProducts } from './api/product';
 export { characterImages, items } from './lib/item';
 
 // Model
-export type { Item } from './model/item.type';
+export type { Item } from './model/types';
 export { default as useFetchProduct } from './model/useFetchProduct';
 export { default as useFetchProducts } from './model/useFetchProducts';
 

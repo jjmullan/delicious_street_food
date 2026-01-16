@@ -1,7 +1,7 @@
 import { useIsCreateMode } from '@app/store/createLocationStore';
 import useFetchFavoriteByUser from '@entities/favorite/model/useFetchFavoriteByUser';
+import { useFetchReviewsByUser } from '@entities/review';
 import { signOut } from '@features/auth/api/auth';
-import useFetchReviewsByUser from '@features/review/hooks/useFetchReviewsByUser';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import { PopoverClose } from '@radix-ui/react-popover';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';

@@ -2,11 +2,10 @@ import { getFullLocationAddress } from '@entities/location/lib/getLocationAddres
 import useFetchLocation from '@entities/location/model/useFetchLocation';
 import LocationMap from '@entities/location/ui/LocationMap';
 import useFetchProducts from '@entities/product/model/useFetchProducts';
+import { useFetchReviewProductsByLocation, useFetchReviewsByLocation } from '@entities/review';
 import ToggleFavoriteButton from '@features/favorite/ui/ToggleFavoriteButton';
 import LocationFinder from '@features/location/ui/LocationFinder';
 import LocationProductItem from '@features/location/ui/LocationProductItem';
-import useFetchReviewProductsByLocation from '@features/review/hooks/useFetchReviewProductsByLocation';
-import useFetchReviewsByLocation from '@features/review/hooks/useFetchReviewsByLocation';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import ShareLocationButton from '@shared/ui/button/components/ShareLocationButton';
 import Separator from '@shared/ui/separator/components/Separator';

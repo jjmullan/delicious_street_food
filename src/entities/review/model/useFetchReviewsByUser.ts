@@ -1,4 +1,4 @@
-import { fetchReviewsByUser } from '@features/review/api/review';
+import { fetchReviewsByUser } from '@entities/review/api/review';
 import { QUERY_KEYS } from '@shared/lib/query';
 import { useQuery } from '@tanstack/react-query';
 

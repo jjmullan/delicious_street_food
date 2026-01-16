@@ -5,7 +5,7 @@ import {
 	validateLocationDistance,
 	validateMaxDistanceFromCurrentLocation,
 } from '@entities/location/lib/validateLocationDistance';
-import type { AbbrLocation } from '@entities/location/model/location';
+import type { AbbrLocation } from '@entities/location/model/types';
 import useFetchLocations from '@entities/location/model/useFetchLocations';
 import useFetchLocationsByProducts from '@entities/location/model/useFetchLocationsByProducts';
 import CreateLocation from '@features/location/ui/CreateLocation';

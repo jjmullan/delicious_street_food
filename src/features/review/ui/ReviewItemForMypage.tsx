@@ -1,7 +1,6 @@
 import useFetchLocation from '@entities/location/model/useFetchLocation';
-import { deleteReview } from '@features/review/api/review';
-import { useDeleteReview } from '@features/review/hooks/useDeleteReview';
-import useFetchReviewImagesByReview from '@features/review/hooks/useFetchReviewImages';
+import { useFetchReviewImages } from '@entities/review';
+import { useDeleteReview } from '@features/review/model/useDeleteReview';
 import type { Review } from '@shared/types/api';
 import EditDeleteButton from '@shared/ui/button/components/EditDeleteButton';
 import ImageModal from '@shared/ui/modal/components/ImageModal';
@@ -15,7 +14,7 @@ import { toast } from 'sonner';
 
 function ReviewItemForMypage({ review_id, review_title, review_text, location_id, visit_datetime }: Review) {
 	const { data: fetchLocation } = useFetchLocation(location_id);
-	const { data: fetchReviewImages } = useFetchReviewImagesByReview(review_id);
+	const { data: fetchReviewImages } = useFetchReviewImages(review_id);
 
 	// 이미지 모달 상태 관리
 	const [isModalOpen, setIsModalOpen] = useState(false);

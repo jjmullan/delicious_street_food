@@ -1,4 +1,4 @@
-import type { AbbrLocation } from '@entities/location/model/location';
+import type { AbbrLocation } from '@entities/location/model/types';
 import { useState } from 'react';
 
 export function getLocationAddress({ lng, lat }: AbbrLocation) {

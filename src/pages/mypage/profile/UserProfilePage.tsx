@@ -1,6 +1,6 @@
-import useFetchReviewsByUser from '@features/review/hooks/useFetchReviewsByUser';
-import type { ImageURL } from '@features/review/types/image';
-import ReviewItemForMypage from '@features/review/ui/ReviewItemForMypage';
+import { useFetchReviewsByUser } from '@entities/review';
+import { ReviewItemForMypage } from '@features/review';
+import type { ImageURL } from '@features/review/model/types';
 import useFecthUserData from '@features/user/hooks/useFecthUserData';
 import useUpdateProfile from '@features/user/hooks/useUpdateProfile';
 import useUpdateProfileImage from '@features/user/hooks/useUpdateProfileImage';

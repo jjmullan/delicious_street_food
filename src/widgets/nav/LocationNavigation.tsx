@@ -1,5 +1,4 @@
-import useFetchReviewImagesByLocation from '@features/review/hooks/useFetchReviewImagesByLocation';
-import useFetchReviewsByLocation from '@features/review/hooks/useFetchReviewsByLocation';
+import { useFetchReviewImagesByLocation, useFetchReviewsByLocation } from '@entities/review';
 import { Activity } from 'react';
 import { Link } from 'react-router';
 

@@ -1,6 +1,6 @@
 import useFetchProducts from '@entities/product/model/useFetchProducts';
-import useFetchReviewsByLocation from '@features/review/hooks/useFetchReviewsByLocation';
-import ReviewItem from '@features/review/ui/ReviewItem';
+import { useFetchReviewsByLocation } from '@entities/review';
+import { ReviewItem } from '@features/review';
 import { useOpenConfirmModal } from '@shared/ui/modal/model/confirmModal';
 import { Button } from '@shared/ui/shadcn/components/button';
 import { InfoIcon, PenIcon } from 'lucide-react';
