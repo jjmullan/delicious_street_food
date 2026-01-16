@@ -6,7 +6,7 @@ import { useFetchReviewProductsByLocation, useFetchReviewsByLocation } from '@en
 import ToggleFavoriteButton from '@features/favorite/ui/ToggleFavoriteButton';
 import LocationFinder from '@features/location/ui/LocationFinder';
 import LocationProductItem from '@features/location/ui/LocationProductItem';
-import useFecthUserData from '@features/user/hooks/useFecthUserData';
+import useFecthUserData from '@features/profile/model/useFetchUserProfile';
 import ShareLocationButton from '@shared/ui/button/components/ShareLocationButton';
 import Separator from '@shared/ui/separator/components/Separator';
 import { getDateTimeKo } from '@shared/utils/day';

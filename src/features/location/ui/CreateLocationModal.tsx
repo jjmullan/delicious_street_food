@@ -2,7 +2,7 @@ import { useCreateLocationModal } from '@app/store/createLocationModalStore';
 import { useIsCreateMode, useLocationForCreate, useSetIsCreateMode } from '@app/store/createLocationStore';
 import { getFullLocationAddress } from '@entities/location/lib/getLocationAddress';
 import useCreateLocation from '@features/location/model/useCreateLocation';
-import useFecthUserData from '@features/user/hooks/useFecthUserData';
+import useFecthUserData from '@features/profile/model/useFetchUserProfile';
 import author from '@shared/assets/extra/author.svg';
 import { useSession } from '@shared/model/session';
 import Fallback from '@shared/ui/fallback/components/Fallback';

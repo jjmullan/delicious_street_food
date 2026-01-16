@@ -1,11 +1,12 @@
-import { createUser, fetchProfile } from '@features/user/api/user';
+import { fetchUserProfile } from '@entities/user';
+import { createUserProfile } from '@features/profile/api/profile';
 import { QUERY_KEYS } from '@shared/lib/query';
 import { useSession } from '@shared/model/session';
 import type { User } from '@shared/types/api';
 import type { PostgrestError } from '@supabase/supabase-js';
 import { useQuery } from '@tanstack/react-query';
 
-function useFecthUserData(userId?: string) {
+export default function useFetchUserData(userId?: string) {
 	const session = useSession();
 	const isMine = userId === session?.user.id;
 
@@ -13,11 +14,11 @@ function useFecthUserData(userId?: string) {
 		queryKey: QUERY_KEYS.user.byId(userId!),
 		queryFn: async () => {
 			try {
-				const user = await fetchProfile(userId!);
+				const user = await fetchUserProfile(userId!);
 				return user;
 			} catch (error) {
 				if (isMine && (error as PostgrestError).code === 'PGRST116') {
-					return await createUser(userId!);
+					return await createUserProfile(userId!);
 				}
 
 				throw error;
@@ -26,5 +27,3 @@ function useFecthUserData(userId?: string) {
 		enabled: !!userId,
 	});
 }
-
-export default useFecthUserData;

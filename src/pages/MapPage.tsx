@@ -10,7 +10,7 @@ import useFetchLocations from '@entities/location/model/useFetchLocations';
 import useFetchLocationsByProducts from '@entities/location/model/useFetchLocationsByProducts';
 import CreateLocation from '@features/location/ui/CreateLocation';
 import LocationFinder from '@features/location/ui/LocationFinder';
-import useFecthUserData from '@features/user/hooks/useFecthUserData';
+import useFecthUserData from '@features/profile/model/useFetchUserProfile';
 import type { Session } from '@supabase/supabase-js';
 import MapAsideBar from '@widgets/aside/MapAsideBar';
 import { TriangleIcon } from 'lucide-react';

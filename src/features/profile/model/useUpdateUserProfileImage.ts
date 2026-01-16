@@ -1,13 +1,13 @@
-import { updateProfile } from '@features/user/api/user';
+import { uploadProfileImage } from '@features/profile/api/image';
 import { QUERY_KEYS } from '@shared/lib/query';
 import type { MutationCallback } from '@shared/types/mutation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-function useUpdateProfile(callbacks: MutationCallback) {
+export default function useUpdateProfileImage(callbacks: MutationCallback) {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: updateProfile,
+		mutationFn: uploadProfileImage,
 		onSuccess: () => {
 			if (callbacks.onSuccess) callbacks.onSuccess();
 
@@ -20,5 +20,3 @@ function useUpdateProfile(callbacks: MutationCallback) {
 		},
 	});
 }
-
-export default useUpdateProfile;
