@@ -26,7 +26,7 @@ export async function fetchFavoriteByLocation(location_id: string): Promise<Favo
  * const myFavorites = await fetchFavoritebyUser('user-456');
  * myFavorites.forEach(fav => console.log(fav.location_id));
  */
-export async function fetchFavoritebyUser(user_id: string): Promise<Favorite[]> {
+export async function fetchFavoriteByUser(user_id: string): Promise<Favorite[]> {
 	const { data, error } = await supabase.from('favorite').select('*').eq('user_id', user_id);
 
 	if (error) throw error;

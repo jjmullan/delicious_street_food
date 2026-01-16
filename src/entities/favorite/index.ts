@@ -1,5 +1,5 @@
 // API Functions
-export { fetchFavoriteByLocation, fetchFavoritebyUser } from './api/favorite';
+export { fetchFavoriteByLocation, fetchFavoriteByUser } from './api/favorite';
 
 // Hooks
 export { default as useFetchFavoriteByLocation } from './model/useFetchFavoriteByLocation';
