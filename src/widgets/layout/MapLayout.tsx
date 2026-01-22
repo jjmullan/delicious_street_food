@@ -1,6 +1,5 @@
 import { LocationProvider } from '@entities/location';
-import { useIsCreateMode } from '@features/location/model/createLocation';
-import ResetCreateModeButton from '@features/location/ui/ResetCreateModeButton';
+import { ResetCreateModeButton, useIsCreateMode } from '@features/location';
 import { useSession } from '@shared/model/session';
 import MapHeader from '@widgets/header/MapHeader';
 import { Activity } from 'react';

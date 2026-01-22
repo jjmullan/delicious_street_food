@@ -1,7 +1,5 @@
-import { useIsCreateMode } from '@features/location/model/createLocation';
-import HomeButton from '@features/location/ui/HomeButton';
-import ToggleSwitchLocationModeButton from '@features/location/ui/ToggleSwitchLocationModeButton';
-import UserProfileModal from '@features/profile/ui/UserProfileModal';
+import { HomeButton, ToggleSwitchLocationModeButton, useIsCreateMode } from '@features/location';
+import { UserProfileModal } from '@features/profile';
 
 function MapHeader() {
 	const isCreateMode = useIsCreateMode();
