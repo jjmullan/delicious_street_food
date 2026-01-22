@@ -2,9 +2,14 @@ import type { Validate } from '@features/auth';
 import { regEmail, regPassword } from '@features/auth/lib/constants/validate';
 
 /**
- * 이메일의 입력 오류 및 정규표현식을 검증하는 기능 함수
- * @param email 이메일
- * @returns
+ * 이메일의 입력 오류 및 정규표현식을 검증하는 함수
+ * @param email - 검증할 이메일 문자열
+ * @returns 검증 결과 객체 (errors, data, isValid 포함)
+ * @example
+ * const result = validateEmail('user@example.com');
+ * if (!result.isValid) {
+ *   console.error(result.errors.email);
+ * }
  */
 export function validateEmail(email: string): Validate {
 	// 이메일 오류 검증
@@ -39,10 +44,18 @@ export function validateEmail(email: string): Validate {
 }
 
 /**
- * 비밀번호의 입력 오류 및 정규표현식을 검증하는 기능 함수
- * @param password 비밀번호
- * @param passwordConfirm 비밀번호 확인
- * @returns
+ * 비밀번호의 입력 오류 및 정규표현식을 검증하는 함수
+ * - 최소 8자 이상
+ * - 대문자, 소문자, 숫자, 특수문자 각 1개 이상 포함
+ * - 비밀번호와 비밀번호 확인 일치 여부
+ * @param password - 검증할 비밀번호 문자열
+ * @param passwordConfirm - 비밀번호 확인 문자열
+ * @returns 검증 결과 객체 (errors, data, isValid 포함)
+ * @example
+ * const result = validatePassword('Password1!', 'Password1!');
+ * if (!result.isValid) {
+ *   console.error(result.errors.password || result.errors.passwordConfirm);
+ * }
  */
 export function validatePassword(password: string, passwordConfirm: string): Validate {
 	// 비밀번호 오류 검증
