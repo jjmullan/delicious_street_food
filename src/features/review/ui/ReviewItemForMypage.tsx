@@ -1,6 +1,6 @@
-import useFetchLocation from '@entities/location/model/useFetchLocation';
+import { useFetchLocation } from '@entities/location';
 import { useFetchReviewImages } from '@entities/review';
-import { useDeleteReview } from '@features/review/model/useDeleteReview';
+import { useDeleteReview } from '@features/review';
 import type { Review } from '@shared/types/api';
 import EditDeleteButton from '@shared/ui/button/components/EditDeleteButton';
 import ImageModal from '@shared/ui/modal/components/ImageModal';

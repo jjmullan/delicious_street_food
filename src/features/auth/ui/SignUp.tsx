@@ -1,6 +1,4 @@
-import { generateErrorMessage } from '@features/auth/lib/error';
-import { validateEmail, validatePassword } from '@features/auth/lib/validate';
-import useSignUpWithEmail from '@features/auth/model/useSignUpWithEmail';
+import { generateErrorMessage, useSignUpWithEmail, validateEmail, validatePassword } from '@features/auth';
 import AdditionalForSignIn from '@shared/ui/description/components/AdditionalForSignIn';
 import Fallback from '@shared/ui/fallback/components/Fallback';
 import { Input } from '@shared/ui/shadcn/components/input';

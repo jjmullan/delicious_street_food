@@ -79,7 +79,7 @@ export async function SignInWithOAuth(provider: Provider) {
  * await signOut();
  * // 사용자 세션 종료 및 로컬 스토리지 액세스 토큰 삭제
  */
-export async function signOut() {
+export async function SignOut() {
 	const { error } = await supabase.auth.signOut();
 
 	// 에러가 발생하면, 로컬 스토리지에 보관된 엑세스 토큰을 삭제

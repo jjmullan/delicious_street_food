@@ -1,6 +1,5 @@
-import { useLocation } from '@entities/location/model/location';
-import { generateErrorMessage } from '@features/auth/lib/error';
-import useSignInWithPassword from '@features/auth/model/useSignInWithPassword';
+import { useLocation } from '@entities/location';
+import { generateErrorMessage, useSignInWithPassword } from '@features/auth';
 import AdditionalForSignIn from '@shared/ui/description/components/AdditionalForSignIn';
 import Fallback from '@shared/ui/fallback/components/Fallback';
 import { Input } from '@shared/ui/shadcn/components/input';

@@ -1,4 +1,4 @@
-import type { ImageURL } from '@features/review/model/types';
+import type { ImageURL } from '@features/review';
 import { XIcon } from 'lucide-react';
 
 function PreviewImage({ image, index, onDelete }: { image: ImageURL; index: number; onDelete(image: ImageURL): void }) {

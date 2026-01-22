@@ -1,7 +1,11 @@
-import { getFullLocationAddress } from '@entities/location/lib/getLocationAddress';
-import { useIsCreateMode, useLocationForCreate, useSetIsCreateMode } from '@features/location/model/createLocation';
-import { useCreateLocationModal } from '@features/location/model/createLocationModal';
-import useCreateLocation from '@features/location/model/useCreateLocation';
+import { getFullLocationAddress } from '@entities/location';
+import {
+	useCreateLocation,
+	useCreateLocationModal,
+	useIsCreateMode,
+	useLocationForCreate,
+	useSetIsCreateMode,
+} from '@features/location';
 import { useFetchUserData as useFecthUserData } from '@features/profile/@x/location';
 import author from '@shared/assets/extra/author.svg';
 import { useSession } from '@shared/model/session';

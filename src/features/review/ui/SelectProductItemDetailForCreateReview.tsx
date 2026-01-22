@@ -1,4 +1,4 @@
-import CreateReviewTitle from '@features/review/ui/CreateReviewTitle';
+import { CreateReviewTitle } from '@features/review';
 import type { API_ReviewProduct, Product } from '@shared/types/api';
 import { Input } from '@shared/ui/shadcn/components/input';
 

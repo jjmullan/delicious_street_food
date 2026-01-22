@@ -1,4 +1,4 @@
-import useSingInWithOAuth from '@features/auth/model/useSignInWithOAuth';
+import { useSignInWithOAuth } from '@features/auth';
 import emailSvg from '@shared/assets/logo-email.svg';
 import google from '@shared/assets/logo-google.svg';
 import kakao from '@shared/assets/logo-kakao.svg';
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 function SignInCommon() {
 	const navigate = useNavigate();
 
-	const { mutate: signInWithOAuth, isPending } = useSingInWithOAuth({});
+	const { mutate: signInWithOAuth, isPending } = useSignInWithOAuth({});
 	const handleClickSignInWithGoogle = () => {
 		signInWithOAuth('google');
 	};

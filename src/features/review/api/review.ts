@@ -1,4 +1,4 @@
-import type { ImageURL } from '@features/review/model/types';
+import type { ImageURL } from '@features/review';
 import supabase from '@shared/api/supabase/supabase';
 import type { API_Review, API_ReviewImage, API_ReviewProduct } from '@shared/types/api';
 
