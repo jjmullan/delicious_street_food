@@ -1,4 +1,4 @@
-import LocationProvider from '@app/provider/LocationProvider';
+import { LocationProvider } from '@entities/location';
 import { useIsCreateMode } from '@features/location/model/createLocation';
 import ResetCreateModeButton from '@features/location/ui/ResetCreateModeButton';
 import { useSession } from '@shared/model/session';

@@ -24,3 +24,4 @@ export { default as useFetchLocationsByProducts } from './model/useFetchLocation
 
 // UI
 export { default as LocationMap } from './ui/LocationMap';
+export { default as LocationProvider } from './ui/LocationProvider';
