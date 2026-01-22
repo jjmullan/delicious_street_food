@@ -1,6 +1,6 @@
 import { useFetchFavoriteByUser } from '@entities/favorite';
 import { useFetchReviewsByUser } from '@entities/review';
-import { signOut } from '@features/auth';
+import { SignOut } from '@features/auth';
 import { useIsCreateMode } from '@features/location/@x/profile';
 import { useFetchUserProfile as useFecthUserData } from '@features/profile';
 import { PopoverClose } from '@radix-ui/react-popover';
@@ -81,7 +81,7 @@ function UserProfileModal() {
 					</Link>
 				</PopoverClose>
 				<PopoverClose asChild>
-					<button type="button" className="hover:bg-muted cursor-pointer w-full py-2 text-xs" onClick={signOut}>
+					<button type="button" className="hover:bg-muted cursor-pointer w-full py-2 text-xs" onClick={SignOut}>
 						로그아웃
 					</button>
 				</PopoverClose>
