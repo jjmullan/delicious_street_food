@@ -1,5 +1,5 @@
 // API Functions
-export { SignInWithOAuth, SignInWithPassword, SignUpWithEmail, signOut } from './api/auth';
+export { SignInWithOAuth, SignInWithPassword, SignOut, SignUpWithEmail } from './api/auth';
 
 // Lib
 export { generateErrorMessage } from './lib/func/generateErrorMessage';

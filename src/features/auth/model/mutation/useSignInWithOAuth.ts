@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
  * @param callbacks Mutation 데이터 전송 흐름에 맞는 상태 처리
  * @returns
  */
-function useSingInWithOAuth(callbacks: MutationCallback) {
+export default function useSignInWithOAuth(callbacks: MutationCallback) {
 	return useMutation({
 		mutationFn: SignInWithOAuth,
 		onMutate: () => {
@@ -21,5 +21,3 @@ function useSingInWithOAuth(callbacks: MutationCallback) {
 		},
 	});
 }
-
-export default useSingInWithOAuth;
