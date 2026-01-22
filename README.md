@@ -4,7 +4,86 @@
 
 ## 일별 작업 내역
 
-### 2026-01-13 (화)
+### 2026-01-22 (목)
+
+#### 아키텍처 개선
+- Public API 호출 방식으로 개선
+- App Provider 의존성 이슈 해결
+
+---
+
+### 2026-01-17 (토)
+
+#### 코드 정리
+- 불필요한 md 파일 삭제
+- app 의존성 규칙 오류 해결
+
+---
+
+### 2026-01-16 (금)
+
+#### 아키텍처 개선
+- FSD 아키텍처 cross-Import 구조 개선
+- features, entities 폴더 구조 정리 완료
+
+#### 리팩토링
+- features/review slice 구조 개선 마무리
+- features/location slice 구조 개선 마무리
+- features/product slice 구조 개선 마무리
+- features/favorite slice 구조 개선 마무리
+- features/auth slice 리팩토링
+
+#### 코드 정리
+- query, mutation 훅 ts 확장자로 수정
+- jsx 미사용 훅 확장자 수정(tsx -> ts)
+
+---
+
+### 2026-01-15 (목)
+
+#### 아키텍처 개선
+- Entities 폴더 구조 초기화
+- shared 레이어의 전역 store를 shared/model로 이동
+- FSD Shared 컴포넌트 구조 정리
+- entities, features 폴더 구조 정리
+
+#### 리팩토링
+- store -> model 명칭 수정
+- export default 구조 수정
+- Supabase CLI 추출 타입 파일 위치 이동
+- Shadcn로 가져오는 utils 폴더 위치 재설정
+- 로그인 명칭 수정
+
+#### 문서화
+- libs vs utils 폴더 용도 정리를 위한 문서 추가
+
+#### 버그 수정
+- 빌드 오류(import) 수정
+
+#### 코드 정리
+- 미사용 폴더 삭제 및 폴더 위치 수정
+- 폴더 이동으로 인한 기존 파일 삭제
+
+---
+
+### 2026-01-13 (월)
+
+#### PR #51 병합
+- FSD 아키텍처 리팩토링 작업내역 파일 추가
+- API 함수 JSDoc 표준화
+- Feature slice 구조 통합 (Phase 1)
+
+#### 아키텍처 개선
+- FSD 아키텍처 중 feature/auth 오류 사항 개선
+- @/ alias 비활성화
+
+#### 기능 추가
+- 웹 접근성 점검 함수 비활성화
+
+#### 코드 정리
+- 불필요한 파일 삭제 및 컴포넌트 명칭 개선
+- FSD 아키텍처 내 개별 README.md 삭제
+- 테스트 관련 미사용 파일 삭제
 
 #### 문서화
 - FSD 아키텍처 점검 내역 MD 파일 추가
@@ -12,10 +91,6 @@
 
 #### 프로젝트 설정
 - 웹 접근성 패키지 설치 및 클로드 코드 커스텀 설정 추가
-
-#### 코드 정리
-- FSD 아키텍처 내 개별 README.md 삭제
-- 테스트 관련 미사용 파일 삭제
 
 ---
 
