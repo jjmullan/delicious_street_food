@@ -1,4 +1,4 @@
-import useFetchProducts from '@entities/product/model/useFetchProducts';
+import { useFetchProducts } from '@entities/product';
 import { characterImages } from '@shared/lib/characterImages';
 import { Activity } from 'react';
 

@@ -1,4 +1,4 @@
-import { fetchFavoriteByUser } from '@entities/favorite/api/favorite';
+import { fetchFavoriteByUser } from '@entities/favorite';
 import { QUERY_KEYS } from '@shared/lib/query';
 import { useQuery } from '@tanstack/react-query';
 

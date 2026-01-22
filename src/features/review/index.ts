@@ -1,6 +1,9 @@
 // API Functions
 export { createReview, createReviewImages, createReviewProduct, deleteReview } from './api/review';
 
+// Lib
+export { MAX_IMAGE_SLOT } from './lib/constants';
+
 // Types
 export type * from './model/types';
 

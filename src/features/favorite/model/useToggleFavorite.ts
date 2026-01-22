@@ -1,4 +1,4 @@
-import { createFavorite, deleteFavorite } from '@features/favorite/api/favorite';
+import { createFavorite, deleteFavorite } from '@features/favorite';
 import { QUERY_KEYS } from '@shared/lib/query';
 import type { Favorite } from '@shared/types/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

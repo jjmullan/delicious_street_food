@@ -1,4 +1,4 @@
-import useSingInWithOAuth from '@features/auth/model/useSignInWithOAuth';
+import { useSignInWithOAuth as useSingInWithOAuth } from '@features/auth';
 import emailSvg from '@shared/assets/logo-email.svg';
 import google from '@shared/assets/logo-google.svg';
 import kakao from '@shared/assets/logo-kakao.svg';

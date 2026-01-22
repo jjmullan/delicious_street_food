@@ -1,4 +1,4 @@
-import type { AbbrLocation } from '@entities/location/model/types';
+import type { AbbrLocation } from '@entities/location';
 
 export function getLocationData(): Promise<AbbrLocation> {
 	return new Promise((resolve, reject) => {

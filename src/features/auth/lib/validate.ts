@@ -1,4 +1,4 @@
-import type { Validate } from '@features/auth/model/types';
+import type { Validate } from '@features/auth';
 
 const regEmail = /^[a-zA-Z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 const regPassword = {

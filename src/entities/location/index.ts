@@ -10,6 +10,7 @@ export {
 } from './lib/distance';
 export { getFullLocationAddress, getLocationAddress } from './lib/getLocationAddress';
 export { getLocationData } from './lib/getLocationData';
+export { initialLocation } from './lib/location';
 export {
 	calculateDistanceFromLocation,
 	validateLocationDistance,
@@ -17,7 +18,7 @@ export {
 } from './lib/validateLocationDistance';
 
 // Model
-export { useLocation } from './model/location';
+export { useIsLocationUpdated, useLocation, useLocationStore, useSetLocation } from './model/location';
 export type { AbbrLocation } from './model/types';
 export { default as useFetchLocation } from './model/useFetchLocation';
 export { default as useFetchLocations } from './model/useFetchLocations';

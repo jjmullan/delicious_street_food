@@ -1,4 +1,4 @@
-import useFetchProducts from '@entities/product/model/useFetchProducts';
+import { useFetchProducts } from '@entities/product';
 import { useFetchReviewsByLocation } from '@entities/review';
 import { ReviewItem } from '@features/review';
 import { useOpenConfirmModal } from '@shared/ui/modal/model/confirmModal';

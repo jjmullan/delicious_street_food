@@ -1,16 +1,20 @@
 import {
+	type AbbrLocation,
+	useFetchLocations,
+	useFetchLocationsByProducts,
+	useLocation,
 	validateLocationDistance,
 	validateMaxDistanceFromCurrentLocation,
-} from '@entities/location/lib/validateLocationDistance';
-import { useLocation } from '@entities/location/model/location';
-import type { AbbrLocation } from '@entities/location/model/types';
-import useFetchLocations from '@entities/location/model/useFetchLocations';
-import useFetchLocationsByProducts from '@entities/location/model/useFetchLocationsByProducts';
-import { useIsCreateMode, useLocationForCreate, useSetCreateLocation } from '@features/location/model/createLocation';
-import { useProductFilter } from '@features/location/model/productFilter';
-import CreateLocation from '@features/location/ui/CreateLocation';
-import LocationFinder from '@features/location/ui/LocationFinder';
-import useFecthUserData from '@features/profile/model/useFetchUserProfile';
+} from '@entities/location';
+import {
+	CreateLocation,
+	LocationFinder,
+	useIsCreateMode,
+	useLocationForCreate,
+	useProductFilter,
+	useSetCreateLocation,
+} from '@features/location';
+import { useFetchUserProfile as useFecthUserData } from '@features/profile';
 import type { Session } from '@supabase/supabase-js';
 import MapAsideBar from '@widgets/aside/MapAsideBar';
 import { TriangleIcon } from 'lucide-react';

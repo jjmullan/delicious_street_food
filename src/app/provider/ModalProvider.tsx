@@ -1,4 +1,4 @@
-import CreateLocationModal from '@features/location/ui/CreateLocationModal';
+import { CreateLocationModal } from '@features/location';
 import ConfirmModal from '@shared/ui/modal/components/ConfirmModal';
 import type { ReactNode } from 'react';
 import { createPortal } from 'react-dom';

@@ -1,4 +1,4 @@
-import type { AbbrLocation } from '@entities/location/model/types';
+import type { AbbrLocation } from '@entities/location';
 import type { ReactNode } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 

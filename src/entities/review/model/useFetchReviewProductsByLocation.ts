@@ -1,4 +1,4 @@
-import { fetchReviewProductsByLocation } from '@entities/review/api/review';
+import { fetchReviewProductsByLocation } from '@entities/review';
 import { QUERY_KEYS } from '@shared/lib/query';
 import { useQuery } from '@tanstack/react-query';
 

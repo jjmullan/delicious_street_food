@@ -1,4 +1,4 @@
-import { fetchLocations } from '@entities/location/api/location';
+import { fetchLocations } from '@entities/location';
 import { QUERY_KEYS } from '@shared/lib/query';
 import { useQuery } from '@tanstack/react-query';
 

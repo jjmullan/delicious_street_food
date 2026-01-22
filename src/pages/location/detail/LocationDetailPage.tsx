@@ -1,12 +1,9 @@
-import { getFullLocationAddress } from '@entities/location/lib/getLocationAddress';
-import useFetchLocation from '@entities/location/model/useFetchLocation';
-import LocationMap from '@entities/location/ui/LocationMap';
-import useFetchProducts from '@entities/product/model/useFetchProducts';
+import { getFullLocationAddress, LocationMap, useFetchLocation } from '@entities/location';
+import { useFetchProducts } from '@entities/product';
 import { useFetchReviewProductsByLocation, useFetchReviewsByLocation } from '@entities/review';
-import ToggleFavoriteButton from '@features/favorite/ui/ToggleFavoriteButton';
-import LocationFinder from '@features/location/ui/LocationFinder';
-import LocationProductItem from '@features/location/ui/LocationProductItem';
-import useFecthUserData from '@features/profile/model/useFetchUserProfile';
+import { ToggleFavoriteButton } from '@features/favorite';
+import { LocationFinder, LocationProductItem } from '@features/location';
+import { useFetchUserProfile as useFecthUserData } from '@features/profile';
 import ShareLocationButton from '@shared/ui/button/components/ShareLocationButton';
 import Separator from '@shared/ui/separator/components/Separator';
 import { getDateTimeKo } from '@shared/utils/day';

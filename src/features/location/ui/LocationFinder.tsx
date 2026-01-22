@@ -1,4 +1,4 @@
-import LocationInfoModal from '@features/location/ui/LocationInfoModal';
+import { LocationInfoModal } from '@features/location';
 import { useFetchUserData as useFecthUserData } from '@features/profile/@x/location';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import type { Location } from '@shared/types/api';

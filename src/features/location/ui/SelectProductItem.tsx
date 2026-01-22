@@ -1,5 +1,5 @@
-import useFetchProducts from '@entities/product/model/useFetchProducts';
-import { useProductFilter, useResetProductFilter, useSetProductFilter } from '@features/location/model/productFilter';
+import { useFetchProducts } from '@entities/product';
+import { useProductFilter, useResetProductFilter, useSetProductFilter } from '@features/location';
 import { characterImages } from '@shared/lib/characterImages';
 import {
 	Select,

@@ -1,10 +1,10 @@
 import {
+	type AbbrLocation,
 	DEGREES_TO_RADIANS,
 	EARTH_RADIUS_METERS,
 	MAXIMUM_DISTANCE_FROM_CURRENT_LOCATION_METERS,
 	MINIMUM_LOCATION_DISTANCE_METERS,
-} from '@entities/location/lib/distance';
-import type { AbbrLocation } from '@entities/location/model/types';
+} from '@entities/location';
 import type { Location as SupabaseLocation } from '@shared/types/api';
 
 /**

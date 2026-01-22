@@ -1,4 +1,4 @@
-import { createLocation } from '@features/location/api/location';
+import { createLocation } from '@features/location';
 import { QUERY_KEYS } from '@shared/lib/query';
 import type { MutationCallback } from '@shared/types/mutation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

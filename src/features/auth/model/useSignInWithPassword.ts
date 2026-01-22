@@ -1,4 +1,4 @@
-import { SignInWithPassword } from '@features/auth/api/auth';
+import { SignInWithPassword } from '@features/auth';
 import type { MutationCallback } from '@shared/types/mutation';
 import { useMutation } from '@tanstack/react-query';
 

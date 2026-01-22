@@ -1,4 +1,4 @@
-import useFetchProducts from '@entities/product/model/useFetchProducts';
+import { useFetchProducts } from '@entities/product';
 import {
 	ReviewProductItem,
 	ReviewTitleAndText,
@@ -8,7 +8,7 @@ import {
 	useFetchReviewProducts,
 } from '@entities/review';
 import { useFetchUserData as useFecthUserData } from '@features/profile/@x/review';
-import { useDeleteReview } from '@features/review/model/useDeleteReview';
+import { useDeleteReview } from '@features/review';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import { useSession } from '@shared/model/session';
 import type { Review } from '@shared/types/api';

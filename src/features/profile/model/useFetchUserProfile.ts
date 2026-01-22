@@ -1,5 +1,5 @@
 import { fetchUserProfile } from '@entities/user';
-import { createUserProfile } from '@features/profile/api/profile';
+import { createUserProfile } from '@features/profile';
 import { QUERY_KEYS } from '@shared/lib/query';
 import { useSession } from '@shared/model/session';
 import type { User } from '@shared/types/api';

@@ -1,4 +1,4 @@
-import type { Item } from '@entities/product/model/types';
+import type { Item } from '@entities/product';
 
 export const items: Item[] = [
 	{

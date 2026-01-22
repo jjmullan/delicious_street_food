@@ -1,8 +1,8 @@
-import useFetchFavoriteByUser from '@entities/favorite/model/useFetchFavoriteByUser';
+import { useFetchFavoriteByUser } from '@entities/favorite';
 import { useFetchReviewsByUser } from '@entities/review';
-import { signOut } from '@features/auth/api/auth';
+import { signOut } from '@features/auth';
 import { useIsCreateMode } from '@features/location/@x/profile';
-import useFecthUserData from '@features/profile/model/useFetchUserProfile';
+import { useFetchUserProfile as useFecthUserData } from '@features/profile';
 import { PopoverClose } from '@radix-ui/react-popover';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import { useSession } from '@shared/model/session';

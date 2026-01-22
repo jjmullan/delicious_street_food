@@ -1,4 +1,4 @@
-import { createReviewImages } from '@features/review/api/review';
+import { createReviewImages } from '@features/review';
 import { QUERY_KEYS } from '@shared/lib/query';
 import type { MutationCallback } from '@shared/types/mutation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

@@ -1,4 +1,4 @@
-import { deleteReview } from '@features/review/api/review';
+import { deleteReview } from '@features/review';
 import { QUERY_KEYS } from '@shared/lib/query';
 import type { Review } from '@shared/types/api';
 import type { MutationCallback } from '@shared/types/mutation';

@@ -1,10 +1,11 @@
 import { useFetchReviewsByUser } from '@entities/review';
-import validateNickname from '@features/profile/lib/validateNickname';
-import useFecthUserData from '@features/profile/model/useFetchUserProfile';
-import useUpdateProfile from '@features/profile/model/useUpdateUserProfile';
-import useUpdateProfileImage from '@features/profile/model/useUpdateUserProfileImage';
-import { ReviewItemForMypage } from '@features/review';
-import type { ImageURL } from '@features/review/model/types';
+import {
+	useFetchUserProfile as useFecthUserData,
+	useUpdateUserProfile as useUpdateProfile,
+	useUpdateUserProfileImage as useUpdateProfileImage,
+	validateNickname,
+} from '@features/profile';
+import { type ImageURL, ReviewItemForMypage } from '@features/review';
 import defaultavatar from '@shared/assets/character/defaultavatar.svg';
 import Separator from '@shared/ui/separator/components/Separator';
 import { Button } from '@shared/ui/shadcn/components/button';
