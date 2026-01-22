@@ -1,7 +1,6 @@
+import { useFetchReviewImagesByLocation, useFetchReviewsByLocation } from '@entities/review';
 import { Activity } from 'react';
 import { Link } from 'react-router';
-import useFetchReviewImagesByLocation from '@/features/review/fetch/hook/useFetchReviewImagesByLocation';
-import useFetchReviewsByLocation from '@/features/review/fetch/hook/useFetchReviewsByLocation';
 
 function LocationNavigation({ location_id }: { location_id: string }) {
 	// 현재 URL 경로 기반 동적 상태 변환

@@ -1,8 +1,6 @@
+import { SearchLocationBar, SelectProductItem, useIsCreateMode } from '@features/location';
 import { PenIcon } from 'lucide-react';
 import { Activity, useState } from 'react';
-import { useIsCreateMode } from '@/app/store/createLocationStore';
-import SearchLocationBar from '@/features/location/update/ui/SearchLocationBar';
-import SelectProductItem from '@/features/location/update/ui/SelectProductItem';
 
 function MapAsideBar() {
 	const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);

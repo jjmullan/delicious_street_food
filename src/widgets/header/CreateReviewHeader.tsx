@@ -1,6 +1,6 @@
+import { useOpenConfirmModal } from '@shared/ui';
 import { RefreshCcwIcon, XCircleIcon } from 'lucide-react';
 import { useNavigate } from 'react-router';
-import { useOpenConfirmModal } from '@/app/store/confirmModalStore';
 
 function CreateReviewHeader() {
 	const navigate = useNavigate();

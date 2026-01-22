@@ -1,6 +1,6 @@
+import supabase from '@shared/api/supabase/supabase';
+import { useIsSessionLoaded, useSetSession } from '@shared/model/session';
 import { type ReactNode, useEffect } from 'react';
-import { useIsSessionLoaded, useSetSession } from '@/app/store/sessionStore';
-import supabase from '@/shared/api/supabase/supabase';
 
 function SessionProvider({ children }: { children: ReactNode }) {
 	const isSessionLoaded = useIsSessionLoaded();

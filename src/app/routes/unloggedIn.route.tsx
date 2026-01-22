@@ -1,5 +1,5 @@
-import SignInPage from '@pages/login/common/SignInCommonPage';
-import SignInWithPasswordPage from '@pages/login/email/SignInWithPasswordPage';
+import SignInPage from '@pages/signIn/common/SignInCommonPage';
+import SignInWithPasswordPage from '@pages/signIn/email/SignInWithPasswordPage';
 import SignUpConfirmPage from '@pages/signUp/SignUpConfirmPage';
 import SignUpPage from '@pages/signUp/SignUpPage';
 import type { RouteObject } from 'react-router';

@@ -1,6 +1,6 @@
+import { useSession } from '@shared/model/session';
+import DetailHeader from '@widgets/header/DetailHeader';
 import { Navigate, Outlet } from 'react-router';
-import { useSession } from '@/app/store/sessionStore';
-import DetailHeader from '@/widgets/header/DetailHeader';
 
 /**
  * 최초 서비스 접근 시, 로그인 페이지로 라우팅

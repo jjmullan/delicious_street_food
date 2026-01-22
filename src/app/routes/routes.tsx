@@ -1,16 +1,16 @@
+import { createReviewRoutes } from '@app/routes/createReview.route';
+import { globalMapRoutes } from '@app/routes/globalMap.route';
+import { locationDetailRoutes } from '@app/routes/locationDetail.route';
+import { unloggedInRoute } from '@app/routes/unloggedIn.route';
+import { userDetailRoutes } from '@app/routes/userDetail.route';
+import GlobalError from '@pages/GlobalError';
+import CreateReviewLayout from '@widgets/layout/CreateReviewLayout';
+import GlobalLayout from '@widgets/layout/GlobalLayout';
+import LocationDetailLayout from '@widgets/layout/LocationDetailLayout';
+import MapLayout from '@widgets/layout/MapLayout';
+import UnloggedInLayout from '@widgets/layout/UnloggedInLayout';
+import UserDetailLayout from '@widgets/layout/UserDetailLayout';
 import { createBrowserRouter } from 'react-router-dom';
-import { createReviewRoutes } from '@/app/routes/createReview.route';
-import { globalMapRoutes } from '@/app/routes/globalMap.route';
-import { locationDetailRoutes } from '@/app/routes/locationDetail.route';
-import { unloggedInRoute } from '@/app/routes/unloggedIn.route';
-import { userDetailRoutes } from '@/app/routes/userDetail.route';
-import ErrorPage from '@/pages/error/ErrorPage';
-import CreateReviewLayout from '@/widgets/layout/CreateReviewLayout';
-import GlobalLayout from '@/widgets/layout/GlobalLayout';
-import LocationDetailLayout from '@/widgets/layout/LocationDetailLayout';
-import MapLayout from '@/widgets/layout/MapLayout';
-import UnloggedInLayout from '@/widgets/layout/UnloggedInLayout';
-import UserDetailLayout from '@/widgets/layout/UserDetailLayout';
 
 /**
  * 애플리케이션의 라우트 설정
@@ -18,13 +18,13 @@ import UserDetailLayout from '@/widgets/layout/UserDetailLayout';
  *
  * 구조:
  * - element: Layout - 전역 레이아웃 컴포넌트 (헤더, 푸터 등)
- * - errorElement: ErrorPage - 라우팅 에러 처리 컴포넌트
+ * - errorElement: GlobalError - 라우팅 에러 처리 컴포넌트
  * - children: 하위 라우트들 (Layout의 <Outlet />에 렌더링됨)
  */
 export const router = createBrowserRouter([
 	{
 		Component: GlobalLayout,
-		errorElement: <ErrorPage />,
+		errorElement: <GlobalError />,
 		children: [
 			{
 				// 로그인 된 유저는 카카오 맵 지도 접근 가능
