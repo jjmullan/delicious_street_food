@@ -1,13 +1,5 @@
 import type { Validate } from '@features/auth';
-
-const regEmail = /^[a-zA-Z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-const regPassword = {
-	minLength: /.{8,}/,
-	hasLowerCase: /[a-z]/,
-	hasUpperCase: /[A-Z]/,
-	hasDigit: /\d/,
-	hasSymbol: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/,
-};
+import { regEmail, regPassword } from '@features/auth/lib/constants/validate';
 
 /**
  * 이메일의 입력 오류 및 정규표현식을 검증하는 기능 함수
