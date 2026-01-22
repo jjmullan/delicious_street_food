@@ -1,4 +1,4 @@
-import { useIsCreateMode, useSetIsCreateMode } from '@features/location/model/createLocation';
+import { useIsCreateMode, useSetIsCreateMode } from '@features/location';
 import { MapPlusIcon } from 'lucide-react';
 import { Activity, useEffect, useState } from 'react';
 

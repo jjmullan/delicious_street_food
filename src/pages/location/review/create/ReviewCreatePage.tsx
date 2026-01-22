@@ -1,14 +1,16 @@
-import useFetchProducts from '@entities/product/model/useFetchProducts';
-import { MAX_IMAGE_SLOT } from '@features/review/lib/constants';
-import type { ImageURL } from '@features/review/model/types';
-import useCreateReview from '@features/review/model/useCreateReview';
-import useCreateReviewImages from '@features/review/model/useCreateReviewImages';
-import useCreateReviewProducts from '@features/review/model/useCreateReviewProduct';
-import CreateReviewTitle from '@features/review/ui/CreateReviewTitle';
-import PreviewImage from '@features/review/ui/PreviewImage';
-import ProgressBar from '@features/review/ui/ProgressBar';
-import SelectProductItemDetailForCreateReview from '@features/review/ui/SelectProductItemDetailForCreateReview';
-import SelectProductItemForCreateReview from '@features/review/ui/SelectProductItemForCreateReview';
+import { useFetchProducts } from '@entities/product';
+import {
+	CreateReviewTitle,
+	type ImageURL,
+	MAX_IMAGE_SLOT,
+	PreviewImage,
+	ProgressBar,
+	SelectProductItemDetailForCreateReview,
+	SelectProductItemForCreateReview,
+	useCreateReview,
+	useCreateReviewImages,
+	useCreateReviewProduct as useCreateReviewProducts,
+} from '@features/review';
 import type { API_ReviewProduct, Product, Review } from '@shared/types/api';
 import PrevNextButton from '@shared/ui/button/components/PrevNextButton';
 import Fallback from '@shared/ui/fallback/components/Fallback';

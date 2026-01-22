@@ -1,2 +1,2 @@
 // profile feature 전용 교차 참조 Public API
-export type { ImageURL } from '@features/review/model/types';
+export type { ImageURL } from '@features/review/model/types/types';

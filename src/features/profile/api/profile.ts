@@ -1,4 +1,4 @@
-import { getRandomUserNickname } from '@features/profile/lib/generateNickname';
+import { getRandomUserNickname } from '@features/profile';
 import supabase from '@shared/api/supabase/supabase';
 
 /**

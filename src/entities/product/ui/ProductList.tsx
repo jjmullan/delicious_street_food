@@ -1,5 +1,4 @@
-import { items } from '@entities/product/lib/item';
-import ProductItem from '@entities/product/ui/ProductItem';
+import { items, ProductItem } from '@entities/product';
 
 /**
  * 길거리 음식 상품 리스트

@@ -1,4 +1,4 @@
-import { useIsCreateMode, useSetIsCreateMode } from '@features/location/model/createLocation';
+import { useIsCreateMode, useSetIsCreateMode } from '@features/location';
 import { Undo2Icon } from 'lucide-react';
 
 function ResetCreateModeButton() {

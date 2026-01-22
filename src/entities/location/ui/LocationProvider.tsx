@@ -2,8 +2,8 @@ import { useSetSession } from '@shared/model/session';
 import { type ReactNode, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import { initialLocation } from '../lib/location';
-import { useIsLocationUpdated, useSetLocation } from '../model/location';
+import { initialLocation } from '../lib/constants/location';
+import { useIsLocationUpdated, useSetLocation } from '../model/store/location';
 
 function LocationProvider({ children }: { children: ReactNode }) {
 	// 세션
