@@ -8,13 +8,13 @@ export {
 	fetchReviewsByUser,
 } from './api/review';
 
-// Hooks
-export { default as useFetchReviewImages } from './model/useFetchReviewImages';
-export { default as useFetchReviewImagesByLocation } from './model/useFetchReviewImagesByLocation';
-export { default as useFetchReviewProducts } from './model/useFetchReviewProducts';
-export { default as useFetchReviewProductsByLocation } from './model/useFetchReviewProductsByLocation';
-export { default as useFetchReviewsByLocation } from './model/useFetchReviewsByLocation';
-export { default as useFetchReviewsByUser } from './model/useFetchReviewsByUser';
+// Model
+export { default as useFetchReviewImages } from './model/query/useFetchReviewImages';
+export { default as useFetchReviewImagesByLocation } from './model/query/useFetchReviewImagesByLocation';
+export { default as useFetchReviewProducts } from './model/query/useFetchReviewProducts';
+export { default as useFetchReviewProductsByLocation } from './model/query/useFetchReviewProductsByLocation';
+export { default as useFetchReviewsByLocation } from './model/query/useFetchReviewsByLocation';
+export { default as useFetchReviewsByUser } from './model/query/useFetchReviewsByUser';
 
 // UI Components
 export { default as ReviewProductItem } from './ui/ReviewProductItem';

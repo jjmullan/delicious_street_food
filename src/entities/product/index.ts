@@ -2,12 +2,12 @@
 export { fetchProduct, fetchProducts } from './api/product';
 
 // Lib
-export { items } from './lib/item';
+export { items } from './lib/constants/item';
 
 // Model
-export type { Item } from './model/types';
-export { default as useFetchProduct } from './model/useFetchProduct';
-export { default as useFetchProducts } from './model/useFetchProducts';
+export { default as useFetchProduct } from './model/query/useFetchProduct';
+export { default as useFetchProducts } from './model/query/useFetchProducts';
+export type { Item } from './model/types/types';
 
 // UI
 export { default as ProductItem } from './ui/ProductItem';
