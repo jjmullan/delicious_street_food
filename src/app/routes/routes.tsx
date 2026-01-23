@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
 				children: locationDetailRoutes,
 			},
 			{
-				// 로그인 된 유저는 위치 상세 페이지 접근 가능
+				// 로그인 된 유저는 프로필 상세 페이지 접근 가능
 				Component: UserDetailLayout,
 				children: userDetailRoutes,
 			},
