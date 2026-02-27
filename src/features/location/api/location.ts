@@ -1,5 +1,5 @@
-import supabase from '@shared/api/supabase/supabase';
-import type { API_Location } from '@shared/types/api';
+import { bffPost } from '@shared/api/bff/client';
+import type { API_Location, Location } from '@shared/types/api';
 
 /**
  * @description 새로운 위치 정보를 데이터베이스에 추가합니다.
@@ -10,7 +10,7 @@ import type { API_Location } from '@shared/types/api';
  * @param {string} [params.location_name] - 위치 이름 (선택)
  * @param {string} params.location_address - 위치 주소
  * @returns {Promise<Location>} 생성된 위치 데이터
- * @throws {Error} 데이터베이스 삽입 실패 시 Supabase 에러 발생
+ * @throws {Error} 요청 실패 시 에러 발생
  * @example
  * const newLocation = await createLocation({
  *   user_id: 'user-123',
@@ -20,19 +20,12 @@ import type { API_Location } from '@shared/types/api';
  *   location_address: '서울특별시 중구'
  * });
  */
-export async function createLocation({ user_id, latitude, longitude, location_name, location_address }: API_Location) {
-	const { data, error } = await supabase
-		.from('location')
-		.insert({
-			user_id,
-			latitude,
-			longitude,
-			location_name,
-			location_address,
-		})
-		.select()
-		.single();
-
-	if (error) throw error;
-	return data;
+export async function createLocation({
+	user_id,
+	latitude,
+	longitude,
+	location_name,
+	location_address,
+}: API_Location): Promise<Location> {
+	return bffPost<Location>('/api/location', { user_id, latitude, longitude, location_name, location_address });
 }
