@@ -4,6 +4,31 @@
 
 ## 일별 작업 내역
 
+### 2026-02-27 (금)
+
+#### Vercel Functions BFF 패턴 도입
+
+#### BFF 설계 및 구현
+- Vercel Functions 기반 BFF 엔드포인트 구축 (location / favorite / profile / review)
+- 서버 전용 Supabase 클라이언트 분리 (service_role_key 서버 격리)
+- JWT 인증 검증 헬퍼 구현 (이중 보안 구조 구성)
+- BFF 공통 fetch 헬퍼 구현 (bffPost / bffPatch / bffDelete)
+
+#### API 구조 개선
+- POST / PATCH / DELETE 요청을 BFF 경유 구조로 전환
+- GET(SELECT) 요청은 클라이언트 직접 호출 유지 (레이턴시 최소화)
+- 이미지 Storage 업로드는 클라이언트 직접 처리, DB 저장만 BFF 경유
+
+#### 개발 환경 설정
+- vercel dev + Vite proxy 분리 구성 (dev:bff 스크립트 추가)
+- vercel.json catch-all rewrite에서 /api/ 경로 제외
+- tsconfig.api.json 추가 (api/ 폴더 전용 TypeScript 설정)
+
+#### 버그 수정
+- 로컬 개발 환경 BFF 라우팅 설정 수정 (catch-all rewrite 충돌 해결)
+
+---
+
 ### 2026-01-22 (목)
 
 #### 아키텍처 개선

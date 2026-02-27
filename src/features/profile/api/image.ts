@@ -1,14 +1,16 @@
 import type { ImageURL } from '@features/review/@x/profile';
+import { bffPatch } from '@shared/api/bff/client';
 import supabase from '@shared/api/supabase/supabase';
+import type { User } from '@shared/types/api';
 
 /**
  * @description 사용자 프로필 이미지를 업로드하고 기존 이미지를 교체합니다.
  *
  * 동작 과정:
- * 1. 기존 프로필 이미지 조회 및 삭제
- * 2. 새 이미지를 Supabase Storage 'profile_images' 버킷에 업로드
+ * 1. 기존 프로필 이미지 조회 및 Storage 삭제 (클라이언트 직접)
+ * 2. 새 이미지를 Supabase Storage 'profile_images' 버킷에 업로드 (클라이언트 직접)
  * 3. Public URL 생성
- * 4. user 테이블의 profile_image_url 필드 업데이트
+ * 4. BFF(/api/profile/image)를 통해 user 테이블의 profile_image_url 필드 업데이트
  *
  * @param {Object} params - 이미지 업로드 파라미터
  * @param {string} params.user_id - 사용자 ID
@@ -21,11 +23,17 @@ import supabase from '@shared/api/supabase/supabase';
  *   image: { file: imageFile, previewUrl: 'blob:...' }
  * });
  */
-export async function uploadProfileImage({ user_id, image }: { user_id: string; image?: ImageURL }) {
+export async function uploadProfileImage({
+	user_id,
+	image,
+}: {
+	user_id: string;
+	image?: ImageURL;
+}): Promise<User | undefined> {
 	if (!image) return;
 
 	try {
-		// 기존 이미지 삭제
+		// 기존 이미지 삭제 (Storage는 클라이언트에서 직접 처리)
 		const { data: currentUser } = await supabase
 			.from('user')
 			.select('profile_image_url')
@@ -33,7 +41,6 @@ export async function uploadProfileImage({ user_id, image }: { user_id: string; 
 			.single();
 
 		if (currentUser?.profile_image_url) {
-			// URL에서 파일 경로 추출 (예: https://[...]/storage/v1/object/public/profile_images/user/xxx/profile/xxx.jpg)
 			const urlParts = currentUser.profile_image_url.split('/profile_images/');
 			if (urlParts.length > 1) {
 				const oldFilePath = urlParts[1];
@@ -41,51 +48,26 @@ export async function uploadProfileImage({ user_id, image }: { user_id: string; 
 			}
 		}
 
-		// 새로운 이미지 파일 타입 준비
+		// 새 이미지 Storage 업로드 (클라이언트에서 직접)
 		const timestamp = Date.now();
 		const randomString = Math.random().toString(36).substring(2, 9);
 		const fileExtension = image.file.name.split('.').pop() || 'webp';
 		const fileName = `${user_id}_${timestamp}_${randomString}.${fileExtension}`;
 		const filePath = `user/${user_id}/profile/${fileName}`;
 
-		// 스토리지 저장
-		const { error: uploadeError } = await supabase.storage
+		const { error: uploadError } = await supabase.storage
 			.from('profile_images')
 			.upload(filePath, image.file, { cacheControl: '3600', upsert: false });
-		if (uploadeError) throw uploadeError;
+		if (uploadError) throw uploadError;
 
-		// 테이블 저장
+		// Public URL 생성
 		const {
 			data: { publicUrl },
 		} = supabase.storage.from('profile_images').getPublicUrl(filePath);
-		const { data: updatedImage, error: updateError } = await supabase
-			.from('user')
-			.update({ profile_image_url: publicUrl })
-			.eq('user_id', user_id)
-			.select()
-			.single();
 
-		if (updateError) throw updateError;
-		return updatedImage;
+		// DB 업데이트 → BFF
+		return bffPatch<User>('/api/profile/image', { user_id, profile_image_url: publicUrl });
 	} catch (error) {
 		console.log(error);
 	}
 }
-
-/**
- * 모든 이미지 경로의 파일을 삭제하는 함수
- * @param path 아이디/이미지
- */
-// export async function deleteProfileImage({ user_id, path }: { user_id: string; path: string }) {
-// 	const { data: files, error: fetchFilesError } = await supabase.storage.from('profile_images').list(path);
-
-// 	// 불필요한 삭제 요청 예외처리
-// 	if (!files || files.length === 0) return;
-// 	if (fetchFilesError) throw fetchFilesError;
-
-// 	// API 요청
-// 	const { error: removeError } = await supabase.storage
-// 		.from('profile_images')
-// 		.remove(files.map((file) => `/user/${path}/${file.name}`));
-// 	if (removeError) throw removeError;
-// }

@@ -1,24 +1,17 @@
-import { getRandomUserNickname } from '@features/profile';
-import supabase from '@shared/api/supabase/supabase';
+import { bffPatch, bffPost } from '@shared/api/bff/client';
+import type { User } from '@shared/types/api';
 
 /**
  * @description 신규 사용자를 생성하고 랜덤 닉네임을 할당합니다.
  * @param {string} userId - 생성할 사용자 ID (Supabase Auth ID)
  * @returns {Promise<User>} 생성된 사용자 데이터
- * @throws {Error} 데이터베이스 삽입 실패 시 Supabase 에러 발생
+ * @throws {Error} 요청 실패 시 에러 발생
  * @example
  * const newUser = await createProfile('auth-user-123');
  * console.log(`새 사용자 생성: ${newUser.nickname}`);
  */
-export async function createUserProfile(userId: string) {
-	const { data, error } = await supabase
-		.from('user')
-		.insert({ user_id: userId, nickname: getRandomUserNickname() })
-		.select()
-		.single();
-
-	if (error) throw error;
-	return data;
+export async function createUserProfile(userId: string): Promise<User> {
+	return bffPost<User>('/api/profile', { user_id: userId });
 }
 
 /**
@@ -28,7 +21,7 @@ export async function createUserProfile(userId: string) {
  * @param {string} params.nickname - 변경할 닉네임
  * @param {string} [params.bio] - 변경할 한 줄 소개 (선택)
  * @returns {Promise<User>} 업데이트된 사용자 데이터
- * @throws {Error} 데이터베이스 업데이트 실패 시 Supabase 에러 발생
+ * @throws {Error} 요청 실패 시 에러 발생
  * @example
  * const updatedProfile = await updateProfile({
  *   user_id: 'user-123',
@@ -44,14 +37,6 @@ export async function updateUserProfile({
 	user_id: string;
 	nickname: string;
 	bio?: string;
-}) {
-	const { data, error } = await supabase
-		.from('user')
-		.update({ nickname, bio })
-		.eq('user_id', user_id)
-		.select()
-		.single();
-
-	if (error) throw error;
-	return data;
+}): Promise<User> {
+	return bffPatch<User>('/api/profile', { user_id, nickname, bio });
 }

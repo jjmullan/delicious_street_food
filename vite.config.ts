@@ -35,6 +35,12 @@ export default defineConfig({
 			},
 		},
 	},
+	server: {
+		// 로컬 개발 시 /api/* 요청을 Vercel Functions 서버(3000)로 프록시
+		proxy: {
+			'/api': 'http://localhost:3000',
+		},
+	},
 	resolve: {
 		alias: {
 			// '@': path.resolve(__dirname, './src'),
