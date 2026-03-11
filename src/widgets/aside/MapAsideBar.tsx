@@ -26,7 +26,7 @@ function MapAsideBar() {
 				</Activity>
 				<Activity mode={isUpdateMode ? 'hidden' : 'visible'}>
 					{/* AI 검색 버튼 */}
-					<button
+					{/* <button
 						type="button"
 						onClick={toggleSearchBar}
 						className={`glass w-fit border rounded-full flex items-center justify-center px-3 py-2 shrink-0 gap-x-1.5 ${isSearchBarOpen && 'border-2 border-brown-main'}`}
@@ -59,7 +59,7 @@ function MapAsideBar() {
 							</defs>
 						</svg>
 						<p className="text-sm align-text-bottom">AI 검색</p>
-					</button>
+					</button> */}
 					{/* 카테고리 선택 버튼 */}
 					<SelectProductItem />
 				</Activity>
