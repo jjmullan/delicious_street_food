@@ -1,4 +1,4 @@
-import type { SessionAction, SessionState } from '@shared/model/model.type';
+import type { SessionAction, SessionState } from '@shared/model/session.types';
 import type { Session } from '@supabase/supabase-js';
 import { create } from 'zustand';
 import { combine, devtools, persist } from 'zustand/middleware';

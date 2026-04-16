@@ -16,6 +16,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
+    "generate-pwa-assets": "pwa-assets-generator --config pwa-assets.config.ts",
     "clean": "rm -rf dist",
     "compile": "run-s clean build preview",
     "prepare": "husky",
@@ -65,6 +66,7 @@
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
     "@vercel/node": "^5.6.9",
+    "@vite-pwa/assets-generator": "^1.0.2",
     "@vitejs/plugin-react": "^5.0.4",
     "@vitest/ui": "^4.0.5",
     "axe-core": "^4.11.1",
@@ -78,6 +80,7 @@
     "typescript": "~5.9.3",
     "vercel": "^50.25.1",
     "vite": "^7.1.7",
+    "vite-plugin-pwa": "^1.2.0",
     "vitest": "^4.0.5"
   }
 }

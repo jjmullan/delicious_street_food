@@ -67,7 +67,7 @@
       "correctness": {
         "recommended": true,
         "useExhaustiveDependencies": "warn",
-        "noUnusedVariables": "info"
+        "noUnusedVariables": "off"
       },
       "performance": {
         "recommended": true
